@@ -1,6 +1,7 @@
 #include "global.h"
 
-#define     add_search_replace(find, replace)    g_find[g_i] = find; g_replace[g_i] = replace; g_i++
+#define     add_search_replace(find, replace)   g_find[g_i] = find; g_replace[g_i] = replace; g_i++
+#define     reset_search()						memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_find)); g_i = 0
 #define     WRITEU8(addr, data)                    *(volatile unsigned char*)(addr) = data
 #define     WRITEU16(addr, data)                *(volatile unsigned short*)(addr) = data
 #define     WRITEU32(addr, data)                *(volatile unsigned int*)(addr) = data
@@ -268,6 +269,7 @@ void    search(void)
     for (i = 0; i < 4; i++)
         id_str[i] = (char)READU16(id + i);
     result = (u16)strtoul(id_str, NULL, 16);
+	reset_search();
     add_search_replace(0x20A7, result);
     find_and_replace_multiple((void *)0x16005958, 0x5000);
     waitKeyUp();
@@ -286,6 +288,7 @@ void    destroy(void)
     for (i = 0; i < 4; i++)
         id_str[i] = (char)READU16(id + i);
     result = (u16)strtoul(id_str, NULL, 16);
+	reset_search();
     add_search_replace(result, 0x7FFE);
     find_and_replace_multiple((void *)0x16005958, 0x5000);
     waitKeyUp();
