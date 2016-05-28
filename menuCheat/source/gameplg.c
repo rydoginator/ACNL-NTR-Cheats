@@ -1,29 +1,29 @@
 #include "global.h"
 
 #define     add_search_replace(find, replace)   g_find[g_i] = find; g_replace[g_i] = replace; g_i++
-#define     reset_search()						memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_find)); g_i = 0
-#define     WRITEU8(addr, data)                    *(volatile unsigned char*)(addr) = data
+#define     reset_search()						memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
+#define     WRITEU8(addr, data)                 *(volatile unsigned char*)(addr) = data
 #define     WRITEU16(addr, data)                *(volatile unsigned short*)(addr) = data
 #define     WRITEU32(addr, data)                *(volatile unsigned int*)(addr) = data
 #define     READU8(addr)                        *(volatile unsigned char*)(addr)
-#define     READU16(addr)                        *(volatile unsigned short*)(addr)
-#define     READU32(addr)                        *(volatile unsigned int*)(addr)
+#define     READU16(addr)                       *(volatile unsigned short*)(addr)
+#define     READU32(addr)                       *(volatile unsigned int*)(addr)
 #define     BUTTON_A                            0x00000001
 #define     BUTTON_B                            0x00000002
-#define     BUTTON_SE                            0x00000004
-#define     BUTTON_ST                            0x00000008
-#define     BUTTON_DR                            0x00000010
-#define     BUTTON_DL                            0x00000020
-#define     BUTTON_DU                            0x00000040
-#define     BUTTON_DD                            0x00000080
+#define     BUTTON_SE                           0x00000004
+#define     BUTTON_ST                           0x00000008
+#define     BUTTON_DR                           0x00000010
+#define     BUTTON_DL                           0x00000020
+#define     BUTTON_DU                           0x00000040
+#define     BUTTON_DD                           0x00000080
 #define     BUTTON_R                            0x00000100
 #define     BUTTON_L                            0x00000200
 #define     BUTTON_X                            0x00000400
 #define     BUTTON_Y                            0x00000800
-#define     IO_BASE_PAD                            1
-#define     IO_BASE_LCD                            2
-#define     IO_BASE_PDC                            3
-#define     IO_BASE_GSPHEAP                        4
+#define     IO_BASE_PAD                         1
+#define     IO_BASE_LCD                         2
+#define     IO_BASE_PDC                         3
+#define     IO_BASE_GSPHEAP                     4
 
 enum
 {
@@ -35,17 +35,17 @@ enum
 ** Globals
 */
 
-Handle                    fsUserHandle;
-FS_archive                sdmcArchive;
+Handle                  fsUserHandle;
+FS_archive              sdmcArchive;
 GAME_PLUGIN_MENU        gamePluginMenu;
-u32                        threadStack[0x1000];
-u32                        IoBasePad = 0xFFFD4000;
-u32                        g_find[10];
-u32                        g_replace[10];
-int                        g_i = 0;
-s32                        isNewNtr = 0;
-u8                        g_cheatEnabled[64];
-u8                        g_state[64];
+u32                     threadStack[0x1000];
+u32                     IoBasePad = 0xFFFD4000;
+u32                     g_find[10];
+u32                     g_replace[10];
+int                     g_i = 0;
+s32                     isNewNtr = 0;
+u8                      g_cheatEnabled[64];
+u8                      g_state[64];
 void                    (*g_functions[64])(void);
 
 /*
@@ -258,9 +258,9 @@ void    coord(void)
 }
 void    search(void)
 {
-    u16        *id = (u16 *)0x16F4C160;
-    char    id_str[5] = { 0 };
-    int        i;
+    u16       	*id = (u16 *)0x16F4C160;
+    char		id_str[5] = { 0 };
+    int        	i;
     u16        result;
     u32        key = getKey();
 
