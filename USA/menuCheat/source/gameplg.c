@@ -257,14 +257,14 @@ void    coord(void)
 }
 void    search(void)
 {
-    u16        *id = (u16 *)0x16F4C160;
-    char    id_str[5] = { 0 };
-    int        i;
     u16        result;
     u32        key = getKey();
 
     if (key != BUTTON_R + BUTTON_DD)
         return;
+	    u16        *id = (u16 *)0x16F4C160;
+    char    id_str[5] = { 0 };
+    int        i;
     for (i = 0; i < 4; i++)
         id_str[i] = (char)READU16(id + i);
     result = (u16)strtoul(id_str, NULL, 16);
@@ -275,14 +275,14 @@ void    search(void)
 
 void    destroy(void)
 {
-    u16        *id = (u16 *)0x16F4C160;
-    char    id_str[5] = { 0 };
-    int        i;
     u16        result;
     u32        key = getKey();
 
     if (key != BUTTON_R + BUTTON_DU)
         return;
+	u16        *id = (u16 *)0x16F4C160;
+    char    id_str[5] = { 0 };
+    int        i;
     for (i = 0; i < 4; i++)
         id_str[i] = (char)READU16(id + i);
     result = (u16)strtoul(id_str, NULL, 16);
