@@ -1,6 +1,7 @@
 #include "global.h"
 
 #define     add_search_replace(find, replace)    g_find[g_i] = find; g_replace[g_i] = replace; g_i++
+#define     reset_search()						memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_find)); g_i = 0
 #define     WRITEU8(addr, data)                    *(volatile unsigned char*)(addr) = data
 #define     WRITEU16(addr, data)                *(volatile unsigned short*)(addr) = data
 #define     WRITEU32(addr, data)                *(volatile unsigned int*)(addr) = data
@@ -268,6 +269,7 @@ void    search(void)
     for (i = 0; i < 4; i++)
         id_str[i] = (char)READU16(id + i);
     result = (u16)strtoul(id_str, NULL, 16);
+	reset_search();
     add_search_replace(0x20A7, result);
     find_and_replace_multiple((void *)0x16005c58, 0x5000);
     waitKeyUp();
@@ -286,6 +288,7 @@ void    destroy(void)
     for (i = 0; i < 4; i++)
         id_str[i] = (char)READU16(id + i);
     result = (u16)strtoul(id_str, NULL, 16);
+	reset_search();
     add_search_replace(result, 0x7FFE);
     find_and_replace_multiple((void *)0x16005c58, 0x5000);
     waitKeyUp();
@@ -336,6 +339,35 @@ void    teleport(void)
         WRITEU32(0x17321B18, Y);
 }
 
+void	weeder(void)
+{
+    u32           key = getKey();
+	if (key == BUTTON_R + BUTTON_A)
+	{
+		reset_search();
+		add_search_replace(0x0000007C, 0x00007FFE);
+		add_search_replace(0x0000007D, 0x00007FFE);
+		add_search_replace(0x0000007E, 0x00007FFE);
+		add_search_replace(0x0000007F, 0x00007FFE);
+		add_search_replace(0x000000CB, 0x00007FFE);
+		add_search_replace(0x000000CC, 0x00007FFE);
+		add_search_replace(0x000000CD, 0x00007FFE);
+		add_search_replace(0x000000F8, 0x00007FFE);
+		find_and_replace_multiple((void *)0x16005c58, 0x5000);
+		waitKeyUp();
+	}
+}
+
+void	duplicate(void)
+{
+	u32			key = getKey();
+	u32			dupe = 0;
+	if (key == BUTTON_R)
+	{
+		dupe = READU32(0x15FBEDD0);
+		WRITEU32(0x15FBEDD4, dupe);
+	}
+}
 
 /*
 **
@@ -350,8 +382,10 @@ void    initCheatMenu()
     addCheatMenuEntry("Teleport", teleport, FREEZE);
     addCheatMenuEntry("Seeder", search, FREEZE);
     addCheatMenuEntry("Destroyer", destroy, FREEZE);
-    addMenuEntry("--- Debug / Tests ---"); //Exemple
+	addCheatMenuEntry("Duplication", duplicate, FREEZE);
+    addMenuEntry("--- Test Codes ---"); //Exemple
     addCheatMenuEntry("Coordinace", coord, FREEZE); //Exemple
+	addCheatMenuEntry("Remove all weeds", weeder, FREEZE);
     updateMenu();
 }
 

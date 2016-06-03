@@ -40,8 +40,8 @@ FS_archive                sdmcArchive;
 GAME_PLUGIN_MENU        gamePluginMenu;
 u32                        threadStack[0x1000];
 u32                        IoBasePad = 0xFFFD4000;
-u32                        g_find[10];
-u32                        g_replace[10];
+u32                        g_find[100];
+u32                        g_replace[100];
 int                        g_i = 0;
 s32                        isNewNtr = 0;
 u8                        g_cheatEnabled[64];
@@ -339,11 +339,39 @@ void    teleport(void)
         WRITEU32(0x17321518, Y);
 }
 
+void	weeder(void)
+{
+    u32           key = getKey();
+	if (key == BUTTON_R + BUTTON_A)
+	{
+		reset_search();
+		add_search_replace(0x0000007C, 0x00007FFE);
+		add_search_replace(0x0000007D, 0x00007FFE);
+		add_search_replace(0x0000007E, 0x00007FFE);
+		add_search_replace(0x0000007F, 0x00007FFE);
+		add_search_replace(0x000000CB, 0x00007FFE);
+		add_search_replace(0x000000CC, 0x00007FFE);
+		add_search_replace(0x000000CD, 0x00007FFE);
+		add_search_replace(0x000000F8, 0x00007FFE);
+		find_and_replace_multiple((void *)0x16005958, 0x5000);
+		waitKeyUp();
+	}
+}
+
+void	duplicate(void)
+{
+	u32			key = getKey();
+	u32			dupe = 0;
+	if (key == BUTTON_R)
+	{
+		dupe = READU32(0x15FBEAD0);
+		WRITEU32(0x15FBEAD4, dupe);
+	}
+}
 
 /*
 **
 */
-
 void    initCheatMenu()
 {
     initMenu();
@@ -353,8 +381,10 @@ void    initCheatMenu()
     addCheatMenuEntry("Teleport", teleport, FREEZE);
     addCheatMenuEntry("Seeder", search, FREEZE);
     addCheatMenuEntry("Destroyer", destroy, FREEZE);
-    addMenuEntry("--- Debug / Tests ---"); //Exemple
+	addCheatMenuEntry("Duplication", duplicate, FREEZE);
+    addMenuEntry("--- Test Codes ---"); //Exemple
     addCheatMenuEntry("Coordinace", coord, FREEZE); //Exemple
+	addCheatMenuEntry("Remove all weeds", weeder, FREEZE);
     updateMenu();
 }
 
