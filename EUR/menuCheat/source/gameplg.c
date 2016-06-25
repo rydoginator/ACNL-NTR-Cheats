@@ -1,6 +1,6 @@
 #include "global.h"
 
-#define     add_search_replace(find, replace)    g_find[g_i] = find; g_replace[g_i] = replace; g_i++
+#define     add_search_replace(find, replace)   g_find[g_i] = find; g_replace[g_i] = replace; g_i++
 #define     reset_search()						memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_find)); g_i = 0
 #define     WRITEU8(addr, data)                    *(volatile unsigned char*)(addr) = data
 #define     WRITEU16(addr, data)                *(volatile unsigned short*)(addr) = data
@@ -40,8 +40,8 @@ FS_archive                sdmcArchive;
 GAME_PLUGIN_MENU        gamePluginMenu;
 u32                        threadStack[0x1000];
 u32                        IoBasePad = 0xFFFD4000;
-u32                        g_find[10];
-u32                        g_replace[10];
+u32                        g_find[100];
+u32                        g_replace[100];
 int                        g_i = 0;
 s32                        isNewNtr = 0;
 u8                        g_cheatEnabled[64];
@@ -240,20 +240,20 @@ void    coord(void)
         if (key == BUTTON_A + BUTTON_DU)
             sub_to_address((void *)0x17321B18, 0x00000200);
         if (key == BUTTON_A + BUTTON_DL)
-            sub_to_address((void *)0x17321B10, 0x00000100);
+            sub_to_address((void *)0x17321B10, 0x00000200);
         if (key == BUTTON_A + BUTTON_DR)
-            add_to_address((void *)0x17321B10, 0x00000100);
+            add_to_address((void *)0x17321B10, 0x00000200);
     }
     else //if it's anything but FFFFFFFF then you're indoors
     {
         if (key == BUTTON_A + BUTTON_DD)
-            add_to_address((void *)0x17321C44, 0x00000400);
+            add_to_address((void *)0x17321C44, 0x00000800);
         if (key == BUTTON_A + BUTTON_DU)
-            sub_to_address((void *)0x17321C44, 0x00000400);
+            sub_to_address((void *)0x17321C44, 0x00000800);
         if (key == BUTTON_A + BUTTON_DL)
-            sub_to_address((void *)0x17321C3b, 0x00040000);
+            sub_to_address((void *)0x17321C3c, 0x00000600);
         if (key == BUTTON_A + BUTTON_DR)
-            add_to_address((void *)0x17321C3b, 0x00040000);
+            add_to_address((void *)0x17321C3c, 0x00000600);
     }
 }
 void    search(void)
@@ -272,6 +272,7 @@ void    search(void)
 	reset_search();
     add_search_replace(0x20A7, result);
     find_and_replace_multiple((void *)0x16005c58, 0x5000);
+	find_and_replace_multiple((void *)0x16022628, 0x1000);
     waitKeyUp();
 }
 
@@ -291,6 +292,7 @@ void    destroy(void)
 	reset_search();
     add_search_replace(result, 0x7FFE);
     find_and_replace_multiple((void *)0x16005c58, 0x5000);
+	find_and_replace_multiple((void *)0x16022628, 0x1000);
     waitKeyUp();
 }
 
@@ -313,8 +315,20 @@ void    text2item(void)
 
 void    moonjump(void)
 {
-    if (getKey() == BUTTON_L)
-        WRITEU32(0x17321B14, 0x43E00000);
+	u32            key = getKey();
+    static int           loc = 0;
+    if (key == BUTTON_L)
+	{
+		loc = READU32(0x17321C44);
+		if (loc == -1)
+		{
+			WRITEU32(0x17321B14, 0x43E00000);
+		}
+		else
+		{
+			WRITEU32(0x17321C40, 0x44000000);
+		}
+	}
 }
 
 void    teleport(void)
@@ -322,21 +336,35 @@ void    teleport(void)
     u32            key = getKey();
     static u32    X = 0;
     static u32    Y = 0;
-
-    if (key == BUTTON_A + BUTTON_DU)
+    static int    loc = 0;
+    if (key == BUTTON_B + BUTTON_DU)
     {
-        X = READU32(0x17321B10);
-        Y = READU32(0x17321B18);
+		loc = READU32(0x17321C44);
+		if (loc == -1)
+			{
+			X = READU32(0x17321B10);
+			Y = READU32(0x17321B18);
+			}
+		else
+			{
+			X = READU32(0x17321C3c);
+			Y = READU32(0x17321C44);
+			}
     }
-    if (key == BUTTON_A + BUTTON_DD)
+    if (key == BUTTON_B + BUTTON_DD)
     {
-        WRITEU32(0x17321B10, X);
-        WRITEU32(0x17321B18, Y);
+		loc = READU32(0x17321644);
+		if (loc == -1)
+		{
+			WRITEU32(0x17321B10, X);
+			WRITEU32(0x17321B18, Y);
+		}
+		else
+		{
+			WRITEU32(0x17321C3c, X);
+			WRITEU32(0x17321C44, Y);
+		}
     }
-    if (key == BUTTON_A + BUTTON_DL)
-        WRITEU32(0x17321B10, X);
-    if (key == BUTTON_A + BUTTON_DR)
-        WRITEU32(0x17321B18, Y);
 }
 
 void	weeder(void)
@@ -358,6 +386,123 @@ void	weeder(void)
 	}
 }
 
+void	quench(void)
+{
+	reset_search();
+	add_search_replace(0x0000009F, 0x4000009F);
+	add_search_replace(0x000000A0, 0x400000A0);
+	add_search_replace(0x000000A1, 0x400000A1);
+	add_search_replace(0x000000A2, 0x400000A2);
+	add_search_replace(0x000000A3, 0x400000A3);
+	add_search_replace(0x000000A4, 0x400000A4);
+	add_search_replace(0x000000A5, 0x400000A5);
+	add_search_replace(0x000000A6, 0x400000A6);
+	add_search_replace(0x000000A7, 0x400000A7);
+	add_search_replace(0x000000A8, 0x400000A8);
+	add_search_replace(0x000000A9, 0x400000A9);
+	add_search_replace(0x000000AA, 0x400000AA);
+	add_search_replace(0x000000AB, 0x400000AB);
+	add_search_replace(0x000000AC, 0x400000AC);
+	add_search_replace(0x000000AD, 0x400000AD);
+	add_search_replace(0x000000AE, 0x400000AE);
+	add_search_replace(0x000000AF, 0x400000AF);
+	add_search_replace(0x000000B0, 0x400000B0);
+	add_search_replace(0x000000B1, 0x400000B1);
+	add_search_replace(0x000000B2, 0x400000B2);
+	add_search_replace(0x000000B3, 0x400000B3);
+	add_search_replace(0x000000B4, 0x400000B4);
+	add_search_replace(0x000000B5, 0x400000B5);
+	add_search_replace(0x000000B6, 0x400000B6);
+	add_search_replace(0x000000B7, 0x400000B7);
+	add_search_replace(0x000000B8, 0x400000B8);
+	add_search_replace(0x000000B9, 0x400000B9);
+	add_search_replace(0x000000BB, 0x400000BB);
+	add_search_replace(0x000000BC, 0x400000BC);
+	add_search_replace(0x000000BD, 0x400000BD);
+	add_search_replace(0x000000BE, 0x400000BE);
+	add_search_replace(0x000000BF, 0x400000BF);
+	add_search_replace(0x000000C0, 0x400000C0);
+	add_search_replace(0x000000C1, 0x400000C1);
+	add_search_replace(0x000000C2, 0x400000C2);
+	add_search_replace(0x000000C3, 0x400000C3);
+	add_search_replace(0x000000C4, 0x400000C4);
+	add_search_replace(0x000000C5, 0x400000C5);
+	add_search_replace(0x000000C6, 0x400000C6);
+	add_search_replace(0x000000C7, 0x400000C7);
+	add_search_replace(0x000000C8, 0x400000C8);
+	add_search_replace(0x000000CE, 0x4000009F); //Red Tulips
+	add_search_replace(0x000000CF, 0x400000A0);
+	add_search_replace(0x000000D0, 0x400000A1);
+	add_search_replace(0x000000D1, 0x400000A2);
+	add_search_replace(0x000000D2, 0x400000A3);
+	add_search_replace(0x000000D3, 0x400000A4);
+	add_search_replace(0x000000D4, 0x400000A5);
+	add_search_replace(0x000000D5, 0x400000A6);
+	add_search_replace(0x000000D6, 0x400000A7);
+	add_search_replace(0x000000D7, 0x400000A8);
+	add_search_replace(0x000000D8, 0x400000A9);
+	add_search_replace(0x000000D9, 0x400000AA);
+	add_search_replace(0x000000DA, 0x400000AB);
+	add_search_replace(0x000000DB, 0x400000AC);
+	add_search_replace(0x000000DC, 0x400000AD);
+	add_search_replace(0x000000DD, 0x400000AE);
+	add_search_replace(0x000000DE, 0x400000AF);
+	add_search_replace(0x000000DF, 0x400000B0);
+	add_search_replace(0x000000E0, 0x400000B1);
+	add_search_replace(0x000000E1, 0x400000B2);
+	add_search_replace(0x000000E2, 0x400000B3);
+	add_search_replace(0x000000E3, 0x400000B4);
+	add_search_replace(0x000000E4, 0x400000B5);
+	add_search_replace(0x000000E5, 0x400000B6);
+	add_search_replace(0x000000E6, 0x400000B7);
+	add_search_replace(0x000000E7, 0x400000B8);
+	add_search_replace(0x000000E8, 0x400000B9);
+	add_search_replace(0x000000E9, 0x400000BA);
+	add_search_replace(0x000000EA, 0x400000BB);
+	add_search_replace(0x000000EB, 0x400000BC);
+	add_search_replace(0x000000EC, 0x400000BD);
+	add_search_replace(0x000000ED, 0x400000BE);
+	add_search_replace(0x000000EE, 0x400000BF);
+	add_search_replace(0x000000EF, 0x400000C0);
+	add_search_replace(0x000000F0, 0x400000C1);
+	add_search_replace(0x000000F1, 0x400000C2);
+	add_search_replace(0x000000F2, 0x400000C3);
+	add_search_replace(0x000000F3, 0x400000C4);
+	add_search_replace(0x000000F4, 0x400000C5);
+	add_search_replace(0x000000F5, 0x400000C6);
+	add_search_replace(0x000000F6, 0x400000C7);
+	add_search_replace(0x000000F7, 0x400000C8);
+	find_and_replace_multiple((void *)0x16005c58, 0x5000);
+}
+
+void	tree(void)
+{
+	u32			key = getKey();
+	if (key == BUTTON_X)
+	{
+		reset_search();
+		add_search_replace(0x003A, 0x003E);
+		add_search_replace(0x003F, 0x0043);
+		add_search_replace(0x0044, 0x0048);
+		add_search_replace(0x0049, 0x004D);
+		add_search_replace(0x004E, 0x0052);
+		add_search_replace(0x0022, 0x0026);
+		add_search_replace(0x0027, 0x002B);
+		add_search_replace(0x002C, 0x0030);
+		add_search_replace(0x0031, 0x0035);
+		add_search_replace(0x0036, 0x0039);
+		add_search_replace(0x0053, 0x0057);
+		add_search_replace(0x0058, 0x005C);
+		add_search_replace(0x005D, 0x0061);
+		add_search_replace(0x0062, 0x0066);
+		add_search_replace(0x0067, 0x006B);
+		add_search_replace(0x006C, 0x0043);
+		find_and_replace_multiple((void *)0x16005c58, 0x5000);
+		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		
+	}
+}
+
 void	duplicate(void)
 {
 	u32			key = getKey();
@@ -369,23 +514,47 @@ void	duplicate(void)
 	}
 }
 
+void	grass(void)
+{
+    int i;
+	
+    for (i = 0x1600BB83; i < 0x1600E37F; i++)
+        *(u32 *)i = 0xFFFFFFFF;
+}
+
+void	desert(void)
+{
+    int i;
+
+    for (i = 0x1600BB83; i < 0x1600E37F; i++)
+        *(u32 *)i = 0x00000000;
+}
+
+
 /*
 **
 */
-
 void    initCheatMenu()
 {
     initMenu();
-    addMenuEntry("--- Cheats ---"); //Exemple
-    addCheatMenuEntry("Text to Item", text2item, FREEZE);
-    addCheatMenuEntry("Moon Jump", moonjump, FREEZE);
-    addCheatMenuEntry("Teleport", teleport, FREEZE);
+	addMenuEntry("ACNL NTR Cheats Ver 2.0.1");
+	addMenuEntry("Plugin by itsRyan");
+	addMenuEntry("EUR Version");
+    addMenuEntry("--- Enviroment Codes ---"); 
+	addCheatMenuEntry("Water all flowers", quench, FREEZE);
     addCheatMenuEntry("Seeder", search, FREEZE);
     addCheatMenuEntry("Destroyer", destroy, FREEZE);
-	addCheatMenuEntry("Duplication", duplicate, FREEZE);
-    addMenuEntry("--- Test Codes ---"); //Exemple
-    addCheatMenuEntry("Coordinace", coord, FREEZE); //Exemple
+	addCheatMenuEntry("Grass", grass, FREEZE);
+	addCheatMenuEntry("Desert", desert, FREEZE);
 	addCheatMenuEntry("Remove all weeds", weeder, FREEZE);
+	addCheatMenuEntry("Instant Tree", tree, FREEZE);
+    addMenuEntry("--- Inventory Codes ---"); //Exemple	
+    addCheatMenuEntry("Text to Item", text2item, FREEZE);
+	addCheatMenuEntry("Duplication", duplicate, FREEZE);
+	addMenuEntry("--- Movement Codes ---");
+    addCheatMenuEntry("Moon Jump", moonjump, FREEZE);
+    addCheatMenuEntry("Teleport", teleport, FREEZE);
+    addCheatMenuEntry("Coordinates Modifier", coord, FREEZE);
     updateMenu();
 }
 
