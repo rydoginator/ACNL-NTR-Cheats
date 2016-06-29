@@ -1,5 +1,5 @@
 # ACNL-NTR-Cheats
-Currently my plugin is in beta and unfinished, as I'm trying to either port or find new cheats every day, but I decided to release it :).
+Currently my plugin is in beta and unfinished, as I'm trying to either port or find new cheats every day, but I decided to release it :).\n
 The cheats that are used in this plugin are:
 Text to item
 Moon Jump
