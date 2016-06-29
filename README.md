@@ -42,35 +42,6 @@ SPECIAL THANKS TO:
 @imthe666st modified NTR client, to help find offsets, since it has a very user friendly UI
 @MrDavidPerson For the HQ demo of the plugin
 I'm requesting people to help with this plugin if they have anything interesting they'd like to share or change (ex: ram offsets, plugins, or improvements in my code)
-Changelog
-Version 1.0:
--Initial release.
-Version 1.0.1:
--Add EUR Version
-Version 1.0.2
--Fixed 'Seeder' and 'destroyer' codes (Thanks @Nanquitas :) )
-Version 1.1
--Added Remove all weeds
--Added Item Duplication
-Version 2.0 Beta 1 (US only release)
--Fixed coordinates modifier in buildings
--Added moon jump in buildings
--Added 'water all flowers' code
-Version 2.0 Beta 2 (US Only)
--Added seeder and destroyer for island
--Added grass seeder and remover
--Fixed a spelling error
--Fixed 3DS crashing when enabling Coordinates modifier while in loading screen
-Version 2.0 USA
--Fixed teleport indoors
--Added instant tree code
-Version 2.0.1
--Fixed instant tree not showing up in menu
--Ported to Europe
--Added version identifier (Version x.x.x USA/EUR)
--Changed teleport to use the B button
-Version 2.0.2
--Fixed teleport's pointer where it would completely mess up all coordinates codes and softlock your game when you went indoors.
 TODO:
 Port to EUR
 Fix codes that may crash your game
