@@ -337,23 +337,25 @@ void    teleport(void)
     static u32    X = 0;
     static u32    Y = 0;
     static int    loc = 0;
-    if (key == BUTTON_A + BUTTON_DU)
-    {
+    if (key == BUTTON_B)
+	{
 		loc = READU32(0x17321644);
+	}
+	if (key == BUTTON_B + BUTTON_DU)
+    {
 		if (loc == -1)
 		{
-        X = READU32(0x17321510);
-        Y = READU32(0x17321518);
+			X = READU32(0x17321510);
+			Y = READU32(0x17321518);
 		}
 		else
 		{
-		X = READU32(0x1732163c);
-		Y = READU32(0x17321644);
+			X = READU32(0x1732163c);
+			Y = READU32(0x17321644);
 		}
     }
-    if (key == BUTTON_A + BUTTON_DD)
+    if (key == BUTTON_B + BUTTON_DD)
     {
-		loc = READU32(0x17321644);
 		if (loc == -1)
 		{
 			WRITEU32(0x17321510, X);
@@ -537,7 +539,7 @@ void	desert(void)
 void    initCheatMenu()
 {
     initMenu();
-	addMenuEntry("ACNL NTR Cheats Ver 2.0.1");
+	addMenuEntry("ACNL NTR Cheats Ver 2.0.2");
 	addMenuEntry("Plugin by itsRyan");
 	addMenuEntry("USA Version");
     addMenuEntry("--- Enviroment Codes ---"); 
