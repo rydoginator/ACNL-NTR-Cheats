@@ -16,24 +16,24 @@ void    coord_usa(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321518, 0x00000200);
+			add_to_address((void *)0x17321518, 0x00004000);
 		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321518, 0x00000200);
+			sub_to_address((void *)0x17321518, 0x00004000);
 		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x17321510, 0x00000200);
+			sub_to_address((void *)0x17321510, 0x00002000);
 		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x17321510, 0x00000200);
+			add_to_address((void *)0x17321510, 0x00002000);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321644, 0x00000800);
+			add_to_address((void *)0x17321644, 0x00008000);
 		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321644, 0x00000800);
+			sub_to_address((void *)0x17321644, 0x00008000);
 		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x1732163c, 0x00000600);
+			sub_to_address((void *)0x1732163c, 0x00006000);
 		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x1732163c, 0x00000600);
+			add_to_address((void *)0x1732163c, 0x00006000);
 	}
 }
 void    search_usa(void)
@@ -121,10 +121,13 @@ void    teleport_usa(void)
 	static u32    outdoor_Y[3] = { 0 };
 	static int    loc = 0;
 
-	if (is_pressed(BUTTON_A + BUTTON_DU))
+	if (key == BUTTON_B) //Pointer to define whether player is indoors or not
 	{
 		loc = READU32(0x17321644);
-		if (loc == -1)
+	}
+	if (is_pressed(BUTTON_B + BUTTON_DU))
+	{
+		if (loc == -1) 
 		{
 			if (key & BUTTON_L) //If L is pressed then save in slot3
 			{
@@ -146,24 +149,23 @@ void    teleport_usa(void)
 		{
 			if (key & BUTTON_L) //If L is pressed then save in slot3
 			{
-				indoor_X[2] = READU32(0x17321510);
-				indoor_Y[2] = READU32(0x17321518);
+				indoor_X[2] = READU32(0x1732163c);
+				indoor_Y[2] = READU32(0x17321644);
 			}
 			else if (key & BUTTON_R) //If R is pressed then save in slot2
 			{
-				indoor_X[1] = READU32(0x17321510);
-				indoor_Y[1] = READU32(0x17321518);
+				indoor_X[1] = READU32(0x1732163c);
+				indoor_Y[1] = READU32(0x17321644);
 			}
 			else //If noting is pressed then save in slot0
 			{
-				indoor_X[0] = READU32(0x17321510);
-				indoor_Y[0] = READU32(0x17321518);
+				indoor_X[0] = READU32(0x1732163c);
+				indoor_Y[0] = READU32(0x17321644);
 			}
 		}
 	}
-	if (is_pressed(BUTTON_A + BUTTON_DD))
+	if (is_pressed(BUTTON_B + BUTTON_DD))
 	{
-		loc = READU32(0x17321644);
 		if (loc == -1)
 		{
 
@@ -187,18 +189,18 @@ void    teleport_usa(void)
 		{
 			if (key & BUTTON_L) //If L is pressed then restore slot3
 			{
-				WRITEU32(0x17321510, indoor_X[2]);
-				WRITEU32(0x17321518, indoor_Y[2]);
+				WRITEU32(0x1732163c, indoor_X[2]);
+				WRITEU32(0x17321644, indoor_Y[2]);
 			}
 			else if (key & BUTTON_R) //If R is pressed then restore slot2
 			{
-				WRITEU32(0x17321510, indoor_X[1]);
-				WRITEU32(0x17321518, indoor_Y[1]);
+				WRITEU32(0x1732163c, indoor_X[1]);
+				WRITEU32(0x17321644, indoor_Y[1]);
 			}
 			else //If noting is pressed then restore slot0
 			{
-				WRITEU32(0x17321510, indoor_X[0]);
-				WRITEU32(0x17321518, indoor_Y[0]);
+				WRITEU32(0x1732163c, indoor_X[0]);
+				WRITEU32(0x17321644, indoor_Y[0]);
 			}
 		}
 	}

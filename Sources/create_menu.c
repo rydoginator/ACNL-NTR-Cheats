@@ -9,7 +9,7 @@ void	usa_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 1 USA");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 2 USA");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_usa);
 		new_spoiled_entry(spoiler, "Seeder", search_usa);
@@ -31,7 +31,7 @@ void	eur_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 1 EUR");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 2 EUR");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_eur);
 		new_spoiled_entry(spoiler, "Seeder", search_eur);
@@ -61,7 +61,7 @@ void	my_menus(void)
 		eur_menu();
 	else
 	{
-		new_unselectable_entry("ACNL NTR Cheats Ver 2.0.1 USA");
+		new_unselectable_entry("Unsupported ID");
 		new_unselectable_entry("!!! Title id unrecognized !!!");
 		new_unselectable_entry("!!! You need either       !!!");
 		new_unselectable_entry("!!! 00040000 00086300     !!!");

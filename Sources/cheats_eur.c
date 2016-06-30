@@ -16,24 +16,24 @@ void    coord_eur(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321B18, 0x00000200);
+			add_to_address((void *)0x17321B18, 0x00004000);
 		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321B18, 0x00000200);
+			sub_to_address((void *)0x17321B18, 0x00004000);
 		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x17321B10, 0x00000200);
+			sub_to_address((void *)0x17321B10, 0x00002000);
 		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x17321B10, 0x00000200);
+			add_to_address((void *)0x17321B10, 0x00002000);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321C44, 0x00000800);
+			add_to_address((void *)0x17321C44, 0x00008000);
 		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321C44, 0x00000800);
+			sub_to_address((void *)0x17321C44, 0x00008000);
 		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x17321C3c, 0x00000600);
+			sub_to_address((void *)0x17321C3c, 0x00006000);
 		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x17321C3c, 0x00000600);
+			add_to_address((void *)0x17321C3c, 0x00006000);
 	}
 }
 void    search_eur(void)
@@ -120,9 +120,12 @@ void    teleport_eur(void)
 	static u32    outdoor_Y[3] = { 0 };
 	static int    loc = 0;
 
-	if (is_pressed(BUTTON_A + BUTTON_DU))
+	if (key == BUTTON_B) //Pointer to define whether player is indoors or not
 	{
 		loc = READU32(0x17321C44);
+	}
+	if (is_pressed(BUTTON_A + BUTTON_DU))
+	{
 		if (loc == -1)
 		{
 			if (key & BUTTON_L) //If L is pressed then save in slot3
@@ -186,18 +189,18 @@ void    teleport_eur(void)
 		{
 			if (key & BUTTON_L) //If L is pressed then restore slot3
 			{
-				WRITEU32(0x17321B10, indoor_X[2]);
-				WRITEU32(0x17321B18, indoor_Y[2]);
+				WRITEU32(0x17321C3c, indoor_X[2]);
+				WRITEU32(0x17321C44, indoor_Y[2]);
 			}
 			else if (key & BUTTON_R) //If R is pressed then restore slot2
 			{
-				WRITEU32(0x17321B10, indoor_X[1]);
-				WRITEU32(0x17321B18, indoor_Y[1]);
+				WRITEU32(0x17321C3c, indoor_X[1]);
+				WRITEU32(0x17321C44, indoor_Y[1]);
 			}
 			else //If noting is pressed then restore slot0
 			{
-				WRITEU32(0x17321B10, indoor_X[0]);
-				WRITEU32(0x17321B18, indoor_Y[0]);
+				WRITEU32(0x17321C3c, indoor_X[0]);
+				WRITEU32(0x17321C44, indoor_Y[0]);
 			}
 		}
 	}
