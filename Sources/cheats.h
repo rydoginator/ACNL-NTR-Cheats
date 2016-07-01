@@ -19,8 +19,8 @@ void	sub_to_address(void *address, u32 value_to_sub);
 */
 
 void    coord_usa(void);
+void    seed_usa(void);
 void    search_usa(void);
-void    destroy_usa(void);
 void    text2item_usa(void);
 void    moonjump_usa(void);
 void    teleport_usa(void);
@@ -36,8 +36,8 @@ void	desert_usa(void);
 */
 
 void    coord_eur(void);
+void    seed_eur(void);
 void    search_eur(void);
-void    destroy_eur(void);
 void    text2item_eur(void);
 void    moonjump_eur(void);
 void    teleport_eur(void);

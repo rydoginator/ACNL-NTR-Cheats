@@ -9,11 +9,11 @@ void	usa_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 2 USA");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 3 USA");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_usa);
-		new_spoiled_entry(spoiler, "Seeder", search_usa);
-		new_spoiled_entry(spoiler, "Destroyer", destroy_usa);
+		new_spoiled_entry(spoiler, "Seeder", seed_usa);
+		new_spoiled_entry(spoiler, "Search and Replace (WIP)", search_usa);
 		new_spoiled_entry(spoiler, "Grass", grass_usa);
 		new_spoiled_entry(spoiler, "Desert", desert_usa);
 		new_spoiled_entry(spoiler, "Remove all weeds", weeder_usa);
@@ -34,8 +34,8 @@ void	eur_menu(void)
 	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 2 EUR");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_eur);
-		new_spoiled_entry(spoiler, "Seeder", search_eur);
-		new_spoiled_entry(spoiler, "Destroyer", destroy_eur);
+		new_spoiled_entry(spoiler, "Seeder", seed_eur);
+		new_spoiled_entry(spoiler, "Destroyer", search_eur);
 		new_spoiled_entry(spoiler, "Grass", grass_eur);
 		new_spoiled_entry(spoiler, "Desert", desert_eur);
 		new_spoiled_entry(spoiler, "Remove all weeds", weeder_eur);

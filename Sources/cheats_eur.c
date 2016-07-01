@@ -56,24 +56,53 @@ void    search_eur(void)
 	wait_all_released();
 }
 
-void    destroy_eur(void)
+void    seed_eur(void)
 {
 	u16        result;
 	u32        key = getKey();
 
-	if (key != BUTTON_R + BUTTON_DU)
-		return;
-	u16        *id = (u16 *)0x16F4C460;
-	char    id_str[5] = { 0 };
-	int        i;
-	for (i = 0; i < 4; i++)
-		id_str[i] = (char)READU16(id + i);
-	result = (u16)strtoul(id_str, NULL, 16);
-	reset_search();
-	add_search_replace(result, 0x7FFE);
-	find_and_replace_multiple((void *)0x16005c58, 0x5000);
-	find_and_replace_multiple((void *)0x16022628, 0x1000);
-	wait_all_released();
+	if (key == BUTTON_R + BUTTON_DD)
+	{
+		u16        *id = (u16 *)0x16F4C460;
+		char    id_str[5] = { 0 };
+		int        i;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU16(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(0x20A7, result);
+		find_and_replace_multiple((void *)0x16005c58, 0x5000);
+		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		wait_all_released();
+	}
+	if (key == BUTTON_R + BUTTON_DU)
+	{
+		u16        *id = (u16 *)0x16F4C460;
+		char    id_str[5] = { 0 };
+		int        i;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU16(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(result, 0x7FFE);
+		find_and_replace_multiple((void *)0x16005c58, 0x5000);
+		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		wait_all_released();
+	}
+	if (key == BUTTON_R + BUTTON_DL)
+	{
+		u16        *id = (u16 *)0x16F4C460;
+		char    id_str[5] = { 0 };
+		int        i;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU16(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(result, 0x20A7);
+		find_and_replace_multiple((void *)0x16005c58, 0x5000);
+		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		wait_all_released();
+	}
 }
 
 void    text2item_eur(void)
@@ -124,7 +153,7 @@ void    teleport_eur(void)
 	{
 		loc = READU32(0x17321C44);
 	}
-	if (is_pressed(BUTTON_A + BUTTON_DU))
+	if (is_pressed(BUTTON_B + BUTTON_DU))
 	{
 		if (loc == -1)
 		{
@@ -163,7 +192,7 @@ void    teleport_eur(void)
 			}
 		}
 	}
-	if (is_pressed(BUTTON_A + BUTTON_DD))
+	if (is_pressed(BUTTON_B + BUTTON_DD))
 	{
 		loc = READU32(0x17321644);
 		if (loc == -1)

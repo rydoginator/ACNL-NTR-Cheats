@@ -38,43 +38,81 @@ void    coord_usa(void)
 }
 void    search_usa(void)
 {
-	u16        result;
+	u16        search;
+	u16		   replace; 	
 	u32        key = getKey();
 
-	if (key != BUTTON_R + BUTTON_DD)
-		return;
-	u16        *id = (u16 *)0x16F4C160;
-	char    id_str[5] = { 0 };
-	int        i;
-	for (i = 0; i < 4; i++)
-		id_str[i] = (char)READU16(id + i);
-	result = (u16)strtoul(id_str, NULL, 16);
-	reset_search();
-	add_search_replace(0x20A7, result);
-	find_and_replace_multiple((void *)0x16005958, 0x5000);
-	find_and_replace_multiple((void *)0x16022328, 0x1000);
-	wait_all_released();
+	if (key == BUTTON_R + BUTTON_DU)
+	{
+		u16        *id = (u16 *)0x16F4C160;
+		char    id_str[5] = { 0 };
+		int        i;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU16(id + i);
+		search = (u16)strtoul(id_str, NULL, 16);
+	}
+	if (key == BUTTON_R + BUTTON_DD)
+	{
+		u16        *id = (u16 *)0x16F4C160;
+		char    id_str[5] = { 0 };
+		int        i;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU16(id + i);
+		replace = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(search, replace);
+		find_and_replace_multiple((void *)0x16005958, 0x5000);
+		find_and_replace_multiple((void *)0x16022328, 0x1000);
+	}
+
 }
 
-void    destroy_usa(void)
+void    seed_usa(void)
 {
 	u16        result;
 	u32        key = getKey();
 
-	if (key != BUTTON_R + BUTTON_DU)
-		return;
-	u16        *id = (u16 *)0x16F4C160;
-	char    id_str[5] = { 0 };
-	int        i;
-	for (i = 0; i < 4; i++)
-		id_str[i] = (char)READU16(id + i);
-	result = (u16)strtoul(id_str, NULL, 16);
-	reset_search();
-	add_search_replace(result, 0x7FFE);
-	find_and_replace_multiple((void *)0x16005958, 0x5000);
-	find_and_replace_multiple((void *)0x16022328, 0x1000);
-	wait_all_released();
+	if (key == BUTTON_R + BUTTON_DD)
+	{
+		u16        *id = (u16 *)0x16F4C160;
+		char    id_str[5] = { 0 };
+		int        i;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU16(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(0x20A7, result);
+		find_and_replace_multiple((void *)0x16005958, 0x5000);
+		find_and_replace_multiple((void *)0x16022328, 0x1000);
+	}
+	if (key == BUTTON_R + BUTTON_DU)
+	{
+		u16        *id = (u16 *)0x16F4C160;
+		char    id_str[5] = { 0 };
+		int        i;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU16(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(result, 0x7FFE);
+		find_and_replace_multiple((void *)0x16005958, 0x5000);
+		find_and_replace_multiple((void *)0x16022328, 0x1000);
+	}
+	if (key == BUTTON_R + BUTTON_DL)
+	{
+		u16        *id = (u16 *)0x16F4C160;
+		char    id_str[5] = { 0 };
+		int        i;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU16(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(result, 0x20A7);
+		find_and_replace_multiple((void *)0x16005958, 0x5000);
+		find_and_replace_multiple((void *)0x16022328, 0x1000);
+	}
 }
+
 
 void    text2item_usa(void)
 {
