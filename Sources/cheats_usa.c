@@ -15,6 +15,7 @@ void    coord_usa(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
+<<<<<<< HEAD
 			add_to_address((void *)0x17321518, 0x00000400);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
 			sub_to_address((void *)0x17321518, 0x00000400);
@@ -22,10 +23,20 @@ void    coord_usa(void)
 			sub_to_address((void *)0x17321510, 0x00000400);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
 			add_to_address((void *)0x17321510, 0x00000400);
+=======
+			add_to_address((void *)0x17321518, 0x00004000);
+		if (is_pressed(BUTTON_A + BUTTON_DU))
+			sub_to_address((void *)0x17321518, 0x00004000);
+		if (is_pressed(BUTTON_A + BUTTON_DL))
+			sub_to_address((void *)0x17321510, 0x00002000);
+		if (is_pressed(BUTTON_A + BUTTON_DR))
+			add_to_address((void *)0x17321510, 0x00002000);
+>>>>>>> origin/master
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
+<<<<<<< HEAD
 			add_to_address((void *)0x17321644, 0x00000800);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
 			sub_to_address((void *)0x17321644, 0x00000800);
@@ -33,20 +44,39 @@ void    coord_usa(void)
 			sub_to_address((void *)0x1732163c, 0x00000400);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
 			add_to_address((void *)0x1732163c, 0x00000400);
+=======
+			add_to_address((void *)0x17321644, 0x00008000);
+		if (is_pressed(BUTTON_A + BUTTON_DU))
+			sub_to_address((void *)0x17321644, 0x00008000);
+		if (is_pressed(BUTTON_A + BUTTON_DL))
+			sub_to_address((void *)0x1732163c, 0x00006000);
+		if (is_pressed(BUTTON_A + BUTTON_DR))
+			add_to_address((void *)0x1732163c, 0x00006000);
+>>>>>>> origin/master
 	}
 }
 void    search_usa(void)
 {
+<<<<<<< HEAD
 	static u16	result;
+=======
+	static u16	search;
+	u16		replace;
+>>>>>>> origin/master
 	u16		*id;
 	char		id_str[5];
 	int		i;
 
+<<<<<<< HEAD
 	if (is_pressed(BUTTON_L + BUTTON_DU))
+=======
+	if (is_pressed(BUTTON_R + BUTTON_DU))
+>>>>>>> origin/master
 	{
 		id = (u16 *)0x16F4C160;
 		for (i = 0; i < 4; i++)
 			id_str[i] = (char)READU8(id + i);
+<<<<<<< HEAD
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(result, 0x9999);
@@ -54,11 +84,20 @@ void    search_usa(void)
 		find_and_replace_multiple((void *)0x16022328, 0x1000);
 	}
 	if (is_pressed(BUTTON_L + BUTTON_DD))
+=======
+		search = (u16)strtoul(id_str, NULL, 16);
+	}
+	if (is_pressed(BUTTON_R + BUTTON_DD))
+>>>>>>> origin/master
 	{
 		id = (u16 *)0x16F4C160;
 		for (i = 0; i < 4; i++)
 			id_str[i] = (char)READU8(id + i);
+<<<<<<< HEAD
 		result = (u16)strtoul(id_str, NULL, 16);
+=======
+		replace = (u16)strtoul(id_str, NULL, 16);
+>>>>>>> origin/master
 		reset_search();
 		add_search_replace(0x9999, result);
 		find_and_replace_multiple((void *)0x16005958, 0x5000);
