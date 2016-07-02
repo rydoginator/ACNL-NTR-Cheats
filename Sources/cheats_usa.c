@@ -6,105 +6,101 @@ int			g_i = 0;
 
 void    coord_usa(void)
 {
-	static int           loc = 0;
-	u32        key = getKey();
+	static int	loc = 0;
 
-	if (key == BUTTON_A)
+	if (is_pressed(BUTTON_A))
 	{
 		loc = READU32(0x17321644);
 	}
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
-		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321518, 0x00004000);
-		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321518, 0x00004000);
-		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x17321510, 0x00002000);
-		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x17321510, 0x00002000);
+		if (is_pressed(BUTTON_A + BUTTON_DD))
+			add_to_address((void *)0x17321518, 0x00000400);
+		if (is_pressed(BUTTON_A + BUTTON_DU))
+			sub_to_address((void *)0x17321518, 0x00000400);
+		if (is_pressed(BUTTON_A + BUTTON_DL))
+			sub_to_address((void *)0x17321510, 0x00000400);
+		if (is_pressed(BUTTON_A + BUTTON_DR))
+			add_to_address((void *)0x17321510, 0x00000400);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
-		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321644, 0x00008000);
-		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321644, 0x00008000);
-		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x1732163c, 0x00006000);
-		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x1732163c, 0x00006000);
+		if (is_pressed(BUTTON_A + BUTTON_DD))
+			add_to_address((void *)0x17321644, 0x00000800);
+		if (is_pressed(BUTTON_A + BUTTON_DU))
+			sub_to_address((void *)0x17321644, 0x00000800);
+		if (is_pressed(BUTTON_A + BUTTON_DL))
+			sub_to_address((void *)0x1732163c, 0x00000400);
+		if (is_pressed(BUTTON_A + BUTTON_DR))
+			add_to_address((void *)0x1732163c, 0x00000400);
 	}
 }
 void    search_usa(void)
 {
-	u16        search;
-	u16		   replace; 	
-	u32        key = getKey();
+	static u16	result;
+	u16		*id;
+	char		id_str[5];
+	int		i;
 
-	if (key == BUTTON_R + BUTTON_DU)
+	if (is_pressed(BUTTON_L + BUTTON_DU))
 	{
-		u16        *id = (u16 *)0x16F4C160;
-		char    id_str[5] = { 0 };
-		int        i;
+		id = (u16 *)0x16F4C160;
 		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU16(id + i);
-		search = (u16)strtoul(id_str, NULL, 16);
-	}
-	if (key == BUTTON_R + BUTTON_DD)
-	{
-		u16        *id = (u16 *)0x16F4C160;
-		char    id_str[5] = { 0 };
-		int        i;
-		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU16(id + i);
-		replace = (u16)strtoul(id_str, NULL, 16);
+			id_str[i] = (char)READU8(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
-		add_search_replace(search, replace);
+		add_search_replace(result, 0x9999);
 		find_and_replace_multiple((void *)0x16005958, 0x5000);
 		find_and_replace_multiple((void *)0x16022328, 0x1000);
 	}
-
+	if (is_pressed(BUTTON_L + BUTTON_DD))
+	{
+		id = (u16 *)0x16F4C160;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU8(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(0x9999, result);
+		find_and_replace_multiple((void *)0x16005958, 0x5000);
+		find_and_replace_multiple((void *)0x16022328, 0x1000);
+	}
 }
 
 void    seed_usa(void)
 {
-	u16        result;
-	u32        key = getKey();
+	u16		result;
+	u16		replace;
+	u16		*id;
+	char		id_str[5];
+	int		i;
 
-	if (key == BUTTON_R + BUTTON_DD)
+	if (is_pressed(BUTTON_R + BUTTON_DD))
 	{
-		u16        *id = (u16 *)0x16F4C160;
-		char    id_str[5] = { 0 };
-		int        i;
+		id = (u16 *)0x16F4C160;
 		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU16(id + i);
+			id_str[i] = (char)READU8(id + i);
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(0x20A7, result);
 		find_and_replace_multiple((void *)0x16005958, 0x5000);
 		find_and_replace_multiple((void *)0x16022328, 0x1000);
 	}
-	if (key == BUTTON_R + BUTTON_DU)
+	if (is_pressed(BUTTON_R + BUTTON_DU))
 	{
-		u16        *id = (u16 *)0x16F4C160;
-		char    id_str[5] = { 0 };
-		int        i;
+		id = (u16 *)0x16F4C160;
 		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU16(id + i);
+			id_str[i] = (char)READU8(id + i);
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(result, 0x7FFE);
 		find_and_replace_multiple((void *)0x16005958, 0x5000);
 		find_and_replace_multiple((void *)0x16022328, 0x1000);
 	}
-	if (key == BUTTON_R + BUTTON_DL)
+	if (is_pressed(BUTTON_R + BUTTON_DL))
 	{
-		u16        *id = (u16 *)0x16F4C160;
-		char    id_str[5] = { 0 };
-		int        i;
+		id = (u16 *)0x16F4C160;
 		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU16(id + i);
+			id_str[i] = (char)READU8(id + i);
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(result, 0x20A7);
@@ -116,13 +112,12 @@ void    seed_usa(void)
 
 void    text2item_usa(void)
 {
-	u16        *id = (u16 *)0x16F4C160;
-	char    id_str[5] = { 0 };
-	int        i;
-	u16        result;
-	u32        key = getKey();
+	u16		*id = (u16 *)0x16F4C160;
+	char		id_str[5] = { 0 };
+	int		i;
+	u16		result;
 
-	if (key != BUTTON_X + BUTTON_DR)
+	if (!is_pressed(BUTTON_X + BUTTON_DR))
 		return;
 	for (i = 0; i < 4; i++)
 		id_str[i] = (char)READU16(id + i);
@@ -134,9 +129,9 @@ void    text2item_usa(void)
 
 void    moonjump_usa(void)
 {
-	u32            key = getKey();
-	static int           loc = 0;
-	if (key == BUTTON_L)
+	static int	loc = 0;
+	
+	if (is_pressed(BUTTON_L))
 	{
 		loc = READU32(0x17321644);
 		if (loc == -1)
@@ -152,14 +147,13 @@ void    moonjump_usa(void)
 
 void    teleport_usa(void)
 {
-	u32            key = getKey();
 	static u32    indoor_X[3] = { 0 };
 	static u32    indoor_Y[3] = { 0 };
 	static u32    outdoor_X[3] = { 0 };
 	static u32    outdoor_Y[3] = { 0 };
 	static int    loc = 0;
 
-	if (key == BUTTON_B) //Pointer to define whether player is indoors or not
+	if (is_pressed(BUTTON_B)) //Pointer to define whether player is indoors or not
 	{
 		loc = READU32(0x17321644);
 	}
@@ -167,12 +161,12 @@ void    teleport_usa(void)
 	{
 		if (loc == -1) 
 		{
-			if (key & BUTTON_L) //If L is pressed then save in slot3
+			if (is_pressed(BUTTON_L)) //If L is pressed then save in slot3
 			{
 				outdoor_X[2] = READU32(0x17321510);
 				outdoor_Y[2] = READU32(0x17321518);
 			}
-			else if (key & BUTTON_R) //If R is pressed then save in slot2
+			else if (is_pressed(BUTTON_R)) //If R is pressed then save in slot2
 			{
 				outdoor_X[1] = READU32(0x17321510);
 				outdoor_Y[1] = READU32(0x17321518);
@@ -185,12 +179,12 @@ void    teleport_usa(void)
 		}
 		else
 		{
-			if (key & BUTTON_L) //If L is pressed then save in slot3
+			if (is_pressed(BUTTON_L)) //If L is pressed then save in slot3
 			{
 				indoor_X[2] = READU32(0x1732163c);
 				indoor_Y[2] = READU32(0x17321644);
 			}
-			else if (key & BUTTON_R) //If R is pressed then save in slot2
+			else if (is_pressed(BUTTON_R)) //If R is pressed then save in slot2
 			{
 				indoor_X[1] = READU32(0x1732163c);
 				indoor_Y[1] = READU32(0x17321644);
@@ -206,13 +200,12 @@ void    teleport_usa(void)
 	{
 		if (loc == -1)
 		{
-
-			if (key & BUTTON_L) //If L is pressed then restore slot3
+			if (is_pressed(BUTTON_L)) //If L is pressed then restore slot3
 			{
 				WRITEU32(0x17321510, outdoor_X[2]);
 				WRITEU32(0x17321518, outdoor_Y[2]);
 			}
-			else if (key & BUTTON_R) //If R is pressed then restore slot2
+			else if (is_pressed(BUTTON_R)) //If R is pressed then restore slot2
 			{
 				WRITEU32(0x17321510, outdoor_X[1]);
 				WRITEU32(0x17321518, outdoor_Y[1]);
@@ -225,12 +218,12 @@ void    teleport_usa(void)
 		}
 		else
 		{
-			if (key & BUTTON_L) //If L is pressed then restore slot3
+			if (is_pressed(BUTTON_L)) //If L is pressed then restore slot3
 			{
 				WRITEU32(0x1732163c, indoor_X[2]);
 				WRITEU32(0x17321644, indoor_Y[2]);
 			}
-			else if (key & BUTTON_R) //If R is pressed then restore slot2
+			else if (is_pressed(BUTTON_R)) //If R is pressed then restore slot2
 			{
 				WRITEU32(0x1732163c, indoor_X[1]);
 				WRITEU32(0x17321644, indoor_Y[1]);
@@ -246,8 +239,7 @@ void    teleport_usa(void)
 
 void	weeder_usa(void)
 {
-	u32           key = getKey();
-	if (key == BUTTON_R + BUTTON_A)
+	if (is_pressed(BUTTON_R + BUTTON_A))
 	{
 		reset_search();
 		add_search_replace(0x0000007C, 0x00007FFE);
@@ -354,8 +346,7 @@ void	quench_usa(void)
 
 void	tree_usa(void)
 {
-	u32			key = getKey();
-	if (key == BUTTON_X)
+	if (is_pressed(BUTTON_X))
 	{
 		reset_search();
 		add_search_replace(0x003A, 0x003E);
@@ -376,15 +367,14 @@ void	tree_usa(void)
 		add_search_replace(0x006C, 0x0043);
 		find_and_replace_multiple((void *)0x16005958, 0x5000);
 		find_and_replace_multiple((void *)0x16022328, 0x1000);
-
 	}
 }
 
 void	duplicate_usa(void)
 {
-	u32			key = getKey();
-	u32			dupe = 0;
-	if (key == BUTTON_R)
+	u32		dupe = 0;
+	
+	if (is_pressed(BUTTON_R))
 	{
 		dupe = READU32(0x15FBEAD0);
 		WRITEU32(0x15FBEAD4, dupe);

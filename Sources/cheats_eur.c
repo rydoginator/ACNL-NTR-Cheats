@@ -16,44 +16,55 @@ void    coord_eur(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321B18, 0x00004000);
+			add_to_address((void *)0x17321B18, 0x00000400);
 		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321B18, 0x00004000);
+			sub_to_address((void *)0x17321B18, 0x00000400);
 		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x17321B10, 0x00002000);
+			sub_to_address((void *)0x17321B10, 0x00000400);
 		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x17321B10, 0x00002000);
+			add_to_address((void *)0x17321B10, 0x00000400);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321C44, 0x00008000);
+			add_to_address((void *)0x17321C44, 0x00000800);
 		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321C44, 0x00008000);
+			sub_to_address((void *)0x17321C44, 0x00000800);
 		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x17321C3c, 0x00006000);
+			sub_to_address((void *)0x17321C3c, 0x00000400);
 		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x17321C3c, 0x00006000);
+			add_to_address((void *)0x17321C3c, 0x00000400);
 	}
 }
 void    search_eur(void)
 {
-	u16        result;
-	u32        key = getKey();
+	static u16	result;
+	u16		*id;
+	char		id_str[5];
+	int		i;
 
-	if (key != BUTTON_R + BUTTON_DD)
-		return;
-	u16        *id = (u16 *)0x16F4C460;
-	char    id_str[5] = { 0 };
-	int        i;
-	for (i = 0; i < 4; i++)
-		id_str[i] = (char)READU16(id + i);
-	result = (u16)strtoul(id_str, NULL, 16);
-	reset_search();
-	add_search_replace(0x20A7, result);
-	find_and_replace_multiple((void *)0x16005c58, 0x5000);
-	find_and_replace_multiple((void *)0x16022628, 0x1000);
-	wait_all_released();
+	if (is_pressed(BUTTON_L + BUTTON_DU))
+	{
+		id = (u16 *)0x16F4C460;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU8(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(result, 0x9999);
+		find_and_replace_multiple((void *)0x16005c58, 0x5000);
+		find_and_replace_multiple((void *)0x16022628, 0x1000);
+	}
+	if (is_pressed(BUTTON_L + BUTTON_DD))
+	{
+		id = (u16 *)0x16F4C460;
+		for (i = 0; i < 4; i++)
+			id_str[i] = (char)READU8(id + i);
+		result = (u16)strtoul(id_str, NULL, 16);
+		reset_search();
+		add_search_replace(0x9999, result);
+		find_and_replace_multiple((void *)0x16005c58, 0x5000);
+		find_and_replace_multiple((void *)0x16022628, 0x1000);
+	}
 }
 
 void    seed_eur(void)
