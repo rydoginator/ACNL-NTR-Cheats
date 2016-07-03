@@ -13,6 +13,7 @@
 void	find_and_replace_multiple(void *start_addr, u32 length);
 void	add_to_address(void *address, u32 value_to_add);
 void	sub_to_address(void *address, u32 value_to_sub);
+void    disableCheat(int index);
 
 /*
 ** USA
@@ -30,6 +31,12 @@ void	tree_usa(void);
 void	duplicate_usa(void);
 void	grass_usa(void);
 void	desert_usa(void);
+void	speed_usa(void);
+void	nook1_usa(void);
+void	nook2_usa(void);
+void	nook3_usa(void);
+void	nook4_usa(void);
+void	tan_usa(void);
 
 /*
 ** EUR
@@ -47,5 +54,11 @@ void	tree_eur(void);
 void	duplicate_eur(void);
 void	grass_eur(void);
 void	desert_eur(void);
+void	speed_eur(void);
+void	nook1_eur(void);
+void	nook2_eur(void);
+void	nook3_eur(void);
+void	nook4_eur(void);
+void	tan_eur(void);
 
 #endif

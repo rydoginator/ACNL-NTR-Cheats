@@ -9,7 +9,7 @@ void	usa_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 4 USA");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 USA");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_usa);
 		new_spoiled_entry(spoiler, "Seeder", seed_usa);
@@ -25,13 +25,21 @@ void	usa_menu(void)
 		new_spoiled_entry(spoiler, "Moon Jump", moonjump_usa);
 		new_spoiled_entry(spoiler, "Teleport", teleport_usa);
 		new_spoiled_entry(spoiler, "Coordinates Modifier", coord_usa);
+		new_spoiled_entry(spoiler, "Speed Hack", speed_usa);
+	spoiler = new_spoiler("Nookling Upgrades");
+		new_spoiled_entry(spoiler, "T&T Mart", nook1_usa);
+		new_spoiled_entry(spoiler, "Super T&T", nook2_usa);
+		new_spoiled_entry(spoiler, "T.I.Y", nook3_usa);
+		new_spoiled_entry(spoiler, "T&T Emporium", nook4_usa);//index 23
+	spoiler = new_spoiler("Appearance Codes");
+		new_spoiled_entry(spoiler, "Player 1 Max Tan", tan_usa);
 }
 
 void	eur_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 Beta 4 EUR");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.1 EUR");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_eur);
 		new_spoiled_entry(spoiler, "Seeder", seed_eur);
@@ -47,6 +55,14 @@ void	eur_menu(void)
 		new_spoiled_entry(spoiler, "Moon Jump", moonjump_eur);
 		new_spoiled_entry(spoiler, "Teleport", teleport_eur);
 		new_spoiled_entry(spoiler, "Coordinates Modifier", coord_eur);
+		new_spoiled_entry(spoiler, "Speed Hack", speed_eur);
+	spoiler = new_spoiler("Nookling Upgrades");
+		new_spoiled_entry(spoiler, "T&T Mart", nook1_eur);
+		new_spoiled_entry(spoiler, "Super T&T", nook2_eur);
+		new_spoiled_entry(spoiler, "T.I.Y", nook3_eur);
+		new_spoiled_entry(spoiler, "T&T Emporium", nook4_eur);//index 23
+	spoiler = new_spoiler("Appearance Codes");
+		new_spoiled_entry(spoiler, "Player 1 Max Tan", tan_eur);
 }
 
 /*

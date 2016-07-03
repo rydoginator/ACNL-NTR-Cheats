@@ -16,24 +16,24 @@ void    coord_eur(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321B18, 0x00000400);
+			add_to_address((void *)0x17321B18, 0x00020000);
 		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321B18, 0x00000400);
+			sub_to_address((void *)0x17321B18, 0x00020000);
 		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x17321B10, 0x00000400);
+			sub_to_address((void *)0x17321B10, 0x00020000);
 		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x17321B10, 0x00000400);
+			add_to_address((void *)0x17321B10, 0x00020000);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (key == BUTTON_A + BUTTON_DD)
-			add_to_address((void *)0x17321C44, 0x00000800);
+			add_to_address((void *)0x17321C44, 0x00020000);
 		if (key == BUTTON_A + BUTTON_DU)
-			sub_to_address((void *)0x17321C44, 0x00000800);
+			sub_to_address((void *)0x17321C44, 0x00020000);
 		if (key == BUTTON_A + BUTTON_DL)
-			sub_to_address((void *)0x17321C3c, 0x00000400);
+			sub_to_address((void *)0x17321C3c, 0x00020000);
 		if (key == BUTTON_A + BUTTON_DR)
-			add_to_address((void *)0x17321C3c, 0x00000400);
+			add_to_address((void *)0x17321C3c, 0x00020000);
 	}
 }
 void    search_eur(void)
@@ -246,6 +246,24 @@ void    teleport_eur(void)
 	}
 }
 
+void	speed_eur(void)
+{
+	u32			  key = getKey();
+	u32			  velocity;
+	if (key == BUTTON_B)
+	{
+		velocity = READU32(0x17321B3C);
+		if (velocity >= 0x41A79DB3)
+		{
+			WRITEU32(0x17321B3C, 0x41A79DB3);
+		}
+		else if (velocity > 0);
+		{
+		add_to_address((void*)0x17321B3C, 0x00100000);
+		}
+	}
+}
+
 void	weeder_eur(void)
 {
 	u32           key = getKey();
@@ -267,9 +285,12 @@ void	weeder_eur(void)
 
 void	quench_eur(void)
 {
+	u32			   key = getKey();
+	if (key == BUTTON_R + BUTTON_A)
+	{
 	reset_search();
 	add_search_replace(0x0000009F, 0x4000009F);
-	add_search_replace(0x000000A0, 0x400000A0);
+	add_search_replace(0x000C00A0, 0x400000A0);
 	add_search_replace(0x000000A1, 0x400000A1);
 	add_search_replace(0x000000A2, 0x400000A2);
 	add_search_replace(0x000000A3, 0x400000A3);
@@ -352,6 +373,7 @@ void	quench_eur(void)
 	add_search_replace(0x000000F6, 0x400000C7);
 	add_search_replace(0x000000F7, 0x400000C8);
 	find_and_replace_multiple((void *)0x16005c58, 0x5000);
+	}
 }
 
 void	tree_eur(void)
@@ -395,16 +417,65 @@ void	duplicate_eur(void)
 
 void	grass_eur(void)
 {
-	int i;
+	disableCheat(8);
+	if (is_pressed(BUTTON_R + BUTTON_A))
+	{
+		int i;
 
-	for (i = 0x1600BB83; i < 0x1600E37F; i++)
-		*(u32 *)i = 0xFFFFFFFF;
+		for (i = 0x1600BB83; i < 0x1600E37F; i++)
+			*(u32 *)i = 0xFFFFFFFF;
+		wait_all_released();
+	}
 }
 
 void	desert_eur(void)
 {
-	int i;
+	disableCheat(7);
+	if (is_pressed(BUTTON_R + BUTTON_A))
+	{
+		int i;
+	
+		for (i = 0x1600BB83; i < 0x1600E37F; i++)
+			*(u32 *)i = 0x00000000;
+		wait_all_released();
+	}
+}
 
-	for (i = 0x1600BB83; i < 0x1600E37F; i++)
-		*(u32 *)i = 0x00000000;
+//Nook Upgrades
+
+void	nook1_eur(void)
+{
+    disableCheat(21);
+	disableCheat(22);
+	disableCheat(23);
+	WRITEU16(0x160149E0, 0x0101);
+}
+
+void	nook2_eur(void)
+{	
+    disableCheat(20);
+	disableCheat(22);
+	disableCheat(23);
+	WRITEU16(0x160149E0, 0x0202);
+}
+
+void	nook3_eur(void)
+{
+	disableCheat(20);
+	disableCheat(21);
+	disableCheat(23);
+	WRITEU16(0x160149E0, 0x0303);
+}
+
+void	nook4_eur(void)
+{
+    disableCheat(20);
+	disableCheat(21);
+	disableCheat(22);
+	WRITEU16(0x160149E0, 0x0404);
+}
+
+void	tan_eur(void)
+{
+	WRITEU8(0x15FB8228, 0xF);
 }
