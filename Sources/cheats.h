@@ -3,17 +3,17 @@
 
 #include "../Includes/plugin.h"
 
-#define		add_search_replace(find, replace) g_find[g_i] = find; g_replace[g_i] = replace; g_i++
-#define		reset_search()                    memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
+#define   add_search_replace(find, replace) g_find[g_i] = find; g_replace[g_i] = replace; g_i++
+#define   reset_search()                    memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
+#define   add_to_address(addr, value)       *(u32 *)addr += value
+#define   sub_to_address(addr, value)       *(u32 *)addr -= value
 
 /*
 ** Helpers
 */
 
 void	find_and_replace_multiple(void *start_addr, u32 length);
-void	add_to_address(void *address, u32 value_to_add);
-void	sub_to_address(void *address, u32 value_to_sub);
-void    disableCheat(int index);
+void  disableCheat(int index);
 
 /*
 ** USA
