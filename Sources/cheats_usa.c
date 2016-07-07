@@ -15,13 +15,13 @@ void    coord_usa(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			add_to_address((void *)0x17321518, 0x00001800);
+			add_to_address((void *)0x17321518, 0x00002800);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			sub_to_address((void *)0x17321518, 0x00001800);
+			sub_to_address((void *)0x17321518, 0x00002800);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			sub_to_address((void *)0x17321510, 0x00001000);
+			sub_to_address((void *)0x17321510, 0x00002000);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			add_to_address((void *)0x17321510, 0x00001000);
+			add_to_address((void *)0x17321510, 0x00002000);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
