@@ -9,7 +9,7 @@ void	usa_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL Cheats 2.1.1");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.1.1 USA");
 	spoiler = new_spoiler("Inventory Codes");
 		new_spoiled_entry(spoiler, "Text to Item", text2item_usa);
 		new_spoiled_entry(spoiler, "Duplication", duplicate_usa);
@@ -39,7 +39,7 @@ void	eur_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL Cheats 2.1.1");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.1.1 EUR");
 	spoiler = new_spoiler("Inventory Codes");
 		new_spoiled_entry(spoiler, "Text to Item", text2item_eur);
 		new_spoiled_entry(spoiler, "Duplication", duplicate_eur);
