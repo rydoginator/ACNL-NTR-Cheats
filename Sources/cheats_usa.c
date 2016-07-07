@@ -15,24 +15,24 @@ void    coord_usa(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			add_to_address((void *)0x17321518, 0x00020000);
+			add_to_address((void *)0x17321518, 0x00001800);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			sub_to_address((void *)0x17321518, 0x00020000);
+			sub_to_address((void *)0x17321518, 0x00001800);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			sub_to_address((void *)0x17321510, 0x00020000);
+			sub_to_address((void *)0x17321510, 0x00001000);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			add_to_address((void *)0x17321510, 0x00020000);
+			add_to_address((void *)0x17321510, 0x00001000);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			add_to_address((void *)0x17321644, 0x00020000);
+			add_to_address((void *)0x17321644, 0x00008000);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			sub_to_address((void *)0x17321644, 0x00020000);
+			sub_to_address((void *)0x17321644, 0x00008000);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			sub_to_address((void *)0x1732163c, 0x00020000);
+			sub_to_address((void *)0x1732163c, 0x00008000);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			add_to_address((void *)0x1732163c, 0x00020000);
+			add_to_address((void *)0x1732163c, 0x00008000);
 	}
 }
 void    search_usa(void)
@@ -251,7 +251,7 @@ void	speed_usa(void)
 		{
 			WRITEU32(0x1732153C, 0x41A79DB3);
 		}
-		else if (velocity > 0);
+		else if (velocity > 0)
 		{
 		add_to_address((void*)0x1732153C, 0x00100000);
 		}
