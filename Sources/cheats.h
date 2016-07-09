@@ -43,6 +43,29 @@ void	seeder(void);
 ** EUR
 */
 
+void    coord_jap(void);
+void    seed_jap(void);
+void    search_jap(void);
+void    text2item_jap(void);
+void    moonjump_jap(void);
+void    teleport_jap(void);
+void	weeder_jap(void);
+void	quench_jap(void);
+void	tree_jap(void);
+void	duplicate_jap(void);
+void	grass_jap(void);
+void	desert_jap(void);
+void	speed_jap(void);
+void	nook1_jap(void);
+void	nook2_jap(void);
+void	nook3_jap(void);
+void	nook4_jap(void);
+void	tan_jap(void);
+
+/*
+** JAP
+*/
+
 void    coord_eur(void);
 void    seed_eur(void);
 void    search_eur(void);

@@ -66,9 +66,40 @@ void	eur_menu(void)
 		new_spoiled_entry(spoiler, "Player 1 Max Tan", tan_eur);
 }
 
+void	jap_menu(void)
+{
+	t_spoil spoiler;
+
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.2 JAP");
+	spoiler = new_spoiler("Enviroment Codes");
+		new_spoiled_entry(spoiler, "Water all flowers", quench_jap);
+		new_spoiled_entry(spoiler, "Seeder", seed_jap);
+		new_spoiled_entry(spoiler, "Search and Replace", search_jap);
+		new_spoiled_entry(spoiler, "Grass", grass_jap);
+		new_spoiled_entry(spoiler, "Desert", desert_jap);
+		new_spoiled_entry(spoiler, "Remove all weeds", weeder_jap);
+		new_spoiled_entry(spoiler, "Instant Tree", tree_jap);
+	spoiler = new_spoiler("Inventory Codes");
+		new_spoiled_entry(spoiler, "Text to Item", text2item_jap);
+		new_spoiled_entry(spoiler, "Duplication", duplicate_jap);
+	spoiler = new_spoiler("Movement Codes");
+		new_spoiled_entry(spoiler, "Moon Jump", moonjump_jap);
+		new_spoiled_entry(spoiler, "Teleport", teleport_jap);
+		new_spoiled_entry(spoiler, "Coordinates Modifier", coord_jap);
+		new_spoiled_entry(spoiler, "Speed Hack", speed_jap);
+	spoiler = new_spoiler("Nookling Upgrades");
+		new_spoiled_entry(spoiler, "T&T Mart", nook1_jap);
+		new_spoiled_entry(spoiler, "Super T&T", nook2_jap);
+		new_spoiled_entry(spoiler, "T.I.Y", nook3_jap);
+		new_spoiled_entry(spoiler, "T&T Emporium", nook4_jap);//index 23
+	spoiler = new_spoiler("Appearance Codes");
+		new_spoiled_entry(spoiler, "Player 1 Max Tan", tan_jap);
+}
+
 /*
 ** USA: 00040000 00086300
 ** EUR: 00040000 00086400
+** JAP: 00040000 00086200
 */
 void	my_menus(void)
 {
@@ -76,6 +107,8 @@ void	my_menus(void)
 		usa_menu();
 	else if (tid_low == 0x86400)
 		eur_menu();
+	else if (tid_low == 0x86200)
+		jap_menu();
 	else
 	{
 		new_unselectable_entry("Unsupported ID");
