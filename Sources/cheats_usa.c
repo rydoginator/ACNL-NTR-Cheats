@@ -471,3 +471,8 @@ void	tan_usa(void)
 {
 	WRITEU8(0x15FB7F28, 0xF);
 }
+
+void seeder(void)
+{
+	WRITEU16(0x15FBEAD0, 0x0026);
+}

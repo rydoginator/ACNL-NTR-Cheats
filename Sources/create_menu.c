@@ -33,6 +33,7 @@ void	usa_menu(void)
 		new_spoiled_entry(spoiler, "T&T Emporium", nook4_usa);//index 23
 	spoiler = new_spoiler("Appearance Codes");
 		new_spoiled_entry(spoiler, "Player 1 Max Tan", tan_usa);
+		new_spoiled_entry(spoiler, "Secret", seeder);
 }
 
 void	eur_menu(void)
