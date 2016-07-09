@@ -16,24 +16,24 @@ void    coord_jap(void)
     if (loc == -1) //FFFFFFFF=outdoors
     {
         if (key == BUTTON_A + BUTTON_DD)
-            add_to_address((void *)0x173B8B98, 0x00000200); //JP
+            add_to_address((void *)0x173B8B98, 0x00001800); //JP
         if (key == BUTTON_A + BUTTON_DU)
-            sub_to_address((void *)0x173B8B98, 0x00000200); //JP
+            sub_to_address((void *)0x173B8B98, 0x00001800); //JP
         if (key == BUTTON_A + BUTTON_DL)
-            sub_to_address((void *)0x173B8B90, 0x00000100); //JP
+            sub_to_address((void *)0x173B8B90, 0x00001000); //JP
         if (key == BUTTON_A + BUTTON_DR)
-            add_to_address((void *)0x173B8B90, 0x00000100); //JP
+            add_to_address((void *)0x173B8B90, 0x00001000); //JP
     }
     else //if it's anything but FFFFFFFF then you're indoors
     {
         if (key == BUTTON_A + BUTTON_DD)
-            add_to_address((void *)0x173B8CC4, 0x00000400); //JP
+            add_to_address((void *)0x173B8CC4, 0x00008000); //JP
         if (key == BUTTON_A + BUTTON_DU)
-            sub_to_address((void *)0x173B8CC4, 0x00000400); //JP
+            sub_to_address((void *)0x173B8CC4, 0x00008000); //JP
         if (key == BUTTON_A + BUTTON_DL)
-            sub_to_address((void *)0x173B8CBB, 0x00040000); //JP
+            sub_to_address((void *)0x173B8CBC, 0x00008000); //JP
         if (key == BUTTON_A + BUTTON_DR)
-            add_to_address((void *)0x173B8CBB, 0x00040000); //JP
+            add_to_address((void *)0x173B8CBC, 0x00008000); //JP
     }
 }
 
@@ -52,8 +52,8 @@ void    search_jap(void)
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(result, 0x9999);
-		find_and_replace_multiple((void *)0x16005c58, 0x5000);
-		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		find_and_replace_multiple((void *)0x1609D158, 0x5000);
+		find_and_replace_multiple((void *)0x160B9B28, 0x1000);
 	}
 	if (is_pressed(BUTTON_L + BUTTON_DD))
 	{
@@ -63,8 +63,8 @@ void    search_jap(void)
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(0x9999, result);
-		find_and_replace_multiple((void *)0x16005c58, 0x5000);
-		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		find_and_replace_multiple((void *)0x1609D158, 0x5000);
+		find_and_replace_multiple((void *)0x160B9B28, 0x1000);
 	}
 }
 
@@ -75,7 +75,7 @@ void    seed_jap(void)
 
 	if (key == BUTTON_R + BUTTON_DD)
 	{
-		u16        *id = (u16 *)0x16F4C460;
+		u16        *id = (u16 *)0x16FE3C60;
 		char    id_str[5] = { 0 };
 		int        i;
 		for (i = 0; i < 4; i++)
@@ -83,13 +83,13 @@ void    seed_jap(void)
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(0x20A7, result);
-		find_and_replace_multiple((void *)0x16005c58, 0x5000);
-		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		find_and_replace_multiple((void *)0x1609D158, 0x5000);
+		find_and_replace_multiple((void *)0x160B9B28, 0x1000);
 		wait_all_released();
 	}
 	if (key == BUTTON_R + BUTTON_DU)
 	{
-		u16        *id = (u16 *)0x16F4C460;
+		u16        *id = (u16 *)0x16FE3C60;
 		char    id_str[5] = { 0 };
 		int        i;
 		for (i = 0; i < 4; i++)
@@ -97,13 +97,13 @@ void    seed_jap(void)
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(result, 0x7FFE);
-		find_and_replace_multiple((void *)0x16005c58, 0x5000);
-		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		find_and_replace_multiple((void *)0x1609D158, 0x5000);
+		find_and_replace_multiple((void *)0x160B9B28, 0x1000);
 		wait_all_released();
 	}
 	if (key == BUTTON_R + BUTTON_DL)
 	{
-		u16        *id = (u16 *)0x16F4C460;
+		u16        *id = (u16 *)0x16FE3C60;
 		char    id_str[5] = { 0 };
 		int        i;
 		for (i = 0; i < 4; i++)
@@ -111,15 +111,15 @@ void    seed_jap(void)
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(result, 0x20A7);
-		find_and_replace_multiple((void *)0x16005c58, 0x5000);
-		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		find_and_replace_multiple((void *)0x1609D158, 0x5000);
+		find_and_replace_multiple((void *)0x160B9B28, 0x1000);
 		wait_all_released();
 	}
 }
 
 void    text2item_jap(void)
 {
-	u16        *id = (u16 *)0x16F4C460;
+	u16        *id = (u16 *)0x16FE3C60;
 	char    id_str[5] = { 0 };
 	int        i;
 	u16        result;
@@ -130,7 +130,7 @@ void    text2item_jap(void)
 	for (i = 0; i < 4; i++)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
-	WRITEU16(0x15FBEDD0, result);
+	WRITEU16(0x160562D0, result);
 	wait_all_released();
 }
 
@@ -140,14 +140,14 @@ void    moonjump_jap(void)
 	static int           loc = 0;
 	if (key == BUTTON_L)
 	{
-		loc = READU32(0x17321C44);
+		loc = READU32(0x173B8CC4);
 		if (loc == -1)
 		{
-			WRITEU32(0x17321B14, 0x43E00000);
+			WRITEU32(0x173B8B94, 0x43E00000);
 		}
 		else
 		{
-			WRITEU32(0x17321C40, 0x44000000);
+			WRITEU32(0x173B8CC0, 0x44000000);
 		}
 	}
 }
@@ -163,7 +163,7 @@ void    teleport_jap(void)
 
 	if (key == BUTTON_B) //Pointer to define whether player is indoors or not
 	{
-		loc = READU32(0x17321C44);
+		loc = READU32(0x173B8CC4);
 	}
 	if (is_pressed(BUTTON_B + BUTTON_DU))
 	{
