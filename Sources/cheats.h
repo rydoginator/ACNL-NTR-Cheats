@@ -37,7 +37,6 @@ void	nook2_usa(void);
 void	nook3_usa(void);
 void	nook4_usa(void);
 void	tan_usa(void);
-void	seeder(void);
 
 /*
 ** EUR

@@ -9,7 +9,7 @@ void	usa_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.1.1 USA");
+	new_unselectable_entry("2.2 Beta 4");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_usa);
 		new_spoiled_entry(spoiler, "Seeder", seed_usa);
@@ -33,7 +33,6 @@ void	usa_menu(void)
 		new_spoiled_entry(spoiler, "T&T Emporium", nook4_usa);//index 23
 	spoiler = new_spoiler("Appearance Codes");
 		new_spoiled_entry(spoiler, "Player 1 Max Tan", tan_usa);
-		new_spoiled_entry(spoiler, "Secret", seeder);
 }
 
 void	eur_menu(void)

@@ -398,11 +398,24 @@ void	tree_usa(void)
 void	duplicate_usa(void)
 {
 	u32		dupe = 0;
+	u32		online = 0;
 	
 	if (is_pressed(BUTTON_R))
 	{
-		dupe = READU32(0x15FBEAD0);
-		WRITEU32(0x15FBEAD4, dupe);
+		online = READU32(0xAF8C28);
+	}
+	if (is_pressed(BUTTON_R + BUTTON_A))
+	{
+		if (online == 0)
+		{	
+			dupe = READU32(0x15FBEAD0);
+			WRITEU32(0x15FBEAD4, dupe);
+		}
+		else
+		{
+			dupe = READU32(0xAF8C28);
+			WRITEU32(0xAF8C2C, dupe);
+		}	
 	}
 }
 
@@ -470,9 +483,4 @@ void	nook4_usa(void)
 void	tan_usa(void)
 {
 	WRITEU8(0x15FB7F28, 0xF);
-}
-
-void seeder(void)
-{
-	WRITEU16(0x15FBEAD0, 0x0026);
 }
