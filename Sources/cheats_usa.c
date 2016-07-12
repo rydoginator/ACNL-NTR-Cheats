@@ -401,6 +401,7 @@ void	duplicate_usa(void)
 	u32		dupe0 = 0;
 	u32		dupe1 = 0;
 	u32		dupe2 = 0;
+	u32		dupe3 = 0;
 	
 	if (is_pressed(BUTTON_R))
 	{
@@ -408,10 +409,12 @@ void	duplicate_usa(void)
 		dupe0 = READU32(0xAF8C28); //online pointer0
 		dupe1 = READU32(0xB02B38); //online pointer1
 		dupe2 = READU32(0xB0CA48); //online pointer2
+		dupe3 = READU32(0xB16958);
 		WRITEU32(0x15FBEAD4, dupe);
 		WRITEU32(0xAF8C2C, dupe0);
 		WRITEU32(0xB02B3C, dupe1);
-		WRITEU32(0xB0CA4C, dupe2);		
+		WRITEU32(0xB0CA4C, dupe2);
+		WRITEU32(0xB16958, dupe3);
 	}
 }
 
