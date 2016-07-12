@@ -4,7 +4,7 @@ extern u32			g_find[100];
 extern u32			g_replace[100];
 extern int			g_i;
 
-void    coord_jap(void)
+void    coord_jap(void)//JAP
 {
     static int           loc = 0;
     u32        key = getKey();
@@ -37,7 +37,7 @@ void    coord_jap(void)
     }
 }
 
-void    search_jap(void)
+void    search_jap(void) //JAP
 {
 	static u16	result;
 	u16		*id;
@@ -68,7 +68,7 @@ void    search_jap(void)
 	}
 }
 
-void    seed_jap(void)
+void    seed_jap(void) //JAP
 {
 	u16        result;
 	u32        key = getKey();
@@ -117,7 +117,7 @@ void    seed_jap(void)
 	}
 }
 
-void    text2item_jap(void)
+void    text2item_jap(void)//jap
 {
 	u16        *id = (u16 *)0x16FE3C60;
 	char    id_str[5] = { 0 };
@@ -134,7 +134,7 @@ void    text2item_jap(void)
 	wait_all_released();
 }
 
-void    moonjump_jap(void)
+void    moonjump_jap(void)//JAP
 {
 	u32            key = getKey();
 	static int           loc = 0;
@@ -152,7 +152,7 @@ void    moonjump_jap(void)
 	}
 }
 
-void    teleport_jap(void)
+void    teleport_jap(void) //JAP
 {
 	u32            key = getKey();
 	static u32    indoor_X[3] = { 0 };
@@ -171,36 +171,36 @@ void    teleport_jap(void)
 		{
 			if (key & BUTTON_L) //If L is pressed then save in slot3
 			{
-				outdoor_X[2] = READU32(0x17321B10);
-				outdoor_Y[2] = READU32(0x17321B18);
+				outdoor_X[2] = READU32(0x173B8B90);
+				outdoor_Y[2] = READU32(0x173B8B98);
 			}
 			else if (key & BUTTON_R) //If R is pressed then save in slot2
 			{
-				outdoor_X[1] = READU32(0x17321B10);
-				outdoor_Y[1] = READU32(0x17321B18);
+				outdoor_X[1] = READU32(0x173B8B90);
+				outdoor_Y[1] = READU32(0x173B8B98);
 			}
 			else //If noting is pressed then save in slot0
 			{
-				outdoor_X[0] = READU32(0x17321B10);
-				outdoor_Y[0] = READU32(0x17321B18);
+				outdoor_X[0] = READU32(0x173B8B90);
+				outdoor_Y[0] = READU32(0x173B8B98);
 			}
 		}
 		else
 		{
 			if (key & BUTTON_L) //If L is pressed then save in slot3
 			{
-				indoor_X[2] = READU32(0x17321C3c);
-				indoor_Y[2] = READU32(0x17321C44);
+				indoor_X[2] = READU32(0x173B8CBC);
+				indoor_Y[2] = READU32(0x173B8CC4);
 			}
 			else if (key & BUTTON_R) //If R is pressed then save in slot2
 			{
-				indoor_X[1] = READU32(0x17321C3c);
-				indoor_Y[1] = READU32(0x17321C44);
+				indoor_X[1] = READU32(0x173B8CBC);
+				indoor_Y[1] = READU32(0x173B8CC4);
 			}
 			else //If noting is pressed then save in slot0
 			{
-				indoor_X[0] = READU32(0x17321C3c);
-				indoor_Y[0] = READU32(0x17321C44);
+				indoor_X[0] = READU32(0x173B8CBC);
+				indoor_Y[0] = READU32(0x173B8CC4);
 			}
 		}
 	}
@@ -212,55 +212,55 @@ void    teleport_jap(void)
 
 			if (key & BUTTON_L) //If L is pressed then restore slot3
 			{
-				WRITEU32(0x17321B10, outdoor_X[2]);
-				WRITEU32(0x17321B18, outdoor_Y[2]);
+				WRITEU32(0x173B8B90, outdoor_X[2]);
+				WRITEU32(0x173B8B98, outdoor_Y[2]);
 			}
 			else if (key & BUTTON_R) //If R is pressed then restore slot2
 			{
-				WRITEU32(0x17321B10, outdoor_X[1]);
-				WRITEU32(0x17321B18, outdoor_Y[1]);
+				WRITEU32(0x173B8B90, outdoor_X[1]);
+				WRITEU32(0x173B8B98, outdoor_Y[1]);
 			}
 			else //If noting is pressed then restore slot0
 			{
-				WRITEU32(0x17321B10, outdoor_X[0]);
-				WRITEU32(0x17321B18, outdoor_Y[0]);
+				WRITEU32(0x173B8B90, outdoor_X[0]);
+				WRITEU32(0x173B8B98, outdoor_Y[0]);
 			}
 		}
 		else
 		{
 			if (key & BUTTON_L) //If L is pressed then restore slot3
 			{
-				WRITEU32(0x17321C3c, indoor_X[2]);
-				WRITEU32(0x17321C44, indoor_Y[2]);
+				WRITEU32(0x173B8CBC, indoor_X[2]);
+				WRITEU32(0x173B8CC4, indoor_Y[2]);
 			}
 			else if (key & BUTTON_R) //If R is pressed then restore slot2
 			{
-				WRITEU32(0x17321C3c, indoor_X[1]);
-				WRITEU32(0x17321C44, indoor_Y[1]);
+				WRITEU32(0x173B8CBC, indoor_X[1]);
+				WRITEU32(0x173B8CC4, indoor_Y[1]);
 			}
 			else //If noting is pressed then restore slot0
 			{
-				WRITEU32(0x17321C3c, indoor_X[0]);
-				WRITEU32(0x17321C44, indoor_Y[0]);
+				WRITEU32(0x173B8CBC, indoor_X[0]);
+				WRITEU32(0x173B8CC4, indoor_Y[0]);
 			}
 		}
 	}
 }
 
-void	speed_jap(void)
+void	speed_jap(void) //JAP
 {
 	u32			  key = getKey();
 	u32			  velocity;
 	if (key == BUTTON_B)
 	{
-		velocity = READU32(0x17321B3C);
+		velocity = READU32(0x173B8BBC);
 		if (velocity >= 0x41A79DB3)
 		{
-			WRITEU32(0x17321B3C, 0x41A79DB3);
+			WRITEU32(0x173B8BBC, 0x41A79DB3);
 		}
 		else if (velocity > 0)
 		{
-		add_to_address((void*)0x17321B3C, 0x00100000);
+		add_to_address((void*)0x173B8BBC, 0x00100000);
 		}
 	}
 }
@@ -279,7 +279,7 @@ void	weeder_jap(void)
 		add_search_replace(0x000000CC, 0x00007FFE);
 		add_search_replace(0x000000CD, 0x00007FFE);
 		add_search_replace(0x000000F8, 0x00007FFE);
-		find_and_replace_multiple((void *)0x16005c58, 0x5000);
+			find_and_replace_multiple((void *)0x1609D158, 0x5000);
 		wait_all_released();
 	}
 }
@@ -373,7 +373,7 @@ void	quench_jap(void)
 	add_search_replace(0x000000F5, 0x400000C6);
 	add_search_replace(0x000000F6, 0x400000C7);
 	add_search_replace(0x000000F7, 0x400000C8);
-	find_and_replace_multiple((void *)0x16005c58, 0x5000);
+		find_and_replace_multiple((void *)0x1609D158, 0x5000);
 	}
 }
 
@@ -399,20 +399,20 @@ void	tree_jap(void)
 		add_search_replace(0x0062, 0x0066);
 		add_search_replace(0x0067, 0x006B);
 		add_search_replace(0x006C, 0x0043);
-		find_and_replace_multiple((void *)0x16005c58, 0x5000);
-		find_and_replace_multiple((void *)0x16022628, 0x1000);
+		find_and_replace_multiple((void *)0x1609D158, 0x5000);
+		find_and_replace_multiple((void *)0x160B9B28, 0x1000);
 
 	}
 }
 
-void	duplicate_jap(void)
+void	duplicate_jap(void)//JAP
 {
 	u32			key = getKey();
 	u32			dupe = 0;
 	if (key == BUTTON_R)
 	{
-		dupe = READU32(0x15FBEDD0);
-		WRITEU32(0x15FBEDD4, dupe);
+		dupe = READU32(0x160562D0);
+		WRITEU32(0x160562D4, dupe);
 	}
 }
 
@@ -423,7 +423,7 @@ void	grass_jap(void)
 	{
 		int i;
 
-		for (i = 0x1600BB83; i < 0x1600E37F; i++)
+		for (i = 0x160A3580; i < 0x160a5d7c; i++)
 			*(u32 *)i = 0xFFFFFFFF;
 		wait_all_released();
 	}
@@ -436,7 +436,7 @@ void	desert_jap(void)
 	{
 		int i;
 	
-		for (i = 0x1600BB83; i < 0x1600E37F; i++)
+		for (i = 0x160A3580; i < 0x160a5d7c; i++)
 			*(u32 *)i = 0x00000000;
 		wait_all_released();
 	}
@@ -449,7 +449,7 @@ void	nook1_jap(void)
     disableCheat(21);
 	disableCheat(22);
 	disableCheat(23);
-	WRITEU16(0x160149E0, 0x0101);
+	WRITEU16(0x160ABEE0, 0x0101);
 }
 
 void	nook2_jap(void)
@@ -457,7 +457,7 @@ void	nook2_jap(void)
     disableCheat(20);
 	disableCheat(22);
 	disableCheat(23);
-	WRITEU16(0x160149E0, 0x0202);
+	WRITEU16(0x160ABEE0, 0x0202);
 }
 
 void	nook3_jap(void)
@@ -465,7 +465,7 @@ void	nook3_jap(void)
 	disableCheat(20);
 	disableCheat(21);
 	disableCheat(23);
-	WRITEU16(0x160149E0, 0x0303);
+	WRITEU16(0x160ABEE0, 0x0303);
 }
 
 void	nook4_jap(void)
@@ -473,10 +473,10 @@ void	nook4_jap(void)
     disableCheat(20);
 	disableCheat(21);
 	disableCheat(22);
-	WRITEU16(0x160149E0, 0x0404);
+	WRITEU16(0x160ABEE0, 0x0404);
 }
 
 void	tan_jap(void)
 {
-	WRITEU8(0x15FB8228, 0xF);
+	WRITEU8(0x1604F728, 0xF);
 }

@@ -90,6 +90,7 @@ if (os.path.isfile(COPYTOPATH)):
 	print("\nCopying the plugin into each folder...");
 	run("cp " + COPYTOPATH + " plugin/0004000000086400/" + COPYTOPATH);
 	run("cp " + COPYTOPATH + " plugin/0004000000086300/" + COPYTOPATH);
+	run("cp " + COPYTOPATH + " plugin/0004000000086200/" + COPYTOPATH);
 	print("\n\nDone, enjoy your plugin !\n\n");
 else:
 	print("\n\nSeems like something went wrong, check the compilation logs.\n\n");

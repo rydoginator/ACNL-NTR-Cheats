@@ -398,24 +398,14 @@ void	tree_usa(void)
 void	duplicate_usa(void)
 {
 	u32		dupe = 0;
-	u32		online = 0;
+	u32		dupe0 = 0;
 	
 	if (is_pressed(BUTTON_R))
 	{
-		online = READU32(0xAF8C28);
-	}
-	if (is_pressed(BUTTON_R + BUTTON_A))
-	{
-		if (online == 0)
-		{	
-			dupe = READU32(0x15FBEAD0);
-			WRITEU32(0x15FBEAD4, dupe);
-		}
-		else
-		{
-			dupe = READU32(0xAF8C28);
-			WRITEU32(0xAF8C2C, dupe);
-		}	
+		dupe = READU32(0x15FBEAD0);
+		dupe0 = READU32(0xAF8C28); //online pointer0
+		WRITEU32(0x15FBEAD4, dupe);
+		WRITEU32(0xAF8C2C, dupe0);
 	}
 }
 
