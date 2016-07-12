@@ -9,7 +9,7 @@ void	usa_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("2.2 Beta 5");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.2 USA");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_usa);
 		new_spoiled_entry(spoiler, "Seeder", seed_usa);
@@ -39,7 +39,7 @@ void	eur_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.1.1 EUR");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.2 EUR");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_eur);
 		new_spoiled_entry(spoiler, "Seeder", seed_eur);
@@ -69,7 +69,7 @@ void	jap_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("2.2 Beta 5");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.2 JAP");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_jap);
 		new_spoiled_entry(spoiler, "Seeder", seed_jap);
