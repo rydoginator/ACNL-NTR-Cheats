@@ -9,7 +9,7 @@ void	usa_menu(void)
 {
 	t_spoil spoiler;
 
-	new_unselectable_entry("2.2 Beta 4");
+	new_unselectable_entry("2.2 Beta 5");
 	spoiler = new_spoiler("Enviroment Codes");
 		new_spoiled_entry(spoiler, "Water all flowers", quench_usa);
 		new_spoiled_entry(spoiler, "Seeder", seed_usa);
