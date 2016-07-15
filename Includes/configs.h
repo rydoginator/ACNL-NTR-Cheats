@@ -17,21 +17,6 @@
 #	define READU32(addr) 			*(volatile unsigned int*)(addr)
 #endif
 
-#ifndef REGION
-#	define REGION 					EUR
-#endif
-#ifndef USA
-#	define USA						0x0
-#endif
-#ifndef EUR
-#	define EUR 						0x0
-#endif
-#ifndef LANGUAGE
-#	define LANGUAGE FR
-#endif
-
-
-
 #ifndef IO_BASE_PAD
 #	define IO_BASE_PAD				1
 #endif

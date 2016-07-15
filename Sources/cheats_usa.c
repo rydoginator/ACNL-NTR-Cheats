@@ -242,9 +242,8 @@ void    teleport_usa(void)
 
 void	speed_usa(void)
 {
-	u32			  key = getKey();
 	u32			  velocity;
-	if (key == BUTTON_B)
+	if (is_pressed(BUTTON_B))
 	{
 		velocity = READU32(0x1732153C);
 		if (velocity >= 0x41A79DB3)
@@ -448,34 +447,21 @@ void	desert_usa(void)
 
 void	nook1_usa(void)
 {
-    disableCheat(21);
-	disableCheat(22);
-	disableCheat(23);
 	WRITEU16(0x160146E0, 0x0101);
-
 }
 
 void	nook2_usa(void)
 {
-    disableCheat(20);
-	disableCheat(22);
-	disableCheat(23);
 	WRITEU16(0x160146E0, 0x0202);
 }
 
 void	nook3_usa(void)
 {
-	disableCheat(20);
-	disableCheat(21);
-	disableCheat(23);
 	WRITEU16(0x160146E0, 0x0303);
 }
 
 void	nook4_usa(void)
 {
-    disableCheat(20);
-	disableCheat(21);
-	disableCheat(22);
 	WRITEU16(0x160146E0, 0x0404);
 }
 
