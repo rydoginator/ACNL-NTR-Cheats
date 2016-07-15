@@ -38,8 +38,14 @@ enum
 	KEY_CPAD = KEY_CPAD_DOWN | KEY_CPAD_UP | KEY_CPAD_LEFT | KEY_CPAD_RIGHT
 };
 
-void	scanHID(void);
-u32		hidKeysDown(void);
+typedef struct	s_touch
+{
+	u16	px; ///< Touch X
+	u16	py; ///< Touch Y
+}		t_touch;
+
+u32	hidKeysDown(void);
+t_touch hidTouchPos(void);
 void	setHID(u32 keys);
 
 #endif

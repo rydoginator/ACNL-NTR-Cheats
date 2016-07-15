@@ -54,4 +54,31 @@ static inline void wait_all_released(void)
 			return;
 }
 
+static inline int upper_left_touched(void)
+{
+	if (hidTouchPos().px < 160 && hidTouchPos().py < 120)
+		return (1);
+	return (0);
+}
+
+static inline int upper_right_touched(void)
+{
+	if (hidTouchPos().px >= 160 && hidTouchPos().py < 120)
+		return (1);
+	return (0);
+}
+
+static inline int lower_left_touched(void)
+{
+	if (hidTouchPos().px < 160 && hidTouchPos().py >= 120)
+		return (1);
+	return (0);
+}
+
+static inline int lower_right_touched(void)
+{
+	if (hidTouchPos().px >= 160 && hidTouchPos().py >= 120)
+		return (1);
+	return (0);
+}
 #endif

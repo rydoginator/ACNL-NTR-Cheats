@@ -43,9 +43,9 @@ unsigned char *null_img = (void *)0x0;
 #define HOTKEY_LABEL_RGB		0
 
 #define NOTE_BACKGROUND			note_rounded
-#define NOTE_BACKGROUND_POS_X		40
-#define NOTE_BACKGROUND_POS_Y		45
-#define NOTE_BACKGROUND_WIDTH		240
+#define NOTE_BACKGROUND_POS_X		15
+#define NOTE_BACKGROUND_POS_Y		35
+#define NOTE_BACKGROUND_WIDTH		260
 #define NOTE_BACKGROUND_HEIGHT		150
 #define NOTE_BACKGROUND_RGB		0
 

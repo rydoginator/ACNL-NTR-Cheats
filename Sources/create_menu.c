@@ -41,7 +41,7 @@ void	eur_menu(void)
 
 	new_unselectable_entry("ACNL NTR Cheats Ver 2.2 EUR");
 	index = new_spoiler("Enviroment Codes");
-	set_note("This is a note.\n\nIn it you can explain how to use a code.\n\nDon't be shy and use this awesome function !", index);
+	set_note("This is a note.\n\nIn it you can explain how to use a code.\n\nDon't be shy and use this awesome functionality !", index);
 		new_entry("Water all flowers", quench_eur);
 		new_entry("Seeder", seed_eur);
 		new_entry("Search and Replace", search_eur);
