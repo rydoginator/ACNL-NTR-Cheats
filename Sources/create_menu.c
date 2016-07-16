@@ -28,7 +28,7 @@ void	usa_menu(void)
 		new_radio_entry("T&T Mart", nook1_usa);
 		new_radio_entry("Super T&T", nook2_usa);
 		new_radio_entry("T.I.Y", nook3_usa);
-		new_radio_entry("T&T Emporium", nook4_usa);//index 23
+		new_radio_entry("T&T Emporium", nook4_usa);
 	exit_spoiler();
 	new_spoiler("Appearance Codes");
 		new_entry("Player 1 Max Tan", tan_usa);
@@ -64,7 +64,7 @@ void	eur_menu(void)
 		new_radio_entry("T&T Mart", nook1_eur);
 		new_radio_entry("Super T&T", nook2_eur);
 		new_radio_entry("T.I.Y", nook3_eur);
-		new_radio_entry("T&T Emporium", nook4_eur);//index 23
+		new_radio_entry("T&T Emporium", nook4_eur);
 	exit_spoiler();
 	new_spoiler("Appearance Codes");
 		new_entry("Player 1 Max Tan", tan_eur);
@@ -97,7 +97,7 @@ void	jap_menu(void)
 		new_radio_entry("T&T Mart", nook1_jap);
 		new_radio_entry("Super T&T", nook2_jap);
 		new_radio_entry("T.I.Y", nook3_jap);
-		new_radio_entry("T&T Emporium", nook4_jap);//index 23
+		new_radio_entry("T&T Emporium", nook4_jap);
 	exit_spoiler();
 	new_spoiler("Appearance Codes");
 		new_entry("Player 1 Max Tan", tan_jap);
