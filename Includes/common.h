@@ -54,7 +54,7 @@ static inline void wait_all_released(void)
 
 static inline int upper_left_touched(void)
 {
-	if (is_pressed(KEY_TOUCH)
+	if (is_pressed(KEY_TOUCH))
 		if (hidTouchPos().px < 160 && hidTouchPos().py < 120)
 			return (1);
 	return (0);
@@ -62,7 +62,7 @@ static inline int upper_left_touched(void)
 
 static inline int upper_right_touched(void)
 {
-	if (is_pressed(KEY_TOUCH)
+	if (is_pressed(KEY_TOUCH))
 		if (hidTouchPos().px >= 160 && hidTouchPos().py < 120)
 			return (1);
 	return (0);
@@ -70,7 +70,7 @@ static inline int upper_right_touched(void)
 
 static inline int lower_left_touched(void)
 {
-	if (is_pressed(KEY_TOUCH)
+	if (is_pressed(KEY_TOUCH))
 		if (hidTouchPos().px < 160 && hidTouchPos().py >= 120)
 			return (1);
 	return (0);
@@ -78,7 +78,7 @@ static inline int lower_left_touched(void)
 
 static inline int lower_right_touched(void)
 {
-	if (is_pressed(KEY_TOUCH)
+	if (is_pressed(KEY_TOUCH))
 		if (hidTouchPos().px >= 160 && hidTouchPos().py >= 120)
 			return (1);
 	return (0);

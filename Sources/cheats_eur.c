@@ -78,11 +78,17 @@ void    seed_eur(void)
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		if (is_pressed(DD))
+		{
 			add_search_replace(0x20A7, result);
+		}
 		else if (is_pressed(DU))
+		{
 			add_search_replace(result, 0x7FFE);
+		}
 		else if (is_pressed(DL))
+		{
 			add_search_replace(result, 0x20A7);
+		}
 		find_and_replace_multiple((void *)0x16005c58, 0x5000);
 		find_and_replace_multiple((void *)0x16022628, 0x1000);
 		wait_all_released();
