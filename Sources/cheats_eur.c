@@ -226,7 +226,7 @@ void	warping_eur(void)
 	u32	offset;
 
 	offset = 0;
-	if (is_pressed(upper_left_touched()))
+	if (upper_left_touched())
 	{
 		offset = 0x10000000;
 		WRITEU32(0x07321B18 + offset, 0x4427405E);
@@ -234,7 +234,7 @@ void	warping_eur(void)
 		WRITEU32(0x07321B10 + offset, 0x44253715);
 		wait_keys_released(KEY_TOUCH);
 	}
-	if (is_pressed(upper_right_touched()))
+	if (upper_right_touched())
 	{
 		offset = 0x10000000;
 		WRITEU32(0x07321B18 + offset, 0x442C4000);
@@ -242,7 +242,7 @@ void	warping_eur(void)
 		WRITEU32(0x07321B10 + offset, 0x45239943);
 		wait_keys_released(KEY_TOUCH);
 	}
-	if (is_pressed(lower_left_touched()))
+	if (lower_left_touched())
 	{
 		offset = 0x10000000;
 		WRITEU32(0x07321B18 + offset, 0x450A7F48);
@@ -250,7 +250,7 @@ void	warping_eur(void)
 		WRITEU32(0x07321B10 + offset, 0x4442761E);
 		wait_keys_released(KEY_TOUCH);
 	}
-	if (is_pressed(lower_right_touched()))
+	if (lower_right_touched())
 	{
 		offset = 0x10000000;
 		WRITEU32(0x07321B18 + offset, 0x45071000);
