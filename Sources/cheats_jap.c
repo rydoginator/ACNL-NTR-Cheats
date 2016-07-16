@@ -243,6 +243,38 @@ void    teleport_jap(void) //JAP
 	}
 }
 
+void	warping_jap(void)
+{
+	if (upper_left_touched())
+	{
+		WRITEU32(0x173B8B98, 0x4427405E);
+		WRITEU32(0x173B8B94, 0x42E00000);
+		WRITEU32(0x173B8B90, 0x44253715);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (upper_right_touched())
+	{
+		WRITEU32(0x173B8B98, 0x442C4000);
+		WRITEU32(0x173B8B94, 0x42E00000);
+		WRITEU32(0x173B8B90, 0x45239943);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (lower_left_touched())
+	{
+		WRITEU32(0x173B8B98, 0x450A7F48);
+		WRITEU32(0x173B8B94, 0x42E00000);
+		WRITEU32(0x173B8B90, 0x4442761E);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (lower_right_touched())
+	{
+		WRITEU32(0x173B8B98, 0x45071000);
+		WRITEU32(0x173B8B94, 0x42E00000);
+		WRITEU32(0x173B8B90, 0x451E028E);
+		wait_keys_released(KEY_TOUCH);
+	}
+}
+
 void	speed_jap(void) //JAP
 {
 	u32			  velocity;

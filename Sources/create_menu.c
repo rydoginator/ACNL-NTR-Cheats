@@ -4,8 +4,8 @@ char	*builder_name = "itsRyan";
 
 void	usa_menu(void)
 {
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.2 USA");
-	new_spoiler("Enviroment Codes");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.3 #DEV USA");
+	new_spoiler("Environment Codes");
 		new_entry("Water all flowers", quench_usa);
 		new_entry("Seeder", seed_usa);
 		new_entry("Search and Replace", search_usa);
@@ -19,6 +19,7 @@ void	usa_menu(void)
 		new_entry("Duplication", duplicate_usa);
 	exit_spoiler();
 	new_spoiler("Movement Codes");
+		new_entry("Warping", warping_usa);
 		new_entry("Moon Jump", moonjump_usa);
 		new_entry("Teleport", teleport_usa);
 		new_entry("Coordinates Modifier", coord_usa);
@@ -39,8 +40,8 @@ void	eur_menu(void)
 {
 	u32 index;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.2 EUR");
-	index = new_spoiler("Enviroment Codes");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.3 #DEV EUR");
+	index = new_spoiler("Environment Codes");
 	set_note("This is a note.\n\nIn it you can explain how to use a code.\n\nDon't be shy and use this awesome functionality !", index);
 		new_entry("Water all flowers", quench_eur);
 		new_entry("Seeder", seed_eur);
@@ -74,8 +75,8 @@ void	eur_menu(void)
 
 void	jap_menu(void)
 {
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.2 JAP");
-	new_spoiler("Enviroment Codes");
+	new_unselectable_entry("ACNL NTR Cheats Ver 2.3 #DEV JAP");
+	new_spoiler("Environment Codes");
 		new_entry("Water all flowers", quench_jap);
 		new_entry("Seeder", seed_jap);
 		new_entry("Search and Replace", search_jap);
@@ -89,6 +90,7 @@ void	jap_menu(void)
 		new_entry("Duplication", duplicate_jap);
 	exit_spoiler();
 	new_spoiler("Movement Codes");
+		new_entry("Warping", warping_jap);
 		new_entry("Moon Jump", moonjump_jap);
 		new_entry("Teleport", teleport_jap);
 		new_entry("Coordinates Modifier", coord_jap);

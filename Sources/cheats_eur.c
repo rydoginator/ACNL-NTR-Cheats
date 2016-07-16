@@ -220,42 +220,34 @@ void    teleport_eur(void)
 	}
 }
 
-
 void	warping_eur(void)
 {
-	u32	offset;
-
-	offset = 0;
 	if (upper_left_touched())
 	{
-		offset = 0x10000000;
-		WRITEU32(0x07321B18 + offset, 0x4427405E);
-		WRITEU32(0x07321B14 + offset, 0x42E00000);
-		WRITEU32(0x07321B10 + offset, 0x44253715);
+		WRITEU32(0x17321B18, 0x4427405E);
+		WRITEU32(0x17321B14, 0x42E00000);
+		WRITEU32(0x17321B10, 0x44253715);
 		wait_keys_released(KEY_TOUCH);
 	}
 	if (upper_right_touched())
 	{
-		offset = 0x10000000;
-		WRITEU32(0x07321B18 + offset, 0x442C4000);
-		WRITEU32(0x07321B14 + offset, 0x42E00000);
-		WRITEU32(0x07321B10 + offset, 0x45239943);
+		WRITEU32(0x17321B18, 0x442C4000);
+		WRITEU32(0x17321B14, 0x42E00000);
+		WRITEU32(0x17321B10, 0x45239943);
 		wait_keys_released(KEY_TOUCH);
 	}
 	if (lower_left_touched())
 	{
-		offset = 0x10000000;
-		WRITEU32(0x07321B18 + offset, 0x450A7F48);
-		WRITEU32(0x07321B14 + offset, 0x42E00000);
-		WRITEU32(0x07321B10 + offset, 0x4442761E);
+		WRITEU32(0x17321B18, 0x450A7F48);
+		WRITEU32(0x17321B14, 0x42E00000);
+		WRITEU32(0x17321B10, 0x4442761E);
 		wait_keys_released(KEY_TOUCH);
 	}
 	if (lower_right_touched())
 	{
-		offset = 0x10000000;
-		WRITEU32(0x07321B18 + offset, 0x45071000);
-		WRITEU32(0x07321B14 + offset, 0x42E00000);
-		WRITEU32(0x07321B10 + offset, 0x451E028E);
+		WRITEU32(0x17321B18, 0x45071000);
+		WRITEU32(0x17321B14, 0x42E00000);
+		WRITEU32(0x17321B10, 0x451E028E);
 		wait_keys_released(KEY_TOUCH);
 	}
 }
