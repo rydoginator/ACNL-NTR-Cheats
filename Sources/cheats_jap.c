@@ -7,32 +7,31 @@ extern int			g_i;
 void    coord_jap(void)//JAP
 {
     static int           loc = 0;
-    u32        key = getKey();
 
-    if (key == BUTTON_A)
+    if (is_pressed(BUTTON_A))
     {
         loc = READU32(0x173B8CC4); //JP
     }
     if (loc == -1) //FFFFFFFF=outdoors
     {
-        if (key == BUTTON_A + BUTTON_DD)
+        if (is_pressed(BUTTON_A + BUTTON_DD))
             add_to_address((void *)0x173B8B98, 0x00001800); //JP
-        if (key == BUTTON_A + BUTTON_DU)
+        if (is_pressed(BUTTON_A + BUTTON_DU))
             sub_to_address((void *)0x173B8B98, 0x00001800); //JP
-        if (key == BUTTON_A + BUTTON_DL)
+        if (is_pressed(BUTTON_A + BUTTON_DL))
             sub_to_address((void *)0x173B8B90, 0x00001000); //JP
-        if (key == BUTTON_A + BUTTON_DR)
+        if (is_pressed(BUTTON_A + BUTTON_DR))
             add_to_address((void *)0x173B8B90, 0x00001000); //JP
     }
     else //if it's anything but FFFFFFFF then you're indoors
     {
-        if (key == BUTTON_A + BUTTON_DD)
+        if (is_pressed(BUTTON_A + BUTTON_DD))
             add_to_address((void *)0x173B8CC4, 0x00008000); //JP
-        if (key == BUTTON_A + BUTTON_DU)
+        if (is_pressed(BUTTON_A + BUTTON_DU))
             sub_to_address((void *)0x173B8CC4, 0x00008000); //JP
-        if (key == BUTTON_A + BUTTON_DL)
+        if (is_pressed(BUTTON_A + BUTTON_DL))
             sub_to_address((void *)0x173B8CBC, 0x00008000); //JP
-        if (key == BUTTON_A + BUTTON_DR)
+        if (is_pressed(BUTTON_A + BUTTON_DR))
             add_to_address((void *)0x173B8CBC, 0x00008000); //JP
     }
 }
@@ -71,9 +70,8 @@ void    search_jap(void) //JAP
 void    seed_jap(void) //JAP
 {
 	u16        result;
-	u32        key = getKey();
 
-	if (key == BUTTON_R + BUTTON_DD)
+	if (is_pressed(BUTTON_R + BUTTON_DD))
 	{
 		u16        *id = (u16 *)0x16FE3C60;
 		char    id_str[5] = { 0 };
@@ -87,7 +85,7 @@ void    seed_jap(void) //JAP
 		find_and_replace_multiple((void *)0x160B9B28, 0x1000);
 		wait_all_released();
 	}
-	if (key == BUTTON_R + BUTTON_DU)
+	if (is_pressed(BUTTON_R + BUTTON_DU))
 	{
 		u16        *id = (u16 *)0x16FE3C60;
 		char    id_str[5] = { 0 };
@@ -101,7 +99,7 @@ void    seed_jap(void) //JAP
 		find_and_replace_multiple((void *)0x160B9B28, 0x1000);
 		wait_all_released();
 	}
-	if (key == BUTTON_R + BUTTON_DL)
+	if (is_pressed(BUTTON_R + BUTTON_DL))
 	{
 		u16        *id = (u16 *)0x16FE3C60;
 		char    id_str[5] = { 0 };
@@ -123,9 +121,8 @@ void    text2item_jap(void)//jap
 	char    id_str[5] = { 0 };
 	int        i;
 	u16        result;
-	u32        key = getKey();
 
-	if (key != BUTTON_X + BUTTON_DR)
+	if (!is_pressed(BUTTON_X + BUTTON_DR))
 		return;
 	for (i = 0; i < 4; i++)
 		id_str[i] = (char)READU16(id + i);
@@ -136,9 +133,9 @@ void    text2item_jap(void)//jap
 
 void    moonjump_jap(void)//JAP
 {
-	u32            key = getKey();
 	static int           loc = 0;
-	if (key == BUTTON_L)
+
+	if (is_pressed(BUTTON_L))
 	{
 		loc = READU32(0x173B8CC4);
 		if (loc == -1)
@@ -154,14 +151,13 @@ void    moonjump_jap(void)//JAP
 
 void    teleport_jap(void) //JAP
 {
-	u32            key = getKey();
 	static u32    indoor_X[3] = { 0 };
 	static u32    indoor_Y[3] = { 0 };
 	static u32    outdoor_X[3] = { 0 };
 	static u32    outdoor_Y[3] = { 0 };
 	static int    loc = 0;
 
-	if (key == BUTTON_B) //Pointer to define whether player is indoors or not
+	if (is_pressed(BUTTON_B)) //Pointer to define whether player is indoors or not
 	{
 		loc = READU32(0x173B8CC4);
 	}
@@ -169,12 +165,12 @@ void    teleport_jap(void) //JAP
 	{
 		if (loc == -1)
 		{
-			if (key & BUTTON_L) //If L is pressed then save in slot3
+			if (is_pressed(BUTTON_L)) //If L is pressed then save in slot3
 			{
 				outdoor_X[2] = READU32(0x173B8B90);
 				outdoor_Y[2] = READU32(0x173B8B98);
 			}
-			else if (key & BUTTON_R) //If R is pressed then save in slot2
+			else if (is_pressed(BUTTON_R)) //If R is pressed then save in slot2
 			{
 				outdoor_X[1] = READU32(0x173B8B90);
 				outdoor_Y[1] = READU32(0x173B8B98);
@@ -187,12 +183,12 @@ void    teleport_jap(void) //JAP
 		}
 		else
 		{
-			if (key & BUTTON_L) //If L is pressed then save in slot3
+			if (is_pressed(BUTTON_L)) //If L is pressed then save in slot3
 			{
 				indoor_X[2] = READU32(0x173B8CBC);
 				indoor_Y[2] = READU32(0x173B8CC4);
 			}
-			else if (key & BUTTON_R) //If R is pressed then save in slot2
+			else if (is_pressed(BUTTON_R)) //If R is pressed then save in slot2
 			{
 				indoor_X[1] = READU32(0x173B8CBC);
 				indoor_Y[1] = READU32(0x173B8CC4);
@@ -210,12 +206,12 @@ void    teleport_jap(void) //JAP
 		if (loc == -1)
 		{
 
-			if (key & BUTTON_L) //If L is pressed then restore slot3
+			if (is_pressed(BUTTON_L)) //If L is pressed then restore slot3
 			{
 				WRITEU32(0x173B8B90, outdoor_X[2]);
 				WRITEU32(0x173B8B98, outdoor_Y[2]);
 			}
-			else if (key & BUTTON_R) //If R is pressed then restore slot2
+			else if (is_pressed(BUTTON_R)) //If R is pressed then restore slot2
 			{
 				WRITEU32(0x173B8B90, outdoor_X[1]);
 				WRITEU32(0x173B8B98, outdoor_Y[1]);
@@ -228,12 +224,12 @@ void    teleport_jap(void) //JAP
 		}
 		else
 		{
-			if (key & BUTTON_L) //If L is pressed then restore slot3
+			if (is_pressed(BUTTON_L)) //If L is pressed then restore slot3
 			{
 				WRITEU32(0x173B8CBC, indoor_X[2]);
 				WRITEU32(0x173B8CC4, indoor_Y[2]);
 			}
-			else if (key & BUTTON_R) //If R is pressed then restore slot2
+			else if (is_pressed(BUTTON_R)) //If R is pressed then restore slot2
 			{
 				WRITEU32(0x173B8CBC, indoor_X[1]);
 				WRITEU32(0x173B8CC4, indoor_Y[1]);
@@ -247,11 +243,43 @@ void    teleport_jap(void) //JAP
 	}
 }
 
+void	warping_jap(void)
+{
+	if (upper_left_touched())
+	{
+		WRITEU32(0x173B8B98, 0x4427405E);
+		WRITEU32(0x173B8B94, 0x42E00000);
+		WRITEU32(0x173B8B90, 0x44253715);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (upper_right_touched())
+	{
+		WRITEU32(0x173B8B98, 0x442C4000);
+		WRITEU32(0x173B8B94, 0x42E00000);
+		WRITEU32(0x173B8B90, 0x45239943);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (lower_left_touched())
+	{
+		WRITEU32(0x173B8B98, 0x450A7F48);
+		WRITEU32(0x173B8B94, 0x42E00000);
+		WRITEU32(0x173B8B90, 0x4442761E);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (lower_right_touched())
+	{
+		WRITEU32(0x173B8B98, 0x45071000);
+		WRITEU32(0x173B8B94, 0x42E00000);
+		WRITEU32(0x173B8B90, 0x451E028E);
+		wait_keys_released(KEY_TOUCH);
+	}
+}
+
 void	speed_jap(void) //JAP
 {
-	u32			  key = getKey();
 	u32			  velocity;
-	if (key == BUTTON_B)
+
+	if (is_pressed(BUTTON_B))
 	{
 		velocity = READU32(0x173B8BBC);
 		if (velocity >= 0x41A79DB3)
@@ -260,15 +288,14 @@ void	speed_jap(void) //JAP
 		}
 		else if (velocity > 0)
 		{
-		add_to_address((void*)0x173B8BBC, 0x00100000);
+			add_to_address((void*)0x173B8BBC, 0x00100000);
 		}
 	}
 }
 
 void	weeder_jap(void)
 {
-	u32           key = getKey();
-	if (key == BUTTON_R + BUTTON_A)
+	if (is_pressed(BUTTON_R + BUTTON_A))
 	{
 		reset_search();
 		add_search_replace(0x0000007C, 0x00007FFE);
@@ -286,8 +313,7 @@ void	weeder_jap(void)
 
 void	quench_jap(void)
 {
-	u32			   key = getKey();
-	if (key == BUTTON_R + BUTTON_A)
+	if (is_pressed(BUTTON_R + BUTTON_A))
 	{
 	reset_search();
 	add_search_replace(0x0000009F, 0x4000009F);
@@ -379,8 +405,7 @@ void	quench_jap(void)
 
 void	tree_jap(void)
 {
-	u32			key = getKey();
-	if (key == BUTTON_X)
+	if (is_pressed(BUTTON_X))
 	{
 		reset_search();
 		add_search_replace(0x003A, 0x003E);
@@ -407,13 +432,12 @@ void	tree_jap(void)
 
 void	duplicate_jap(void)//JAP
 {
-	u32			key = getKey();
 	u32			dupe = 0;
 	u32			dupe0 = 0;
 	u32			dupe1 = 0;
 	u32			dupe2 = 0;
 	
-	if (key == BUTTON_R)
+	if (is_pressed(BUTTON_R))
 	{
 		dupe = READU32(0x160562D0);
 		dupe0 = READU32(0xAEEC28); //online pointer0
@@ -456,33 +480,21 @@ void	desert_jap(void)
 
 void	nook1_jap(void)
 {
-    disableCheat(21);
-	disableCheat(22);
-	disableCheat(23);
 	WRITEU16(0x160ABEE0, 0x0101);
 }
 
 void	nook2_jap(void)
 {	
-    disableCheat(20);
-	disableCheat(22);
-	disableCheat(23);
 	WRITEU16(0x160ABEE0, 0x0202);
 }
 
 void	nook3_jap(void)
 {
-	disableCheat(20);
-	disableCheat(21);
-	disableCheat(23);
 	WRITEU16(0x160ABEE0, 0x0303);
 }
 
 void	nook4_jap(void)
 {
-    disableCheat(20);
-	disableCheat(21);
-	disableCheat(22);
 	WRITEU16(0x160ABEE0, 0x0404);
 }
 

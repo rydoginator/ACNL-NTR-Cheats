@@ -1,7 +1,5 @@
 #include "cheats.h"
 
-#define		add_search_replace(find, replace)	g_find[g_i] = find; g_replace[g_i] = replace; g_i++
-#define		reset_search()				memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_find)); g_i = 0
 extern u32	g_find[100];
 extern u32	g_replace[100];
 extern int	g_i;

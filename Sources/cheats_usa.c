@@ -240,11 +240,42 @@ void    teleport_usa(void)
 	}
 }
 
+void	warping_usa(void)
+{
+	if (upper_left_touched())
+	{
+		WRITEU32(0x17321518, 0x4427405E);
+		WRITEU32(0x17321514, 0x42E00000);
+		WRITEU32(0x17321510, 0x44253715);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (upper_right_touched())
+	{
+		WRITEU32(0x17321518, 0x442C4000);
+		WRITEU32(0x17321514, 0x42E00000);
+		WRITEU32(0x17321510, 0x45239943);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (lower_left_touched())
+	{
+		WRITEU32(0x17321518, 0x450A7F48);
+		WRITEU32(0x17321514, 0x42E00000);
+		WRITEU32(0x17321510, 0x4442761E);
+		wait_keys_released(KEY_TOUCH);
+	}
+	if (lower_right_touched())
+	{
+		WRITEU32(0x17321518, 0x45071000);
+		WRITEU32(0x17321514, 0x42E00000);
+		WRITEU32(0x17321510, 0x451E028E);
+		wait_keys_released(KEY_TOUCH);
+	}
+}
+
 void	speed_usa(void)
 {
-	u32			  key = getKey();
 	u32			  velocity;
-	if (key == BUTTON_B)
+	if (is_pressed(BUTTON_B))
 	{
 		velocity = READU32(0x1732153C);
 		if (velocity >= 0x41A79DB3)
@@ -448,34 +479,21 @@ void	desert_usa(void)
 
 void	nook1_usa(void)
 {
-    disableCheat(21);
-	disableCheat(22);
-	disableCheat(23);
 	WRITEU16(0x160146E0, 0x0101);
-
 }
 
 void	nook2_usa(void)
 {
-    disableCheat(20);
-	disableCheat(22);
-	disableCheat(23);
 	WRITEU16(0x160146E0, 0x0202);
 }
 
 void	nook3_usa(void)
 {
-	disableCheat(20);
-	disableCheat(21);
-	disableCheat(23);
 	WRITEU16(0x160146E0, 0x0303);
 }
 
 void	nook4_usa(void)
 {
-    disableCheat(20);
-	disableCheat(21);
-	disableCheat(22);
 	WRITEU16(0x160146E0, 0x0404);
 }
 

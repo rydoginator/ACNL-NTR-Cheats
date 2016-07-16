@@ -1,89 +1,148 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
-#include "libntrplg\global.h"
+#include "types.h"
 #include "configs.h"
+#include "result.h"
 #include "common.h"
+#include "hid.h"
 
-#define 	MENU_COUNT 	1
-#define 	ENTRY_COUNT 	300
-enum 		MENU		{BASE};
+#define MAX(x, y) (x > y ? x : y)
 
-typedef enum
+#define ABS(x) MAX(x, -x)
+
+u32		plgGetIoBase(u32 IoType);
+Handle		getCurrentProcessHandle(void);
+u32		getCurrentProcessId(void);
+void		onCheatItemChanged(int id);
+
+enum
 {
-	STATE 			= BIT(0),
-	FREEZE 			= BIT(1),
-	SELECTABLE 		= BIT(2)
-}				menu_flags;
+	SLOW = 0,
+	NORMAL = 1,
+	FAST = 2
+};
 
-typedef enum
+typedef union	u_ib
 {
-	VISIBILITY		= BIT(0),
-	SPOILABLE		= BIT(1),
-	HEAD			= BIT(2),
-	HEAD2			= BIT(3),
-	CHILD			= BIT(4),
-	ID_MASK			= (0xFF << 8),
-	PARENT_ID_MASK		= (0xFF << 16),
-}				spoiler_flags;
-
-typedef struct	s_spoil
-{
-	int			id;
-	int			space;
-	enum MENU		m;
-}				t_spoil;
-
-typedef struct	s_menu
-{
-	int			count;
-	int			status;
-	u32			flags[ENTRY_COUNT];
-	u32			spoiler[ENTRY_COUNT];
-	int			args[ENTRY_COUNT];
-	const char		*text[ENTRY_COUNT];
-	void			(*f[ENTRY_COUNT])();
-}				t_menu;
-
-static inline u32		create_menu_flags(int state, int freeze, int selectable)
-{
-	return ((state) | (freeze << 1) | (selectable << 2));
-}
-
-static inline u32		create_spoiler_flags(int visibility, int spoilable, int head, int head2,  int child, int id, int parent_id)
-{
-	return ((visibility) | (spoilable << 1) | (head << 2) | (head2 << 3) | (child << 4) | ((id & 0xFF) << 8) | ((parent_id & 0xFF) << 16));
-}
+	u32			i;
+	u8			b[4];
+}				t_ib;
 
 /*
-**cheats_menu.c
+** void init_img(void)
+** Initialize the graphics components of the plugin
 */
-void	my_menus(void);
+void	init_img(void);
 
 /*
-**protect.c
+** cheats.c
 */
-void	protect_region(void);
+/* void menu(void)
+** Initialize the menu
+*/
+void	menu(void);
 
 /*
-**menu_display.c
+** void set_default_speed(int speed)
+** speed: can be SLOW, NORMAL or FAST
+** Define the speed of the plugin to the specified mode
 */
-
-void	create_menu_entry(enum MENU m, const char *text, void(*f)(), int arg, u32 menu_flags, u32 spoiler_flags);
-void	new_entry(char *text, void(*f)());
-void	new_unselectable_entry(char *text);
-void	new_separator(void);
-void	new_line(void);
+void	set_default_speed(int speed);
 
 /*
-** spoiler_display.c
+** u32 get_tid_high(void)
+** Return the high value of the current process's title id
 */
+u32	get_tid_high(void);
 
-t_spoil	new_spoiler(char *text);
-t_spoil new_child_spoiler(t_spoil parent, char *text);
-void	new_spoiled_entry(t_spoil parent, char *text, void(*f)());
+/*
+** u32 get_tid_low(void)
+** Return the low value of the current process's title id
+*/
+u32	get_tid_low(void);
 
+/*
+** u8 *get_title_id(void)
+** Return a pointer to a string with the full title id value
+*/
+u8	*get_title_id(void);
 
+/*
+** int new_entry(char *text, void (*f)())
+** *text: a pointer to the entry's text
+** *f: the function you want to execute when the entry is active
+** can be NULL
+** Return value: the index of the entry in the menu
+** Create a new entry in the menu
+** If a spoiler is open, the entry will be created in the spoiler
+*/
+int	new_entry(char *text, void(*f)());
+
+/*
+** int new_spoiler(char *text)
+** *text:  a pointer to the spoiler's text
+** Return value: the index of the spoiler in the menu
+** Create a new spoiler and define it as the default location 
+** for the nexts new_entry calls
+*/
+int	new_spoiler(char *text);
+
+/*
+** exit_spoiler(void)
+** Close a spoiler and redefine the default location of
+** the next new_entry call outside of the spoiler
+*/
+void	exit_spoiler(void);
+
+/*
+** int new_radio_entry(char *text, void (*f)())
+** *text: a pointer to the entry's text
+** *f: the function to execute when the entry is active
+** can be NULL
+** Return value: the index of the entry in the menu
+** Create a new menu entry but with a radio mode:
+** Only one radio entry can be activated at a time
+** The range of the radio mode is the spoiler range
+*/
+int	new_radio_entry(char *text, void(*f)());
+
+/*
+** int new_unselectable_entry(char *text)
+** *text: a pointer to the entry's text
+** Return value: the index of the entry
+** Create an entry in the menu which can't be selected by the cursor
+*/
+int	new_unselectable_entry(char *text);
+
+/*
+** int new_spearator(void)
+** Return value: the index of the entry
+** Create a separator in the menu which can't be selected 
+*/
+int	new_separator(void);
+
+/*
+** int new_line(void)
+** Return value: the index of the entry
+** Create an empty and unselectable entry in the menu
+*/
+int	new_line(void);
+
+/*
+** void set_note(const char *text, int index)
+** *text: a pointer to the text note
+** index: the index of the entry
+** Define the text note printed when pressing Y in the menu
+*/
+void	set_note(const char *text, int index);
+
+/*
+** void disableCheat(int index)
+** index: the index of the entry to disable
+** Disable an entry
+*/
+void    disableCheat(int index);
 
 
 #endif

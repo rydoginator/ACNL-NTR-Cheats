@@ -2,6 +2,8 @@
 #define CHEATS_H
 
 #include "../Includes/plugin.h"
+#include <string.h>
+#include <stdlib.h>
 
 #define   add_search_replace(find, replace) g_find[g_i] = find; g_replace[g_i] = replace; g_i++
 #define   reset_search()                    memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
@@ -25,6 +27,7 @@ void    search_usa(void);
 void    text2item_usa(void);
 void    moonjump_usa(void);
 void    teleport_usa(void);
+void	warping_usa(void);
 void	weeder_usa(void);
 void	quench_usa(void);
 void	tree_usa(void);
@@ -39,7 +42,7 @@ void	nook4_usa(void);
 void	tan_usa(void);
 
 /*
-** EUR
+** JAP
 */
 
 void    coord_jap(void);
@@ -48,6 +51,7 @@ void    search_jap(void);
 void    text2item_jap(void);
 void    moonjump_jap(void);
 void    teleport_jap(void);
+void	warping_jap(void);
 void	weeder_jap(void);
 void	quench_jap(void);
 void	tree_jap(void);
@@ -62,7 +66,7 @@ void	nook4_jap(void);
 void	tan_jap(void);
 
 /*
-** JAP
+** EUR
 */
 
 void    coord_eur(void);
@@ -71,6 +75,7 @@ void    search_eur(void);
 void    text2item_eur(void);
 void    moonjump_eur(void);
 void    teleport_eur(void);
+void	warping_eur(void);
 void	weeder_eur(void);
 void	quench_eur(void);
 void	tree_eur(void);
