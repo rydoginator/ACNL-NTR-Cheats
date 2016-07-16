@@ -55,6 +55,7 @@ void	eur_menu(void)
 		new_entry("Duplication", duplicate_eur);
 	exit_spoiler();
 	new_spoiler("Movement Codes");
+		new_entry("Warping", warping_eur);
 		new_entry("Moon Jump", moonjump_eur);
 		new_entry("Teleport", teleport_eur);
 		new_entry("Coordinates Modifier", coord_eur);

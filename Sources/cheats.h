@@ -50,6 +50,7 @@ void    search_jap(void);
 void    text2item_jap(void);
 void    moonjump_jap(void);
 void    teleport_jap(void);
+void	warping_eur(void);
 void	weeder_jap(void);
 void	quench_jap(void);
 void	tree_jap(void);
