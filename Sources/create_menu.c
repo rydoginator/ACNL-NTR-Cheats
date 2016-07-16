@@ -45,8 +45,8 @@ void	eur_menu(void)
 		new_entry("Water all flowers", quench_eur);
 		new_entry("Seeder", seed_eur);
 		new_entry("Search and Replace", search_eur);
-		new_entry("Grass", grass_eur);
-		new_entry("Desert", desert_eur);
+		new_radio_entry("Grass", grass_eur);
+		new_radio_entry("Desert", desert_eur);
 		new_entry("Remove all weeds", weeder_eur);
 		new_entry("Instant Tree", tree_eur);
 	exit_spoiler();

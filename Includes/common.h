@@ -3,10 +3,8 @@
 #include "plugin.h"
 #include "hid.h"
 
-extern u32 IoBasePad;
-extern vu32 *pad_base;
-
-void	set_hid_address(u32 address);
+extern u32 		IoBasePad;
+extern vu32 	*pad_base;
 
 static inline int is_pressed(u32 keys)
 {

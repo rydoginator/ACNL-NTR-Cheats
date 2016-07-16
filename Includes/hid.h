@@ -2,8 +2,8 @@
 #define MYHID_H
 
 #include "types.h"
-
 #define BIT(x)	(1U << x)
+
 enum
 {
 	KEY_A = BIT(0),       ///< A
@@ -44,8 +44,9 @@ typedef struct	s_touch
 	u16	py; ///< Touch Y
 }		t_touch;
 
-u32	hidKeysDown(void);
+u32		hidKeysDown(void);
 t_touch hidTouchPos(void);
+void	set_hid_address(u32 address);
 void	setHID(u32 keys);
 
 #endif
