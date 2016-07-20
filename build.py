@@ -116,11 +116,11 @@ if (os.path.isfile(NAME + ".map")):
 	run("rm *.map");
 
 printf("Copying the plugin in each folder...");
-shutil.copy2(COPYTOPATH, "plugin/" + EUR_TID + "/" + NAME + "_EUR.plg");
-shutil.copy2(COPYTOPATH, "plugin/" + USA_TID + "/" + NAME + "_USA.plg");
-shutil.copy2(COPYTOPATH, "plugin/" + JAP_TID + "/" + NAME + "_USA.plg");
+shutil.copy2(COPYTOPATH, "./plugin/plugin/" + EUR_TID + "/" + NAME + "_EUR.plg");
+shutil.copy2(COPYTOPATH, "./plugin/plugin/" + USA_TID + "/" + NAME + "_USA.plg");
+shutil.copy2(COPYTOPATH, "./plugin/plugin/" + JAP_TID + "/" + NAME + "_JAP.plg");
 printf("Creating the zip folder...");
-shutil.make_archive(NAME, 'zip', "./plugin");
+shutil.make_archive(NAME, 'zip', ".\plugin");
 printf("Should I send the plugin on your console ?");
 user = raw_input();
 if (user == "yes" or user == "y"):
