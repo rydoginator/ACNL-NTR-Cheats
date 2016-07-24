@@ -26,11 +26,8 @@ void	usa_menu(void)
 		new_entry("Speed Hack", speed_usa);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
-<<<<<<< HEAD
 		new_radio_entry("T&T Mart", nook1_usa);//24
-=======
 		new_radio_entry("T&T Mart", nook1_usa);
->>>>>>> origin/master
 		new_radio_entry("Super T&T", nook2_usa);
 		new_radio_entry("T.I.Y", nook3_usa);
 		new_radio_entry("T&T Emporium", nook4_usa);
@@ -67,11 +64,8 @@ void	eur_menu(void)
 		new_entry("Speed Hack", speed_eur);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
-<<<<<<< HEAD
 		new_radio_entry("T&T Mart", nook1_eur);//25
-=======
 		new_radio_entry("T&T Mart", nook1_eur);
->>>>>>> origin/master
 		new_radio_entry("Super T&T", nook2_eur);
 		new_radio_entry("T.I.Y", nook3_eur);
 		new_radio_entry("T&T Emporium", nook4_eur);
@@ -105,11 +99,8 @@ void	jap_menu(void)
 		new_entry("Speed Hack", speed_jap);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
-<<<<<<< HEAD
 		new_radio_entry("T&T Mart", nook1_jap);//24
-=======
 		new_radio_entry("T&T Mart", nook1_jap);
->>>>>>> origin/master
 		new_radio_entry("Super T&T", nook2_jap);
 		new_radio_entry("T.I.Y", nook3_jap);
 		new_radio_entry("T&T Emporium", nook4_jap);

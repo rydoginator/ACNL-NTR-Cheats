@@ -488,28 +488,25 @@ void	desert_usa(void)
 void	nook1_usa(void)
 {
 	WRITEU16(0x160146E0, 0x0101);
-<<<<<<< HEAD
-	WRITEU8(0x16019270, 0x2);
-=======
->>>>>>> origin/master
+	WRITEU8(0x16018B70, 0x2);
 }
 
 void	nook2_usa(void)
 {
 	WRITEU16(0x160146E0, 0x0202);
-	WRITEU8(0x16019270, 0x2);
+	WRITEU8(0x16018B70, 0x2);
 }
 
 void	nook3_usa(void)
 {
 	WRITEU16(0x160146E0, 0x0303);
-	WRITEU8(0x16019270, 0x3);
+	WRITEU8(0x16018B70, 0x3);
 }
 
 void	nook4_usa(void)
 {
 	WRITEU16(0x160146E0, 0x0404);
-	WRITEU8(0x16019270, 0x4);
+	WRITEU8(0x16018B70, 0x4);
 }
 
 void	tan_usa(void)

@@ -15,7 +15,6 @@ void    coord_eur(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-<<<<<<< HEAD
 			add_to_address((void *)0x17321B18, 0x00002800);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
 			sub_to_address((void *)0x17321B18, 0x00002800);
@@ -23,15 +22,6 @@ void    coord_eur(void)
 			sub_to_address((void *)0x17321B10, 0x00002000);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
 			add_to_address((void *)0x17321B10, 0x00002000);
-=======
-			add_to_address((void *)0x17321B18, 0x00001800);
-		if (is_pressed(BUTTON_A + BUTTON_DU))
-			sub_to_address((void *)0x17321B18, 0x00001800);
-		if (is_pressed(BUTTON_A + BUTTON_DL))
-			sub_to_address((void *)0x17321B10, 0x00001000);
-		if (is_pressed(BUTTON_A + BUTTON_DR))
-			add_to_address((void *)0x17321B10, 0x00001000);
->>>>>>> origin/master
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
@@ -118,14 +108,11 @@ void    text2item_eur(void)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
 	WRITEU16(0x15FBEDD0, result);
-<<<<<<< HEAD
 	WRITEU16(0xAF8B28, result);
 	WRITEU16(0xB02A38, result);
 	WRITEU16(0xB0C948, result);
 	WRITEU16(0xB16858, result);
 	WRITEU16(0xB15958, result);
-=======
->>>>>>> origin/master
 	wait_keys_released(X + DR);
 }
 
@@ -133,11 +120,7 @@ void    moonjump_eur(void)
 {
 	int		loc;
 	
-<<<<<<< HEAD
     if (!(any_is_pressed(R + B)) && is_pressed(BUTTON_L)) //it's better to test the negation first
-=======
-	if (is_pressed(BUTTON_L))
->>>>>>> origin/master
 	{
 		loc = READU32(0x17321C44);
 		if (loc == -1)

@@ -15,7 +15,6 @@ void    coord_jap(void)//JAP
     if (loc == -1) //FFFFFFFF=outdoors
     {
         if (is_pressed(BUTTON_A + BUTTON_DD))
-<<<<<<< HEAD
             add_to_address((void *)0x173B8B98, 0x00002800); //JP
         if (is_pressed(BUTTON_A + BUTTON_DU))
             sub_to_address((void *)0x173B8B98, 0x00002800); //JP
@@ -23,15 +22,6 @@ void    coord_jap(void)//JAP
             sub_to_address((void *)0x173B8B90, 0x00002000); //JP
         if (is_pressed(BUTTON_A + BUTTON_DR))
             add_to_address((void *)0x173B8B90, 0x00002000); //JP
-=======
-            add_to_address((void *)0x173B8B98, 0x00001800); //JP
-        if (is_pressed(BUTTON_A + BUTTON_DU))
-            sub_to_address((void *)0x173B8B98, 0x00001800); //JP
-        if (is_pressed(BUTTON_A + BUTTON_DL))
-            sub_to_address((void *)0x173B8B90, 0x00001000); //JP
-        if (is_pressed(BUTTON_A + BUTTON_DR))
-            add_to_address((void *)0x173B8B90, 0x00001000); //JP
->>>>>>> origin/master
     }
     else //if it's anything but FFFFFFFF then you're indoors
     {
@@ -150,11 +140,7 @@ void    moonjump_jap(void)//JAP
 {
 	static int           loc = 0;
 
-<<<<<<< HEAD
     if (!(any_is_pressed(R + B)) && is_pressed(BUTTON_L)) //it's better to test the negation first
-=======
-	if (is_pressed(BUTTON_L))
->>>>>>> origin/master
 	{
 		loc = READU32(0x173B8CC4);
 		if (loc == -1)
