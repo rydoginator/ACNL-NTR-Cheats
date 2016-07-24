@@ -15,6 +15,15 @@ void    coord_jap(void)//JAP
     if (loc == -1) //FFFFFFFF=outdoors
     {
         if (is_pressed(BUTTON_A + BUTTON_DD))
+<<<<<<< HEAD
+            add_to_address((void *)0x173B8B98, 0x00002800); //JP
+        if (is_pressed(BUTTON_A + BUTTON_DU))
+            sub_to_address((void *)0x173B8B98, 0x00002800); //JP
+        if (is_pressed(BUTTON_A + BUTTON_DL))
+            sub_to_address((void *)0x173B8B90, 0x00002000); //JP
+        if (is_pressed(BUTTON_A + BUTTON_DR))
+            add_to_address((void *)0x173B8B90, 0x00002000); //JP
+=======
             add_to_address((void *)0x173B8B98, 0x00001800); //JP
         if (is_pressed(BUTTON_A + BUTTON_DU))
             sub_to_address((void *)0x173B8B98, 0x00001800); //JP
@@ -22,6 +31,7 @@ void    coord_jap(void)//JAP
             sub_to_address((void *)0x173B8B90, 0x00001000); //JP
         if (is_pressed(BUTTON_A + BUTTON_DR))
             add_to_address((void *)0x173B8B90, 0x00001000); //JP
+>>>>>>> origin/master
     }
     else //if it's anything but FFFFFFFF then you're indoors
     {
@@ -128,14 +138,23 @@ void    text2item_jap(void)//jap
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
 	WRITEU16(0x160562D0, result);
-	wait_all_released();
+	WRITEU16(0xAEEC28, result);
+	WRITEU16(0xAF8B38, result);
+	WRITEU16(0xB02A48, result);
+	WRITEU16(0xB0C958, result);
+	WRITEU16(0xB0BA58, result);
+	wait_keys_released(X + DR);
 }
 
 void    moonjump_jap(void)//JAP
 {
 	static int           loc = 0;
 
+<<<<<<< HEAD
+    if (!(any_is_pressed(R + B)) && is_pressed(BUTTON_L)) //it's better to test the negation first
+=======
 	if (is_pressed(BUTTON_L))
+>>>>>>> origin/master
 	{
 		loc = READU32(0x173B8CC4);
 		if (loc == -1)
@@ -436,6 +455,8 @@ void	duplicate_jap(void)//JAP
 	u32			dupe0 = 0;
 	u32			dupe1 = 0;
 	u32			dupe2 = 0;
+	u32			dupe3 = 0;
+	u32			dupe4 = 0;
 	
 	if (is_pressed(BUTTON_R))
 	{
@@ -443,10 +464,14 @@ void	duplicate_jap(void)//JAP
 		dupe0 = READU32(0xAEEC28); //online pointer0
 		dupe1 = READU32(0xAF8B38); //online pointer1
 		dupe2 = READU32(0xB02A48); //online pointer2
+		dupe3 = READU32(0xB0C958);
+		dupe4 = READU32(0xB0BA58);
 		WRITEU32(0x160562D4, dupe);
 		WRITEU32(0xAEEC2C, dupe0);
 		WRITEU32(0xAF8B3C, dupe1);
 		WRITEU32(0xB02A4C, dupe2);	
+		WRITEU32(0xB0C96C, dupe3);
+		WRITEU32(0xB0BA6C, dupe4);
 	}
 }
 
@@ -481,21 +506,25 @@ void	desert_jap(void)
 void	nook1_jap(void)
 {
 	WRITEU16(0x160ABEE0, 0x0101);
+	WRITEU8(0x160B0370, 0x2);
 }
 
 void	nook2_jap(void)
 {	
 	WRITEU16(0x160ABEE0, 0x0202);
+	WRITEU8(0x160B0370, 0x2);
 }
 
 void	nook3_jap(void)
 {
 	WRITEU16(0x160ABEE0, 0x0303);
+	WRITEU8(0x160B0370, 0x3);
 }
 
 void	nook4_jap(void)
 {
 	WRITEU16(0x160ABEE0, 0x0404);
+	WRITEU8(0x160B0370, 0x4);
 }
 
 void	tan_jap(void)

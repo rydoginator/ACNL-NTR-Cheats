@@ -15,6 +15,15 @@ void    coord_eur(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
+<<<<<<< HEAD
+			add_to_address((void *)0x17321B18, 0x00002800);
+		if (is_pressed(BUTTON_A + BUTTON_DU))
+			sub_to_address((void *)0x17321B18, 0x00002800);
+		if (is_pressed(BUTTON_A + BUTTON_DL))
+			sub_to_address((void *)0x17321B10, 0x00002000);
+		if (is_pressed(BUTTON_A + BUTTON_DR))
+			add_to_address((void *)0x17321B10, 0x00002000);
+=======
 			add_to_address((void *)0x17321B18, 0x00001800);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
 			sub_to_address((void *)0x17321B18, 0x00001800);
@@ -22,6 +31,7 @@ void    coord_eur(void)
 			sub_to_address((void *)0x17321B10, 0x00001000);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
 			add_to_address((void *)0x17321B10, 0x00001000);
+>>>>>>> origin/master
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
@@ -108,6 +118,14 @@ void    text2item_eur(void)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
 	WRITEU16(0x15FBEDD0, result);
+<<<<<<< HEAD
+	WRITEU16(0xAF8B28, result);
+	WRITEU16(0xB02A38, result);
+	WRITEU16(0xB0C948, result);
+	WRITEU16(0xB16858, result);
+	WRITEU16(0xB15958, result);
+=======
+>>>>>>> origin/master
 	wait_keys_released(X + DR);
 }
 
@@ -115,7 +133,11 @@ void    moonjump_eur(void)
 {
 	int		loc;
 	
+<<<<<<< HEAD
+    if (!(any_is_pressed(R + B)) && is_pressed(BUTTON_L)) //it's better to test the negation first
+=======
 	if (is_pressed(BUTTON_L))
+>>>>>>> origin/master
 	{
 		loc = READU32(0x17321C44);
 		if (loc == -1)
@@ -413,6 +435,7 @@ void	duplicate_eur(void)
 	u32			dupe1 = 0;
 	u32			dupe2 = 0;
 	u32			dupe3 = 0;
+	u32			dupe4 = 0;
 	
 	if (is_pressed(BUTTON_R))
 	{
@@ -421,11 +444,13 @@ void	duplicate_eur(void)
 		dupe1 = READU32(0xB02A38); //online pointer1
 		dupe2 = READU32(0xB0C948); //online pointer2
 		dupe3 = READU32(0xB16858);
+		dupe4 = READU32(0xB15958);
 		WRITEU32(0x15FBEDD4, dupe);
 		WRITEU32(0xAF8B2C, dupe0);
 		WRITEU32(0xB02A3C, dupe1);
 		WRITEU32(0xB0C94C, dupe2);
-		WRITEU32(0xB16958, dupe3);
+		WRITEU32(0xB1695C, dupe3);
+		WRITEU32(0xB1595C, dupe4);
 	}
 }
 
@@ -458,21 +483,25 @@ void	desert_eur(void)
 void	nook1_eur(void)
 {
 	WRITEU16(0x160149E0, 0x0101);
+	WRITEU8(0x16018E70, 0x2);
 }
 
 void	nook2_eur(void)
 {	
 	WRITEU16(0x160149E0, 0x0202);
+	WRITEU8(0x16018E70, 0x2);
 }
 
 void	nook3_eur(void)
 {
 	WRITEU16(0x160149E0, 0x0303);
+	WRITEU8(0x16018E70, 0x3);
 }
 
 void	nook4_eur(void)
 {
 	WRITEU16(0x160149E0, 0x0404);
+	WRITEU8(0x16018E70, 0x4);
 }
 
 void	tan_eur(void)

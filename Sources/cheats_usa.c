@@ -15,13 +15,13 @@ void    coord_usa(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			add_to_address((void *)0x17321518, 0x00001800);
+			add_to_address((void *)0x17321518, 0x00002800);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			sub_to_address((void *)0x17321518, 0x00001800);
+			sub_to_address((void *)0x17321518, 0x00002800);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			sub_to_address((void *)0x17321510, 0x00001000);
+			sub_to_address((void *)0x17321510, 0x00002000);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			add_to_address((void *)0x17321510, 0x00001000);
+			add_to_address((void *)0x17321510, 0x00002000);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
@@ -126,6 +126,11 @@ void    text2item_usa(void)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
 	WRITEU16(0x15FBEAD0, result);
+	WRITEU16(0xAF8C28, result);
+	WRITEU16(0xB0CA48, result);
+	WRITEU16(0xB02B38, result);
+	WRITEU16(0xB16958, result);
+	WRITEU16(0xB15958, result);
 	wait_all_released();
 }
 
@@ -134,7 +139,7 @@ void    moonjump_usa(void)
 {
 	static int	loc = 0;
 	
-	if (is_pressed(BUTTON_L))
+    if (!(any_is_pressed(R + B)) && is_pressed(BUTTON_L)) //it's better to test the negation first
 	{
 		loc = READU32(0x17321644);
 		if (loc == -1)
@@ -433,6 +438,7 @@ void	duplicate_usa(void)
 	u32		dupe1 = 0;
 	u32		dupe2 = 0;
 	u32		dupe3 = 0;
+	u32		dupe4 = 0;
 	
 	if (is_pressed(BUTTON_R))
 	{
@@ -440,12 +446,14 @@ void	duplicate_usa(void)
 		dupe0 = READU32(0xAF8C28); //online pointer0
 		dupe1 = READU32(0xB02B38); //online pointer1
 		dupe2 = READU32(0xB0CA48); //online pointer2
-		dupe3 = READU32(0xB16958);
+		dupe3 = READU32(0xB15958);
+		dupe4 = READU32(0xB16958);
 		WRITEU32(0x15FBEAD4, dupe);
 		WRITEU32(0xAF8C2C, dupe0);
 		WRITEU32(0xB02B3C, dupe1);
 		WRITEU32(0xB0CA4C, dupe2);
-		WRITEU32(0xB16958, dupe3);
+		WRITEU32(0xB1595C, dupe3);
+		WRITEU32(0xB1695C, dupe4);
 	}
 }
 
@@ -480,21 +488,28 @@ void	desert_usa(void)
 void	nook1_usa(void)
 {
 	WRITEU16(0x160146E0, 0x0101);
+<<<<<<< HEAD
+	WRITEU8(0x16019270, 0x2);
+=======
+>>>>>>> origin/master
 }
 
 void	nook2_usa(void)
 {
 	WRITEU16(0x160146E0, 0x0202);
+	WRITEU8(0x16019270, 0x2);
 }
 
 void	nook3_usa(void)
 {
 	WRITEU16(0x160146E0, 0x0303);
+	WRITEU8(0x16019270, 0x3);
 }
 
 void	nook4_usa(void)
 {
 	WRITEU16(0x160146E0, 0x0404);
+	WRITEU8(0x16019270, 0x4);
 }
 
 void	tan_usa(void)
