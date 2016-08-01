@@ -134,25 +134,6 @@ void    text2item_usa(void)
 	wait_all_released();
 }
 
-
-void    moonjump_usa(void)
-{
-	static int	loc = 0;
-	
-    if (!(any_is_pressed(R + B)) && is_pressed(BUTTON_L)) //it's better to test the negation first
-	{
-		loc = READU32(0x17321644);
-		if (loc == -1)
-		{
-			WRITEU32(0x17321514, 0x43E00000);
-		}
-		else
-		{
-			WRITEU32(0x17321640, 0x44000000);
-		}
-	}
-}
-
 void    teleport_usa(void)
 {
 	static u32    indoor_X[3] = { 0 };
@@ -312,98 +293,116 @@ void	weeder_usa(void)
 	}
 }
 
-void	quench_usa(void)
+void quench_usa()
 {
+  // define flowers (include wilted)
+static const u16 flowers[] = {
+    // src, replace
+    0x009F, 0x009F, // Red Tulips
+    0x00A0, 0x00A0, // White Tulips
+    0x00A1, 0x00A1, // Yellow Tulips
+    0x00A2, 0x00A2, // Pink Tulips
+    0x00A3, 0x00A3, // Purple Tulips
+    0x00A4, 0x00A4, // Black Tulips
+    0x00A5, 0x00A5, // Orange Tulips
+    0x00A6, 0x00A6, // White Pansies
+    0x00A7, 0x00A7, // Yellow Pansies
+    0x00A8, 0x00A8, // Red Pansies
+    0x00A9, 0x00A9, // Purple Pansies
+    0x00AA, 0x00AA, // Orange Pansies
+    0x00AB, 0x00AB, // Blue Pansies
+    0x00AC, 0x00AC, // White Comsos
+    0x00AD, 0x00AD, // Red Cosmos
+    0x00AE, 0x00AE, // Sun Cosmos
+    0x00AF, 0x00AF, // Pink Cosmos
+    0x00B0, 0x00B0, // Orange Cosmos
+    0x00B1, 0x00B1, // Black Cosmos
+    0x00B2, 0x00B2, // Red Roses
+    0x00B3, 0x00B3, // White Roses
+    0x00B4, 0x00B4, // Yellow Roses
+    0x00B5, 0x00B5, // Pink Roses
+    0x00B6, 0x00B6, // Orange Roses
+    0x00B7, 0x00B7, // Purple Roses
+    0x00B8, 0x00B8, // Black Roses
+    0x00B9, 0x00B9, // Blue Roses
+    0x00BB, 0x00BB, // Red Carnations
+    0x00BC, 0x00BC, // Pink Carnations
+    0x00BD, 0x00BD, // White Carnations
+    0x00BE, 0x00BE, // White Lilies
+    0x00BF, 0x00BF, // Yellow Lilies
+    0x00C0, 0x00C0, // Red Lilies
+    0x00C1, 0x00C1, // Orange Lilies
+    0x00C2, 0x00C2, // Pink Lilies
+    0x00C3, 0x00C3, // Black Lilies
+    0x00C4, 0x00C4, // Purple Violets
+    0x00C5, 0x00C5, // Blue Violets
+    0x00C6, 0x00C6, // White Violets
+    0x00C7, 0x00C7, // Yellow Violets
+    0x00C8, 0x00C8, // Jacob's Ladder
+    0x00CE, 0x009F, // Red Tulips (Wilted)
+    0x00CF, 0x00A0, // White Tulips (Wilted)
+    0x00D0, 0x00A1, // Yellow Tulips (Wilted)
+    0x00D1, 0x00A2, // Pink Tulips (Wilted)
+    0x00D2, 0x00A3, // Purple Tulips (Wilted)
+    0x00D3, 0x00A4, // Black Tulips (Wilted)
+    0x00D4, 0x00A5, // Orange Tulips (Wilted)
+    0x00D5, 0x00A6, // White Pansies (Wilted)
+    0x00D6, 0x00A7, // Yellow Pansies (Wilted)
+    0x00D7, 0x00A8, // Red Pansies (Wilted)
+    0x00D8, 0x00A9, // Purple Pansies (Wilted)
+    0x00D9, 0x00AA, // Orange Pansies (Wilted)
+    0x00DA, 0x00AB, // Blue Pansies (Wilted)
+    0x00DB, 0x00AC, // White Cosmos (Wilted)
+    0x00DC, 0x00AD, // Red Cosmos (Wilted)
+    0x00DD, 0x00AE, // Sun Cosmos (Wilted)
+    0x00DE, 0x00AF, // Pink Cosmos (Wilted)
+    0x00DF, 0x00B0, // Orange Cosmos (Wilted)
+    0x00E0, 0x00B1, // Black Cosmos (Wilted)
+    0x00E1, 0x00B2, // Red Roses (Wilted)
+    0x00E2, 0x00B3, // White Roses (Wilted)
+    0x00E3, 0x00B4, // Yellow Roses (Wilted)
+    0x00E4, 0x00B5, // Pink Roses (Wilted)
+    0x00E5, 0x00B6, // Orange Roses (Wilted)
+    0x00E6, 0x00B7, // Purple Roses (Wilted)
+    0x00E7, 0x00B8, // Black Roses (Wilted)
+    0x00E8, 0x00B9, // Blue Roses (Wilted)
+    0x00E9, 0x00BA, // Gold Roses (Wilted)
+    0x00EA, 0x00BB, // Red Carnations (Wilted)
+    0x00EB, 0x00BC, // Pink Carnations (Wilted)
+    0x00EC, 0x00BD, // White Carnations (Wilted)
+    0x00ED, 0x00BE, // White Lilies (Wilted)
+    0x00EE, 0x00BF, // Yellow Lilies (Wilted)
+    0x00EF, 0x00C0, // Red Lilies (Wilted)
+    0x00F0, 0x00C1, // Orange Lilies (Wilted)
+    0x00F1, 0x00C2, // Pink Lilies (Wilted)
+    0x00F2, 0x00C3, // Black Lilies (Wilted)
+    0x00F3, 0x00C4, // Purple Violets (Wilted)
+    0x00F4, 0x00C5, // Blue Violets (Wilted)
+    0x00F5, 0x00C6, // White Violets (Wilted)
+    0x00F6, 0x00C7, // Yellow Violets (Wilted)
+    0x00F7, 0x00C8, // Jacob's Ladder (Wilted)
+};
+  int i;
+  u32 address, item;
 	if (is_pressed(BUTTON_R + BUTTON_A))
-	{
-		reset_search();
-		add_search_replace(0x0000009F, 0x4000009F);
-		add_search_replace(0x000000A0, 0x400000A0);
-		add_search_replace(0x000000A1, 0x400000A1);
-		add_search_replace(0x000000A2, 0x400000A2);
-		add_search_replace(0x000000A3, 0x400000A3);
-		add_search_replace(0x000000A4, 0x400000A4);
-		add_search_replace(0x000000A5, 0x400000A5);
-		add_search_replace(0x000000A6, 0x400000A6);
-		add_search_replace(0x000000A7, 0x400000A7);
-		add_search_replace(0x000000A8, 0x400000A8);
-		add_search_replace(0x000000A9, 0x400000A9);
-		add_search_replace(0x000000AA, 0x400000AA);
-		add_search_replace(0x000000AB, 0x400000AB);
-		add_search_replace(0x000000AC, 0x400000AC);
-		add_search_replace(0x000000AD, 0x400000AD);
-		add_search_replace(0x000000AE, 0x400000AE);
-		add_search_replace(0x000000AF, 0x400000AF);
-		add_search_replace(0x000000B0, 0x400000B0);
-		add_search_replace(0x000000B1, 0x400000B1);
-		add_search_replace(0x000000B2, 0x400000B2);
-		add_search_replace(0x000000B3, 0x400000B3);
-		add_search_replace(0x000000B4, 0x400000B4);
-		add_search_replace(0x000000B5, 0x400000B5);
-		add_search_replace(0x000000B6, 0x400000B6);
-		add_search_replace(0x000000B7, 0x400000B7);
-		add_search_replace(0x000000B8, 0x400000B8);
-		add_search_replace(0x000000B9, 0x400000B9);
-		add_search_replace(0x000000BB, 0x400000BB);
-		add_search_replace(0x000000BC, 0x400000BC);
-		add_search_replace(0x000000BD, 0x400000BD);
-		add_search_replace(0x000000BE, 0x400000BE);
-		add_search_replace(0x000000BF, 0x400000BF);
-		add_search_replace(0x000000C0, 0x400000C0);
-		add_search_replace(0x000000C1, 0x400000C1);
-		add_search_replace(0x000000C2, 0x400000C2);
-		add_search_replace(0x000000C3, 0x400000C3);
-		add_search_replace(0x000000C4, 0x400000C4);
-		add_search_replace(0x000000C5, 0x400000C5);
-		add_search_replace(0x000000C6, 0x400000C6);
-		add_search_replace(0x000000C7, 0x400000C7);
-		add_search_replace(0x000000C8, 0x400000C8);
-		add_search_replace(0x000000CE, 0x4000009F); //Red Tulips
-		add_search_replace(0x000000CF, 0x400000A0);
-		add_search_replace(0x000000D0, 0x400000A1);
-		add_search_replace(0x000000D1, 0x400000A2);
-		add_search_replace(0x000000D2, 0x400000A3);
-		add_search_replace(0x000000D3, 0x400000A4);
-		add_search_replace(0x000000D4, 0x400000A5);
-		add_search_replace(0x000000D5, 0x400000A6);
-		add_search_replace(0x000000D6, 0x400000A7);
-		add_search_replace(0x000000D7, 0x400000A8);
-		add_search_replace(0x000000D8, 0x400000A9);
-		add_search_replace(0x000000D9, 0x400000AA);
-		add_search_replace(0x000000DA, 0x400000AB);
-		add_search_replace(0x000000DB, 0x400000AC);
-		add_search_replace(0x000000DC, 0x400000AD);
-		add_search_replace(0x000000DD, 0x400000AE);
-		add_search_replace(0x000000DE, 0x400000AF);
-		add_search_replace(0x000000DF, 0x400000B0);
-		add_search_replace(0x000000E0, 0x400000B1);
-		add_search_replace(0x000000E1, 0x400000B2);
-		add_search_replace(0x000000E2, 0x400000B3);
-		add_search_replace(0x000000E3, 0x400000B4);
-		add_search_replace(0x000000E4, 0x400000B5);
-		add_search_replace(0x000000E5, 0x400000B6);
-		add_search_replace(0x000000E6, 0x400000B7);
-		add_search_replace(0x000000E7, 0x400000B8);
-		add_search_replace(0x000000E8, 0x400000B9);
-		add_search_replace(0x000000E9, 0x400000BA);
-		add_search_replace(0x000000EA, 0x400000BB);
-		add_search_replace(0x000000EB, 0x400000BC);
-		add_search_replace(0x000000EC, 0x400000BD);
-		add_search_replace(0x000000ED, 0x400000BE);
-		add_search_replace(0x000000EE, 0x400000BF);
-		add_search_replace(0x000000EF, 0x400000C0);
-		add_search_replace(0x000000F0, 0x400000C1);
-		add_search_replace(0x000000F1, 0x400000C2);
-		add_search_replace(0x000000F2, 0x400000C3);
-		add_search_replace(0x000000F3, 0x400000C4);
-		add_search_replace(0x000000F4, 0x400000C5);
-		add_search_replace(0x000000F5, 0x400000C6);
-		add_search_replace(0x000000F6, 0x400000C7);
-		add_search_replace(0x000000F7, 0x400000C8);
-		find_and_replace_multiple((void *)0x16005958, 0x5000);
-		wait_all_released();
+  // find all items in Town
+  for(address = OFFSET_TOWN_ITEMS; address < OFFSET_TOWN_ITEMS + RANGE_TOWN_ITEMS; address += ITEM_BYTES){
+    item = READU16(address);
+
+    // find flowers
+    for(i = 0; i < sizeof(flowers) / sizeof(u16); i += 2){
+      if(item == flowers[i]){
+        // replace item
+        WRITEU16(address, flowers[i + 1]);
+
+        // add water flag
+        WRITEU16(address + 0x02, 0x4000);
+        break;
+			}
+		}
 	}
 }
+
 
 void	tree_usa(void)
 {
@@ -512,4 +511,52 @@ void	nook4_usa(void)
 void	tan_usa(void)
 {
 	WRITEU8(0x15FB7F28, 0xF);
+}
+
+void	test(void)
+{
+	u32		*id = (u16 *)0x16F4C160;
+	char		id_str[5] = { 0 };
+	int		i;
+	u32		result;
+
+	if (!is_pressed(BUTTON_X + BUTTON_DR))
+		return;
+	for (i = 0; i < 4; i++)
+		id_str[i] = (char)READU16(id + i);
+	result = (u16)strtoul(id_str, NULL, 16);
+}
+
+void	moonjump_usa(void)
+{
+	int		loc;
+	u32		Z;
+
+    if (!(any_is_pressed(R)) && is_pressed(BUTTON_L)) //it's better to test the negation first
+	{
+		loc = READU32(0x17321644);
+		Z = READU32(0x17321B14);
+		if (Z >= 0x440F0000)
+		{
+			if (loc == -1)
+			{
+				WRITEU32(0x17321514, 0x440F0000);
+			}
+			else
+			{
+				WRITEU32(0x17321640, 0x440F0000);
+			}
+		}
+		else
+		{
+			if (loc == -1)
+			{
+				add_to_address((void*)0x17321514, 0x00040000);
+			}
+			else
+			{
+				WRITEU32(0x17321640, 0x440F0000);
+			}
+		}	
+	}
 }
