@@ -526,7 +526,7 @@ void	moonjump_jap(void)
     if (!(any_is_pressed(R)) && is_pressed(BUTTON_L)) //it's better to test the negation first
 	{
 		loc = READU32(0x17321644);
-		Z = READU32(0x17321B14);
+		Z = READU32(0x17321514);
 		if (Z >= 0x440F0000)
 		{
 			if (loc == -1)
