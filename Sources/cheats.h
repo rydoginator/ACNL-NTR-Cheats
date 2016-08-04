@@ -15,6 +15,11 @@
 #define ITEM_BYTES 0x04
 #define RANGE_TOWN_ITEMS 0x5000
 
+#ifndef ADDTOFLOAT
+#define ADDTOFLOAT(addr, add_value) *(float *)addr += (float)add_value
+#define SUBTOFLOAT(addr, sub_value) *(float *)addr -= (float)sub_value
+#endif
+
 /*
 ** Helpers
 */

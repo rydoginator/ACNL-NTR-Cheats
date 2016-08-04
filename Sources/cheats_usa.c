@@ -15,24 +15,24 @@ void    coord_usa(void)
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			add_to_address((void *)0x17321518, 0x00002800);
+			ADDTOFLOAT(0x17321518, 0x00000001);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			sub_to_address((void *)0x17321518, 0x00002800);
+			SUBTOFLOAT(0x17321518, 0x00000001);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			sub_to_address((void *)0x17321510, 0x00002000);
+			SUBTOFLOAT(0x17321510, 0x00000001);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			add_to_address((void *)0x17321510, 0x00002000);
+			ADDTOFLOAT(0x17321510, 0x00000001);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			add_to_address((void *)0x17321644, 0x00008000);
+			ADDTOFLOAT(0x17321644, 0x00000001);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			sub_to_address((void *)0x17321644, 0x00008000);
+			SUBTOFLOAT(0x17321644, 0x00000001);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			sub_to_address((void *)0x1732163c, 0x00008000);
+			SUBTOFLOAT(0x1732163c, 0x00000001);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			add_to_address((void *)0x1732163c, 0x00008000);
+			ADDTOFLOAT(0x1732163c, 0x00000001);
 	}
 }
 void    search_usa(void)
@@ -270,7 +270,7 @@ void	speed_usa(void)
 		}
 		else if (velocity > 0)
 		{
-		add_to_address((void*)0x1732153C, 0x00100000);
+		ADDTOFLOAT(0x1732153C, 0x00000002);
 		}
 	}
 }
@@ -513,20 +513,6 @@ void	tan_usa(void)
 	WRITEU8(0x15FB7F28, 0xF);
 }
 
-void	test(void)
-{
-	u32		*id = (u16 *)0x16F4C160;
-	char		id_str[5] = { 0 };
-	int		i;
-	u32		result;
-
-	if (!is_pressed(BUTTON_X + BUTTON_DR))
-		return;
-	for (i = 0; i < 4; i++)
-		id_str[i] = (char)READU16(id + i);
-	result = (u16)strtoul(id_str, NULL, 16);
-}
-
 void	moonjump_usa(void)
 {
 	int		loc;
@@ -551,11 +537,11 @@ void	moonjump_usa(void)
 		{
 			if (loc == -1)
 			{
-				add_to_address((void*)0x17321514, 0x00040000);
+				ADDTOFLOAT(0x17321514, 0x00000006);
 			}
 			else
 			{
-				WRITEU32(0x17321640, 0x440F0000);
+				ADDTOFLOAT(0x17321640, 0x00000006);
 			}
 		}	
 	}
