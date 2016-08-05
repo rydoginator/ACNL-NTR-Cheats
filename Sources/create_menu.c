@@ -21,9 +21,9 @@ void	usa_menu(void)
 	new_spoiler("Movement Codes");
 		new_entry("Warping", warping_usa);
 		new_entry("Moon Jump", moonjump_usa);
-		new_entry("Teleport", teleport_usa);
 		new_entry("Coordinates Modifier", coord_usa);
 		new_entry("Speed Hack", speed_usa);
+		new_entry("Teleport", teleport_usa);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
 		new_radio_entry("T&T Mart", nook1_usa);//24
@@ -59,9 +59,9 @@ void	eur_menu(void)
 	new_spoiler("Movement Codes");
 		new_entry("Warping", warping_eur);
 		new_entry("Moon Jump", moonjump_eur);
-		new_entry("Teleport", teleport_eur);
 		new_entry("Coordinates Modifier", coord_eur);
 		new_entry("Speed Hack", speed_eur);
+		new_entry("Teleport", teleport_eur);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
 		new_radio_entry("T&T Mart", nook1_eur);//25
@@ -94,9 +94,9 @@ void	jap_menu(void)
 	new_spoiler("Movement Codes");
 		new_entry("Warping", warping_jap);
 		new_entry("Moon Jump", moonjump_jap);
-		new_entry("Teleport", teleport_jap);
 		new_entry("Coordinates Modifier", coord_jap);
 		new_entry("Speed Hack", speed_jap);
+		new_entry("Teleport", teleport_jap);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
 		new_radio_entry("T&T Mart", nook1_jap);//24

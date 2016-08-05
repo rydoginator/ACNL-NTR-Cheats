@@ -15,24 +15,24 @@ void    coord_jap(void)//JAP
     if (loc == -1) //FFFFFFFF=outdoors
     {
         if (is_pressed(BUTTON_A + BUTTON_DD))
-            add_to_address((void *)0x173B8B98, 0x00002800); //JP
+            ADDTOFLOAT(0x173B8B98, 0x00000002); //JP
         if (is_pressed(BUTTON_A + BUTTON_DU))
-            sub_to_address((void *)0x173B8B98, 0x00002800); //JP
+            SUBTOFLOAT(0x173B8B98, 0x00000002); //JP
         if (is_pressed(BUTTON_A + BUTTON_DL))
-            sub_to_address((void *)0x173B8B90, 0x00002000); //JP
+            SUBTOFLOAT(0x173B8B90, 0x00000002); //JP
         if (is_pressed(BUTTON_A + BUTTON_DR))
-            add_to_address((void *)0x173B8B90, 0x00002000); //JP
+            ADDTOFLOAT(0x173B8B90, 0x00000002); //JP
     }
     else //if it's anything but FFFFFFFF then you're indoors
     {
         if (is_pressed(BUTTON_A + BUTTON_DD))
-            add_to_address((void *)0x173B8CC4, 0x00008000); //JP
+            ADDTOFLOAT(0x173B8CC4, 0x00000002); //JP
         if (is_pressed(BUTTON_A + BUTTON_DU))
-            sub_to_address((void *)0x173B8CC4, 0x00008000); //JP
+            SUBTOFLOAT(0x173B8CC4, 0x00000002); //JP
         if (is_pressed(BUTTON_A + BUTTON_DL))
-            sub_to_address((void *)0x173B8CBC, 0x00008000); //JP
+            SUBTOFLOAT(0x173B8CBC, 0x00000002); //JP
         if (is_pressed(BUTTON_A + BUTTON_DR))
-            add_to_address((void *)0x173B8CBC, 0x00008000); //JP
+            ADDTOFLOAT(0x173B8CBC, 0x00000002); //JP
     }
 }
 
@@ -275,7 +275,7 @@ void	speed_jap(void) //JAP
 		}
 		else if (velocity > 0)
 		{
-			add_to_address((void*)0x173B8BBC, 0x00100000);
+			add_to_address((void*)0x173B8BBC, 0x00000002);
 		}
 	}
 }
@@ -542,11 +542,11 @@ void	moonjump_jap(void)
 		{
 			if (loc == -1)
 			{
-				add_to_address((void*)0x17321514, 0x00040000);
+				ADDTOFLOAT(0x17321514, 0x00000006);
 			}
 			else
 			{
-				WRITEU32(0x17321640, 0x440F0000);
+				ADDTOFLOAT(0x17321640, 0x00000006);
 			}
 		}	
 	}
