@@ -98,5 +98,11 @@ void	nook2_eur(void);
 void	nook3_eur(void);
 void	nook4_eur(void);
 void	tan_eur(void);
+void	text2item2_eur(void);
+void	text2item3_eur(void);
+void	text2item4_eur(void);
+void	duplicate2_eur(void);
+void	duplicate3_eur(void);
+void	duplicate4_eur(void);
 
 #endif
