@@ -4,7 +4,7 @@ char	*builder_name = "itsRyan";
 
 void	usa_menu(void)
 {
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.3 #DEV USA");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.0 Alpha");
 	new_spoiler("Environment Codes");
 		new_entry("Water all flowers", quench_usa);
 		new_entry("Seeder", seed_usa);
@@ -14,9 +14,25 @@ void	usa_menu(void)
 		new_entry("Remove all weeds", weeder_usa);
 		new_entry("Instant Tree", tree_usa);
 	exit_spoiler();
-	new_spoiler("Inventory Codes");
+	new_spoiler("Player 1 Codes");
 		new_entry("Text to Item", text2item_usa);
 		new_entry("Duplication", duplicate_usa);
+		new_entry("Max Tan", tan_usa);
+	exit_spoiler();
+	new_spoiler("Player 2 Codes");
+		new_entry("Text to Item", text2item2_usa);
+		new_entry("Duplication", duplicate2_usa);
+		new_entry("Max Tan", tan2_usa);
+	exit_spoiler();
+	new_spoiler("Player 3 Codes");
+		new_entry("Text to Item", text2item3_usa);
+		new_entry("Duplication", duplicate3_usa);
+		new_entry("Max Tan", tan3_usa);
+	exit_spoiler();
+	new_spoiler("Player 4 Codes");
+		new_entry("Text to Item", text2item4_usa);
+		new_entry("Duplication", duplicate4_usa);
+		new_entry("Max Tan", tan4_usa);
 	exit_spoiler();
 	new_spoiler("Movement Codes");
 		new_entry("Warping", warping_usa);
@@ -26,14 +42,10 @@ void	usa_menu(void)
 		new_entry("Teleport", teleport_usa);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
-		new_radio_entry("T&T Mart", nook1_usa);//24
 		new_radio_entry("T&T Mart", nook1_usa);
 		new_radio_entry("Super T&T", nook2_usa);
 		new_radio_entry("T.I.Y", nook3_usa);
 		new_radio_entry("T&T Emporium", nook4_usa);
-	exit_spoiler();
-	new_spoiler("Appearance Codes");
-		new_entry("Player 1 Max Tan", tan_usa);
 	exit_spoiler();
 }
 
@@ -41,9 +53,9 @@ void	eur_menu(void)
 {
 	u32 index;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.3 #DEV EUR");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.0 Alpha");
 	index = new_spoiler("Environment Codes");
-	set_note("This is a note.\n\nIn it you can explain how to use a code.\n\nDon't be shy and use this awesome functionality !", index);
+	set_note("Example note", index);
 		new_entry("Water all flowers", quench_eur);
 		new_entry("Seeder", seed_eur);
 		new_entry("Search and Replace", search_eur);
@@ -55,18 +67,22 @@ void	eur_menu(void)
 	new_spoiler("Player 1 Codes");
 		new_entry("Text to Item", text2item_eur);
 		new_entry("Duplication", duplicate_eur);
+		new_entry("Max Tan", tan_eur);
 	exit_spoiler();
 	new_spoiler("Player 2 Codes");
 		new_entry("Text to Item", text2item2_eur);
 		new_entry("Duplication", duplicate2_eur);
+		new_entry("Max Tan", tan2_eur);
 	exit_spoiler();
 	new_spoiler("Player 3 Codes");
 		new_entry("Text to Item", text2item3_eur);
 		new_entry("Duplication", duplicate3_eur);
+		new_entry("Max Tan", tan3_eur);
 	exit_spoiler();
 	new_spoiler("Player 4 Codes");
 		new_entry("Text to Item", text2item4_eur);
 		new_entry("Duplication", duplicate4_eur);
+		new_entry("Max Tan", tan4_eur);
 	exit_spoiler();
 	new_spoiler("Movement Codes");
 		new_entry("Warping", warping_eur);
@@ -76,20 +92,16 @@ void	eur_menu(void)
 		new_entry("Teleport", teleport_eur);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
-		new_radio_entry("T&T Mart", nook1_eur);//25
 		new_radio_entry("T&T Mart", nook1_eur);
 		new_radio_entry("Super T&T", nook2_eur);
 		new_radio_entry("T.I.Y", nook3_eur);
 		new_radio_entry("T&T Emporium", nook4_eur);
 	exit_spoiler();
-	new_spoiler("Appearance Codes");
-		new_entry("Player 1 Max Tan", tan_eur);
-	exit_spoiler();
 }
 
 void	jap_menu(void)
 {
-	new_unselectable_entry("ACNL NTR Cheats Ver 2.3 #DEV JAP");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.0 Alpha");
 	new_spoiler("Environment Codes");
 		new_entry("Water all flowers", quench_jap);
 		new_entry("Seeder", seed_jap);
@@ -99,9 +111,26 @@ void	jap_menu(void)
 		new_entry("Remove all weeds", weeder_jap);
 		new_entry("Instant Tree", tree_jap);
 	exit_spoiler();
-	new_spoiler("Inventory Codes");
+	new_spoiler("Player 1 Codes");
 		new_entry("Text to Item", text2item_jap);
 		new_entry("Duplication", duplicate_jap);
+		new_entry("Max Tan", tan_usa);
+	exit_spoiler();
+	new_spoiler("Player 2 Codes");
+		new_entry("Text to Item", text2item2_jap);
+		new_entry("Duplication", duplicate2_jap);
+		new_entry("Max Tan", tan2_jap);
+	exit_spoiler();
+	new_spoiler("Player 3 Codes");
+		new_entry("Text to Item", text2item3_jap);
+		new_entry("Duplication", duplicate3_jap);
+		new_entry("Max Tan", tan3_jap);
+	exit_spoiler();
+	new_spoiler("Player 4 Codes");
+		new_entry("Text to Item", text2item4_jap);
+		new_entry("Duplication", duplicate4_jap);
+		new_entry("Max Tan", tan4_jap);
+	exit_spoiler();
 	exit_spoiler();
 	new_spoiler("Movement Codes");
 		new_entry("Warping", warping_jap);
@@ -111,14 +140,10 @@ void	jap_menu(void)
 		new_entry("Teleport", teleport_jap);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
-		new_radio_entry("T&T Mart", nook1_jap);//24
 		new_radio_entry("T&T Mart", nook1_jap);
 		new_radio_entry("Super T&T", nook2_jap);
 		new_radio_entry("T.I.Y", nook3_jap);
 		new_radio_entry("T&T Emporium", nook4_jap);
-	exit_spoiler();
-	new_spoiler("Appearance Codes");
-		new_entry("Player 1 Max Tan", tan_jap);
 	exit_spoiler();
 }
 
