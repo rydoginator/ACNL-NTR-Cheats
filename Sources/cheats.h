@@ -59,6 +59,9 @@ void	duplicate4_usa(void);
 void	tan2_usa(void);
 void	tan3_usa(void);
 void	tan4_usa(void);
+void	walkThru_usa(void);
+void	edibleItems_usa(void);
+void	seederV2_usa(void);
 
 /*
 ** JAP

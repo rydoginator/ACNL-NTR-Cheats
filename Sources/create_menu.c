@@ -47,6 +47,11 @@ void	usa_menu(void)
 		new_radio_entry("T.I.Y", nook3_usa);
 		new_radio_entry("T&T Emporium", nook4_usa);
 	exit_spoiler();
+	new_spoiler("Beta Codes");
+		new_entry("Walk Thru Walls", walkThru_usa);
+		new_entry("Edible Items", edibleItems_usa);
+		new_entry("Seeder V2", seederV2_usa);
+	exit_spoiler();
 }
 
 void	eur_menu(void)

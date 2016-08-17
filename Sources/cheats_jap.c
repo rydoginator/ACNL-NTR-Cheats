@@ -15,24 +15,24 @@ void    coord_jap(void)//JAP
     if (loc == -1) //FFFFFFFF=outdoors
     {
         if (is_pressed(BUTTON_A + BUTTON_DD))
-            ADDTOFLOAT(0x173B8B98, 0x00000002); //JP
+            ADDTOFLOAT(0x173B8B98, 0x00000001); //JP
         if (is_pressed(BUTTON_A + BUTTON_DU))
-            SUBTOFLOAT(0x173B8B98, 0x00000002); //JP
+            SUBTOFLOAT(0x173B8B98, 0x00000001); //JP
         if (is_pressed(BUTTON_A + BUTTON_DL))
-            SUBTOFLOAT(0x173B8B90, 0x00000002); //JP
+            SUBTOFLOAT(0x173B8B90, 0x00000001); //JP
         if (is_pressed(BUTTON_A + BUTTON_DR))
-            ADDTOFLOAT(0x173B8B90, 0x00000002); //JP
+            ADDTOFLOAT(0x173B8B90, 0x00000001); //JP
     }
     else //if it's anything but FFFFFFFF then you're indoors
     {
         if (is_pressed(BUTTON_A + BUTTON_DD))
-            ADDTOFLOAT(0x173B8CC4, 0x00000002); //JP
+            ADDTOFLOAT(0x173B8CC4, 0x00000001); //JP
         if (is_pressed(BUTTON_A + BUTTON_DU))
-            SUBTOFLOAT(0x173B8CC4, 0x00000002); //JP
+            SUBTOFLOAT(0x173B8CC4, 0x00000001); //JP
         if (is_pressed(BUTTON_A + BUTTON_DL))
-            SUBTOFLOAT(0x173B8CBC, 0x00000002); //JP
+            SUBTOFLOAT(0x173B8CBC, 0x00000001); //JP
         if (is_pressed(BUTTON_A + BUTTON_DR))
-            ADDTOFLOAT(0x173B8CBC, 0x00000002); //JP
+            ADDTOFLOAT(0x173B8CBC, 0x00000001); //JP
     }
 }
 
@@ -275,7 +275,7 @@ void	speed_jap(void) //JAP
 		}
 		else if (velocity > 0)
 		{
-			add_to_address((void*)0x173B8BBC, 0x00000002);
+			ADDTOFLOAT(0x173B8BBC, 0x00000002);
 		}
 	}
 }
@@ -293,7 +293,7 @@ void	weeder_jap(void)
 		add_search_replace(0x000000CC, 0x00007FFE);
 		add_search_replace(0x000000CD, 0x00007FFE);
 		add_search_replace(0x000000F8, 0x00007FFE);
-			find_and_replace_multiple((void *)0x1609D158, 0x5000);
+		find_and_replace_multiple((void *)0x1609D158, 0x5000);
 		wait_all_released();
 	}
 }
@@ -525,28 +525,28 @@ void	moonjump_jap(void)
 
     if (!(any_is_pressed(R)) && is_pressed(BUTTON_L)) //it's better to test the negation first
 	{
-		loc = READU32(0x17321644);
-		Z = READU32(0x17321514);
+		loc = READU32(0x173B8CC4);
+		Z = READU32(0x173B8B94);
 		if (Z >= 0x440F0000)
 		{
 			if (loc == -1)
 			{
-				WRITEU32(0x17321514, 0x440F0000);
+				WRITEU32(0x173B8B94, 0x440F0000);
 			}
 			else
 			{
-				WRITEU32(0x17321640, 0x440F0000);
+				WRITEU32(0x173B8CC0, 0x440F0000);
 			}
 		}
 		else
 		{
 			if (loc == -1)
 			{
-				ADDTOFLOAT(0x17321514, 0x00000006);
+				ADDTOFLOAT(0x173B8B94, 6.0);
 			}
 			else
 			{
-				ADDTOFLOAT(0x17321640, 0x00000006);
+				ADDTOFLOAT(0x173B8CC0, 6.0);
 			}
 		}	
 	}

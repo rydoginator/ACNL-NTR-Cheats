@@ -420,7 +420,7 @@ void	duplicate_eur(void)
 	u32			dupe3 = 0;
 	u32			dupe4 = 0;
 	
-	if (is_pressed(BUTTON_R))
+	if (is_pressed(BUTTON_L))
 	{
 		dupe = READU32(0x15FBEDD0);
 		dupe0 = READU32(0xAF8B28); //online pointer0
@@ -598,7 +598,7 @@ void	duplicate2_eur(void)
 	u32			dupe3 = 0;
 	u32			dupe4 = 0;
 	
-	if (is_pressed(BUTTON_R))
+	if (is_pressed(BUTTON_L))
 	{
 		dupe = READU32(0x15fc8ce0);
 		dupe0 = READU32(0xAF8B28); //online pointer0
@@ -650,7 +650,7 @@ void	duplicate4_eur(void)
 	u32			dupe3 = 0;
 	u32			dupe4 = 0;
 	
-	if (is_pressed(BUTTON_R))
+	if (is_pressed(BUTTON_L))
 	{
 		dupe = READU32(0x15fdcb00);
 		dupe0 = READU32(0xAF8B28); //online pointer0

@@ -702,3 +702,73 @@ void	tan4_usa(void)
 {
 	WRITEU8(0x15fd5c58, 0xF);
 }
+
+void	walkThru_usa(void)
+{
+    int        loc;
+    int        execution;
+
+    if (is_pressed(BUTTON_L + BUTTON_DU))
+    {
+        WRITEU8(0xAAE710, 0x1);
+    }
+    else if    (is_pressed(BUTTON_L + BUTTON_DD))
+    {
+        WRITEU8(0xAAE710, 0x0);
+    }
+    if    (READU8(0xAAE710) == 0x1)
+    {
+        loc = READU32(0x17321644);
+            if (loc == -1)
+            {
+ 				WRITEU32(0x17321514, 0xCD7FFFFA);
+            }
+            else
+            {
+                SUBTOFLOAT(0x17321640, 0x00000006);
+            }
+    }           
+    }
+
+void	edibleItems_usa(void)
+{
+	u16		*id = (u16 *)0x16F4C160;
+	char	id_str[5] = { 0 };
+	int		i;
+	u16		result;
+
+	if (is_pressed(BUTTON_L))
+	{
+	id = (u16 *)0x16F4C160;
+    for (i = 0; i < 4; i++)
+		id_str[i] = (char)READU8(id + i);
+	result = (u16)strtoul(id_str, NULL, 16);
+	WRITEU16(0x17321DC4, result);
+	}
+}
+
+void    seederV2_usa(void)
+{
+    u16        result;
+    u16        *id;
+    char        id_str[5];
+    int        i;
+
+    if (is_pressed(BUTTON_L))
+    {
+        id = (u16 *)0x16F4C160;
+        for (i = 0; i < 4; i++)
+            id_str[i] = (char)READU8(id + i);
+        result = (u16)strtoul(id_str, NULL, 16);
+        WRITEU16(0xA37bd8, result);
+
+    }
+    if (is_pressed(BUTTON_L + BUTTON_A))
+    {
+        id = (u16 *)0x16F4C160;
+        for (i = 0; i < 4; i++)
+            id_str[i] = (char)READU8(id + i);
+        result = (u16)strtoul(id_str, NULL, 16);
+        WRITEU32(0xA37bd8, 0x80000000 + result);
+    }
+}	
