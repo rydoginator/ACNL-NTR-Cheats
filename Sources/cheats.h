@@ -69,8 +69,8 @@ void	tan4_usa(void);
 void	walkThru_usa(void);
 void	edibleItems_usa(void);
 void	seederV2_usa(void);
-void	timeTravel_usa(void);
 void	timeMachine_usa(void);
+void	timeTravel_usa(void);
 
 /*
 ** JAP
@@ -138,5 +138,11 @@ void	duplicate4_eur(void);
 void	tan2_eur(void);
 void	tan3_eur(void);
 void	tan4_eur(void);
+void	walkThru_eur(void);
+void	edibleItems_eur(void);
+void	seederV2_eur(void);
+void	timeMachine_eur(void);
+void	timeTravel_eur(void);
+
 
 #endif

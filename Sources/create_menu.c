@@ -60,7 +60,7 @@ void	eur_menu(void)
 {
 	u32 index;
 
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.0 Alpha");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.0 Beta 1");
 	index = new_spoiler("Environment Codes");
 	set_note("Example note", index);
 		new_entry("Water all flowers", quench_eur);
@@ -103,6 +103,13 @@ void	eur_menu(void)
 		new_radio_entry("Super T&T", nook2_eur);
 		new_radio_entry("T.I.Y", nook3_eur);
 		new_radio_entry("T&T Emporium", nook4_eur);
+	exit_spoiler();
+	new_spoiler("Beta Codes");
+		new_entry("Walk Thru Walls", walkThru_eur);
+		new_entry("Edible Items", edibleItems_eur);
+		new_entry("Seeder V2", seederV2_eur);
+		new_entry("Time Travel", timeTravel_eur);
+		new_entry("Time Machine", timeMachine_eur);
 	exit_spoiler();
 }
 
