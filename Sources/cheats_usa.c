@@ -771,4 +771,144 @@ void    seederV2_usa(void)
         result = (u16)strtoul(id_str, NULL, 16);
         WRITEU32(0xA37bd8, 0x80000000 + result);
     }
+}
+
+void	walkThru_usaV2(void)
+{
+	int		loc;
+	
+	if (is_pressed(BUTTON_L + BUTTON_DU))
+	{
+		loc = READU32(0x17321644);
+		if	(loc == -1)
+		{
+			WRITEU8(0x1730F3EC, 0x1);
+			WRITEU8(0x17321677, 0x1);
+		}
+		else
+		{
+			SUBTOFLOAT(0x17321640, 0x00000006);
+		}
+	}
+	if (is_pressed(BUTTON_L + BUTTON_DD))
+	{
+		WRITEU8(0x1730F3EC, 0x0);
+		WRITEU8(0x17321677, 0x0);
+		
+	}
 }	
+
+void	timeMachine_usa(void)
+{
+    u16         *id = (u16 *)0x16F4C160;
+    char        yy_str[3] = { 0 };
+    char        mm_str[3] = { 0 };
+    char        dd_str[3] = { 0 };
+    char        hh_str[3] = { 0 };
+    char        mz_str[3] = { 0 };
+    char        pm_str[2] = { 0 };
+    s64         res_year = 0;
+    s64         res_month = 0;
+    s64         res_day = 0;
+    s64         res_hour = 0;
+    s64         res_min = 0;
+    s64         res_nansec = 0;
+    s64         res_plmn = 1;
+
+    if (is_pressed(BUTTON_Y + BUTTON_DR))
+	{
+		yy_str[0] = (char)READU8(id + 0);
+		yy_str[1] = (char)READU8(id + 1);
+		mm_str[0] = (char)READU8(id + 2);
+		mm_str[1] = (char)READU8(id + 3);
+		dd_str[0] = (char)READU8(id + 4);
+		dd_str[1] = (char)READU8(id + 5);
+		hh_str[0] = (char)READU8(id + 6);
+		hh_str[1] = (char)READU8(id + 7);
+		mz_str[0] = (char)READU8(id + 8);
+		mz_str[1] = (char)READU8(id + 9);
+		if ((char)READU8(id + 10) == 45) //minus
+			res_plmn = -1;
+		res_year = (s64)strtoul(yy_str, NULL, 16);
+			res_month = (s64)strtoul(mm_str, NULL, 16);
+		res_day = (s64)strtoul(dd_str, NULL, 16);
+		res_hour = (s64)strtoul(hh_str, NULL, 16);
+		res_min = (s64)strtoul(mz_str, NULL, 16);
+	
+		res_year = res_year * (365 * 24 * 60 * 60) * (1000000000); //(year to seconds) * (seconds to nanoseconds)
+		res_month = res_month * (28 * 24 * 60 * 60) * (1000000000); //("month" to seconds) * (seconds to nanoseconds)
+		res_day = res_day * (24 * 60 * 60) * (1000000000); //(day to seconds) * (seconds to nanoseconds)
+		res_hour = res_hour * (60 * 60) * (1000000000); //(hour to seconds) * (seconds to nanoseconds)
+		res_min = res_min * (60) * (1000000000); //(minute to seconds) * (seconds to nanoseconds)
+	
+		res_nansec = (res_year + res_month + res_day + res_hour + res_min) * res_plmn;
+
+		ADD64(0x16014620, res_nansec);
+		ADD64(0x9E8AB0, res_nansec);
+		wait_keys_released(DR);
+	}
+	
+	if (is_pressed(BUTTON_Y + BUTTON_DL))
+	{
+		yy_str[0] = (char)READU8(id + 0);
+		yy_str[1] = (char)READU8(id + 1);
+		mm_str[0] = (char)READU8(id + 2);
+		mm_str[1] = (char)READU8(id + 3);
+		dd_str[0] = (char)READU8(id + 4);
+		dd_str[1] = (char)READU8(id + 5);
+		hh_str[0] = (char)READU8(id + 6);
+		hh_str[1] = (char)READU8(id + 7);
+		mz_str[0] = (char)READU8(id + 8);
+		mz_str[1] = (char)READU8(id + 9);
+		if ((char)READU8(id + 10) == 45) //minus
+			res_plmn = -1;
+		res_year = (s64)strtoul(yy_str, NULL, 16);
+		res_month = (s64)strtoul(mm_str, NULL, 16);
+		res_day = (s64)strtoul(dd_str, NULL, 16);
+		res_hour = (s64)strtoul(hh_str, NULL, 16);
+		res_min = (s64)strtoul(mz_str, NULL, 16);
+	
+		res_year = res_year * (365 * 24 * 60 * 60) * (1000000000); //(year to seconds) * (seconds to nanoseconds)
+		res_month = res_month * (28 * 24 * 60 * 60) * (1000000000); //("month" to seconds) * (seconds to nanoseconds)
+		res_day = res_day * (24 * 60 * 60) * (1000000000); //(day to seconds) * (seconds to nanoseconds)
+		res_hour = res_hour * (60 * 60) * (1000000000); //(hour to seconds) * (seconds to nanoseconds)
+		res_min = res_min * (60) * (1000000000); //(minute to seconds) * (seconds to nanoseconds)
+	
+		res_nansec = (res_year + res_month + res_day + res_hour + res_min) * res_plmn;
+
+		SUB64(0x16014620, res_nansec);
+		SUB64(0x9E8AB0, res_nansec);
+		wait_keys_released(DL);
+	}
+}
+
+void	timeTravel_usa(void)
+{
+	if(is_pressed(BUTTON_B + BUTTON_DR))
+	{
+		ADD64(0x16014620, 0x34630B8A000);
+		ADD64(0x9E8AB0, 0x34630B8A000);
+		wait_keys_released(DR);
+	}
+	if(is_pressed(BUTTON_B + BUTTON_DL))
+	{
+		SUB64(0x16014620, 0x34630B8A000);
+		SUB64(0x9E8AB0, 0x34630B8A000);
+		wait_keys_released(DL);
+	}
+	if(is_pressed(BUTTON_B + BUTTON_DD))
+	{
+		WRITES64(0x16014620, 0x0000000000000000);
+		WRITES64(0x9E8AB0, 0x0000000000000000);
+	}
+	if(is_pressed(BUTTON_R + BUTTON_DR))
+	{
+		ADD64(0x16014620, 0xdf8475800);
+		ADD64(0x9E8AB0, 0xdf8475800);
+	}
+	if(is_pressed(BUTTON_R + BUTTON_DL))
+	{
+		SUB64(0x16014620, 0xdf8475800);
+		SUB64(0x9E8AB0, 0xdf8475800);
+	}
+}

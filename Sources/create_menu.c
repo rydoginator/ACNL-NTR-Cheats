@@ -4,7 +4,7 @@ char	*builder_name = "itsRyan";
 
 void	usa_menu(void)
 {
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.0 Alpha");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.0 Beta 1");
 	new_spoiler("Environment Codes");
 		new_entry("Water all flowers", quench_usa);
 		new_entry("Seeder", seed_usa);
@@ -51,6 +51,8 @@ void	usa_menu(void)
 		new_entry("Walk Thru Walls", walkThru_usa);
 		new_entry("Edible Items", edibleItems_usa);
 		new_entry("Seeder V2", seederV2_usa);
+		new_entry("Time Travel", timeTravel_usa);
+		new_entry("Time Machine", timeMachine_usa);
 	exit_spoiler();
 }
 

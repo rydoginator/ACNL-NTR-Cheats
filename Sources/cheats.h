@@ -15,6 +15,13 @@
 #define ITEM_BYTES 0x04
 #define RANGE_TOWN_ITEMS 0x5000
 
+#ifndef WRITES64
+#   define WRITES64(addr, data)     *(vs64*)(addr) = data
+#endif
+
+#define	ADD64(addr, value)		*(vs64*)addr += value
+#define SUB64(addr, value)		*(vs64*)addr -= value
+
 #ifndef ADDTOFLOAT
 #define ADDTOFLOAT(addr, add_value) *(float *)addr += (float)add_value
 #define SUBTOFLOAT(addr, sub_value) *(float *)addr -= (float)sub_value
@@ -62,6 +69,8 @@ void	tan4_usa(void);
 void	walkThru_usa(void);
 void	edibleItems_usa(void);
 void	seederV2_usa(void);
+void	timeTravel_usa(void);
+void	timeMachine_usa(void);
 
 /*
 ** JAP

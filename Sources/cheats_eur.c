@@ -108,7 +108,7 @@ void    text2item_eur(void)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
 	WRITEU16(0x15FBEDD0, result);
-	WRITEU16(0xAF8B28, result);
+	WRITEU16(0xAF7B28, result);
 	WRITEU16(0xB02A38, result);
 	WRITEU16(0xB0C948, result);
 	WRITEU16(0xB16858, result);
@@ -539,7 +539,7 @@ void	text2item2_eur(void)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
 	WRITEU16(0x15fc8ce0, result);
-	WRITEU16(0xAF8B28, result);
+	WRITEU16(0xAF7B28, result);
 	WRITEU16(0xB02A38, result);
 	WRITEU16(0xB0C948, result);
 	WRITEU16(0xB16858, result);
@@ -560,7 +560,7 @@ void	text2item3_eur(void)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
 	WRITEU16(0x15fd2bf0, result);
-	WRITEU16(0xAF8B28, result);
+	WRITEU16(0xAF7B28, result);
 	WRITEU16(0xB02A38, result);
 	WRITEU16(0xB0C948, result);
 	WRITEU16(0xB16858, result);
@@ -581,7 +581,7 @@ void	text2item4_eur(void)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
 	WRITEU16(0x15fdcb00, result);
-	WRITEU16(0xAF8B28, result);
+	WRITEU16(0xAF7B28, result);
 	WRITEU16(0xB02A38, result);
 	WRITEU16(0xB0C948, result);
 	WRITEU16(0xB16858, result);
@@ -598,16 +598,16 @@ void	duplicate2_eur(void)
 	u32			dupe3 = 0;
 	u32			dupe4 = 0;
 	
-	if (is_pressed(BUTTON_L))
+	if (is_pressed(BUTTON_R))
 	{
 		dupe = READU32(0x15fc8ce0);
-		dupe0 = READU32(0xAF8B28); //online pointer0
+		dupe0 = READU32(0xAF7B28); //online pointer0
 		dupe1 = READU32(0xB02A38); //online pointer1
 		dupe2 = READU32(0xB0C948); //online pointer2
 		dupe3 = READU32(0xB01B38);
 		dupe4 = READU32(0xB15958);
 		WRITEU32(0x15fc8ce4, dupe);
-		WRITEU32(0xAF8B2C, dupe0);
+		WRITEU32(0xAF7B2C, dupe0);
 		WRITEU32(0xB02A3C, dupe1);
 		WRITEU32(0xB01B3C, dupe2);
 		WRITEU32(0xB1695C, dupe3);
@@ -627,7 +627,7 @@ void	duplicate3_eur(void)
 	if (is_pressed(BUTTON_R))
 	{
 		dupe = READU32(0x15fd2bf0);
-		dupe0 = READU32(0xAF8B28); //online pointer0
+		dupe0 = READU32(0xAF7B28); //online pointer0
 		dupe1 = READU32(0xB02A38); //online pointer1
 		dupe2 = READU32(0xB0C948); //online pointer2
 		dupe3 = READU32(0xB01B38);
@@ -650,16 +650,16 @@ void	duplicate4_eur(void)
 	u32			dupe3 = 0;
 	u32			dupe4 = 0;
 	
-	if (is_pressed(BUTTON_L))
+	if (is_pressed(BUTTON_R))
 	{
 		dupe = READU32(0x15fdcb00);
-		dupe0 = READU32(0xAF8B28); //online pointer0
+		dupe0 = READU32(0xAF7B28); //online pointer0
 		dupe1 = READU32(0xB02A38); //online pointer1
 		dupe2 = READU32(0xB0C948); //online pointer2
 		dupe3 = READU32(0xB01B38);
 		dupe4 = READU32(0xB15958);
 		WRITEU32(0x15fdcb04, dupe);
-		WRITEU32(0xAF8B2C, dupe0);
+		WRITEU32(0xAF7B2C, dupe0);
 		WRITEU32(0xB02A3C, dupe1);
 		WRITEU32(0xB01B3C, dupe2);
 		WRITEU32(0xB1695C, dupe3);
