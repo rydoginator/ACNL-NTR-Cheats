@@ -263,7 +263,7 @@ void	speed_usa(void)
 	u32			  velocity;
 	if (is_pressed(BUTTON_B))
 	{
-		velocity = READU32(0x330773Fc;
+		velocity = READU32(0x330773Fc);
 		if (velocity >= 0x41A79DB3)
 		{
 			WRITEU32(0x1732153C, 0x41A79DB3);

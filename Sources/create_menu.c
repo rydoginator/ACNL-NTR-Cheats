@@ -4,36 +4,36 @@ char	*builder_name = "itsRyan";
 
 void	usa_menu(void)
 {
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.0 Beta 1");
-	new_spoiler("Environment Codes");
-		new_entry("Water all flowers", quench_usa);
-		new_entry("Seeder", seed_usa);
-		new_entry("Search and Replace", search_usa);
-		new_entry("Grass", grass_usa);
-		new_entry("Desert", desert_usa);
-		new_entry("Remove all weeds", weeder_usa);
-		new_entry("Instant Tree", tree_usa);
-	exit_spoiler();
-	new_spoiler("Player 1 Codes");
-		new_entry("Text to Item", text2item_usa);
-		new_entry("Duplication", duplicate_usa);
-		new_entry("Max Tan", tan_usa);
-	exit_spoiler();
-	new_spoiler("Player 2 Codes");
-		new_entry("Text to Item", text2item2_usa);
-		new_entry("Duplication", duplicate2_usa);
-		new_entry("Max Tan", tan2_usa);
-	exit_spoiler();
-	new_spoiler("Player 3 Codes");
-		new_entry("Text to Item", text2item3_usa);
-		new_entry("Duplication", duplicate3_usa);
-		new_entry("Max Tan", tan3_usa);
-	exit_spoiler();
-	new_spoiler("Player 4 Codes");
-		new_entry("Text to Item", text2item4_usa);
-		new_entry("Duplication", duplicate4_usa);
-		new_entry("Max Tan", tan4_usa);
-	exit_spoiler();
+	new_unselectable_entry("Test Build 1");
+	//new_spoiler("Environment Codes");
+		//new_entry("Water all flowers", quench_usa);
+		//new_entry("Seeder", seed_usa);
+		//new_entry("Search and Replace", search_usa);
+		//new_entry("Grass", grass_usa);
+		//new_entry("Desert", desert_usa);
+		//new_entry("Remove all weeds", weeder_usa);
+		//new_entry("Instant Tree", tree_usa);
+	//exit_spoiler();
+	//new_spoiler("Player 1 Codes");
+		//new_entry("Text to Item", text2item_usa);
+		//new_entry("Duplication", duplicate_usa);
+		//new_entry("Max Tan", tan_usa);
+	//exit_spoiler();
+	//new_spoiler("Player 2 Codes");
+		//new_entry("Text to Item", text2item2_usa);
+		//new_entry("Duplication", duplicate2_usa);
+		//new_entry("Max Tan", tan2_usa);
+	//exit_spoiler();
+	//new_spoiler("Player 3 Codes");
+		//new_entry("Text to Item", text2item3_usa);
+		//new_entry("Duplication", duplicate3_usa);
+		//new_entry("Max Tan", tan3_usa);
+	//exit_spoiler();
+	//new_spoiler("Player 4 Codes");
+		//new_entry("Text to Item", text2item4_usa);
+		//new_entry("Duplication", duplicate4_usa);
+		//new_entry("Max Tan", tan4_usa);
+	//exit_spoiler();
 	new_spoiler("Movement Codes");
 		new_entry("Warping", warping_usa);
 		new_entry("Moon Jump", moonjump_usa);
@@ -41,19 +41,19 @@ void	usa_menu(void)
 		new_entry("Speed Hack", speed_usa);
 		new_entry("Teleport", teleport_usa);
 	exit_spoiler();
-	new_spoiler("Nookling Upgrades");
-		new_radio_entry("T&T Mart", nook1_usa);
-		new_radio_entry("Super T&T", nook2_usa);
-		new_radio_entry("T.I.Y", nook3_usa);
-		new_radio_entry("T&T Emporium", nook4_usa);
-	exit_spoiler();
-	new_spoiler("Beta Codes");
-		new_entry("Walk Thru Walls", walkThru_usa);
-		new_entry("Edible Items", edibleItems_usa);
-		new_entry("Seeder V2", seederV2_usa);
-		new_entry("Time Travel", timeTravel_usa);
-		new_entry("Time Machine", timeMachine_usa);
-	exit_spoiler();
+	//new_spoiler("Nookling Upgrades");
+		//new_radio_entry("T&T Mart", nook1_usa);
+		//new_radio_entry("Super T&T", nook2_usa);
+		//new_radio_entry("T.I.Y", nook3_usa);
+		//new_radio_entry("T&T Emporium", nook4_usa);
+	//exit_spoiler();
+	//new_spoiler("Beta Codes");
+		//new_entry("Walk Thru Walls", walkThru_usa);
+		//new_entry("Edible Items", edibleItems_usa);
+		//new_entry("Seeder V2", seederV2_usa);
+		//new_entry("Time Travel", timeTravel_usa);
+		//new_entry("Time Machine", timeMachine_usa);
+	//exit_spoiler();
 }
 
 void	eur_menu(void)
@@ -174,10 +174,10 @@ void	my_menus(void)
 	tid = get_tid_low();
 	if (tid == 0x86300)
 		usa_menu();
-	else if (tid == 0x86400)
-		eur_menu();
-	else if (tid == 0x86200)
-		jap_menu();
+	//else if (tid == 0x86400)
+	//	eur_menu();
+	//else if (tid == 0x86200)
+	//	jap_menu();
 	else
 	{
 		new_unselectable_entry("Unsupported ID");
