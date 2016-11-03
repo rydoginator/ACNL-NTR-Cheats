@@ -10,29 +10,29 @@ void    coord_usa(void)
 
 	if (is_pressed(BUTTON_A))
 	{
-		loc = READU32(0x17321644);
+		loc = READU32(0x33077504);
 	}
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			ADDTOFLOAT(0x17321518, 0x00000001);
+			ADDTOFLOAT(0x330773D8, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			SUBTOFLOAT(0x17321518, 0x00000001);
+			SUBTOFLOAT(0x330773D8, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			SUBTOFLOAT(0x17321510, 0x00000001);
+			SUBTOFLOAT(0x330773D0, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			ADDTOFLOAT(0x17321510, 0x00000001);
+			ADDTOFLOAT(0x330773D0, 1.0);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			ADDTOFLOAT(0x17321644, 0x00000001);
+			ADDTOFLOAT(0x33077504, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			SUBTOFLOAT(0x17321644, 0x00000001);
+			SUBTOFLOAT(0x33077504, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			SUBTOFLOAT(0x1732163c, 0x00000001);
+			SUBTOFLOAT(0x330774fc, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			ADDTOFLOAT(0x1732163c, 0x00000001);
+			ADDTOFLOAT(0x330774fc, 1.0);
 	}
 }
 void    search_usa(void)
@@ -144,7 +144,7 @@ void    teleport_usa(void)
 
 	if (is_pressed(BUTTON_B)) //Pointer to define whether player is indoors or not
 	{
-		loc = READU32(0x17321644);
+		loc = READU32(0x33077504);
 	}
 	if (is_pressed(BUTTON_B + BUTTON_DU))
 	{
@@ -152,36 +152,36 @@ void    teleport_usa(void)
 		{
 			if (is_pressed(BUTTON_L)) //If L is pressed then save in slot3
 			{
-				outdoor_X[2] = READU32(0x17321510);
-				outdoor_Y[2] = READU32(0x17321518);
+				outdoor_X[2] = READU32(0x330773D0);
+				outdoor_Y[2] = READU32(0x330773D8);
 			}
 			else if (is_pressed(BUTTON_R)) //If R is pressed then save in slot2
 			{
-				outdoor_X[1] = READU32(0x17321510);
-				outdoor_Y[1] = READU32(0x17321518);
+				outdoor_X[1] = READU32(0x330773D0);
+				outdoor_Y[1] = READU32(0x330773D8);
 			}
 			else //If noting is pressed then save in slot0
 			{
-				outdoor_X[0] = READU32(0x17321510);
-				outdoor_Y[0] = READU32(0x17321518);
+				outdoor_X[0] = READU32(0x330773D0);
+				outdoor_Y[0] = READU32(0x330773D8);
 			}
 		}
 		else
 		{
 			if (is_pressed(BUTTON_L)) //If L is pressed then save in slot3
 			{
-				indoor_X[2] = READU32(0x1732163c);
-				indoor_Y[2] = READU32(0x17321644);
+				indoor_X[2] = READU32(0x330774fc);
+				indoor_Y[2] = READU32(0x33077504);
 			}
 			else if (is_pressed(BUTTON_R)) //If R is pressed then save in slot2
 			{
-				indoor_X[1] = READU32(0x1732163c);
-				indoor_Y[1] = READU32(0x17321644);
+				indoor_X[1] = READU32(0x330774fc);
+				indoor_Y[1] = READU32(0x33077504);
 			}
 			else //If noting is pressed then save in slot0
 			{
-				indoor_X[0] = READU32(0x1732163c);
-				indoor_Y[0] = READU32(0x17321644);
+				indoor_X[0] = READU32(0x330774fc);
+				indoor_Y[0] = READU32(0x33077504);
 			}
 		}
 	}
@@ -191,36 +191,36 @@ void    teleport_usa(void)
 		{
 			if (is_pressed(BUTTON_L)) //If L is pressed then restore slot3
 			{
-				WRITEU32(0x17321510, outdoor_X[2]);
-				WRITEU32(0x17321518, outdoor_Y[2]);
+				WRITEU32(0x330773D0, outdoor_X[2]);
+				WRITEU32(0x330773D8, outdoor_Y[2]);
 			}
 			else if (is_pressed(BUTTON_R)) //If R is pressed then restore slot2
 			{
-				WRITEU32(0x17321510, outdoor_X[1]);
-				WRITEU32(0x17321518, outdoor_Y[1]);
+				WRITEU32(0x330773D0, outdoor_X[1]);
+				WRITEU32(0x330773D8, outdoor_Y[1]);
 			}
 			else //If noting is pressed then restore slot0
 			{
-				WRITEU32(0x17321510, outdoor_X[0]);
-				WRITEU32(0x17321518, outdoor_Y[0]);
+				WRITEU32(0x330773D0, outdoor_X[0]);
+				WRITEU32(0x330773D8, outdoor_Y[0]);
 			}
 		}
 		else
 		{
 			if (is_pressed(BUTTON_L)) //If L is pressed then restore slot3
 			{
-				WRITEU32(0x1732163c, indoor_X[2]);
-				WRITEU32(0x17321644, indoor_Y[2]);
+				WRITEU32(0x330774fc, indoor_X[2]);
+				WRITEU32(0x33077504, indoor_Y[2]);
 			}
 			else if (is_pressed(BUTTON_R)) //If R is pressed then restore slot2
 			{
-				WRITEU32(0x1732163c, indoor_X[1]);
-				WRITEU32(0x17321644, indoor_Y[1]);
+				WRITEU32(0x330774fc, indoor_X[1]);
+				WRITEU32(0x33077504, indoor_Y[1]);
 			}
 			else //If noting is pressed then restore slot0
 			{
-				WRITEU32(0x1732163c, indoor_X[0]);
-				WRITEU32(0x17321644, indoor_Y[0]);
+				WRITEU32(0x330774fc, indoor_X[0]);
+				WRITEU32(0x33077504, indoor_Y[0]);
 			}
 		}
 	}
@@ -263,14 +263,14 @@ void	speed_usa(void)
 	u32			  velocity;
 	if (is_pressed(BUTTON_B))
 	{
-		velocity = READU32(0x1732153C);
+		velocity = READU32(0x330773Fc;
 		if (velocity >= 0x41A79DB3)
 		{
 			WRITEU32(0x1732153C, 0x41A79DB3);
 		}
 		else if (velocity > 0)
 		{
-		ADDTOFLOAT(0x1732153C, 0x00000002);
+		ADDTOFLOAT(0x330773Fc, 2.0);
 		}
 	}
 }
@@ -515,33 +515,33 @@ void	tan_usa(void)
 
 void	moonjump_usa(void)
 {
-	int		loc;
-	u32		Z;
+	int	loc;
+	u32 Z;
 
     if (!(any_is_pressed(R)) && is_pressed(BUTTON_L)) //it's better to test the negation first
 	{
-		loc = READU32(0x17321644);
-		Z = READU32(0x17321514);
+		loc = READU32(0x33077504);
+		Z = READU32(0x330773D4);
 		if (Z >= 0x440F0000)
 		{
 			if (loc == -1)
 			{
-				WRITEU32(0x17321514, 0x440F0000);
+				WRITEU32(0x330773D4, 0x440F0000);
 			}
 			else
 			{
-				WRITEU32(0x17321640, 0x440F0000);
+				WRITEU32(0x33077500, 0x440F0000);
 			}
 		}
 		else
 		{
 			if (loc == -1)
 			{
-				ADDTOFLOAT(0x17321514, 0x00000006);
+				ADDTOFLOAT(0x330773D4, 6.0);
 			}
 			else
 			{
-				ADDTOFLOAT(0x17321640, 0x00000006);
+				ADDTOFLOAT(0x33077500, 6.0);
 			}
 		}	
 	}
@@ -782,7 +782,7 @@ void	walkThru_usaV2(void)
 		loc = READU32(0x17321644);
 		if	(loc == -1)
 		{
-			WRITEU8(0x1730F3EC, 0x1);
+			WRITEU8(0x33066120, 0x1);
 			WRITEU8(0x17321677, 0x1);
 		}
 		else
