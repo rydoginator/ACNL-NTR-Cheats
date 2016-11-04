@@ -4,21 +4,22 @@ char	*builder_name = "itsRyan";
 
 void	usa_menu(void)
 {
-	new_unselectable_entry("Test Build 1");
-	//new_spoiler("Environment Codes");
-		//new_entry("Water all flowers", quench_usa);
-		//new_entry("Seeder", seed_usa);
-		//new_entry("Search and Replace", search_usa);
-		//new_entry("Grass", grass_usa);
-		//new_entry("Desert", desert_usa);
-		//new_entry("Remove all weeds", weeder_usa);
-		//new_entry("Instant Tree", tree_usa);
-	//exit_spoiler();
-	//new_spoiler("Player 1 Codes");
-		//new_entry("Text to Item", text2item_usa);
-		//new_entry("Duplication", duplicate_usa);
+	new_unselectable_entry("Test Build 2");
+	new_spoiler("Environment Codes");
+		new_entry("Real Time World Edit", real);
+		new_entry("Water all flowers", quench_usa);
+		new_entry("Seeder", seed_usa);
+		new_entry("Search and Replace", search_usa);
+		new_entry("Grass", grass_usa);
+		new_entry("Desert", desert_usa);
+		new_entry("Remove all weeds", weeder_usa);
+		new_entry("Instant Tree", tree_usa);
+	exit_spoiler();
+	new_spoiler("Inventory Codes");
+		new_entry("Text to Item", text2item_usa);
+		new_entry("Duplication", duplicate_usa);
 		//new_entry("Max Tan", tan_usa);
-	//exit_spoiler();
+	exit_spoiler();
 	//new_spoiler("Player 2 Codes");
 		//new_entry("Text to Item", text2item2_usa);
 		//new_entry("Duplication", duplicate2_usa);
@@ -41,19 +42,18 @@ void	usa_menu(void)
 		new_entry("Speed Hack", speed_usa);
 		new_entry("Teleport", teleport_usa);
 	exit_spoiler();
-	//new_spoiler("Nookling Upgrades");
-		//new_radio_entry("T&T Mart", nook1_usa);
-		//new_radio_entry("Super T&T", nook2_usa);
-		//new_radio_entry("T.I.Y", nook3_usa);
-		//new_radio_entry("T&T Emporium", nook4_usa);
-	//exit_spoiler();
-	//new_spoiler("Beta Codes");
-		//new_entry("Walk Thru Walls", walkThru_usa);
+	new_spoiler("Nookling Upgrades");
+		new_radio_entry("T&T Mart", nook1_usa);
+		new_radio_entry("Super T&T", nook2_usa);
+		new_radio_entry("T.I.Y", nook3_usa);
+		new_radio_entry("T&T Emporium", nook4_usa);
+	exit_spoiler();
+	new_spoiler("Beta Codes");
 		//new_entry("Edible Items", edibleItems_usa);
 		//new_entry("Seeder V2", seederV2_usa);
-		//new_entry("Time Travel", timeTravel_usa);
-		//new_entry("Time Machine", timeMachine_usa);
-	//exit_spoiler();
+		new_entry("Time Travel", timeTravel_usa);
+		new_entry("Time Machine", timeMachine_usa);
+	exit_spoiler();
 }
 
 void	eur_menu(void)
@@ -182,12 +182,12 @@ void	my_menus(void)
 	{
 		new_unselectable_entry("Unsupported ID");
 		new_unselectable_entry("!!! Title id unrecognized !!!");
-		new_unselectable_entry("!!! You need either       !!!");
-		new_unselectable_entry("!!! 00040000 00086200     !!!");
-		new_unselectable_entry("!!! or                    !!!");
+		new_unselectable_entry("!!! You need      !!!");
+		//new_unselectable_entry("!!! 00040000 00086200     !!!");
+		//new_unselectable_entry("!!! or                    !!!");
 		new_unselectable_entry("!!! 00040000 00086300     !!!");
-		new_unselectable_entry("!!! or                    !!!");
-		new_unselectable_entry("!!! 00040000 00086400     !!!");
+		//new_unselectable_entry("!!! or                    !!!");
+		//new_unselectable_entry("!!! 00040000 00086400     !!!");
 	}
 
 }

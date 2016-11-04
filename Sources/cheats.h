@@ -9,7 +9,7 @@
 #define   reset_search()                    memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
 #define   add_to_address(addr, value)       *(u32 *)addr += value
 #define   sub_to_address(addr, value)       *(u32 *)addr -= value
-#define OFFSET_TOWN_ITEMS 0x16005958
+#define OFFSET_TOWN_ITEMS 0x31F7A458
 #define OFFSET_TOWN_ITEMS_EUR 0x16005c58
 #define OFFSET_TOWN_ITEMS_JAP 0x1609D158
 #define ITEM_BYTES 0x04
@@ -71,6 +71,7 @@ void	edibleItems_usa(void);
 void	seederV2_usa(void);
 void	timeMachine_usa(void);
 void	timeTravel_usa(void);
+void	real(void);
 
 /*
 ** JAP
