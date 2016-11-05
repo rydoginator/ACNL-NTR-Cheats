@@ -148,7 +148,7 @@ void	my_menus(void)
 	tid = get_tid_low();
 	if (tid == 0x86300)
 		usa_menu();
-	//else if (tid == 0x86400)
+	else if (tid == 0x86400)
 	//	eur_menu();
 	//else if (tid == 0x86200)
 	//	jap_menu();
