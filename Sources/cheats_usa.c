@@ -113,13 +113,25 @@ void    text2item_usa(void)
 	char		id_str[5] = { 0 };
 	int		i;
 	u16		result;
-
+	u8		player;
+	u32		offset;
+	
+	player = READU8(0xAAE990);
+	if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
 	if (!is_pressed(BUTTON_X + BUTTON_DR))
 		return;
 	for (i = 0; i < 4; i++)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
-	WRITEU16(0x31F2DBF0, result);
+	WRITEU16(0x31F2DBF0 + offset, result);
+	WRITEU16(0xAB36E4, result); //player 2
+    WRITEU16(0xABDB64, result); //player 3
+    WRITEU16(0xAAb0e4, result); //player 4
+    WRITEU16(0xA8C364, result);
+    WRITEU16(0xAA0C60, result);
 	wait_all_released();
 }
 
@@ -419,25 +431,55 @@ void	tree_usa(void)
 	}
 }
 
-void	duplicate_usa(void)
+void    duplicate_usa(void)
 {
-	u32		dupe;
-	
-	if (is_pressed(BUTTON_R))
-	{
-		dupe = READU32(0x31F2DBF0);
-		WRITEU32(0x31F2DBF4, dupe);
-	}
+    u32 dupe = 0;
+    u32 dupe0 = 0;
+    u32 dupe1 = 0;
+    u32 dupe2 = 0;
+    u32 dupe3 = 0;
+    u32 dupe4 = 0;
+	u32 dupe5 = 0;
+	u32 offset;
+	u8 player;
+	/* OFFSETS FOUND 
+	0xAAb0e0 only player on island.
+	0xA8C360 2nd player on island.
+	0xAA0C60 3rd player on island.
+		
+	*/
+   
+    if (is_pressed(BUTTON_R))
+    {
+		player = READU8(0xAAE990);
+		if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+		{
+			offset = player * 0xa480;
+		}
+        dupe = READU32(0x31F2DBF0 + offset);
+        dupe0 = READU32(0xAB36E0); //online pointer0
+        dupe1 = READU32(0xABDB60); //online pointer1
+        dupe2 = READU32(0xAC7FE0); //online pointer2
+        dupe3 = READU32(0xAAb0e0);
+        dupe4 = READU32(0xA8C360);
+		dupe5 = READU32(0xAA0C60);
+        WRITEU32(0x31F2DBF4 + offset, dupe);
+        WRITEU32(0xAB36E4, dupe0); //player 2
+        WRITEU32(0xABDB64, dupe1); //player 3
+        WRITEU32(0xAAb0e4, dupe2); //player 4
+        WRITEU32(0xA8C364, dupe3);
+        WRITEU32(0xAA0C60, dupe4);
+    }
 }
 
 void	grass_usa(void)
 {
-	disableCheat(8);
+	disableCheat(9);
 	if (is_pressed(BUTTON_R + BUTTON_A))
 	{
 		int i;
 
-		for (i = 0x31025300; i < 0x31027AFF; i++)
+		for (i = 0x31F80880; i < 0x31F8307F; i++)
 			*(u32 *)i = 0xFFFFFFFF;
 		wait_all_released();
 	}
@@ -450,7 +492,7 @@ void	desert_usa(void) //31025300
 	{
 		int i;
 
-		for (i = 0x31025300; i < 0x31027AFF; i++)
+		for (i = 0x31F80880; i < 0x31F8307F; i++)
 			*(u32 *)i = 0x00000000;
 		wait_all_released();
 	}
