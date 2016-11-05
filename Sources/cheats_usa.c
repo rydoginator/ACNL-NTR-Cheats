@@ -466,9 +466,10 @@ void    duplicate_usa(void)
         WRITEU32(0x31F2DBF4 + offset, dupe);
         WRITEU32(0xAB36E4, dupe0); //player 2
         WRITEU32(0xABDB64, dupe1); //player 3
-        WRITEU32(0xAAb0e4, dupe2); //player 4
-        WRITEU32(0xA8C364, dupe3);
-        WRITEU32(0xAA0C60, dupe4);
+        WRITEU32(0xAC7FE4, dupe2); //player 4
+        WRITEU32(0xAAb0e4, dupe3);
+        WRITEU32(0xA8C364, dupe4);
+		WRITEU32(0xAA0C64, dupe5);
     }
 }
 
