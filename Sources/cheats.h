@@ -9,8 +9,8 @@
 #define   reset_search()                    memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
 #define   add_to_address(addr, value)       *(u32 *)addr += value
 #define   sub_to_address(addr, value)       *(u32 *)addr -= value
-#define OFFSET_TOWN_ITEMS 0x16005958
-#define OFFSET_TOWN_ITEMS_EUR 0x16005c58
+#define OFFSET_TOWN_ITEMS 0x31F7A458
+#define OFFSET_TOWN_ITEMS_EUR 0x31F520D8
 #define OFFSET_TOWN_ITEMS_JAP 0x1609D158
 #define ITEM_BYTES 0x04
 #define RANGE_TOWN_ITEMS 0x5000
@@ -57,12 +57,6 @@ void	nook2_usa(void);
 void	nook3_usa(void);
 void	nook4_usa(void);
 void	tan_usa(void);
-void	text2item2_usa(void);
-void	text2item3_usa(void);
-void	text2item4_usa(void);
-void	duplicate2_usa(void);
-void	duplicate3_usa(void);
-void	duplicate4_usa(void);
 void	tan2_usa(void);
 void	tan3_usa(void);
 void	tan4_usa(void);
@@ -71,6 +65,7 @@ void	edibleItems_usa(void);
 void	seederV2_usa(void);
 void	timeMachine_usa(void);
 void	timeTravel_usa(void);
+void	real(void);
 
 /*
 ** JAP
@@ -129,12 +124,6 @@ void	nook2_eur(void);
 void	nook3_eur(void);
 void	nook4_eur(void);
 void	tan_eur(void);
-void	text2item2_eur(void);
-void	text2item3_eur(void);
-void	text2item4_eur(void);
-void	duplicate2_eur(void);
-void	duplicate3_eur(void);
-void	duplicate4_eur(void);
 void	tan2_eur(void);
 void	tan3_eur(void);
 void	tan4_eur(void);
@@ -143,6 +132,7 @@ void	edibleItems_eur(void);
 void	seederV2_eur(void);
 void	timeMachine_eur(void);
 void	timeTravel_eur(void);
+void	real_eur(void);
 
 
 #endif

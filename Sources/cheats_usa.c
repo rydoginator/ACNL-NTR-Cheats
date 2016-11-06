@@ -10,62 +10,56 @@ void    coord_usa(void)
 
 	if (is_pressed(BUTTON_A))
 	{
-		loc = READU32(0x17321644);
+		loc = READU32(0x33077504);
 	}
 	if (loc == -1) //FFFFFFFF=outdoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			ADDTOFLOAT(0x17321518, 0x00000001);
+			ADDTOFLOAT(0x330773D8, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			SUBTOFLOAT(0x17321518, 0x00000001);
+			SUBTOFLOAT(0x330773D8, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			SUBTOFLOAT(0x17321510, 0x00000001);
+			SUBTOFLOAT(0x330773D0, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			ADDTOFLOAT(0x17321510, 0x00000001);
+			ADDTOFLOAT(0x330773D0, 1.0);
 	}
 	else //if it's anything but FFFFFFFF then you're indoors
 	{
 		if (is_pressed(BUTTON_A + BUTTON_DD))
-			ADDTOFLOAT(0x17321644, 0x00000001);
+			ADDTOFLOAT(0x33077504, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DU))
-			SUBTOFLOAT(0x17321644, 0x00000001);
+			SUBTOFLOAT(0x33077504, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DL))
-			SUBTOFLOAT(0x1732163c, 0x00000001);
+			SUBTOFLOAT(0x330774fc, 1.0);
 		if (is_pressed(BUTTON_A + BUTTON_DR))
-			ADDTOFLOAT(0x1732163c, 0x00000001);
+			ADDTOFLOAT(0x330774fc, 1.0);
 	}
 }
 void    search_usa(void)
 {
-	static u16	result;
-	u16		*id;
+	u16			search;
+	u16			replace;
+	u16			*search_id;
+	u16			*replace_id;
 	char		id_str[5];
-	int		i;
+	int			i;
 
-	if (is_pressed(BUTTON_L + BUTTON_DU))
+	if (is_pressed(BUTTON_L + BUTTON_DL))
 	{
-		id = (u16 *)0x16F4C160;
+		search_id = (u16 *)0x32cb0f60;
+		replace_id = search_id + 4;
+		memset(id_str, '\0', 5);
 		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU8(id + i);
-		result = (u16)strtoul(id_str, NULL, 16);
-		if (result != 0)
-		{
-		reset_search();
-		add_search_replace(result, 0x9999);
-		find_and_replace_multiple((void *)0x16005958, 0x5000);
-		find_and_replace_multiple((void *)0x16022328, 0x1000);
-		}
-	}
-	if (is_pressed(BUTTON_L + BUTTON_DD))
-	{
-		id = (u16 *)0x16F4C160;
+			id_str[i] = (char)READU8(search_id + i);
+		search = (u16)strtoul(id_str, NULL, 16);
+		memset(id_str, '\0', 5);
 		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU8(id + i);
-		result = (u16)strtoul(id_str, NULL, 16);
+			id_str[i] = (char)READU8(replace_id + i);
+		replace = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
-		add_search_replace(0x9999, result);
-		find_and_replace_multiple((void *)0x16005958, 0x5000);
-		find_and_replace_multiple((void *)0x16022328, 0x1000);
+		add_search_replace(search, replace);
+		find_and_replace_multiple((void *)0x31F7A458, 0x5000);
+		find_and_replace_multiple((void *)0x31F96E58, 0x1000);
 	}
 }
 
@@ -79,58 +73,65 @@ void    seed_usa(void)
 
 	if (is_pressed(BUTTON_R + BUTTON_DD))
 	{
-		id = (u16 *)0x16F4C160;
+		id = (u16 *)0x32cb0f60;
 		for (i = 0; i < 4; i++)
 			id_str[i] = (char)READU8(id + i);
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
-		add_search_replace(0x20A7, result);
-		find_and_replace_multiple((void *)0x16005958, 0x5000);
-		find_and_replace_multiple((void *)0x16022328, 0x1000);
+		add_search_replace(0x20AC, result);
+		find_and_replace_multiple((void *)0x31F7A458, 0x5000);
+		find_and_replace_multiple((void *)0x31F96E58, 0x1000);
 	}
 	if (is_pressed(BUTTON_R + BUTTON_DU))
 	{
-		id = (u16 *)0x16F4C160;
+		id = (u16 *)0x32cb0f60;
 		for (i = 0; i < 4; i++)
 			id_str[i] = (char)READU8(id + i);
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
 		add_search_replace(result, 0x7FFE);
-		find_and_replace_multiple((void *)0x16005958, 0x5000);
-		find_and_replace_multiple((void *)0x16022328, 0x1000);
+		find_and_replace_multiple((void *)0x31F7A458, 0x5000);
+		find_and_replace_multiple((void *)0x31F96E58, 0x1000);
 	}
 	if (is_pressed(BUTTON_R + BUTTON_DL))
 	{
-		id = (u16 *)0x16F4C160;
+		id = (u16 *)0x32cb0f60;
 		for (i = 0; i < 4; i++)
 			id_str[i] = (char)READU8(id + i);
 		result = (u16)strtoul(id_str, NULL, 16);
 		reset_search();
-		add_search_replace(result, 0x20A7);
-		find_and_replace_multiple((void *)0x16005958, 0x5000);
-		find_and_replace_multiple((void *)0x16022328, 0x1000);
+		add_search_replace(result, 0x20AC);
+		find_and_replace_multiple((void *)0x31F7A458, 0x5000);
+		find_and_replace_multiple((void *)0x31F96E58, 0x1000);
 	}
 }
 
 
-void    text2item_usa(void)
+void    text2item_usa(void) 
 {
-	u16		*id = (u16 *)0x16F4C160;
+	u16		*id = (u16 *)0x32cb0f60;
 	char		id_str[5] = { 0 };
 	int		i;
 	u16		result;
-
+	u8		player;
+	u32		offset;
+	
+	player = READU8(0xAAE990);
+	if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
 	if (!is_pressed(BUTTON_X + BUTTON_DR))
 		return;
 	for (i = 0; i < 4; i++)
 		id_str[i] = (char)READU16(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
-	WRITEU16(0x15FBEAD0, result);
-	WRITEU16(0xAF8C28, result);
-	WRITEU16(0xB0CA48, result);
-	WRITEU16(0xB02B38, result);
-	WRITEU16(0xB16958, result);
-	WRITEU16(0xB15958, result);
+	WRITEU16(0x31F2DBF0 + offset, result);
+	WRITEU16(0xAB36E4, result); //player 2
+    WRITEU16(0xABDB64, result); //player 3
+    WRITEU16(0xAAb0e4, result); //player 4
+    WRITEU16(0xA8C364, result);
+    WRITEU16(0xAA0C60, result);
 	wait_all_released();
 }
 
@@ -144,7 +145,7 @@ void    teleport_usa(void)
 
 	if (is_pressed(BUTTON_B)) //Pointer to define whether player is indoors or not
 	{
-		loc = READU32(0x17321644);
+		loc = READU32(0x33077504);
 	}
 	if (is_pressed(BUTTON_B + BUTTON_DU))
 	{
@@ -152,36 +153,36 @@ void    teleport_usa(void)
 		{
 			if (is_pressed(BUTTON_L)) //If L is pressed then save in slot3
 			{
-				outdoor_X[2] = READU32(0x17321510);
-				outdoor_Y[2] = READU32(0x17321518);
+				outdoor_X[2] = READU32(0x330773D0);
+				outdoor_Y[2] = READU32(0x330773D8);
 			}
 			else if (is_pressed(BUTTON_R)) //If R is pressed then save in slot2
 			{
-				outdoor_X[1] = READU32(0x17321510);
-				outdoor_Y[1] = READU32(0x17321518);
+				outdoor_X[1] = READU32(0x330773D0);
+				outdoor_Y[1] = READU32(0x330773D8);
 			}
 			else //If noting is pressed then save in slot0
 			{
-				outdoor_X[0] = READU32(0x17321510);
-				outdoor_Y[0] = READU32(0x17321518);
+				outdoor_X[0] = READU32(0x330773D0);
+				outdoor_Y[0] = READU32(0x330773D8);
 			}
 		}
 		else
 		{
 			if (is_pressed(BUTTON_L)) //If L is pressed then save in slot3
 			{
-				indoor_X[2] = READU32(0x1732163c);
-				indoor_Y[2] = READU32(0x17321644);
+				indoor_X[2] = READU32(0x330774fc);
+				indoor_Y[2] = READU32(0x33077504);
 			}
 			else if (is_pressed(BUTTON_R)) //If R is pressed then save in slot2
 			{
-				indoor_X[1] = READU32(0x1732163c);
-				indoor_Y[1] = READU32(0x17321644);
+				indoor_X[1] = READU32(0x330774fc);
+				indoor_Y[1] = READU32(0x33077504);
 			}
 			else //If noting is pressed then save in slot0
 			{
-				indoor_X[0] = READU32(0x1732163c);
-				indoor_Y[0] = READU32(0x17321644);
+				indoor_X[0] = READU32(0x330774fc);
+				indoor_Y[0] = READU32(0x33077504);
 			}
 		}
 	}
@@ -191,36 +192,36 @@ void    teleport_usa(void)
 		{
 			if (is_pressed(BUTTON_L)) //If L is pressed then restore slot3
 			{
-				WRITEU32(0x17321510, outdoor_X[2]);
-				WRITEU32(0x17321518, outdoor_Y[2]);
+				WRITEU32(0x330773D0, outdoor_X[2]);
+				WRITEU32(0x330773D8, outdoor_Y[2]);
 			}
 			else if (is_pressed(BUTTON_R)) //If R is pressed then restore slot2
 			{
-				WRITEU32(0x17321510, outdoor_X[1]);
-				WRITEU32(0x17321518, outdoor_Y[1]);
+				WRITEU32(0x330773D0, outdoor_X[1]);
+				WRITEU32(0x330773D8, outdoor_Y[1]);
 			}
 			else //If noting is pressed then restore slot0
 			{
-				WRITEU32(0x17321510, outdoor_X[0]);
-				WRITEU32(0x17321518, outdoor_Y[0]);
+				WRITEU32(0x330773D0, outdoor_X[0]);
+				WRITEU32(0x330773D8, outdoor_Y[0]);
 			}
 		}
 		else
 		{
 			if (is_pressed(BUTTON_L)) //If L is pressed then restore slot3
 			{
-				WRITEU32(0x1732163c, indoor_X[2]);
-				WRITEU32(0x17321644, indoor_Y[2]);
+				WRITEU32(0x330774fc, indoor_X[2]);
+				WRITEU32(0x33077504, indoor_Y[2]);
 			}
 			else if (is_pressed(BUTTON_R)) //If R is pressed then restore slot2
 			{
-				WRITEU32(0x1732163c, indoor_X[1]);
-				WRITEU32(0x17321644, indoor_Y[1]);
+				WRITEU32(0x330774fc, indoor_X[1]);
+				WRITEU32(0x33077504, indoor_Y[1]);
 			}
 			else //If noting is pressed then restore slot0
 			{
-				WRITEU32(0x1732163c, indoor_X[0]);
-				WRITEU32(0x17321644, indoor_Y[0]);
+				WRITEU32(0x330774fc, indoor_X[0]);
+				WRITEU32(0x33077504, indoor_Y[0]);
 			}
 		}
 	}
@@ -230,30 +231,30 @@ void	warping_usa(void)
 {
 	if (upper_left_touched())
 	{
-		WRITEU32(0x17321518, 0x4427405E);
-		WRITEU32(0x17321514, 0x42E00000);
-		WRITEU32(0x17321510, 0x44253715);
+		WRITEU32(0x330773D8, 0x4427405E);
+		WRITEU32(0x330773D4, 0x42E00000);
+		WRITEU32(0x330773D0, 0x44253715);
 		wait_keys_released(KEY_TOUCH);
 	}
 	if (upper_right_touched())
 	{
-		WRITEU32(0x17321518, 0x442C4000);
-		WRITEU32(0x17321514, 0x42E00000);
-		WRITEU32(0x17321510, 0x45239943);
+		WRITEU32(0x330773D8, 0x442C4000);
+		WRITEU32(0x330773D4, 0x42E00000);
+		WRITEU32(0x330773D0, 0x45239943);
 		wait_keys_released(KEY_TOUCH);
 	}
 	if (lower_left_touched())
 	{
-		WRITEU32(0x17321518, 0x450A7F48);
-		WRITEU32(0x17321514, 0x42E00000);
-		WRITEU32(0x17321510, 0x4442761E);
+		WRITEU32(0x330773D8, 0x450A7F48);
+		WRITEU32(0x330773D4, 0x42E00000);
+		WRITEU32(0x330773D0, 0x4442761E);
 		wait_keys_released(KEY_TOUCH);
 	}
 	if (lower_right_touched())
 	{
-		WRITEU32(0x17321518, 0x45071000);
-		WRITEU32(0x17321514, 0x42E00000);
-		WRITEU32(0x17321510, 0x451E028E);
+		WRITEU32(0x330773D8, 0x45071000);
+		WRITEU32(0x330773D4, 0x42E00000);
+		WRITEU32(0x330773D0, 0x451E028E);
 		wait_keys_released(KEY_TOUCH);
 	}
 }
@@ -263,14 +264,14 @@ void	speed_usa(void)
 	u32			  velocity;
 	if (is_pressed(BUTTON_B))
 	{
-		velocity = READU32(0x1732153C);
+		velocity = READU32(0x330773Fc);
 		if (velocity >= 0x41A79DB3)
 		{
-			WRITEU32(0x1732153C, 0x41A79DB3);
+			WRITEU32(0x330773Fc, 0x41A79DB3);
 		}
 		else if (velocity > 0)
 		{
-		ADDTOFLOAT(0x1732153C, 0x00000002);
+		ADDTOFLOAT(0x330773Fc, 2.0);
 		}
 	}
 }
@@ -288,7 +289,7 @@ void	weeder_usa(void)
 		add_search_replace(0x000000CC, 0x00007FFE);
 		add_search_replace(0x000000CD, 0x00007FFE);
 		add_search_replace(0x000000F8, 0x00007FFE);
-		find_and_replace_multiple((void *)0x16005958, 0x5000);
+		find_and_replace_multiple((void *)0x31F7A458, 0x5000);
 		wait_all_released();
 	}
 }
@@ -425,58 +426,74 @@ void	tree_usa(void)
 		add_search_replace(0x0062, 0x0066);
 		add_search_replace(0x0067, 0x006B);
 		add_search_replace(0x006C, 0x0043);
-		find_and_replace_multiple((void *)0x16005958, 0x5000);
-		find_and_replace_multiple((void *)0x16022328, 0x1000);
+		find_and_replace_multiple((void *)0x31F7A458, 0x5000);
+		find_and_replace_multiple((void *)0x31F96E58, 0x1000);
 	}
 }
 
-void	duplicate_usa(void)
+void    duplicate_usa(void)
 {
-	u32		dupe = 0;
-	u32		dupe0 = 0;
-	u32		dupe1 = 0;
-	u32		dupe2 = 0;
-	u32		dupe3 = 0;
-	u32		dupe4 = 0;
-	
-	if (is_pressed(BUTTON_R))
-	{
-		dupe = READU32(0x15FBEAD0); 
-		dupe0 = READU32(0xAF8C28); //online pointer0
-		dupe1 = READU32(0xB02B38); //online pointer1
-		dupe2 = READU32(0xB0CA48); //online pointer2
-		dupe3 = READU32(0xB15958);
-		dupe4 = READU32(0xB16958);
-		WRITEU32(0x15FBEAD4, dupe);
-		WRITEU32(0xAF8C2C, dupe0);
-		WRITEU32(0xB02B3C, dupe1);
-		WRITEU32(0xB0CA4C, dupe2);
-		WRITEU32(0xB1595C, dupe3);
-		WRITEU32(0xB1695C, dupe4);
-	}
+    u32 dupe = 0;
+    u32 dupe0 = 0;
+    u32 dupe1 = 0;
+    u32 dupe2 = 0;
+    u32 dupe3 = 0;
+    u32 dupe4 = 0;
+	u32 dupe5 = 0;
+	u32 offset;
+	u8 player;
+	/* OFFSETS FOUND 
+	0xAAb0e0 only player on island.
+	0xA8C360 2nd player on island.
+	0xAA0C60 3rd player on island.
+		
+	*/
+   
+    if (is_pressed(BUTTON_R))
+    {
+		player = READU8(0xAAE990);
+		if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+		{
+			offset = player * 0xa480;
+		}
+        dupe = READU32(0x31F2DBF0 + offset);
+        dupe0 = READU32(0xAB36E0); //online pointer0
+        dupe1 = READU32(0xABDB60); //online pointer1
+        dupe2 = READU32(0xAC7FE0); //online pointer2
+        dupe3 = READU32(0xAAb0e0);
+        dupe4 = READU32(0xA8C360);
+		dupe5 = READU32(0xAA0C60);
+        WRITEU32(0x31F2DBF4 + offset, dupe);
+        WRITEU32(0xAB36E4, dupe0); //player 2
+        WRITEU32(0xABDB64, dupe1); //player 3
+        WRITEU32(0xAC7FE4, dupe2); //player 4
+        WRITEU32(0xAAb0e4, dupe3);
+        WRITEU32(0xA8C364, dupe4);
+		WRITEU32(0xAA0C64, dupe5);
+    }
 }
 
 void	grass_usa(void)
 {
-	disableCheat(8);
+	disableCheat(9);
 	if (is_pressed(BUTTON_R + BUTTON_A))
 	{
 		int i;
 
-		for (i = 0x1600BD80; i < 0x1600E57F; i++)
+		for (i = 0x31F80880; i < 0x31F8307F; i++)
 			*(u32 *)i = 0xFFFFFFFF;
 		wait_all_released();
 	}
 }
 
-void	desert_usa(void)
+void	desert_usa(void) //31025300
 {
 	disableCheat(8);
 	if (is_pressed(BUTTON_R + BUTTON_A))
 	{
 		int i;
 
-		for (i = 0x1600BD80; i < 0x1600E57F; i++)
+		for (i = 0x31F80880; i < 0x31F8307F; i++)
 			*(u32 *)i = 0x00000000;
 		wait_all_released();
 	}
@@ -486,26 +503,26 @@ void	desert_usa(void)
 
 void	nook1_usa(void)
 {
-	WRITEU16(0x160146E0, 0x0101);
-	WRITEU8(0x16018B70, 0x2);
+	WRITEU16(0x31F891E4, 0x0101);
+	WRITEU8(0x31F8D674, 0x2);
 }
 
 void	nook2_usa(void)
 {
-	WRITEU16(0x160146E0, 0x0202);
-	WRITEU8(0x16018B70, 0x2);
+	WRITEU16(0x31F891E4, 0x0202);
+	WRITEU8(0x31F8D674, 0x2);
 }
 
 void	nook3_usa(void)
 {
-	WRITEU16(0x160146E0, 0x0303);
-	WRITEU8(0x16018B70, 0x3);
+	WRITEU16(0x31F891E4, 0x0303);
+	WRITEU8(0x31F8D674, 0x3);
 }
 
 void	nook4_usa(void)
 {
-	WRITEU16(0x160146E0, 0x0404);
-	WRITEU8(0x16018B70, 0x4);
+	WRITEU16(0x31F891E4, 0x0404);
+	WRITEU8(0x31F8D674, 0x4);
 }
 
 void	tan_usa(void)
@@ -515,231 +532,48 @@ void	tan_usa(void)
 
 void	moonjump_usa(void)
 {
-	int		loc;
-	u32		Z;
+	int	loc;
+	u32 Z;
 
     if (!(any_is_pressed(R)) && is_pressed(BUTTON_L)) //it's better to test the negation first
 	{
-		loc = READU32(0x17321644);
-		Z = READU32(0x17321514);
+		loc = READU32(0x33077504);
+		Z = READU32(0x330773D4);
 		if (Z >= 0x440F0000)
 		{
 			if (loc == -1)
 			{
-				WRITEU32(0x17321514, 0x440F0000);
+				WRITEU32(0x330773D4, 0x440F0000);
 			}
 			else
 			{
-				WRITEU32(0x17321640, 0x440F0000);
+				WRITEU32(0x33077500, 0x440F0000);
 			}
 		}
 		else
 		{
 			if (loc == -1)
 			{
-				ADDTOFLOAT(0x17321514, 0x00000006);
+				ADDTOFLOAT(0x330773D4, 6.0);
 			}
 			else
 			{
-				ADDTOFLOAT(0x17321640, 0x00000006);
+				ADDTOFLOAT(0x33077500, 6.0);
 			}
 		}	
 	}
 }
 
-void    text2item2_usa(void)
-{
-	u16		*id = (u16 *)0x16F4C160;
-	char		id_str[5] = { 0 };
-	int		i;
-	u16		result;
-
-	if (!is_pressed(BUTTON_X + BUTTON_DR))
-		return;
-	for (i = 0; i < 4; i++)
-		id_str[i] = (char)READU16(id + i);
-	result = (u16)strtoul(id_str, NULL, 16);
-	WRITEU16(0x15fc89e0, result);
-	WRITEU16(0xAF8C28, result);
-	WRITEU16(0xB0CA48, result);
-	WRITEU16(0xB02B38, result);
-	WRITEU16(0xB16958, result);
-	WRITEU16(0xB15958, result);
-	wait_all_released();
-}
-
-void    text2item3_usa(void)
-{
-	u16		*id = (u16 *)0x16F4C160;
-	char		id_str[5] = { 0 };
-	int		i;
-	u16		result;
-
-	if (!is_pressed(BUTTON_X + BUTTON_DR))
-		return;
-	for (i = 0; i < 4; i++)
-		id_str[i] = (char)READU16(id + i);
-	result = (u16)strtoul(id_str, NULL, 16);
-	WRITEU16(0x15fd28f0, result);
-	WRITEU16(0xAF8C28, result);
-	WRITEU16(0xB0CA48, result);
-	WRITEU16(0xB02B38, result);
-	WRITEU16(0xB16958, result);
-	WRITEU16(0xB15958, result);
-	wait_all_released();
-}
-
-void    text2item4_usa(void)
-{
-	u16		*id = (u16 *)0x16F4C160;
-	char		id_str[5] = { 0 };
-	int		i;
-	u16		result;
-
-	if (!is_pressed(BUTTON_X + BUTTON_DR))
-		return;
-	for (i = 0; i < 4; i++)
-		id_str[i] = (char)READU16(id + i);
-	result = (u16)strtoul(id_str, NULL, 16);
-	WRITEU16(0x15fdc800, result);
-	WRITEU16(0xAF8C28, result);
-	WRITEU16(0xB0CA48, result);
-	WRITEU16(0xB02B38, result);
-	WRITEU16(0xB16958, result);
-	WRITEU16(0xB15958, result);
-	wait_all_released();
-}
-
-void	duplicate2_usa(void)
-{
-	u32		dupe = 0;
-	u32		dupe0 = 0;
-	u32		dupe1 = 0;
-	u32		dupe2 = 0;
-	u32		dupe3 = 0;
-	u32		dupe4 = 0;
-	
-	if (is_pressed(BUTTON_R))
-	{
-		dupe = READU32(0x15fc89e0); 
-		dupe0 = READU32(0xAF8C28); //online pointer0
-		dupe1 = READU32(0xB02B38); //online pointer1
-		dupe2 = READU32(0xB0CA48); //online pointer2
-		dupe3 = READU32(0xB15958);
-		dupe4 = READU32(0xB16958);
-		WRITEU32(0x15fc89e4, dupe);
-		WRITEU32(0xAF8C2C, dupe0);
-		WRITEU32(0xB02B3C, dupe1);
-		WRITEU32(0xB0CA4C, dupe2);
-		WRITEU32(0xB1595C, dupe3);
-		WRITEU32(0xB1695C, dupe4);
-	}
-}
-
-void	duplicate3_usa(void)
-{
-	u32		dupe = 0;
-	u32		dupe0 = 0;
-	u32		dupe1 = 0;
-	u32		dupe2 = 0;
-	u32		dupe3 = 0;
-	u32		dupe4 = 0;
-	
-	if (is_pressed(BUTTON_R))
-	{
-		dupe = READU32(0x15fd28f0); 
-		dupe0 = READU32(0xAF8C28); //online pointer0
-		dupe1 = READU32(0xB02B38); //online pointer1
-		dupe2 = READU32(0xB0CA48); //online pointer2
-		dupe3 = READU32(0xB15958);
-		dupe4 = READU32(0xB16958);
-		WRITEU32(0x15fd28f4, dupe);
-		WRITEU32(0xAF8C2C, dupe0);
-		WRITEU32(0xB02B3C, dupe1);
-		WRITEU32(0xB0CA4C, dupe2);
-		WRITEU32(0xB1595C, dupe3);
-		WRITEU32(0xB1695C, dupe4);
-	}
-}
-
-void	duplicate4_usa(void)
-{
-	u32		dupe = 0;
-	u32		dupe0 = 0;
-	u32		dupe1 = 0;
-	u32		dupe2 = 0;
-	u32		dupe3 = 0;
-	u32		dupe4 = 0;
-	
-	if (is_pressed(BUTTON_R))
-	{
-		dupe = READU32(0x15fd28f0); 
-		dupe0 = READU32(0xAF8C28); //online pointer0
-		dupe1 = READU32(0xB02B38); //online pointer1
-		dupe2 = READU32(0xB0CA48); //online pointer2
-		dupe3 = READU32(0xB15958);
-		dupe4 = READU32(0xB16958);
-		WRITEU32(0x15fdc804, dupe);
-		WRITEU32(0xAF8C2C, dupe0);
-		WRITEU32(0xB02B3C, dupe1);
-		WRITEU32(0xB0CA4C, dupe2);
-		WRITEU32(0xB1595C, dupe3);
-		WRITEU32(0xB1695C, dupe4);
-	}
-}
-
-void	tan2_usa(void)
-{
-	WRITEU8(0x15fc1e38, 0xF);
-}
-
-void	tan3_usa(void)
-{
-	WRITEU8(0x15fcbd48, 0xF);
-}
-
-void	tan4_usa(void)
-{
-	WRITEU8(0x15fd5c58, 0xF);
-}
-
-void	walkThru_usa(void)
-{
-    int        loc;
-    int        execution;
-
-    if (is_pressed(BUTTON_L + BUTTON_DU))
-    {
-        WRITEU8(0xAAE710, 0x1);
-    }
-    else if    (is_pressed(BUTTON_L + BUTTON_DD))
-    {
-        WRITEU8(0xAAE710, 0x0);
-    }
-    if    (READU8(0xAAE710) == 0x1)
-    {
-        loc = READU32(0x17321644);
-            if (loc == -1)
-            {
- 				WRITEU32(0x17321514, 0xCD7FFFFA);
-            }
-            else
-            {
-                SUBTOFLOAT(0x17321640, 0x00000006);
-            }
-    }           
-    }
-
 void	edibleItems_usa(void)
 {
-	u16		*id = (u16 *)0x16F4C160;
+	u16		*id = (u16 *)0x32cb0f60;
 	char	id_str[5] = { 0 };
 	int		i;
 	u16		result;
 
 	if (is_pressed(BUTTON_L))
 	{
-	id = (u16 *)0x16F4C160;
+	id = (u16 *)0x32cb0f60;
     for (i = 0; i < 4; i++)
 		id_str[i] = (char)READU8(id + i);
 	result = (u16)strtoul(id_str, NULL, 16);
@@ -756,7 +590,7 @@ void    seederV2_usa(void)
 
     if (is_pressed(BUTTON_L))
     {
-        id = (u16 *)0x16F4C160;
+        id = (u16 *)0x32cb0f60;
         for (i = 0; i < 4; i++)
             id_str[i] = (char)READU8(id + i);
         result = (u16)strtoul(id_str, NULL, 16);
@@ -765,7 +599,7 @@ void    seederV2_usa(void)
     }
     if (is_pressed(BUTTON_L + BUTTON_A))
     {
-        id = (u16 *)0x16F4C160;
+        id = (u16 *)0x32cb0f60;
         for (i = 0; i < 4; i++)
             id_str[i] = (char)READU8(id + i);
         result = (u16)strtoul(id_str, NULL, 16);
@@ -773,34 +607,9 @@ void    seederV2_usa(void)
     }
 }
 
-void	walkThru_usaV2(void)
-{
-	int		loc;
-	
-	if (is_pressed(BUTTON_L + BUTTON_DU))
-	{
-		loc = READU32(0x17321644);
-		if	(loc == -1)
-		{
-			WRITEU8(0x1730F3EC, 0x1);
-			WRITEU8(0x17321677, 0x1);
-		}
-		else
-		{
-			SUBTOFLOAT(0x17321640, 0x00000006);
-		}
-	}
-	if (is_pressed(BUTTON_L + BUTTON_DD))
-	{
-		WRITEU8(0x1730F3EC, 0x0);
-		WRITEU8(0x17321677, 0x0);
-		
-	}
-}	
-
 void	timeMachine_usa(void)
 {
-    u16         *id = (u16 *)0x16F4C160;
+    u16         *id = (u16 *)0x32cb0f60;
     char        yy_str[3] = { 0 };
     char        mm_str[3] = { 0 };
     char        dd_str[3] = { 0 };
@@ -843,8 +652,8 @@ void	timeMachine_usa(void)
 	
 		res_nansec = (res_year + res_month + res_day + res_hour + res_min) * res_plmn;
 
-		ADD64(0x16014620, res_nansec);
-		ADD64(0x9E8AB0, res_nansec);
+		ADD64(0x31F89120, res_nansec);
+		ADD64(0x95D508, res_nansec);
 		wait_keys_released(DR);
 	}
 	
@@ -876,8 +685,8 @@ void	timeMachine_usa(void)
 	
 		res_nansec = (res_year + res_month + res_day + res_hour + res_min) * res_plmn;
 
-		SUB64(0x16014620, res_nansec);
-		SUB64(0x9E8AB0, res_nansec);
+		SUB64(0x31F89120, res_nansec);
+		SUB64(0x95D508, res_nansec);
 		wait_keys_released(DL);
 	}
 }
@@ -886,29 +695,66 @@ void	timeTravel_usa(void)
 {
 	if(is_pressed(BUTTON_B + BUTTON_DR))
 	{
-		ADD64(0x16014620, 0x34630B8A000);
-		ADD64(0x9E8AB0, 0x34630B8A000);
+		ADD64(0x31F89120, 0x34630B8A000);
+		ADD64(0x95D508, 0x34630B8A000);
 		wait_keys_released(DR);
 	}
 	if(is_pressed(BUTTON_B + BUTTON_DL))
 	{
-		SUB64(0x16014620, 0x34630B8A000);
-		SUB64(0x9E8AB0, 0x34630B8A000);
+		SUB64(0x31F89120, 0x34630B8A000);
+		SUB64(0x95D508, 0x34630B8A000);
 		wait_keys_released(DL);
 	}
 	if(is_pressed(BUTTON_B + BUTTON_DD))
 	{
-		WRITES64(0x16014620, 0x0000000000000000);
-		WRITES64(0x9E8AB0, 0x0000000000000000);
+		WRITES64(0x31F89120, 0x0000000000000000);
+		WRITES64(0x95D508, 0x0000000000000000);
 	}
 	if(is_pressed(BUTTON_R + BUTTON_DR))
 	{
-		ADD64(0x16014620, 0xdf8475800);
-		ADD64(0x9E8AB0, 0xdf8475800);
+		ADD64(0x31F89120, 0xdf8475800);
+		ADD64(0x95D508, 0xdf8475800);
 	}
 	if(is_pressed(BUTTON_R + BUTTON_DL))
 	{
-		SUB64(0x16014620, 0xdf8475800);
-		SUB64(0x9E8AB0, 0xdf8475800);
+		SUB64(0x31F89120, 0xdf8475800);
+		SUB64(0x95D508, 0xdf8475800);
 	}
+}
+
+void	real(void)
+{
+	u32 x;
+	u32 y;
+	u32 reg0;
+	u32 reg1;
+	u32 offset;
+	u16		*id = (u16 *)0x32cb0f60;
+	char		id_str[5] = { 0 };
+	int		i;
+	u16		result;
+	if (is_pressed(BUTTON_R + BUTTON_DD))
+	{
+	x = READU32 (0x33077838);
+	y = READU32 (0x3307783c);
+		if (x >= 0x10 && y >= 0x10)
+		{
+			x -= 0x10;
+			y -= 0x10;
+			reg0 = x % 0x10;
+			x /= 0x10;
+			reg1 = y % 0x10;
+			y /= 0x10;
+			reg0 *= 0x4;
+			reg1 *= 0x40;
+			x *= 0x400;
+			y *= 0x1400;
+			offset = reg0 + reg1 + x + y;			
+			id = (u16 *)0x32cb0f60;
+			for (i = 0; i < 4; i++)
+				id_str[i] = (char)READU8(id + i);
+			result = (u16)strtoul(id_str, NULL, 16);
+			WRITEU16(0x31F7A458 + offset, result);
+		}
+	}	
 }
