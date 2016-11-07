@@ -722,7 +722,7 @@ void	timeTravel_usa(void)
 	}
 }
 
-void	real(void)
+void	real_usa(void)
 {
 	u32 x;
 	u32 y;

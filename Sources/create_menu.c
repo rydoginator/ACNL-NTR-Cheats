@@ -12,7 +12,7 @@ void	usa_menu(void)
 			new_radio_entry("Grass", grass_usa);
 			new_radio_entry("Desert", desert_usa);
 		exit_spoiler();
-		new_entry("Real Time World Edit", real);
+		new_entry("Real Time World Edit", real_usa);
 		new_entry("Seeder", seed_usa);
 		new_entry("Search and Replace", search_usa);
 		new_entry("Instant Tree", tree_usa);
@@ -89,7 +89,43 @@ void	eur_menu(void)
 
 void	jap_menu(void)
 {
-	new_unselectable_entry("Your version is not supported yet.");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.0.1 JAP");
+	new_spoiler("Environment Codes");
+		new_spoiler("R + A Codes");
+			new_radio_entry("Remove all weeds", weeder_jap);
+			new_radio_entry("Water all flowers", quench_jap);
+			new_radio_entry("Grass", grass_jap);
+			new_radio_entry("Desert", desert_jap);
+		exit_spoiler();
+		new_entry("Real Time World Edit", real_jap);
+		new_entry("Seeder", seed_jap);
+		new_entry("Search and Replace", search_jap);
+		new_entry("Instant Tree", tree_jap);
+	exit_spoiler();
+	new_spoiler("Inventory Codes");
+		new_entry("Text to Item", text2item_jap);
+		new_entry("Duplication", duplicate_jap);
+		//new_entry("Max Tan", tan_jap);
+	exit_spoiler();
+	new_spoiler("Movement Codes");
+		new_entry("Warping", warping_jap);
+		new_entry("Moon Jump", moonjump_jap);
+		new_entry("Coordinates Modifier", coord_jap);
+		new_entry("Speed Hack", speed_jap);
+		new_entry("Teleport", teleport_jap);
+	exit_spoiler();
+	new_spoiler("Nookling Upgrades");
+		new_radio_entry("T&T Mart", nook1_jap);
+		new_radio_entry("Super T&T", nook2_jap);
+		new_radio_entry("T.I.Y", nook3_jap);
+		new_radio_entry("T&T Emporium", nook4_jap);
+	exit_spoiler();
+	new_spoiler("Beta Codes");
+		//new_entry("Edible Items", edibleItems_jap);
+		//new_entry("Seeder V2", seederV2_jap);
+		new_entry("Time Travel", timeTravel_jap);
+		new_entry("Time Machine", timeMachine_jap);
+	exit_spoiler();
 }
 
 /*

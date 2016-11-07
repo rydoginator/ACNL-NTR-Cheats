@@ -11,7 +11,7 @@
 #define   sub_to_address(addr, value)       *(u32 *)addr -= value
 #define OFFSET_TOWN_ITEMS 0x31F7A458
 #define OFFSET_TOWN_ITEMS_EUR 0x31F520D8
-#define OFFSET_TOWN_ITEMS_JAP 0x1609D158
+#define OFFSET_TOWN_ITEMS_JAP 0x31F9CED8
 #define ITEM_BYTES 0x04
 #define RANGE_TOWN_ITEMS 0x5000
 
@@ -65,7 +65,7 @@ void	edibleItems_usa(void);
 void	seederV2_usa(void);
 void	timeMachine_usa(void);
 void	timeTravel_usa(void);
-void	real(void);
+void	real_usa(void);
 
 /*
 ** JAP
@@ -90,15 +90,9 @@ void	nook2_jap(void);
 void	nook3_jap(void);
 void	nook4_jap(void);
 void	tan_jap(void);
-void	text2item2_jap(void);
-void	text2item3_jap(void);
-void	text2item4_jap(void);
-void	duplicate2_jap(void);
-void	duplicate3_jap(void);
-void	duplicate4_jap(void);
-void	tan2_jap(void);
-void	tan3_jap(void);
-void	tan4_jap(void);
+void	timeMachine_jap(void);
+void	timeTravel_jap(void);
+void	real_jap(void);
 
 
 /*
