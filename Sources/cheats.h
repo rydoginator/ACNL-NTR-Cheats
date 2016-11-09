@@ -33,6 +33,7 @@
 
 void	find_and_replace_multiple(void *start_addr, u32 length);
 void  disableCheat(int index);
+void	keep_it_off(void);
 
 /*
 ** USA
@@ -57,9 +58,21 @@ void	nook2_usa(void);
 void	nook3_usa(void);
 void	nook4_usa(void);
 void	tan_usa(void);
+void	tan1_usa(void);
 void	tan2_usa(void);
 void	tan3_usa(void);
 void	tan4_usa(void);
+void	tan5_usa(void);
+void	tan6_usa(void);
+void	tan7_usa(void);
+void	tan8_usa(void);
+void	tan9_usa(void);
+void	tan10_usa(void);
+void	tan11_usa(void);
+void	tan12_usa(void);
+void	tan13_usa(void);
+void	tan14_usa(void);
+void	tan15_usa(void);
 void	walkThru_usa(void);
 void	edibleItems_usa(void);
 void	seederV2_usa(void);
@@ -93,6 +106,21 @@ void	tan_jap(void);
 void	timeMachine_jap(void);
 void	timeTravel_jap(void);
 void	real_jap(void);
+void	tan1_jap(void);
+void	tan2_jap(void);
+void	tan3_jap(void);
+void	tan4_jap(void);
+void	tan5_jap(void);
+void	tan6_jap(void);
+void	tan7_jap(void);
+void	tan8_jap(void);
+void	tan9_jap(void);
+void	tan10_jap(void);
+void	tan11_jap(void);
+void	tan12_jap(void);
+void	tan13_jap(void);
+void	tan14_jap(void);
+void	tan15_jap(void);
 
 
 /*
@@ -127,6 +155,21 @@ void	seederV2_eur(void);
 void	timeMachine_eur(void);
 void	timeTravel_eur(void);
 void	real_eur(void);
+void	tan1_eur(void);
+void	tan2_eur(void);
+void	tan3_eur(void);
+void	tan4_eur(void);
+void	tan5_eur(void);
+void	tan6_eur(void);
+void	tan7_eur(void);
+void	tan8_eur(void);
+void	tan9_eur(void);
+void	tan10_eur(void);
+void	tan11_eur(void);
+void	tan12_eur(void);
+void	tan13_eur(void);
+void	tan14_eur(void);
+void	tan15_eur(void);
 
 
 #endif

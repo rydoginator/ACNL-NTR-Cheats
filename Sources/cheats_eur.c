@@ -508,7 +508,210 @@ void	nook4_eur(void)
 
 void	tan_eur(void)
 {
-	WRITEU8(0x15FB8228, 0xF);
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x0);
+}
+
+void	tan1_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x1);
+}
+
+void	tan2_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x2);
+}
+
+void	tan3_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x3);
+}
+
+void	tan4_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x4);
+}
+
+void	tan5_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x5);
+}
+
+void	tan6_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x6);
+}
+
+void	tan7_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x7);
+}
+
+void	tan8_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x8);
+}
+
+void	tan9_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0x9);
+}
+
+void	tan10_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0xA);
+}
+
+void	tan11_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0xB);
+}
+
+void	tan12_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0xC);
+}
+
+void	tan13_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0xD);
+}
+
+void	tan14_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0xE);
+}
+
+void	tan15_eur(void)
+{
+	u8 player;
+	u32 offset;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xa480;
+	}
+	WRITEU8(0x31EFECA8 + offset, 0xF);
 }
 
 void	moonjump_eur(void)
@@ -661,7 +864,7 @@ void	timeMachine_eur(void)
 		res_nansec = (res_year + res_month + res_day + res_hour + res_min) * res_plmn;
 
 		ADD64(0x31f60da0, res_nansec);
-		ADD64(0x95c510, res_nansec);
+		ADD64(0x95c500, res_nansec);
 		wait_keys_released(DR);
 	}
 	
@@ -694,7 +897,7 @@ void	timeMachine_eur(void)
 		res_nansec = (res_year + res_month + res_day + res_hour + res_min) * res_plmn;
 
 		SUB64(0x31f60da0, res_nansec);
-		SUB64(0x95c510, res_nansec);
+		SUB64(0x95c500, res_nansec);
 		wait_keys_released(DL);
 	}
 }
@@ -704,29 +907,29 @@ void	timeTravel_eur(void)
 	if(is_pressed(BUTTON_B + BUTTON_DR))
 	{
 		ADD64(0x31f60da0, 0x34630B8A000);
-		ADD64(0x95c510, 0x34630B8A000);
+		ADD64(0x95c500, 0x34630B8A000);
 		wait_keys_released(DR);
 	}
 	if(is_pressed(BUTTON_B + BUTTON_DL))
 	{
 		SUB64(0x31f60da0, 0x34630B8A000);
-		SUB64(0x95c510, 0x34630B8A000);
+		SUB64(0x95c500, 0x34630B8A000);
 		wait_keys_released(DL);
 	}
 	if(is_pressed(BUTTON_B + BUTTON_DD))
 	{
 		WRITES64(0x31f60da0, 0x0000000000000000);
-		WRITES64(0x95c510, 0x0000000000000000);
+		WRITES64(0x95c500, 0x0000000000000000);
 	}
 	if(is_pressed(BUTTON_R + BUTTON_DR))
 	{
 		ADD64(0x31f60da0, 0xdf8475800);
-		ADD64(0x95c510, 0xdf8475800);
+		ADD64(0x95c500, 0xdf8475800);
 	}
 	if(is_pressed(BUTTON_R + BUTTON_DL))
 	{
 		SUB64(0x31f60da0, 0xdf8475800);
-		SUB64(0x95c510, 0xdf8475800);
+		SUB64(0x95c500, 0xdf8475800);
 	}
 }
 
