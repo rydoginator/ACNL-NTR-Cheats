@@ -5,35 +5,30 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define   add_search_replace(find, replace) g_find[g_i] = find; g_replace[g_i] = replace; g_i++
-#define   reset_search()                    memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
-#define   add_to_address(addr, value)       *(u32 *)addr += value
-#define   sub_to_address(addr, value)       *(u32 *)addr -= value
-#define OFFSET_TOWN_ITEMS 0x31F7A458
-#define OFFSET_TOWN_ITEMS_EUR 0x31F520D8
-#define OFFSET_TOWN_ITEMS_JAP 0x31F9CED8
-#define ITEM_BYTES 0x04
-#define RANGE_TOWN_ITEMS 0x5000
+#define		add_search_replace(find, replace) g_find[g_i] = find; g_replace[g_i] = replace; g_i++
+#define		reset_search()                    memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
+#define		add_to_address(addr, value)       *(u32 *)addr += value
+#define		sub_to_address(addr, value)       *(u32 *)addr -= value
+#define		OFFSET_TOWN_ITEMS 0x31F7A458
+#define 	OFFSET_TOWN_ITEMS_EUR 0x31F520D8
+#define 	OFFSET_TOWN_ITEMS_JAP 0x31F9CED8
+#define 	ITEM_BYTES 0x04
+#define 	RANGE_TOWN_ITEMS 0x5000
+#define		ADD64(addr, value)		*(vs64*)addr += value
+#define 	SUB64(addr, value)		*(vs64*)addr -= value
+#define 	ADDTOFLOAT(addr, add_value) *(float *)addr += (float)add_value
+#define 	SUBTOFLOAT(addr, sub_value) *(float *)addr -= (float)sub_value
 
-#ifndef WRITES64
-#   define WRITES64(addr, data)     *(vs64*)(addr) = data
-#endif
-
-#define	ADD64(addr, value)		*(vs64*)addr += value
-#define SUB64(addr, value)		*(vs64*)addr -= value
-
-#ifndef ADDTOFLOAT
-#define ADDTOFLOAT(addr, add_value) *(float *)addr += (float)add_value
-#define SUBTOFLOAT(addr, sub_value) *(float *)addr -= (float)sub_value
-#endif
 
 /*
 ** Helpers
 */
 
 void	find_and_replace_multiple(void *start_addr, u32 length);
-void  disableCheat(int index);
 void	keep_it_off(void);
+void	retrieve_input_string(char *output, int size);
+void 	get_input_id(int *first, int *second);
+
 
 /*
 ** USA

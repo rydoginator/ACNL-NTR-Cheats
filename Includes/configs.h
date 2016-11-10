@@ -7,14 +7,20 @@
 #ifndef WRITEU32
 #	define WRITEU32(addr, data) 	*(vu32*)(addr) = data
 #endif
+#ifndef WRITES64
+#	define WRITES64(addr, data) 	*(vs64*)(addr) = data
+#endif
 #ifndef READU8
-#	define READU8(addr) 			*(volatile unsigned char*)(addr)
+#	define READU8(addr) 			*(vu8*)(addr)
 #endif
 #ifndef READU16
-#	define READU16(addr) 			*(volatile unsigned short*)(addr)
+#	define READU16(addr) 			*(vu16*)(addr)
 #endif
 #ifndef READU32
-#	define READU32(addr) 			*(volatile unsigned int*)(addr)
+#	define READU32(addr) 			*(vu32*)(addr)
+#endif
+#ifndef READS64
+#	define READS64(addr) 			*(vs64*)(addr)
 #endif
 
 #ifndef IO_BASE_PAD
