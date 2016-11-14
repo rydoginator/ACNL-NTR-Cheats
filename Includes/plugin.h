@@ -12,9 +12,9 @@
 #define ABS(x) MAX(x, -x)
 
 u32		plgGetIoBase(u32 IoType);
-Handle		getCurrentProcessHandle(void);
+Handle	getCurrentProcessHandle(void);
 u32		getCurrentProcessId(void);
-void		onCheatItemChanged(int id);
+void	onCheatItemChanged(int id);
 
 enum
 {
