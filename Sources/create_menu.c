@@ -32,7 +32,7 @@ void with_note_common(const char *name, const char *note, void (*cheatfunction)(
     int     index;
 
     if (type == 0)
-        index = new_entry((char *)name, cheatfunction);
+    	index = new_entry((char *)name, cheatfunction);
     else if (type == 1)
         index = new_radio_entry((char *)name, cheatfunction);
     else if (type == 2)
@@ -56,10 +56,13 @@ inline void	new_spoiler_with_note(const char *name, const char *note)
 	with_note_common(name, note, NULL, 2);
 }
 
-static char		tan_level_buffer[40] = "Tan Level: 0";
+char	tan_level_buffer[40];
+int 	g_increase_menu_index = 0;
+int 	g_decrease_menu_index = 0;
 
 void	usa_menu(void)
 {
+	update_tan_entry_usa();
 	new_unselectable_entry("ACNL NTR Cheats Ver 3.0.1 USA");
 	new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
 	new_spoiler_with_note("Environment Codes", enviro_note);
@@ -80,9 +83,9 @@ void	usa_menu(void)
 	exit_spoiler();
 	new_spoiler("Apparence Codes");
 		new_spoiler_with_note("Tan Modifier", tan_note);
-			new_unselectable_entry("Set Current Tan Level Goes Here");
-			new_entry("Increase Tan", increase_tan_usa);
-			new_entry("Decrease Tan", decrease_tan_usa);
+			new_unselectable_entry(tan_level_buffer);
+			g_increase_menu_index = new_entry("Increase Tan", increase_tan_level_usa);
+			g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level_usa);
 		exit_spoiler();
 	exit_spoiler();
 	new_spoiler_with_note("Movement Codes", trans_note);
