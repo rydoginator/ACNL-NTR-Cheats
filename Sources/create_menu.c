@@ -29,16 +29,16 @@ char	*builder_name = "itsRyan";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
-	int 	index;
+    int     index;
 
-	if (type == 0)
-		new_entry((char *)name, cheatfunction);
-	else if (type == 1)
-		new_radio_entry((char *)name, cheatfunction);
-	else if (type == 2)
-		new_spoiler((char *)name);
-	else return;
-	set_note(note, index);
+    if (type == 0)
+    	index = new_entry((char *)name, cheatfunction);
+    else if (type == 1)
+        index = new_radio_entry((char *)name, cheatfunction);
+    else if (type == 2)
+        index = new_spoiler((char *)name);
+    else return;
+    set_note(note, index);
 }
 
 inline void	new_entry_with_note(const char *name, const char *note, void (*cheatfunction)(void))
@@ -56,10 +56,15 @@ inline void	new_spoiler_with_note(const char *name, const char *note)
 	with_note_common(name, note, NULL, 2);
 }
 
+char	tan_level_buffer[40];
+int 	g_increase_menu_index = 0;
+int 	g_decrease_menu_index = 0;
+
 void	usa_menu(void)
 {
+	update_tan_entry_usa();
 	new_unselectable_entry("ACNL NTR Cheats Ver 3.0.1 USA");
-	new_entry_with_note("Warning ! Read the note !", warning_note, keep_it_off);
+	new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
 	new_spoiler_with_note("Environment Codes", enviro_note);
 		new_spoiler("R + A Codes");
 			new_radio_entry_with_note("Remove all weeds", weed_note, weeder_usa);
@@ -75,23 +80,12 @@ void	usa_menu(void)
 	new_spoiler("Inventory Codes");
 		new_entry_with_note("Text to Item", t2i_note, text2item_usa);
 		new_entry_with_note("Duplication", dup_note, duplicate_usa);
+	exit_spoiler();
+	new_spoiler("Apparence Codes");
 		new_spoiler_with_note("Tan Modifier", tan_note);
-			new_radio_entry("0", tan_usa);
-			new_radio_entry("1", tan1_usa);
-			new_radio_entry("2", tan2_usa);
-			new_radio_entry("3", tan3_usa);
-			new_radio_entry("4", tan4_usa);
-			new_radio_entry("5", tan5_usa);
-			new_radio_entry("6", tan6_usa);
-			new_radio_entry("7", tan7_usa);
-			new_radio_entry("8", tan8_usa);
-			new_radio_entry("9", tan9_usa);
-			new_radio_entry("10", tan10_usa);
-			new_radio_entry("11", tan11_usa);
-			new_radio_entry("12", tan12_usa);
-			new_radio_entry("13", tan13_usa);
-			new_radio_entry("14", tan14_usa);
-			new_radio_entry("15", tan15_usa);
+			new_unselectable_entry(tan_level_buffer);
+			g_increase_menu_index = new_entry("Increase Tan", increase_tan_level_usa);
+			g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level_usa);
 		exit_spoiler();
 	exit_spoiler();
 	new_spoiler_with_note("Movement Codes", trans_note);
