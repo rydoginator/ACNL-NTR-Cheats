@@ -969,3 +969,84 @@ void	real_eur(void)
 		}
 	}	
 }
+
+extern char    tan_level_buffer[40];
+extern int     g_increase_menu_index;
+extern int     g_decrease_menu_index;
+
+void    set_current_tan_level_eur(u8 value)
+{
+	u8      player;
+	u32     offset;
+
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xA480;
+	}
+	WRITEU8(0x31EFECA8 + offset, value);
+}
+
+u8      get_current_tan_level_eur(void)
+{
+	u8      player;
+	u32     offset;
+	u8      current_level;
+	offset = 0;
+	player = READU8(0xA86610);
+	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	{
+		offset = player * 0xA480;
+	}
+	current_level = READU8(0x31EFECA8 + offset);
+	return (current_level);
+}
+
+void    update_tan_entry_eur(void)
+{
+	u8 current_level;
+
+	current_level = get_current_tan_level_eur();
+	xsprintf(tan_level_buffer, "Current tan level: %d", current_level);
+}
+
+void    increase_tan_level_eur(void)
+{
+	u8  current_level;
+
+	current_level = get_current_tan_level_eur();
+	if (current_level < 0xF)
+		current_level++;
+	else
+		current_level = 0;
+	set_current_tan_level_eur(current_level);
+	update_tan_entry_eur();
+	disableCheat(g_increase_menu_index);
+}
+
+void    decrease_tan_level_eur(void)
+{
+	u8  current_level;
+
+	current_level = get_current_tan_level_eur();
+	if (current_level > 0)
+		current_level--;
+	else
+		current_level = 0xF;
+	set_current_tan_level_eur(current_level);
+	update_tan_entry_eur();
+	disableCheat(g_decrease_menu_index);
+}
+
+void	collisions_eur(void)
+{
+	if (is_pressed(BUTTON_R + BUTTON_DU))
+	{
+		WRITEU8(0x3304F1B4, 0x01);
+	}
+	if (is_pressed(BUTTON_R + BUTTON_DD))
+	{
+		WRITEU8(0x3304F1B4, 0x00);
+	}
+}

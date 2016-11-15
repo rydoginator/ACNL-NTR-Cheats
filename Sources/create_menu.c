@@ -15,7 +15,7 @@ char	*builder_name = "itsRyan";
 	static const char * const tt_note = "Fast forward: B+D Pad Right;\n\nRewind: B+D Pad Left,\n\nB+D Pad Down to revert ingame time to system time.\n\nPress L+D Pad Right/Left to watch time rewind/fastforward.";
 	static const char * const tm_note = "Type YYMMDDHHmm,\n\nPress Y+D Pad Right to fast forward to that,\n\nOr press Y+D Pad Left to rewind that amount.";
 	static const char * const enviro_note = "After executing one of these codes,\n\nUpdate the status to verify the object!";
-	static const char * const seed_note = "Drop 100 bells, Type item ID,\n\nR+D Pad Down to Set,\n\nR+D Pad Up to Destroy,\n\nR+D Pad Left to Undo";
+	static const char * const seed_note = "Hold R and A as you're dropping an item to change the item ID.";
 	static const char * const tree_note = "Press X for your tree to instantly grow!";
 	static const char * const sar_note = "Type in XXXXYYYY where XXXX is search value and YYYY is repalce value. Send it in chat, and press L + D pad left to execute.";
 	static const char * const ra_note =	"Enable one R+A cheat at a time,\n\nExecute one,\n\nThen go in and out of a house.";
@@ -26,6 +26,7 @@ char	*builder_name = "itsRyan";
 	static const char * const lush_note = "Press R + A to replenish all your grass!";
 	static const char * const weed_note = "Press R + A to remove all weeds!";
 	static const char * const flwr_note = "Press R + A to replenish all your flowers!";
+	static const char * const cl_note = "Only works outdoors! Press R + D Pad up to enable, Press R + D Pad down to disable.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
@@ -63,7 +64,7 @@ int 	g_decrease_menu_index = 0;
 void	usa_menu(void)
 {
 	update_tan_entry_usa();
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.0.1 USA");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 1");
 	new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
 	new_spoiler_with_note("Environment Codes", enviro_note);
 		new_spoiler("R + A Codes");
@@ -89,6 +90,7 @@ void	usa_menu(void)
 		exit_spoiler();
 	exit_spoiler();
 	new_spoiler_with_note("Movement Codes", trans_note);
+		new_entry_with_note("Walk Through Walls", cl_note, collisions_usa);
 		new_entry_with_note("Warping", warp_note, warping_usa);
 		new_entry_with_note("Moon Jump", mj_note, moonjump_usa);
 		new_entry_with_note("Coordinates Modifier", cm_note, coord_usa);
@@ -102,16 +104,17 @@ void	usa_menu(void)
 		new_radio_entry("T&T Emporium", nook4_usa);
 	exit_spoiler();
 	new_spoiler_with_note("Time Travel Codes", time_note);
-		//new_entry_with_note("Edible Items", edibleItems_usa);
-		//new_entry_with_note("Seeder V2", seederV2_usa);
 		new_entry_with_note("Time Travel", tt_note, timeTravel_usa);
 		new_entry_with_note("Time Machine", tm_note, timeMachine_usa);
 	exit_spoiler();
+	//new_spoiler("Misc. Codes")
+		//new_entry_with_note("Edible Items", edibleItems_usa);
+		//new_entry_with_note("Seeder V2", seederV2_usa);
 }
 
 void	eur_menu(void)
 {
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.0.1 EUR");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 1");
 	new_entry_with_note("Warning ! Read the note !", warning_note, keep_it_off);
 	new_spoiler_with_note("Environment Codes", enviro_note);
 		new_spoiler("R + A Codes");
@@ -128,26 +131,16 @@ void	eur_menu(void)
 	new_spoiler("Inventory Codes");
 		new_entry_with_note("Text to Item", t2i_note, text2item_eur);
 		new_entry_with_note("Duplication", dup_note, duplicate_eur);
+	exit_spoiler();
+	new_spoiler("Apparence Codes");
 		new_spoiler_with_note("Tan Modifier", tan_note);
-			new_radio_entry("0", tan_eur);
-			new_radio_entry("1", tan1_eur);
-			new_radio_entry("2", tan2_eur);
-			new_radio_entry("3", tan3_eur);
-			new_radio_entry("4", tan4_eur);
-			new_radio_entry("5", tan5_eur);
-			new_radio_entry("6", tan6_eur);
-			new_radio_entry("7", tan7_eur);
-			new_radio_entry("8", tan8_eur);
-			new_radio_entry("9", tan9_eur);
-			new_radio_entry("10", tan10_eur);
-			new_radio_entry("11", tan11_eur);
-			new_radio_entry("12", tan12_eur);
-			new_radio_entry("13", tan13_eur);
-			new_radio_entry("14", tan14_eur);
-			new_radio_entry("15", tan15_eur);
+		new_unselectable_entry(tan_level_buffer);
+		g_increase_menu_index = new_entry("Increase Tan", increase_tan_level_eur);
+		g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level_eur);
 		exit_spoiler();
 	exit_spoiler();
 	new_spoiler_with_note("Movement Codes", trans_note);
+		new_entry_with_note("Walk Through Walls", cl_note, collisions_eur);
 		new_entry_with_note("Warping", warp_note, warping_eur);
 		new_entry_with_note("Moon Jump", mj_note, moonjump_eur);
 		new_entry_with_note("Coordinates Modifier", cm_note, coord_eur);
@@ -170,7 +163,7 @@ void	eur_menu(void)
 
 void	jap_menu(void)
 {
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.0.1 JAP");
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 1");
 	new_entry_with_note("Warning ! Read the note !", warning_note, keep_it_off);
 	new_spoiler_with_note("Environment Codes", enviro_note);
 		new_spoiler("R + A Codes");
@@ -187,26 +180,16 @@ void	jap_menu(void)
 	new_spoiler("Inventory Codes");
 		new_entry_with_note("Text to Item", t2i_note, text2item_jap);
 		new_entry_with_note("Duplication", dup_note, duplicate_jap);
+	exit_spoiler();
+	new_spoiler("Apparence Codes");
 		new_spoiler_with_note("Tan Modifier", tan_note);
-			new_radio_entry("0", tan_jap);
-			new_radio_entry("1", tan1_jap);
-			new_radio_entry("2", tan2_jap);
-			new_radio_entry("3", tan3_jap);
-			new_radio_entry("4", tan4_jap);
-			new_radio_entry("5", tan5_jap);
-			new_radio_entry("6", tan6_jap);
-			new_radio_entry("7", tan7_jap);
-			new_radio_entry("8", tan8_jap);
-			new_radio_entry("9", tan9_jap);
-			new_radio_entry("10", tan10_jap);
-			new_radio_entry("11", tan11_jap);
-			new_radio_entry("12", tan12_jap);
-			new_radio_entry("13", tan13_jap);
-			new_radio_entry("14", tan14_jap);
-			new_radio_entry("15", tan15_jap);
+			new_unselectable_entry(tan_level_buffer);
+			g_increase_menu_index = new_entry("Increase Tan", increase_tan_level_jap);
+			g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level_jap);
 		exit_spoiler();
 	exit_spoiler();
 	new_spoiler_with_note("Movement Codes", trans_note);
+		new_entry_with_note("Walk Through Walls", cl_note, collisions_jap);
 		new_entry_with_note("Warping", warp_note, warping_jap);
 		new_entry_with_note("Moon Jump", mj_note, moonjump_jap);
 		new_entry_with_note("Coordinates Modifier", cm_note, coord_jap);
@@ -249,11 +232,11 @@ void	my_menus(void)
 		new_unselectable_entry("Unsupported ID");
 		new_unselectable_entry("!!! Title id unrecognized !!!");
 		new_unselectable_entry("!!! You need      !!!");
-		//new_unselectable_entry("!!! 00040000 00086200     !!!");
-		//new_unselectable_entry("!!! or                    !!!");
+		new_unselectable_entry("!!! 00040000 00086200     !!!");
+		new_unselectable_entry("!!! or                    !!!");
 		new_unselectable_entry("!!! 00040000 00086300     !!!");
-		//new_unselectable_entry("!!! or                    !!!");
-		//new_unselectable_entry("!!! 00040000 00086400     !!!");
+		new_unselectable_entry("!!! or                    !!!");
+		new_unselectable_entry("!!! 00040000 00086400     !!!");
 	}
 
 }

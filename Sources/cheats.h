@@ -61,6 +61,7 @@ void    seederV2_usa(void);
 void    timeMachine_usa(void);
 void    timeTravel_usa(void);
 void    real_usa(void);
+void	collisions_usa(void);
 
 /*
 ** JAP
@@ -88,21 +89,11 @@ void    tan_jap(void);
 void    timeMachine_jap(void);
 void    timeTravel_jap(void);
 void    real_jap(void);
-void    tan1_jap(void);
-void    tan2_jap(void);
-void    tan3_jap(void);
-void    tan4_jap(void);
-void    tan5_jap(void);
-void    tan6_jap(void);
-void    tan7_jap(void);
-void    tan8_jap(void);
-void    tan9_jap(void);
-void    tan10_jap(void);
-void    tan11_jap(void);
-void    tan12_jap(void);
-void    tan13_jap(void);
-void    tan14_jap(void);
-void    tan15_jap(void);
+void    update_tan_entry_jap(void);
+void    increase_tan_level_jap(void);
+void    decrease_tan_level_jap(void);
+void	collisions_jap(void);
+
 
 
 /*
@@ -137,21 +128,10 @@ void    seederV2_eur(void);
 void    timeMachine_eur(void);
 void    timeTravel_eur(void);
 void    real_eur(void);
-void    tan1_eur(void);
-void    tan2_eur(void);
-void    tan3_eur(void);
-void    tan4_eur(void);
-void    tan5_eur(void);
-void    tan6_eur(void);
-void    tan7_eur(void);
-void    tan8_eur(void);
-void    tan9_eur(void);
-void    tan10_eur(void);
-void    tan11_eur(void);
-void    tan12_eur(void);
-void    tan13_eur(void);
-void    tan14_eur(void);
-void    tan15_eur(void);
+void    update_tan_entry_eur(void);
+void    increase_tan_level_eur(void);
+void    decrease_tan_level_eur(void);
+void	collisions_eur(void);
 
 
 #endif

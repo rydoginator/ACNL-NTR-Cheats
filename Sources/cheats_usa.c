@@ -731,3 +731,15 @@ void    real_usa(void)
         }
     }   
 }
+
+void	collisions_usa(void)
+{
+	if (is_pressed(BUTTON_R + BUTTON_DU))
+	{
+		WRITEU8(0x33077534, 0x01);
+	}
+	if (is_pressed(BUTTON_R + BUTTON_DD))
+	{
+		WRITEU8(0x33077534, 0x00);
+	}
+}

@@ -4,7 +4,7 @@ extern u32			g_find[100];
 extern u32			g_replace[100];
 extern int			g_i;
 /*
-OFFSET DIFFERENCE (From USA) : + 0x22A80
+OFFSET DIFFERENCE (From jap) : + 0x22A80
 */
 void    coord_jap(void)
 {
@@ -70,7 +70,7 @@ void    seed_jap(void)
 {
 	u16        result;
 
-	if (is_pressed(BUTTON_R + BUTTON_DD))
+	if (is_pressed(BUTTON_R + BUTTON_R))
 	{
 		u16        *id = (u16 *)0x32CD39E0;
 		char    id_str[5] = { 0 };
@@ -78,39 +78,7 @@ void    seed_jap(void)
 		for (i = 0; i < 4; i++)
 			id_str[i] = (char)READU16(id + i);
 		result = (u16)strtoul(id_str, NULL, 16);
-		reset_search();
-		add_search_replace(0x20A7, result);
-		find_and_replace_multiple((void *)0x31F9CED8, 0x5000);
-		find_and_replace_multiple((void *)0x31FB98D8, 0x1000);
-		wait_all_released();
-	}
-	if (is_pressed(BUTTON_R + BUTTON_DU))
-	{
-		u16        *id = (u16 *)0x32CD39E0;
-		char    id_str[5] = { 0 };
-		int        i;
-		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU16(id + i);
-		result = (u16)strtoul(id_str, NULL, 16);
-		reset_search();
-		add_search_replace(result, 0x7FFE);
-		find_and_replace_multiple((void *)0x31F9CED8, 0x5000);
-		find_and_replace_multiple((void *)0x31FB98D8, 0x1000);
-		wait_all_released();
-	}
-	if (is_pressed(BUTTON_R + BUTTON_DL))
-	{
-		u16        *id = (u16 *)0x32CD39E0;
-		char    id_str[5] = { 0 };
-		int        i;
-		for (i = 0; i < 4; i++)
-			id_str[i] = (char)READU16(id + i);
-		result = (u16)strtoul(id_str, NULL, 16);
-		reset_search();
-		add_search_replace(result, 0x20A7);
-		find_and_replace_multiple((void *)0x31F9CED8, 0x5000);
-		find_and_replace_multiple((void *)0x31FB98D8, 0x1000);
-		wait_all_released();
+		WRITEU16(0x9AD248, result);
 	}
 }
 
@@ -683,210 +651,84 @@ void	real_jap(void)
 	}	
 }
 
-void	tan_jap(void)
+extern char    tan_level_buffer[40];
+extern int     g_increase_menu_index;
+extern int     g_decrease_menu_index;
+
+void    set_current_tan_level_jap(u8 value)
 {
-	u8 player;
-	u32 offset;
+	u8      player;
+	u32     offset;
+
 	offset = 0;
-	player = READU8(0xAA6990);
+	player = READU8(0x97B020);
 	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
 	{
-		offset = player * 0xa480;
+		offset = player * 0xA480;
 	}
-	WRITEU8(0x31F49AA8 + offset, 0x0);
+	WRITEU8(0x31F49AA8 + offset, value);
 }
 
-void	tan1_jap(void)
+u8      get_current_tan_level_jap(void)
 {
-	u8 player;
-	u32 offset;
+	u8      player;
+	u32     offset;
+	u8      current_level;
+
 	offset = 0;
-	player = READU8(0xAA6990);
+	player = READU8(0x97B020);
 	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
 	{
-		offset = player * 0xa480;
+		offset = player * 0xA480;
 	}
-	WRITEU8(0x31F49AA8 + offset, 0x1);
+	current_level = READU8(0x31F49AA8 + offset);
+	return (current_level);
 }
 
-void	tan2_jap(void)
+void    update_tan_entry_jap(void)
 {
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0x2);
+	u8 current_level;
+
+	current_level = get_current_tan_level_jap();
+	xsprintf(tan_level_buffer, "Current tan level: %d", current_level);
 }
 
-void	tan3_jap(void)
+void    increase_tan_level_jap(void)
 {
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0x3);
+	u8  current_level;
+
+	current_level = get_current_tan_level_jap();
+	if (current_level < 0xF)
+		current_level++;
+	else
+		current_level = 0;
+	set_current_tan_level_jap(current_level);
+	update_tan_entry_jap();
+	disableCheat(g_increase_menu_index);
 }
 
-void	tan4_jap(void)
+void    decrease_tan_level_jap(void)
 {
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0x4);
+	u8  current_level;
+
+	current_level = get_current_tan_level_jap();
+	if (current_level > 0)
+		current_level--;
+	else
+		current_level = 0xF;
+	set_current_tan_level_jap(current_level);
+	update_tan_entry_jap();
+	disableCheat(g_decrease_menu_index);
 }
 
-void	tan5_jap(void)
+void	collisions_jap(void)
 {
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	if (is_pressed(BUTTON_R + BUTTON_DU))
 	{
-		offset = player * 0xa480;
+		WRITEU8(0x33099FB4, 0x01);
 	}
-	WRITEU8(0x31F49AA8 + offset, 0x5);
-}
-
-void	tan6_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	if (is_pressed(BUTTON_R + BUTTON_DD))
 	{
-		offset = player * 0xa480;
+		WRITEU8(0x33099FB4, 0x00);
 	}
-	WRITEU8(0x31F49AA8 + offset, 0x6);
-}
-
-void	tan7_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0x7);
-}
-
-void	tan8_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0x8);
-}
-
-void	tan9_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0x9);
-}
-
-void	tan10_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0xA);
-}
-
-void	tan11_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0xB);
-}
-
-void	tan12_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0xC);
-}
-
-void	tan13_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0xD);
-}
-
-void	tan14_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0xE);
-}
-
-void	tan15_jap(void)
-{
-	u8 player;
-	u32 offset;
-	offset = 0;
-	player = READU8(0xAA6990);
-	if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	{
-		offset = player * 0xa480;
-	}
-	WRITEU8(0x31F49AA8 + offset, 0xF);
 }
