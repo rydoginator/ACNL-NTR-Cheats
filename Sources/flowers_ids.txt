@@ -1,0 +1,91 @@
+    // define flowers (include wilted)
+    static const u16 flowers[] =
+    {
+        0x009F, // Red Tulips
+        0x00A0, // White Tulips
+        0x00A1, // Yellow Tulips
+        0x00A2, // Pink Tulips
+        0x00A3, // Purple Tulips
+        0x00A4, // Black Tulips
+        0x00A5, // Orange Tulips
+        0x00A6, // White Pansies
+        0x00A7, // Yellow Pansies
+        0x00A8, // Red Pansies
+        0x00A9, // Purple Pansies
+        0x00AA, // Orange Pansies
+        0x00AB, // Blue Pansies
+        0x00AC, // White Comsos
+        0x00AD, // Red Cosmos
+        0x00AE, // Sun Cosmos
+        0x00AF, // Pink Cosmos
+        0x00B0, // Orange Cosmos
+        0x00B1, // Black Cosmos
+        0x00B2, // Red Roses
+        0x00B3, // White Roses
+        0x00B4, // Yellow Roses
+        0x00B5, // Pink Roses
+        0x00B6, // Orange Roses
+        0x00B7, // Purple Roses
+        0x00B8, // Black Roses
+        0x00B9, // Blue Roses
+        0x00BB, // Red Carnations
+        0x00BC, // Pink Carnations
+        0x00BD, // White Carnations
+        0x00BE, // White Lilies
+        0x00BF, // Yellow Lilies
+        0x00C0, // Red Lilies
+        0x00C1, // Orange Lilies
+        0x00C2, // Pink Lilies
+        0x00C3, // Black Lilies
+        0x00C4, // Purple Violets
+        0x00C5, // Blue Violets
+        0x00C6, // White Violets
+        0x00C7, // Yellow Violets
+        0x00C8  // Jacob's Ladder
+    };
+    // + 2F
+    static const u16 wilted_flowers[] =
+    {
+        0x00CE, // Red Tulips (Wilted)
+        0x00CF, // White Tulips (Wilted)
+        0x00D0, // Yellow Tulips (Wilted)
+        0x00D1, // Pink Tulips (Wilted)
+        0x00D2, // Purple Tulips (Wilted)
+        0x00D3, // Black Tulips (Wilted)
+        0x00D4, // Orange Tulips (Wilted)
+        0x00D5, // White Pansies (Wilted)
+        0x00D6, // Yellow Pansies (Wilted)
+        0x00D7, // Red Pansies (Wilted)
+        0x00D8, // Purple Pansies (Wilted)
+        0x00D9, // Orange Pansies (Wilted)
+        0x00DA, // Blue Pansies (Wilted)
+        0x00DB, // White Cosmos (Wilted)
+        0x00DC, // Red Cosmos (Wilted)
+        0x00DD, // Sun Cosmos (Wilted)
+        0x00DE, // Pink Cosmos (Wilted)
+        0x00DF, // Orange Cosmos (Wilted)
+        0x00E0, // Black Cosmos (Wilted)
+        0x00E1, // Red Roses (Wilted)
+        0x00E2, // White Roses (Wilted)
+        0x00E3, // Yellow Roses (Wilted)
+        0x00E4, // Pink Roses (Wilted)
+        0x00E5, // Orange Roses (Wilted)
+        0x00E6, // Purple Roses (Wilted)
+        0x00E7, // Black Roses (Wilted)
+        0x00E8, // Blue Roses (Wilted)
+        0x00E9, // Gold Roses (Wilted)
+        0x00EA, // Red Carnations (Wilted)
+        0x00EB, // Pink Carnations (Wilted)
+        0x00EC, // White Carnations (Wilted)
+        0x00ED, // White Lilies (Wilted)
+        0x00EE, // Yellow Lilies (Wilted)
+        0x00EF, // Red Lilies (Wilted)
+        0x00F0, // Orange Lilies (Wilted)
+        0x00F1, // Pink Lilies (Wilted)
+        0x00F2, // Black Lilies (Wilted)
+        0x00F3, // Purple Violets (Wilted)
+        0x00F4, // Blue Violets (Wilted)
+        0x00F5, // White Violets (Wilted)
+        0x00F6, // Yellow Violets (Wilted)
+        0x00F7, // Jacob's Ladder (Wilted)
+    };
