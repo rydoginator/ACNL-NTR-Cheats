@@ -27,6 +27,7 @@ char	*builder_name = "itsRyan";
 	static const char * const weed_note = "Press R + A to remove all weeds!";
 	static const char * const flwr_note = "Press R + A to replenish all your flowers!";
 	static const char * const cl_note = "Only works outdoors! Press R + D Pad up to enable, Press R + D Pad down to disable.";
+	static const char * const eat_note = "Type item ID into chat, send it and press L while eating an item to change the item to the item ID you typed in.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
@@ -61,153 +62,56 @@ char	tan_level_buffer[40];
 int 	g_increase_menu_index = 0;
 int 	g_decrease_menu_index = 0;
 
-void	usa_menu(void)
+void	menu(void)
 {
-	update_tan_entry_usa();
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 1");
+	update_tan_entry();
+	new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 2");
 	new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
 	new_spoiler_with_note("Environment Codes", enviro_note);
 		new_spoiler("R + A Codes");
-			new_radio_entry_with_note("Remove all weeds", weed_note, weeder_usa);
-			new_radio_entry_with_note("Water all flowers", flwr_note, quench_usa);
-			new_radio_entry_with_note("Grass", lush_note, grass_usa);
-			new_radio_entry_with_note("Desert", des_note, desert_usa);
+			new_radio_entry_with_note("Remove all weeds", weed_note, weeder);
+			new_radio_entry_with_note("Water all flowers", flwr_note, quench);
+			new_radio_entry_with_note("Grass", lush_note, grass);
+			new_radio_entry_with_note("Desert", des_note, desert);
 		exit_spoiler();
-		new_entry_with_note("Real Time World Edit", real_note, real_usa);
-		new_entry_with_note("Seeder", seed_note, seed_usa);
-		new_entry_with_note("Search and Replace", sar_note, search_usa);
-		new_entry_with_note("Instant Tree", tree_note, tree_usa);
+		new_entry_with_note("Real Time World Edit", real_note, real);
+		new_entry_with_note("Seeder", seed_note, seeder);
+		new_entry_with_note("Search and Replace", sar_note, search);
+		new_entry_with_note("Instant Tree", tree_note, tree);
 	exit_spoiler();
 	new_spoiler("Inventory Codes");
-		new_entry_with_note("Text to Item", t2i_note, text2item_usa);
-		new_entry_with_note("Duplication", dup_note, duplicate_usa);
+		new_entry_with_note("Text to Item", t2i_note, text2item);
+		new_entry_with_note("Duplication", dup_note, duplicate);
 	exit_spoiler();
 	new_spoiler("Apparence Codes");
 		new_spoiler_with_note("Tan Modifier", tan_note);
 			new_unselectable_entry(tan_level_buffer);
-			g_increase_menu_index = new_entry("Increase Tan", increase_tan_level_usa);
-			g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level_usa);
+			g_increase_menu_index = new_entry("Increase Tan", increase_tan_level);
+			g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level);
 		exit_spoiler();
 	exit_spoiler();
 	new_spoiler_with_note("Movement Codes", trans_note);
-		new_entry_with_note("Walk Through Walls", cl_note, collisions_usa);
-		new_entry_with_note("Warping", warp_note, warping_usa);
-		new_entry_with_note("Moon Jump", mj_note, moonjump_usa);
-		new_entry_with_note("Coordinates Modifier", cm_note, coord_usa);
-		new_entry_with_note("Speed Hack", speed_note, speed_usa);
-		new_entry_with_note("Teleport", tele_note, teleport_usa);
+		new_entry_with_note("Walk Through Walls", cl_note, collisions);
+		new_entry_with_note("Warping", warp_note, warping);
+		new_entry_with_note("Moon Jump", mj_note, moonjump);
+		new_entry_with_note("Coordinates Modifier", cm_note, coord);
+		new_entry_with_note("Speed Hack", speed_note, speed);
+		new_entry_with_note("Teleport", tele_note, teleport);
 	exit_spoiler();
 	new_spoiler("Nookling Upgrades");
-		new_radio_entry("T&T Mart", nook1_usa);
-		new_radio_entry("Super T&T", nook2_usa);
-		new_radio_entry("T.I.Y", nook3_usa);
-		new_radio_entry("T&T Emporium", nook4_usa);
+		new_radio_entry("T&T Mart", nook1);
+		new_radio_entry("Super T&T", nook2);
+		new_radio_entry("T.I.Y", nook3);
+		new_radio_entry("T&T Emporium", nook4);
 	exit_spoiler();
 	new_spoiler_with_note("Time Travel Codes", time_note);
-		new_entry_with_note("Time Travel", tt_note, timeTravel_usa);
-		new_entry_with_note("Time Machine", tm_note, timeMachine_usa);
+		new_entry_with_note("Time Travel", tt_note, timeTravel);
+		new_entry_with_note("Time Machine", tm_note, timeMachine);
 	exit_spoiler();
-	//new_spoiler("Misc. Codes")
-		//new_entry_with_note("Edible Items", edibleItems_usa);
-		//new_entry_with_note("Seeder V2", seederV2_usa);
-}
+	new_spoiler("Misc. Codes");
+		new_entry_with_note("Edible Items", eat_note,  edibleItems);
+	exit_spoiler();
 
-void	eur_menu(void)
-{
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 1");
-	new_entry_with_note("Warning ! Read the note !", warning_note, keep_it_off);
-	new_spoiler_with_note("Environment Codes", enviro_note);
-		new_spoiler("R + A Codes");
-			new_radio_entry_with_note("Remove all weeds", weed_note, weeder_eur);
-			new_radio_entry_with_note("Water all flowers", flwr_note, quench_eur);
-			new_radio_entry_with_note("Grass", lush_note, grass_eur);
-			new_radio_entry_with_note("Desert", des_note, desert_eur);
-		exit_spoiler();
-		new_entry_with_note("Real Time World Edit", real_note, real_eur);
-		new_entry_with_note("Seeder", seed_note, seed_eur);
-		new_entry_with_note("Search and Replace", sar_note, search_eur);
-		new_entry_with_note("Instant Tree", tree_note, tree_eur);
-	exit_spoiler();
-	new_spoiler("Inventory Codes");
-		new_entry_with_note("Text to Item", t2i_note, text2item_eur);
-		new_entry_with_note("Duplication", dup_note, duplicate_eur);
-	exit_spoiler();
-	new_spoiler("Apparence Codes");
-		new_spoiler_with_note("Tan Modifier", tan_note);
-		new_unselectable_entry(tan_level_buffer);
-		g_increase_menu_index = new_entry("Increase Tan", increase_tan_level_eur);
-		g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level_eur);
-		exit_spoiler();
-	exit_spoiler();
-	new_spoiler_with_note("Movement Codes", trans_note);
-		new_entry_with_note("Walk Through Walls", cl_note, collisions_eur);
-		new_entry_with_note("Warping", warp_note, warping_eur);
-		new_entry_with_note("Moon Jump", mj_note, moonjump_eur);
-		new_entry_with_note("Coordinates Modifier", cm_note, coord_eur);
-		new_entry_with_note("Speed Hack", speed_note, speed_eur);
-		new_entry_with_note("Teleport", tele_note, teleport_eur);
-	exit_spoiler();
-	new_spoiler("Nookling Upgrades");
-		new_radio_entry("T&T Mart", nook1_eur);
-		new_radio_entry("Super T&T", nook2_eur);
-		new_radio_entry("T.I.Y", nook3_eur);
-		new_radio_entry("T&T Emporium", nook4_eur);
-	exit_spoiler();
-	new_spoiler_with_note("Time Travel Codes", time_note);
-		//new_entry_with_note("Edible Items", edibleItems_eur);
-		//new_entry_with_note("Seeder V2", seederV2_eur);
-		new_entry_with_note("Time Travel", tt_note, timeTravel_eur);
-		new_entry_with_note("Time Machine", tm_note, timeMachine_eur);
-	exit_spoiler();
-}
-
-void	jap_menu(void)
-{
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 1");
-	new_entry_with_note("Warning ! Read the note !", warning_note, keep_it_off);
-	new_spoiler_with_note("Environment Codes", enviro_note);
-		new_spoiler("R + A Codes");
-			new_radio_entry_with_note("Remove all weeds", weed_note, weeder_jap);
-			new_radio_entry_with_note("Water all flowers", flwr_note, quench_jap);
-			new_radio_entry_with_note("Grass", lush_note, grass_jap);
-			new_radio_entry_with_note("Desert", des_note, desert_jap);
-		exit_spoiler();
-		new_entry_with_note("Real Time World Edit", real_note, real_jap);
-		new_entry_with_note("Seeder", seed_note, seed_jap);
-		new_entry_with_note("Search and Replace", sar_note, search_jap);
-		new_entry_with_note("Instant Tree", tree_note, tree_jap);
-	exit_spoiler();
-	new_spoiler("Inventory Codes");
-		new_entry_with_note("Text to Item", t2i_note, text2item_jap);
-		new_entry_with_note("Duplication", dup_note, duplicate_jap);
-	exit_spoiler();
-	new_spoiler("Apparence Codes");
-		new_spoiler_with_note("Tan Modifier", tan_note);
-			new_unselectable_entry(tan_level_buffer);
-			g_increase_menu_index = new_entry("Increase Tan", increase_tan_level_jap);
-			g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level_jap);
-		exit_spoiler();
-	exit_spoiler();
-	new_spoiler_with_note("Movement Codes", trans_note);
-		new_entry_with_note("Walk Through Walls", cl_note, collisions_jap);
-		new_entry_with_note("Warping", warp_note, warping_jap);
-		new_entry_with_note("Moon Jump", mj_note, moonjump_jap);
-		new_entry_with_note("Coordinates Modifier", cm_note, coord_jap);
-		new_entry_with_note("Speed Hack", speed_note, speed_jap);
-		new_entry_with_note("Teleport", tele_note, teleport_jap);
-	exit_spoiler();
-	new_spoiler("Nookling Upgrades");
-		new_radio_entry("T&T Mart", nook1_jap);
-		new_radio_entry("Super T&T", nook2_jap);
-		new_radio_entry("T.I.Y", nook3_jap);
-		new_radio_entry("T&T Emporium", nook4_jap);
-	exit_spoiler();
-	new_spoiler_with_note("Time Travel Codes", time_note);
-		//new_entry_with_note("Edible Items", edibleItems_jap);
-		//new_entry_with_note("Seeder V2", seederV2_jap);
-		new_entry_with_note("Time Travel", tt_note, timeTravel_jap);
-		new_entry_with_note("Time Machine", tm_note, timeMachine_jap);
-	exit_spoiler();
 }
 
 /*
@@ -215,28 +119,44 @@ void	jap_menu(void)
 ** EUR: 00040000 00086400
 ** JAP: 00040000 00086200
 */
-void	my_menus(void)
+t_current_region current_region = USA;
+
+void    my_menus(void)
 {
-	u32	tid;
-	
-	set_hid_address(0x10002000); //This is in order to unlock the advanced HID capabilities such as Touchscreen and the stick (No N3DS hid for the moment)
-	tid = get_tid_low();
-	if (tid == 0x86300)
-		usa_menu();
-	else if (tid == 0x86400)
-		eur_menu();
-	else if (tid == 0x86200)
-		jap_menu();
-	else
-	{
-		new_unselectable_entry("Unsupported ID");
-		new_unselectable_entry("!!! Title id unrecognized !!!");
-		new_unselectable_entry("!!! You need      !!!");
-		new_unselectable_entry("!!! 00040000 00086200     !!!");
-		new_unselectable_entry("!!! or                    !!!");
-		new_unselectable_entry("!!! 00040000 00086300     !!!");
-		new_unselectable_entry("!!! or                    !!!");
-		new_unselectable_entry("!!! 00040000 00086400     !!!");
-	}
+    u32 tid;
+    
+    set_hid_address(0x10002000); //This is in order to unlock the advanced HID capabilities such as Touchscreen and the stick (No N3DS hid for the moment)
+    tid = get_tid_low();
+    if (tid == 0x86300)
+    {
+        current_region = USA;
+   		menu();    
+    }
+    else if (tid == 0x86400)
+    {
+        current_region = EUR;
+        menu(); 
+    }
+    else if (tid == 0x86200)
+    {
+        current_region = JAP;
+        menu(); 
+    }
+    else
+    {
+        new_unselectable_entry("Unsupported ID");
+        new_unselectable_entry("!!! Title id unrecognized !!!");
+        new_unselectable_entry("!!! You need      !!!");
+        new_unselectable_entry("!!! 00040000 00086200     !!!");
+        new_unselectable_entry("!!! or                    !!!");
+        new_unselectable_entry("!!! 00040000 00086300     !!!");
+        new_unselectable_entry("!!! or                    !!!");
+        new_unselectable_entry("!!! 00040000 00086400     !!!");
+    }
+    // Only one menu will be needed when all our cheats functions are updated
+
+    // Assigning all our addresses
+    assign_region(current_region);
+
 
 }

@@ -1,40 +1,158 @@
 #include "cheats.h"
-
+// We're defining globals for each addresses needed
+u32     g_location;
+u32     g_indoor_pos_x;
+u32     g_indoor_pos_y;
+u32     g_indoor_pos_z;
+u32     g_outdoor_pos_x;
+u32     g_outdoor_pos_y;
+u32     g_outdoor_pos_z;
+u32     g_town_items;
+u32     g_island_items;
+u32		g_player;
+u32     g_inv;
+u32     g_velocity;
+u32     g_grass_start;
+u32     g_grass_end;
+u32     g_nook;
+u32     g_leif;
+u32     g_tan;
+u32     g_edible;
+u32     g_seed;
+u32     g_id;
+u32     g_realtime;
+u32     g_savetime;
+u32     g_world_x;
+u32     g_world_y;
+u32     g_collisions;
 u32     g_find[100];
 u32     g_replace[100];
 int     g_i = 0;
 
-void    coord_usa(void)
+// Function to assign our addresses
+
+void    assign_region(t_current_region current_region)
+{
+    g_location = USA_LOCATION_ADDR;
+    g_indoor_pos_x = USA_INDOOR_POS_X_ADDR;
+    g_indoor_pos_y = USA_INDOOR_POS_Y_ADDR;
+    g_indoor_pos_z = USA_INDOOR_POS_Z_ADDR;
+    g_outdoor_pos_x = USA_OUTDOOR_POS_X_ADDR;
+    g_outdoor_pos_y = USA_OUTDOOR_POS_Y_ADDR;
+    g_outdoor_pos_z = USA_OUTDOOR_POS_Z_ADDR;
+	g_town_items = USA_TOWN_ITEMS_ADDR;
+	g_island_items = USA_ISLAND_ITEMS_ADDR;
+	g_player = USA_PLAYER_ADDR;
+    g_inv = USA_INV_ADDR;
+    g_velocity = USA_VELOCITY_ADDR;
+    g_grass_start = USA_GRASS_START_ADDR;
+    g_grass_end = USA_GRASS_END_ADDR;
+    g_nook = USA_NOOK_ADDR;
+    g_leif = USA_LEIF_ADDR;
+    g_tan = USA_TAN_ADDR;
+    g_edible = USA_EDIBLE_ADDR;
+    g_seed = USA_SEED_ADDR;
+    g_id = USA_ID_ADDR;
+    g_savetime = USA_SAVETIME_ADDR;
+    g_realtime = USA_REALTIME_ADDR;
+    g_world_x = USA_WORLD_X_ADDR;
+    g_world_y = USA_WORLD_Y_ADDR;
+    g_collisions = USA_COLLISIONS_ADDR;
+
+    // applying offset or particular address
+    switch (current_region)
+    {
+        case EUR:
+            g_location -= 0x28380;
+            g_indoor_pos_x -= 0x28380;
+            g_indoor_pos_y -= 0x28380;
+            g_indoor_pos_z -= 0x28380;
+            g_outdoor_pos_x -= 0x28380;
+            g_outdoor_pos_y -= 0x28380;
+            g_outdoor_pos_z -= 0x28380;
+            g_town_items -= 0x28380;
+            g_island_items -= 0x28380;
+            g_inv -= 0x28300;
+            g_grass_start -= 0x28380;
+            g_grass_end -= 0x28380;
+            g_velocity -= 0x28380;
+            g_nook -= 0x28380;
+            g_leif -= 0x28380;
+            g_tan -= 0x28380;
+            g_edible -= 0x28380;
+            g_id -= 0x28380;
+            g_savetime -= 0x28380;
+            g_world_x -= 0x28380;
+            g_world_y -= 0x28380;
+            g_collisions -= 0x28380;
+            g_realtime += 0x1008;
+            g_seed += 0x1000;
+            g_player -= 0x1000;
+            break;
+        case JAP:
+            g_location += 0x22A80;
+            g_indoor_pos_x += 0x22A80;
+            g_indoor_pos_y += 0x22A80;
+            g_indoor_pos_z += 0x22A80;
+            g_outdoor_pos_x += 0x22A80;
+            g_outdoor_pos_y += 0x22A80;
+            g_outdoor_pos_z += 0x22A80;
+            g_town_items += 0x22A80;
+            g_island_items += 0x22A80;
+            g_grass_start += 0x22A80;
+            g_grass_end += 0x22A80;
+            g_inv += 0x22A80;
+            g_velocity += 0x22A80;
+            g_nook += 0x22A80;
+            g_leif += 0x22A80;
+            g_tan += 0x22A80;
+            g_id += 0x22A80;
+            g_edible += 0x22A80;
+            g_savetime += 0x22A80;
+            g_world_x += 0x22A80;
+            g_world_y += 0x22A80;
+            g_realtime += 0x8008;
+            g_collisions += 0x22A80;
+            g_seed += 0x8020;
+            g_player -= 0x6000;
+            break;
+    }
+}
+
+// Our cheats using our globals
+
+
+void    coord(void)
 {
     static int  loc = 0;
 
     if (!is_pressed(BUTTON_A))
         return;
-    loc = READU32(0x33077504);
+    loc = READU32(g_location);
     if (loc == -1) //FFFFFFFF=outdoors
     {
         if (is_pressed(BUTTON_A + BUTTON_DD))
-            ADDTOFLOAT(0x330773D8, 1.0);
+            ADDTOFLOAT(g_outdoor_pos_x, 1.0);
         if (is_pressed(BUTTON_A + BUTTON_DU))
-            SUBTOFLOAT(0x330773D8, 1.0);
+            SUBTOFLOAT(g_outdoor_pos_x, 1.0);
         if (is_pressed(BUTTON_A + BUTTON_DL))
-            SUBTOFLOAT(0x330773D0, 1.0);
+            SUBTOFLOAT(g_outdoor_pos_z, 1.0);
         if (is_pressed(BUTTON_A + BUTTON_DR))
-            ADDTOFLOAT(0x330773D0, 1.0);
+            ADDTOFLOAT(g_outdoor_pos_z, 1.0);
     }
     else //if it's anything but FFFFFFFF then you're indoors
     {
         if (is_pressed(BUTTON_A + BUTTON_DD))
-            ADDTOFLOAT(0x33077504, 1.0);
+            ADDTOFLOAT(g_indoor_pos_x, 1.0);
         if (is_pressed(BUTTON_A + BUTTON_DU))
-            SUBTOFLOAT(0x33077504, 1.0);
+            SUBTOFLOAT(g_indoor_pos_x, 1.0);
         if (is_pressed(BUTTON_A + BUTTON_DL))
-            SUBTOFLOAT(0x330774fc, 1.0);
+            SUBTOFLOAT(g_indoor_pos_z, 1.0);
         if (is_pressed(BUTTON_A + BUTTON_DR))
-            ADDTOFLOAT(0x330774fc, 1.0);
+            ADDTOFLOAT(g_indoor_pos_z, 1.0);
     }
 }
-void    search_usa(void)
+void    search(void)
 {
     int     search;
     int     replace;
@@ -44,69 +162,38 @@ void    search_usa(void)
         get_input_id(&search, &replace);
         reset_search();
         add_search_replace(search, replace);
-        find_and_replace_multiple((void *)0x31F7A458, 0x5000);
-        find_and_replace_multiple((void *)0x31F96E58, 0x1000);
+        find_and_replace_multiple((void *)g_town_items, 0x5000);
+        find_and_replace_multiple((void *)g_island_items, 0x1000);
     }
 }
 
-void    seed_usa(void)
-{
-    int     replace;
-
-    if (is_pressed(BUTTON_R + BUTTON_DD))
-    {
-        get_input_id(&replace, NULL);
-        reset_search();
-        add_search_replace(0x20AC, replace);
-        find_and_replace_multiple((void *)0x31F7A458, 0x5000);
-        find_and_replace_multiple((void *)0x31F96E58, 0x1000);
-    }
-    if (is_pressed(BUTTON_R + BUTTON_DU))
-    {
-        get_input_id(&replace, NULL);
-        reset_search();
-        add_search_replace(replace, 0x7FFE);
-        find_and_replace_multiple((void *)0x31F7A458, 0x5000);
-        find_and_replace_multiple((void *)0x31F96E58, 0x1000);
-    }
-    if (is_pressed(BUTTON_R + BUTTON_DL))
-    {
-        get_input_id(&replace, NULL);
-        reset_search();
-        add_search_replace(replace, 0x20AC);
-        find_and_replace_multiple((void *)0x31F7A458, 0x5000);
-        find_and_replace_multiple((void *)0x31F96E58, 0x1000);
-    }
-}
-
-
-void    text2item_usa(void) 
+void    text2item(void) 
 {
     int     input;
     u8      player;
     u32     offset;
     
-    player = READU8(0xAAE990);
+    player = READU8(g_player);
     if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
         offset = player * 0xa480;
     if (!is_pressed(BUTTON_X + BUTTON_DR))
         return;
     get_input_id(&input, NULL);
-    WRITEU16(0x31F2DBF0 + offset, input);
-    WRITEU16(0xAB36E4, input); //player 2
+    WRITEU16(g_inv + offset, input);
+/*    WRITEU16(0xAB36E4, input); //player 2
     WRITEU16(0xABDB64, input); //player 3
     WRITEU16(0xAAb0e4, input); //player 4
-    WRITEU16(0xA8C364, input);
-    WRITEU16(0xAA0C60, input);
-    wait_all_released();
+    WRITEU16(0xA8C364, input); will look at this later.
+    WRITEU16(0xAA0C60, input); */
+   wait_all_released();
 }
 
-void    teleport_usa(void)
+void    teleport(void)
 {
-    const  u32    indoor_X_address = 0x330774FC;
-    const  u32    indoor_Y_address = 0x33077504;
-    const  u32    outdoor_X_address = 0x330773D0;
-    const  u32    outdoor_Y_address = 0x330773D8;
+    const  u32    indoor_X_address = g_indoor_pos_x;
+    const  u32    indoor_Y_address = g_indoor_pos_z;
+    const  u32    outdoor_X_address = g_outdoor_pos_x;
+    const  u32    outdoor_Y_address = g_indoor_pos_z;
 
     static u32    indoor_X[3] = { 0 };
     static u32    indoor_Y[3] = { 0 };
@@ -119,7 +206,7 @@ void    teleport_usa(void)
         return;
 
     //Pointer to define whether player is indoors or not
-    loc = READU32(0x33077504);
+    loc = READU32(g_location);
     if (is_pressed(BUTTON_L)) //If L is pressed then use slot3
         slot = 2;
     else if (is_pressed(BUTTON_R)) //If R is pressed then use slot2
@@ -154,57 +241,57 @@ void    teleport_usa(void)
     }
 }
 
-void    warping_usa(void)
+void    warping(void)
 {
     if (upper_left_touched())
     {
-        WRITEU32(0x330773D8, 0x4427405E);
-        WRITEU32(0x330773D4, 0x42E00000);
-        WRITEU32(0x330773D0, 0x44253715);
+        WRITEU32(g_outdoor_pos_x, 0x4427405E);
+        WRITEU32(g_outdoor_pos_y, 0x42E00000);
+        WRITEU32(g_outdoor_pos_z, 0x44253715);
         wait_keys_released(KEY_TOUCH);
     }
     if (upper_right_touched())
     {
-        WRITEU32(0x330773D8, 0x442C4000);
-        WRITEU32(0x330773D4, 0x42E00000);
-        WRITEU32(0x330773D0, 0x45239943);
+        WRITEU32(g_outdoor_pos_x, 0x442C4000);
+        WRITEU32(g_outdoor_pos_y, 0x42E00000);
+        WRITEU32(g_outdoor_pos_z, 0x45239943);
         wait_keys_released(KEY_TOUCH);
     }
     if (lower_left_touched())
     {
-        WRITEU32(0x330773D8, 0x450A7F48);
-        WRITEU32(0x330773D4, 0x42E00000);
-        WRITEU32(0x330773D0, 0x4442761E);
+        WRITEU32(g_outdoor_pos_x, 0x450A7F48);
+        WRITEU32(g_outdoor_pos_z, 0x42E00000);
+        WRITEU32(g_outdoor_pos_z, 0x4442761E);
         wait_keys_released(KEY_TOUCH);
     }
     if (lower_right_touched())
     {
-        WRITEU32(0x330773D8, 0x45071000);
-        WRITEU32(0x330773D4, 0x42E00000);
-        WRITEU32(0x330773D0, 0x451E028E);
+        WRITEU32(g_outdoor_pos_x, 0x45071000);
+        WRITEU32(g_outdoor_pos_y, 0x42E00000);
+        WRITEU32(g_outdoor_pos_z, 0x451E028E);
         wait_keys_released(KEY_TOUCH);
     }
 }
 
-void    speed_usa(void)
+void    speed(void)
 {
     u32     velocity;
 
     if (is_pressed(BUTTON_B))
     {
-        velocity = READU32(0x330773FC);
+        velocity = READU32(g_velocity);
         if (velocity >= 0x41A79DB3)
         {
-            WRITEU32(0x330773FC, 0x41A79DB3);
+            WRITEU32(g_velocity, 0x41A79DB3);
         }
         else if (velocity > 0)
         {
-            ADDTOFLOAT(0x330773FC, 2.0);
+            ADDTOFLOAT(g_velocity, 2.0);
         }
     }
 }
 
-void    weeder_usa(void)
+void    weeder(void)
 {
     if (is_pressed(BUTTON_R + BUTTON_A))
     {
@@ -217,12 +304,12 @@ void    weeder_usa(void)
         add_search_replace(0x000000CC, 0x00007FFE);
         add_search_replace(0x000000CD, 0x00007FFE);
         add_search_replace(0x000000F8, 0x00007FFE);
-        find_and_replace_multiple((void *)0x31F7A458, 0x5000);
+        find_and_replace_multiple((void *)g_town_items, 0x5000);
         wait_all_released();
     }
 }
 
-void quench_usa(void)
+void quench(void)
 {
     // define flowers (include wilted)
     static const u16 flowers[] =
@@ -318,7 +405,7 @@ void quench_usa(void)
 
     if (is_pressed(BUTTON_R + BUTTON_A))
     // find all items in Town
-    for (address = OFFSET_TOWN_ITEMS; address < OFFSET_TOWN_ITEMS + RANGE_TOWN_ITEMS; address += ITEM_BYTES)
+    for (address = g_town_items; address < g_town_items + RANGE_TOWN_ITEMS; address += ITEM_BYTES)
     {
         item = READU16(address);
         // find flowers
@@ -336,7 +423,7 @@ void quench_usa(void)
     }
 }
 
-void    tree_usa(void)
+void    tree(void)
 {
     if (is_pressed(BUTTON_X))
     {
@@ -357,21 +444,21 @@ void    tree_usa(void)
         add_search_replace(0x0062, 0x0066);
         add_search_replace(0x0067, 0x006B);
         add_search_replace(0x006C, 0x0043);
-        find_and_replace_multiple((void *)0x31F7A458, 0x5000);
-        find_and_replace_multiple((void *)0x31F96E58, 0x1000);
+        find_and_replace_multiple((void *)g_town_items, 0x5000);
+        find_and_replace_multiple((void *)g_island_items, 0x1000);
     }
 }
 
-void    duplicate_usa(void)
+void    duplicate(void)
 {
     u32 dupe = 0;
-    u32 dupe0 = 0;
-    u32 dupe1 = 0;
-    u32 dupe2 = 0;
-    u32 dupe3 = 0;
-    u32 dupe4 = 0;
-    u32 dupe5 = 0;
-    u32 offset;
+ //   u32 dupe0 = 0;
+ //   u32 dupe1 = 0;
+ //   u32 dupe2 = 0;
+ //   u32 dupe3 = 0;
+ //   u32 dupe4 = 0;
+ //   u32 dupe5 = 0;
+   u32 offset;
     u8 player;
     /* OFFSETS FOUND 
     ** 0xAAb0e0 only player on island.
@@ -380,195 +467,194 @@ void    duplicate_usa(void)
     */   
     if (is_pressed(BUTTON_R))
     {
-        player = READU8(0xAAE990);
+        player = READU8(g_player);
         if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
         {
             offset = player * 0xa480;
         }
-        dupe = READU32(0x31F2DBF0 + offset);
-        dupe0 = READU32(0xAB36E0); //online pointer0
-        dupe1 = READU32(0xABDB60); //online pointer1
-        dupe2 = READU32(0xAC7FE0); //online pointer2
-        dupe3 = READU32(0xAAb0e0);
-        dupe4 = READU32(0xA8C360);
-        dupe5 = READU32(0xAA0C60);
-        WRITEU32(0x31F2DBF4 + offset, dupe);
-        WRITEU32(0xAB36E4, dupe0); //player 2
-        WRITEU32(0xABDB64, dupe1); //player 3
-        WRITEU32(0xAC7FE4, dupe2); //player 4
-        WRITEU32(0xAAb0e4, dupe3);
-        WRITEU32(0xA8C364, dupe4);
-        WRITEU32(0xAA0C64, dupe5);
+        dupe = READU32(g_inv + offset);
+        //dupe0 = READU32(0xAB36E0); //online pointer0
+        //dupe1 = READU32(0xABDB60); //online pointer1
+        //dupe2 = READU32(0xAC7FE0); //online pointer2
+        //dupe3 = READU32(0xAAb0e0);
+        //dupe4 = READU32(0xA8C360);
+        //dupe5 = READU32(0xAA0C60);
+        WRITEU32(g_inv + offset + 0x4, dupe);
+        //WRITEU32(0xAB36E4, dupe0); //player 2
+        //WRITEU32(0xABDB64, dupe1); //player 3
+        //WRITEU32(0xAC7FE4, dupe2); //player 4
+        //WRITEU32(0xAAb0e4, dupe3);
+        //WRITEU32(0xA8C364, dupe4);
+        //WRITEU32(0xAA0C64, dupe5);
     }
 }
 
-void    grass_usa(void)
+void    grass(void)
 {
     if (is_pressed(BUTTON_R + BUTTON_A))
     {
         int i;
 
-        for (i = 0x31F80880; i < 0x31F8307F; i++)
+        for (i = g_grass_start; i < g_grass_end; i++)
             *(u32 *)i = 0xFFFFFFFF;
         wait_all_released();
     }
 }
 
-void    desert_usa(void) //31025300
+void    desert(void)
 {
     if (is_pressed(BUTTON_R + BUTTON_A))
     {
         int i;
 
-        for (i = 0x31F80880; i < 0x31F8307F; i++)
+        for (i = g_grass_start; i < g_grass_end; i++)
             *(u32 *)i = 0x00000000;
         wait_all_released();
     }
 }
 
-//Nook Upgrades
-void    nook_usa_common(int value)
+void    nook_common(int value)
 {
-    WRITEU16(0x31F891E4, 0x0101 * value);
-    WRITEU8(0x31F8D674, value == 1 ? 2 : value);
+    WRITEU16(g_nook, 0x0101 * value);
+    WRITEU8(g_leif, value == 1 ? 2 : value);
 }
 
-void    nook1_usa(void)
+void    nook1(void)
 {
-    nook_usa_common(1);
+    nook_common(1);
 }
 
-void    nook2_usa(void)
+void    nook2(void)
 {
-    nook_usa_common(2);
+    nook_common(2);
 }
 
-void    nook3_usa(void)
+void    nook3(void)
 {
-    nook_usa_common(3);
+    nook_common(3);
 }
 
-void    nook4_usa(void)
+void    nook4(void)
 {
-    nook_usa_common(4);
+    nook_common(4);
 }
 
 extern char    tan_level_buffer[40];
 extern int     g_increase_menu_index;
 extern int     g_decrease_menu_index;
 
-void    set_current_tan_level_usa(u8 value)
+void    set_current_tan_level(u8 value)
 {
     u8      player;
     u32     offset;
 
     offset = 0;
-    player = READU8(0xAAE990);
+    player = READU8(g_player);
     if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
     {
         offset = player * 0xA480;
     }
-    WRITEU8(0x31F27028 + offset, value);
+    WRITEU8(g_tan + offset, value);
 }
 
-u8      get_current_tan_level_usa(void)
+u8      get_current_tan_level(void)
 {
     u8      player;
     u32     offset;
     u8      current_level;
 
     offset = 0;
-    player = READU8(0xAAE990);
+    player = READU8(g_player);
     if (player <= 3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
     {
         offset = player * 0xA480;
     }
-    current_level = READU8(0x31F27028 + offset);
+    current_level = READU8(g_tan + offset);
     return (current_level);
 }
 
-void    update_tan_entry_usa(void)
+void    update_tan_entry(void)
 {
     u8 current_level;
 
-    current_level = get_current_tan_level_usa();
+    current_level = get_current_tan_level();
     xsprintf(tan_level_buffer, "Current tan level: %d", current_level);
 }
 
-void    increase_tan_level_usa(void)
+void    increase_tan_level(void)
 {
     u8  current_level;
 
-    current_level = get_current_tan_level_usa();
+    current_level = get_current_tan_level();
     if (current_level < 0xF)
         current_level++;
     else
         current_level = 0;
-    set_current_tan_level_usa(current_level);
-    update_tan_entry_usa();
+    set_current_tan_level(current_level);
+    update_tan_entry();
     disableCheat(g_increase_menu_index);
 }
 
-void    decrease_tan_level_usa(void)
+void    decrease_tan_level(void)
 {
     u8  current_level;
 
-    current_level = get_current_tan_level_usa();
+    current_level = get_current_tan_level();
     if (current_level > 0)
         current_level--;
     else
         current_level = 0xF;
-    set_current_tan_level_usa(current_level);
-    update_tan_entry_usa();
+    set_current_tan_level(current_level);
+    update_tan_entry();
     disableCheat(g_decrease_menu_index);
-}  
+}
 
-void    moonjump_usa(void)
+void    moonjump(void)
 {
     int     loc;
-    u32     Z;
+    u32     height;
 
     if (!(any_is_pressed(R)) && is_pressed(BUTTON_L)) //it's better to test the negation first
     {
-        loc = READU32(0x33077504);
-        Z = READU32(0x330773D4);
-        if (Z >= 0x440F0000)
+        loc = READU32(g_location);
+        height = READU32(g_outdoor_pos_y);
+        if (height >= 0x440F0000)
         {
             if (loc == -1)
             {
-                WRITEU32(0x330773D4, 0x440F0000);
+                WRITEU32(g_outdoor_pos_y, 0x440F0000);
             }
             else
             {
-                WRITEU32(0x33077500, 0x440F0000);
+                WRITEU32(g_indoor_pos_y, 0x440F0000);
             }
         }
         else
         {
             if (loc == -1)
             {
-                ADDTOFLOAT(0x330773D4, 6.0);
+                ADDTOFLOAT(g_outdoor_pos_y, 6.0);
             }
             else
             {
-                ADDTOFLOAT(0x33077500, 6.0);
+                ADDTOFLOAT(g_indoor_pos_y, 6.0);
             }
         }   
     }
 }
 
-void    edibleItems_usa(void)
+void    edibleItems(void)
 {
     int     input;
 
     if (is_pressed(BUTTON_L))
     {
         get_input_id(&input, NULL);
-        WRITEU16(0x17321DC4, input);
+        WRITEU16(g_edible, input);
     }
 }
 
-void    seederV2_usa(void)
+void    seeder(void)
 {
     int     input;
 
@@ -577,17 +663,17 @@ void    seederV2_usa(void)
     get_input_id(&input, NULL);
     if (is_pressed(BUTTON_L + A))
     {
-        WRITEU32(0xA37BD8, 0x80000000 + input);
+        WRITEU32(g_seed, 0x80000000 + input);
     }
     else
     {        
-        WRITEU16(0xA37BD8, input);
+        WRITEU16(g_seed, input);
     }
 }
 
-void    timeMachine_usa(void)
+void    timeMachine(void)
 {
-    u16         *id = (u16 *)0x32cb0f60;
+    u16         *id = (u16 *)g_id;
     char        yy_str[3] = { 0 };
     char        mm_str[3] = { 0 };
     char        dd_str[3] = { 0 };
@@ -630,8 +716,8 @@ void    timeMachine_usa(void)
     
         res_nansec = (res_year + res_month + res_day + res_hour + res_min) * res_plmn;
 
-        ADD64(0x31F89120, res_nansec);
-        ADD64(0x95D508, res_nansec);
+        ADD64(g_savetime, res_nansec);
+        ADD64(g_realtime, res_nansec);
         wait_keys_released(DR);
     }
     
@@ -663,44 +749,44 @@ void    timeMachine_usa(void)
     
         res_nansec = (res_year + res_month + res_day + res_hour + res_min) * res_plmn;
 
-        SUB64(0x31F89120, res_nansec);
-        SUB64(0x95D508, res_nansec);
+        SUB64(g_savetime, res_nansec);
+        SUB64(g_realtime, res_nansec);
         wait_keys_released(DL);
     }
 }
 
-void    timeTravel_usa(void)
+void    timeTravel(void)
 {
     if(is_pressed(BUTTON_B + BUTTON_DR))
     {
-        ADD64(0x31F89120, 0x34630B8A000);
-        ADD64(0x95D508, 0x34630B8A000);
+        ADD64(g_savetime, 0x34630B8A000);
+        ADD64(g_realtime, 0x34630B8A000);
         wait_keys_released(DR);
     }
     if(is_pressed(BUTTON_B + BUTTON_DL))
     {
-        SUB64(0x31F89120, 0x34630B8A000);
-        SUB64(0x95D508, 0x34630B8A000);
+        SUB64(g_savetime, 0x34630B8A000);
+        SUB64(g_realtime, 0x34630B8A000);
         wait_keys_released(DL);
     }
     if(is_pressed(BUTTON_B + BUTTON_DD))
     {
-        WRITES64(0x31F89120, 0x0000000000000000);
-        WRITES64(0x95D508, 0x0000000000000000);
+        WRITES64(g_savetime, 0x0000000000000000);
+        WRITES64(g_realtime, 0x0000000000000000);
     }
     if(is_pressed(BUTTON_R + BUTTON_DR))
     {
-        ADD64(0x31F89120, 0xdf8475800);
-        ADD64(0x95D508, 0xdf8475800);
+        ADD64(g_savetime, 0xdf8475800);
+        ADD64(g_realtime, 0xdf8475800);
     }
     if(is_pressed(BUTTON_R + BUTTON_DL))
     {
-        SUB64(0x31F89120, 0xdf8475800);
-        SUB64(0x95D508, 0xdf8475800);
+        SUB64(g_savetime, 0xdf8475800);
+        SUB64(g_realtime, 0xdf8475800);
     }
 }
 
-void    real_usa(void)
+void    real(void)
 {
     u32     x;
     u32     y;
@@ -711,8 +797,8 @@ void    real_usa(void)
 
     if (is_pressed(BUTTON_R + BUTTON_DD))
     {
-        x = READU32 (0x33077838);
-        y = READU32 (0x3307783c);
+        x = READU32 (g_world_x);
+        y = READU32 (g_world_y);
         if (x >= 0x10 && y >= 0x10)
         {
             x -= 0x10;
@@ -727,19 +813,19 @@ void    real_usa(void)
             y *= 0x1400;
             offset = reg0 + reg1 + x + y;           
             get_input_id(&input, NULL);
-            WRITEU16(0x31F7A458 + offset, input);
+            WRITEU16(g_town_items + offset, input);
         }
     }   
 }
 
-void	collisions_usa(void)
+void    collisions(void)
 {
-	if (is_pressed(BUTTON_R + BUTTON_DU))
-	{
-		WRITEU8(0x33077534, 0x01);
-	}
-	if (is_pressed(BUTTON_R + BUTTON_DD))
-	{
-		WRITEU8(0x33077534, 0x00);
-	}
+    if (is_pressed(BUTTON_R + BUTTON_DU))
+    {
+        WRITEU8(g_collisions, 0x01);
+    }
+    if (is_pressed(BUTTON_R + BUTTON_DD))
+    {
+        WRITEU8(g_collisions, 0x00);
+    }
 }
