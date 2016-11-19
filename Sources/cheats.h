@@ -18,33 +18,36 @@
 #define     SUBTOFLOAT(addr, sub_value)         *(float *)addr -= (float)sub_value
 
 /*
-USA Addresses
+** USA Addresses
 */
-#define USA_LOCATION_ADDR       0x33077504
-#define USA_INDOOR_POS_X_ADDR   0x330774fc
-#define USA_INDOOR_POS_Y_ADDR   0x33077500
-#define USA_INDOOR_POS_Z_ADDR   0x33077504
-#define USA_OUTDOOR_POS_X_ADDR  0x330773D0
-#define USA_OUTDOOR_POS_Y_ADDR  0x330773D4
-#define USA_OUTDOOR_POS_Z_ADDR  0x330773D8
-#define USA_TOWN_ITEMS_ADDR   0x31F7A458
-#define USA_ISLAND_ITEMS_ADDR 0x31F96E58
-#define USA_PLAYER_ADDR 0xAAE990 //0xAAD990, 0xAA6990
-#define USA_INV_ADDR 0x31F2DBF0
-#define USA_VELOCITY_ADDR 0x330773FC
-#define USA_GRASS_START_ADDR 0x31F80880
-#define USA_GRASS_END_ADDR 0x31F8307F
-#define USA_NOOK_ADDR 0x31F891E4
-#define USA_LEIF_ADDR 0x31F8D674
-#define USA_TAN_ADDR 0x31F27028
-#define USA_SEED_ADDR 0x9B5268 //9AD248, 9B4268
-#define USA_EDIBLE_ADDR 0x33077C86
-#define USA_ID_ADDR 0x32cb0f60 
-#define	USA_SAVETIME_ADDR 0x31F89120
-#define USA_REALTIME_ADDR 0x95D508 //955500, 95c500
-#define USA_WORLD_X_ADDR 0x33077838
-#define USA_WORLD_Y_ADDR 0x3307783c
-#define	USA_COLLISIONS_ADDR 0x33077534
+#define     USA_LOCATION_ADDR                   0x33077504
+#define     USA_INDOOR_POS_X_ADDR               0x330774fc
+#define     USA_INDOOR_POS_Y_ADDR               0x33077500
+#define     USA_INDOOR_POS_Z_ADDR               0x33077504
+#define     USA_OUTDOOR_POS_X_ADDR              0x330773D0
+#define     USA_OUTDOOR_POS_Y_ADDR              0x330773D4
+#define     USA_OUTDOOR_POS_Z_ADDR              0x330773D8
+#define     USA_TOWN_ITEMS_ADDR                 0x31F7A458
+#define     USA_ISLAND_ITEMS_ADDR               0x31F96E58
+#define     USA_PLAYER_ADDR                     0xAAE990 //0xAAD990, 0xAA6990
+#define     USA_INV_ADDR                        0x31F2DBF0
+#define     USA_VELOCITY_ADDR                   0x330773FC
+#define     USA_GRASS_START_ADDR                0x31F80880
+#define     USA_GRASS_END_ADDR                  0x31F8307F
+#define     USA_NOOK_ADDR                       0x31F891E4
+#define     USA_LEIF_ADDR                       0x31F8D674
+#define     USA_TAN_ADDR                        0x31F27028
+#define     USA_SEED_ADDR                       0x9B5268 //9AD248, 9B4268
+#define     USA_EDIBLE_ADDR                     0x33077C86
+#define     USA_ID_ADDR                         0x32CB0F60 
+#define	    USA_SAVETIME_ADDR                   0x31F89120
+#define     USA_REALTIME_ADDR                   0x95D508 //955500, 95c500
+#define     USA_WORLD_X_ADDR                    0x33077838
+#define     USA_WORLD_Y_ADDR                    0x3307783C
+#define	    USA_COLLISIONS_ADDR                 0x33077534
+#define     USA_INPUT_TEXT_ADDR                 0x32CB0F60
+#define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
+#define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
 
 typedef enum e_current_region
 {
@@ -62,7 +65,7 @@ void    keep_it_off(void);
 void    retrieve_input_string(char *output, int size);
 void    get_input_id(int *first, int *second);
 
-
+void    assign_region(t_current_region current_region);
 void    coord(void);
 void    seeder(void);
 void    search(void);

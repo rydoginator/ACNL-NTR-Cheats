@@ -65,7 +65,6 @@ int 	g_decrease_menu_index = 0;
 void	menu(void)
 {
 	update_tan_entry();
-	new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 2");
 	new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
 	new_spoiler_with_note("Environment Codes", enviro_note);
 		new_spoiler("R + A Codes");
@@ -130,17 +129,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         current_region = USA;
-   		menu();    
+   		new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 2 USA");
     }
     else if (tid == 0x86400)
     {
         current_region = EUR;
-        menu(); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 2 EUR"); 
     }
     else if (tid == 0x86200)
     {
         current_region = JAP;
-        menu(); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 2 JAP"); 
     }
     else
     {
@@ -154,9 +153,7 @@ void    my_menus(void)
         new_unselectable_entry("!!! 00040000 00086400     !!!");
     }
     // Only one menu will be needed when all our cheats functions are updated
-
+    menu();
     // Assigning all our addresses
     assign_region(current_region);
-
-
 }

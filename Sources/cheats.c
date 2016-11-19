@@ -1,5 +1,7 @@
 #include "cheats.h"
+
 // We're defining globals for each addresses needed
+
 u32     g_location;
 u32     g_indoor_pos_x;
 u32     g_indoor_pos_y;
@@ -9,7 +11,7 @@ u32     g_outdoor_pos_y;
 u32     g_outdoor_pos_z;
 u32     g_town_items;
 u32     g_island_items;
-u32		g_player;
+u32     g_player;
 u32     g_inv;
 u32     g_velocity;
 u32     g_grass_start;
@@ -25,6 +27,7 @@ u32     g_savetime;
 u32     g_world_x;
 u32     g_world_y;
 u32     g_collisions;
+u32     g_input_text_buffer;
 u32     g_find[100];
 u32     g_replace[100];
 int     g_i = 0;
@@ -40,9 +43,9 @@ void    assign_region(t_current_region current_region)
     g_outdoor_pos_x = USA_OUTDOOR_POS_X_ADDR;
     g_outdoor_pos_y = USA_OUTDOOR_POS_Y_ADDR;
     g_outdoor_pos_z = USA_OUTDOOR_POS_Z_ADDR;
-	g_town_items = USA_TOWN_ITEMS_ADDR;
-	g_island_items = USA_ISLAND_ITEMS_ADDR;
-	g_player = USA_PLAYER_ADDR;
+    g_town_items = USA_TOWN_ITEMS_ADDR;
+    g_island_items = USA_ISLAND_ITEMS_ADDR;
+    g_player = USA_PLAYER_ADDR;
     g_inv = USA_INV_ADDR;
     g_velocity = USA_VELOCITY_ADDR;
     g_grass_start = USA_GRASS_START_ADDR;
@@ -62,6 +65,9 @@ void    assign_region(t_current_region current_region)
     // applying offset or particular address
     switch (current_region)
     {
+        case USA:
+            g_input_text_buffer = USA_INPUT_TEXT_ADDR;
+            break;
         case EUR:
             g_location -= 0x28380;
             g_indoor_pos_x -= 0x28380;
@@ -88,6 +94,7 @@ void    assign_region(t_current_region current_region)
             g_realtime += 0x1008;
             g_seed += 0x1000;
             g_player -= 0x1000;
+            g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
             break;
         case JAP:
             g_location += 0x22A80;
@@ -115,6 +122,7 @@ void    assign_region(t_current_region current_region)
             g_collisions += 0x22A80;
             g_seed += 0x8020;
             g_player -= 0x6000;
+            g_input_text_buffer = JAP_INPUT_TEXT_ADDR;
             break;
     }
 }
@@ -180,7 +188,7 @@ void    text2item(void)
         return;
     get_input_id(&input, NULL);
     WRITEU16(g_inv + offset, input);
-/*    WRITEU16(0xAB36E4, input); //player 2
+/*  WRITEU16(0xAB36E4, input); //player 2
     WRITEU16(0xABDB64, input); //player 3
     WRITEU16(0xAAb0e4, input); //player 4
     WRITEU16(0xA8C364, input); will look at this later.
@@ -190,16 +198,11 @@ void    text2item(void)
 
 void    teleport(void)
 {
-    const  u32    indoor_X_address = g_indoor_pos_x;
-    const  u32    indoor_Y_address = g_indoor_pos_z;
-    const  u32    outdoor_X_address = g_outdoor_pos_x;
-    const  u32    outdoor_Y_address = g_indoor_pos_z;
-
     static u32    indoor_X[3] = { 0 };
     static u32    indoor_Y[3] = { 0 };
     static u32    outdoor_X[3] = { 0 };
     static u32    outdoor_Y[3] = { 0 };
-    static int    loc = 0;
+    int           loc;
     int           slot;
 
     if (!is_pressed(BUTTON_B))
@@ -217,26 +220,26 @@ void    teleport(void)
     {       
         if (loc == -1) 
         {           
-            outdoor_X[slot] = READU32(outdoor_X_address);
-            outdoor_Y[slot] = READU32(outdoor_Y_address);
+            outdoor_X[slot] = READU32(g_outdoor_pos_x);
+            outdoor_Y[slot] = READU32(g_outdoor_pos_z);
         }
         else
         {
-            indoor_X[slot] = READU32(indoor_X_address);
-            indoor_Y[slot] = READU32(indoor_Y_address);
+            indoor_X[slot] = READU32(g_indoor_pos_x);
+            indoor_Y[slot] = READU32(g_indoor_pos_z);
         }
     }
-    if (is_pressed(BUTTON_B + BUTTON_DD))
+    else if (is_pressed(BUTTON_B + BUTTON_DD))
     {
         if (loc == -1)
         {
-            WRITEU32(outdoor_X_address, outdoor_X[slot]);
-            WRITEU32(outdoor_Y_address, outdoor_Y[slot]);
+            WRITEU32(g_outdoor_pos_x, outdoor_X[slot]);
+            WRITEU32(g_outdoor_pos_z, outdoor_Y[slot]);
         }
         else
         {
-            WRITEU32(indoor_X_address, indoor_X[slot]);
-            WRITEU32(indoor_Y_address, indoor_Y[slot]);
+            WRITEU32(g_indoor_pos_x, indoor_X[slot]);
+            WRITEU32(g_indoor_pos_z, indoor_Y[slot]);
         }
     }
 }
@@ -451,15 +454,16 @@ void    tree(void)
 
 void    duplicate(void)
 {
-    u32 dupe = 0;
+    
  //   u32 dupe0 = 0;
  //   u32 dupe1 = 0;
  //   u32 dupe2 = 0;
  //   u32 dupe3 = 0;
  //   u32 dupe4 = 0;
  //   u32 dupe5 = 0;
-   u32 offset;
-    u8 player;
+    u32     dupe = 0;
+    u32     offset;
+    u8      player;
     /* OFFSETS FOUND 
     ** 0xAAb0e0 only player on island.
     ** 0xA8C360 2nd player on island.
@@ -468,9 +472,11 @@ void    duplicate(void)
     if (is_pressed(BUTTON_R))
     {
         player = READU8(g_player);
-        if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+        // Player 4 should be the highest value stored here. 
+        // It goes to 0x7 when visiting a dream and someone's town I think?
+        if (player <= 0x3)
         {
-            offset = player * 0xa480;
+            offset = player * 0xA480;
         }
         dupe = READU32(g_inv + offset);
         //dupe0 = READU32(0xAB36E0); //online pointer0
@@ -797,8 +803,8 @@ void    real(void)
 
     if (is_pressed(BUTTON_R + BUTTON_DD))
     {
-        x = READU32 (g_world_x);
-        y = READU32 (g_world_y);
+        x = READU32(g_world_x);
+        y = READU32(g_world_y);
         if (x >= 0x10 && y >= 0x10)
         {
             x -= 0x10;

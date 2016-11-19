@@ -3,6 +3,7 @@
 extern u32  g_find[100];
 extern u32  g_replace[100];
 extern int  g_i;
+extern u32  g_input_text_buffer;
 
 void    find_and_replace_multiple(void *start_addr, u32 length)
 {
@@ -35,11 +36,16 @@ void    keep_it_off(void)
 
 void    retrieve_input_string(char *output, int size)
 {
-    const u32   input_buffer_address = 0x32cb0f60;
+    // TODO: properly managing wide char
+    char    buffer[0x100];
+    int     i;
 
     if (!output || size < 1)
         goto error;
-    memcpy(output, (void *)input_buffer_address, size);
+    size *= 2;
+    memcpy(buffer, (void *)g_input_text_buffer, size > 0x100 ? 0x100 : size);
+    for (i = 0; i < size; i++)
+        *output++ = *(buffer + i++);
     error:
         return;
 }
