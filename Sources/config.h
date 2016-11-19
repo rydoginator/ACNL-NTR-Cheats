@@ -3,14 +3,14 @@
 unsigned char *fill_img = "Don't edit this.";
 unsigned char *null_img = (void *)0x0;
 
-#define BACKGROUND			acnl_background
+#define BACKGROUND			   acnl_background
 #define BACKGROUND_POS_X		0
 #define BACKGROUND_POS_Y		0
 #define BACKGROUND_WIDTH		320
 #define BACKGROUND_HEIGHT		240
 #define BACKGROUND_RGB			1
 
-#define SPLASH				BACKGROUND
+#define SPLASH				  BACKGROUND
 
 #define UI_OFFSET			10
 

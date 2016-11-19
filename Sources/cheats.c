@@ -1,5 +1,7 @@
 #include "cheats.h"
+
 // We're defining globals for each addresses needed
+
 u32     g_location;
 u32     g_indoor_pos_x;
 u32     g_indoor_pos_y;
@@ -9,7 +11,7 @@ u32     g_outdoor_pos_y;
 u32     g_outdoor_pos_z;
 u32     g_town_items;
 u32     g_island_items;
-u32		g_player;
+u32     g_player;
 u32     g_inv;
 u32     g_velocity;
 u32     g_grass_start;
@@ -25,13 +27,15 @@ u32     g_savetime;
 u32     g_world_x;
 u32     g_world_y;
 u32     g_collisions;
+u32     g_input_text_buffer;
+
 u32     g_find[100];
 u32     g_replace[100];
 int     g_i = 0;
 
 // Function to assign our addresses
 
-void    assign_region(t_current_region current_region)
+void    assign_region(u32 region)
 {
     g_location = USA_LOCATION_ADDR;
     g_indoor_pos_x = USA_INDOOR_POS_X_ADDR;
@@ -40,9 +44,9 @@ void    assign_region(t_current_region current_region)
     g_outdoor_pos_x = USA_OUTDOOR_POS_X_ADDR;
     g_outdoor_pos_y = USA_OUTDOOR_POS_Y_ADDR;
     g_outdoor_pos_z = USA_OUTDOOR_POS_Z_ADDR;
-	g_town_items = USA_TOWN_ITEMS_ADDR;
-	g_island_items = USA_ISLAND_ITEMS_ADDR;
-	g_player = USA_PLAYER_ADDR;
+    g_town_items = USA_TOWN_ITEMS_ADDR;
+    g_island_items = USA_ISLAND_ITEMS_ADDR;
+    g_player = USA_PLAYER_ADDR;
     g_inv = USA_INV_ADDR;
     g_velocity = USA_VELOCITY_ADDR;
     g_grass_start = USA_GRASS_START_ADDR;
@@ -60,8 +64,11 @@ void    assign_region(t_current_region current_region)
     g_collisions = USA_COLLISIONS_ADDR;
 
     // applying offset or particular address
-    switch (current_region)
+    switch (region)
     {
+        case USA:
+            g_input_text_buffer = USA_INPUT_TEXT_ADDR;
+            break;
         case EUR:
             g_location -= 0x28380;
             g_indoor_pos_x -= 0x28380;
@@ -88,6 +95,7 @@ void    assign_region(t_current_region current_region)
             g_realtime += 0x1008;
             g_seed += 0x1000;
             g_player -= 0x1000;
+            g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
             break;
         case JAP:
             g_location += 0x22A80;
@@ -115,12 +123,73 @@ void    assign_region(t_current_region current_region)
             g_collisions += 0x22A80;
             g_seed += 0x8020;
             g_player -= 0x6000;
+            g_input_text_buffer = JAP_INPUT_TEXT_ADDR;
             break;
     }
 }
 
 // Our cheats using our globals
+bool    g_text_activated = false;
+bool    g_teleport_save = true;
 
+inline void save_teleport(void)
+{
+    g_teleport_save = true;
+    teleport();
+}
+
+inline void restore_teleport(void)
+{
+    g_teleport_save = false;
+    teleport();
+}
+
+enum
+{
+    BIS = 1,
+    QUENCH,
+    SAVETP,
+    RESTORETP
+};
+
+void    text_to_cheats(void)
+{
+    static int      last_command = 0;
+    int             command;
+    char            command_text[0x100];
+
+
+    retrieve_input_string(command_text, 10);
+    g_text_activated = true;
+    if (match(command_text, "bis")) command = BIS;
+    else if (match(command_text, "quench")) command = QUENCH;
+    else if (match(command_text, "savetp")) command = SAVETP;
+    else if (match(command_text, "restoretp")) command = RESTORETP;
+    if (command != last_command)
+    {
+    bis:
+        switch (command)
+        {
+            case BIS:
+                command = last_command;
+                goto bis;
+                break;
+            case QUENCH:
+                quench();
+                break;
+            case SAVETP:
+                save_teleport();
+                break;
+            case RESTORETP:
+                restore_teleport();
+                break;
+            default:
+                break;
+        }
+        last_command = command;
+    }
+    g_text_activated = false;  
+}
 
 void    coord(void)
 {
@@ -180,7 +249,7 @@ void    text2item(void)
         return;
     get_input_id(&input, NULL);
     WRITEU16(g_inv + offset, input);
-/*    WRITEU16(0xAB36E4, input); //player 2
+/*  WRITEU16(0xAB36E4, input); //player 2
     WRITEU16(0xABDB64, input); //player 3
     WRITEU16(0xAAb0e4, input); //player 4
     WRITEU16(0xA8C364, input); will look at this later.
@@ -190,19 +259,14 @@ void    text2item(void)
 
 void    teleport(void)
 {
-    const  u32    indoor_X_address = g_indoor_pos_x;
-    const  u32    indoor_Y_address = g_indoor_pos_z;
-    const  u32    outdoor_X_address = g_outdoor_pos_x;
-    const  u32    outdoor_Y_address = g_indoor_pos_z;
-
     static u32    indoor_X[3] = { 0 };
     static u32    indoor_Y[3] = { 0 };
     static u32    outdoor_X[3] = { 0 };
     static u32    outdoor_Y[3] = { 0 };
-    static int    loc = 0;
+    int           loc;
     int           slot;
 
-    if (!is_pressed(BUTTON_B))
+    if (!is_pressed(BUTTON_B) && !g_text_activated)
         return;
 
     //Pointer to define whether player is indoors or not
@@ -213,30 +277,32 @@ void    teleport(void)
         slot = 1;
     else //If noting is pressed then use slot0
         slot = 0;
-    if (is_pressed(BUTTON_B + BUTTON_DU))
+    if (is_pressed(BUTTON_B + BUTTON_DU)
+        || (g_teleport_save && g_text_activated))
     {       
         if (loc == -1) 
         {           
-            outdoor_X[slot] = READU32(outdoor_X_address);
-            outdoor_Y[slot] = READU32(outdoor_Y_address);
+            outdoor_X[slot] = READU32(g_outdoor_pos_x);
+            outdoor_Y[slot] = READU32(g_outdoor_pos_z);
         }
         else
         {
-            indoor_X[slot] = READU32(indoor_X_address);
-            indoor_Y[slot] = READU32(indoor_Y_address);
+            indoor_X[slot] = READU32(g_indoor_pos_x);
+            indoor_Y[slot] = READU32(g_indoor_pos_z);
         }
     }
-    if (is_pressed(BUTTON_B + BUTTON_DD))
+    else if (is_pressed(BUTTON_B + BUTTON_DD)
+             || (!g_teleport_save && g_text_activated))
     {
         if (loc == -1)
         {
-            WRITEU32(outdoor_X_address, outdoor_X[slot]);
-            WRITEU32(outdoor_Y_address, outdoor_Y[slot]);
+            WRITEU32(g_outdoor_pos_x, outdoor_X[slot]);
+            WRITEU32(g_outdoor_pos_z, outdoor_Y[slot]);
         }
         else
         {
-            WRITEU32(indoor_X_address, indoor_X[slot]);
-            WRITEU32(indoor_Y_address, indoor_Y[slot]);
+            WRITEU32(g_indoor_pos_x, indoor_X[slot]);
+            WRITEU32(g_indoor_pos_z, indoor_Y[slot]);
         }
     }
 }
@@ -311,114 +377,25 @@ void    weeder(void)
 
 void quench(void)
 {
-    // define flowers (include wilted)
-    static const u16 flowers[] =
-    {
-        // src, replace
-        0x009F, 0x009F, // Red Tulips
-        0x00A0, 0x00A0, // White Tulips
-        0x00A1, 0x00A1, // Yellow Tulips
-        0x00A2, 0x00A2, // Pink Tulips
-        0x00A3, 0x00A3, // Purple Tulips
-        0x00A4, 0x00A4, // Black Tulips
-        0x00A5, 0x00A5, // Orange Tulips
-        0x00A6, 0x00A6, // White Pansies
-        0x00A7, 0x00A7, // Yellow Pansies
-        0x00A8, 0x00A8, // Red Pansies
-        0x00A9, 0x00A9, // Purple Pansies
-        0x00AA, 0x00AA, // Orange Pansies
-        0x00AB, 0x00AB, // Blue Pansies
-        0x00AC, 0x00AC, // White Comsos
-        0x00AD, 0x00AD, // Red Cosmos
-        0x00AE, 0x00AE, // Sun Cosmos
-        0x00AF, 0x00AF, // Pink Cosmos
-        0x00B0, 0x00B0, // Orange Cosmos
-        0x00B1, 0x00B1, // Black Cosmos
-        0x00B2, 0x00B2, // Red Roses
-        0x00B3, 0x00B3, // White Roses
-        0x00B4, 0x00B4, // Yellow Roses
-        0x00B5, 0x00B5, // Pink Roses
-        0x00B6, 0x00B6, // Orange Roses
-        0x00B7, 0x00B7, // Purple Roses
-        0x00B8, 0x00B8, // Black Roses
-        0x00B9, 0x00B9, // Blue Roses
-        0x00BB, 0x00BB, // Red Carnations
-        0x00BC, 0x00BC, // Pink Carnations
-        0x00BD, 0x00BD, // White Carnations
-        0x00BE, 0x00BE, // White Lilies
-        0x00BF, 0x00BF, // Yellow Lilies
-        0x00C0, 0x00C0, // Red Lilies
-        0x00C1, 0x00C1, // Orange Lilies
-        0x00C2, 0x00C2, // Pink Lilies
-        0x00C3, 0x00C3, // Black Lilies
-        0x00C4, 0x00C4, // Purple Violets
-        0x00C5, 0x00C5, // Blue Violets
-        0x00C6, 0x00C6, // White Violets
-        0x00C7, 0x00C7, // Yellow Violets
-        0x00C8, 0x00C8, // Jacob's Ladder
-        0x00CE, 0x009F, // Red Tulips (Wilted)
-        0x00CF, 0x00A0, // White Tulips (Wilted)
-        0x00D0, 0x00A1, // Yellow Tulips (Wilted)
-        0x00D1, 0x00A2, // Pink Tulips (Wilted)
-        0x00D2, 0x00A3, // Purple Tulips (Wilted)
-        0x00D3, 0x00A4, // Black Tulips (Wilted)
-        0x00D4, 0x00A5, // Orange Tulips (Wilted)
-        0x00D5, 0x00A6, // White Pansies (Wilted)
-        0x00D6, 0x00A7, // Yellow Pansies (Wilted)
-        0x00D7, 0x00A8, // Red Pansies (Wilted)
-        0x00D8, 0x00A9, // Purple Pansies (Wilted)
-        0x00D9, 0x00AA, // Orange Pansies (Wilted)
-        0x00DA, 0x00AB, // Blue Pansies (Wilted)
-        0x00DB, 0x00AC, // White Cosmos (Wilted)
-        0x00DC, 0x00AD, // Red Cosmos (Wilted)
-        0x00DD, 0x00AE, // Sun Cosmos (Wilted)
-        0x00DE, 0x00AF, // Pink Cosmos (Wilted)
-        0x00DF, 0x00B0, // Orange Cosmos (Wilted)
-        0x00E0, 0x00B1, // Black Cosmos (Wilted)
-        0x00E1, 0x00B2, // Red Roses (Wilted)
-        0x00E2, 0x00B3, // White Roses (Wilted)
-        0x00E3, 0x00B4, // Yellow Roses (Wilted)
-        0x00E4, 0x00B5, // Pink Roses (Wilted)
-        0x00E5, 0x00B6, // Orange Roses (Wilted)
-        0x00E6, 0x00B7, // Purple Roses (Wilted)
-        0x00E7, 0x00B8, // Black Roses (Wilted)
-        0x00E8, 0x00B9, // Blue Roses (Wilted)
-        0x00E9, 0x00BA, // Gold Roses (Wilted)
-        0x00EA, 0x00BB, // Red Carnations (Wilted)
-        0x00EB, 0x00BC, // Pink Carnations (Wilted)
-        0x00EC, 0x00BD, // White Carnations (Wilted)
-        0x00ED, 0x00BE, // White Lilies (Wilted)
-        0x00EE, 0x00BF, // Yellow Lilies (Wilted)
-        0x00EF, 0x00C0, // Red Lilies (Wilted)
-        0x00F0, 0x00C1, // Orange Lilies (Wilted)
-        0x00F1, 0x00C2, // Pink Lilies (Wilted)
-        0x00F2, 0x00C3, // Black Lilies (Wilted)
-        0x00F3, 0x00C4, // Purple Violets (Wilted)
-        0x00F4, 0x00C5, // Blue Violets (Wilted)
-        0x00F5, 0x00C6, // White Violets (Wilted)
-        0x00F6, 0x00C7, // Yellow Violets (Wilted)
-        0x00F7, 0x00C8, // Jacob's Ladder (Wilted)
-    };
-    int     i;
     u32     address;
     u32     item;
 
-    if (is_pressed(BUTTON_R + BUTTON_A))
-    // find all items in Town
+    if (!is_pressed(BUTTON_R + BUTTON_A) && !g_text_activated)
+        return;
+    // Parse all items in Town
     for (address = g_town_items; address < g_town_items + RANGE_TOWN_ITEMS; address += ITEM_BYTES)
     {
         item = READU16(address);
-        // find flowers
-        for(i = 0; i < sizeof(flowers) / sizeof(u16); i += 2)
+        // Deal with wilted flower
+        if (item >= 0xCE && item <= 0xF7)
         {
-            if(item == flowers[i])
-            {
-                // replace item
-                WRITEU16(address, flowers[i + 1]);
-                // add water flag
-                WRITEU16(address + 0x02, 0x4000);
-                break;
-            }
+            item -= 0x2F;
+        }
+        // If item is a flower add water flag
+        if (item >= 0x9F && item <= 0xC8)
+        {
+            item |= 0x40000000;
+            WRITEU32(address, item);
         }
     }
 }
@@ -451,15 +428,16 @@ void    tree(void)
 
 void    duplicate(void)
 {
-    u32 dupe = 0;
+    
  //   u32 dupe0 = 0;
  //   u32 dupe1 = 0;
  //   u32 dupe2 = 0;
  //   u32 dupe3 = 0;
  //   u32 dupe4 = 0;
  //   u32 dupe5 = 0;
-   u32 offset;
-    u8 player;
+    u32     dupe = 0;
+    u32     offset;
+    u8      player;
     /* OFFSETS FOUND 
     ** 0xAAb0e0 only player on island.
     ** 0xA8C360 2nd player on island.
@@ -468,9 +446,11 @@ void    duplicate(void)
     if (is_pressed(BUTTON_R))
     {
         player = READU8(g_player);
-        if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+        // Player 4 should be the highest value stored here. 
+        // It goes to 0x7 when visiting a dream and someone's town I think?
+        if (player <= 0x3)
         {
-            offset = player * 0xa480;
+            offset = player * 0xA480;
         }
         dupe = READU32(g_inv + offset);
         //dupe0 = READU32(0xAB36E0); //online pointer0
@@ -679,7 +659,6 @@ void    timeMachine(void)
     char        dd_str[3] = { 0 };
     char        hh_str[3] = { 0 };
     char        mz_str[3] = { 0 };
-    char        pm_str[2] = { 0 };
     s64         res_year = 0;
     s64         res_month = 0;
     s64         res_day = 0;
@@ -797,8 +776,8 @@ void    real(void)
 
     if (is_pressed(BUTTON_R + BUTTON_DD))
     {
-        x = READU32 (g_world_x);
-        y = READU32 (g_world_y);
+        x = READU32(g_world_x);
+        y = READU32(g_world_y);
         if (x >= 0x10 && y >= 0x10)
         {
             x -= 0x10;

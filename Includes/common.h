@@ -32,7 +32,7 @@ static inline int any_is_pressed(u32 keys)
     return (0);
 }
 
-static inline int wait_keys(u32 keys)
+static inline void wait_keys(u32 keys)
 {
     while (!(any_is_pressed(keys)))
         continue;
