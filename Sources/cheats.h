@@ -49,12 +49,12 @@
 #define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
 #define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
 
-typedef enum e_current_region
+enum
 {
-    USA,
+    USA = 0,
     EUR,
     JAP
-}       t_current_region;
+};
 
 /*
 ** Helpers
@@ -64,8 +64,10 @@ void    find_and_replace_multiple(void *start_addr, u32 length);
 void    keep_it_off(void);
 void    retrieve_input_string(char *output, int size);
 void    get_input_id(int *first, int *second);
+bool    match(const char *str, const char *pattern);
 
-void    assign_region(t_current_region current_region);
+void    assign_region(u32 region);
+void    text_to_cheats(void);
 void    coord(void);
 void    seeder(void);
 void    search(void);

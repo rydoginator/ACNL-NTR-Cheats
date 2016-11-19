@@ -54,7 +54,6 @@ void    get_input_id(int *first, int *second)
 {
     char    buffer[13];
     char    *pointer_id;
-    int     input;
     int     hex_pattern;
 
     if (!first)
@@ -110,4 +109,14 @@ void    get_input_id(int *first, int *second)
     *first = (int)strtoul(pointer_id, NULL, 16);
 error:
     return;
+}
+
+bool    match(const char *str, const char *pattern)
+{
+    int     pattern_size;
+
+    pattern_size = strlen(pattern);
+    if (strncmp(str, pattern, pattern_size) == 0)
+        return (true);
+    return (false);
 }

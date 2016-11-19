@@ -28,13 +28,14 @@ u32     g_world_x;
 u32     g_world_y;
 u32     g_collisions;
 u32     g_input_text_buffer;
+
 u32     g_find[100];
 u32     g_replace[100];
 int     g_i = 0;
 
 // Function to assign our addresses
 
-void    assign_region(t_current_region current_region)
+void    assign_region(u32 region)
 {
     g_location = USA_LOCATION_ADDR;
     g_indoor_pos_x = USA_INDOOR_POS_X_ADDR;
@@ -63,7 +64,7 @@ void    assign_region(t_current_region current_region)
     g_collisions = USA_COLLISIONS_ADDR;
 
     // applying offset or particular address
-    switch (current_region)
+    switch (region)
     {
         case USA:
             g_input_text_buffer = USA_INPUT_TEXT_ADDR;
@@ -128,7 +129,67 @@ void    assign_region(t_current_region current_region)
 }
 
 // Our cheats using our globals
+bool    g_text_activated = false;
+bool    g_teleport_save = true;
 
+inline void save_teleport(void)
+{
+    g_teleport_save = true;
+    teleport();
+}
+
+inline void restore_teleport(void)
+{
+    g_teleport_save = false;
+    teleport();
+}
+
+enum
+{
+    BIS = 1,
+    QUENCH,
+    SAVETP,
+    RESTORETP
+};
+
+void    text_to_cheats(void)
+{
+    static int      last_command = 0;
+    int             command;
+    char            command_text[0x100];
+
+
+    retrieve_input_string(command_text, 10);
+    g_text_activated = true;
+    if (match(command_text, "bis")) command = BIS;
+    else if (match(command_text, "quench")) command = QUENCH;
+    else if (match(command_text, "savetp")) command = SAVETP;
+    else if (match(command_text, "restoretp")) command = RESTORETP;
+    if (command != last_command)
+    {
+    bis:
+        switch (command)
+        {
+            case BIS:
+                command = last_command;
+                goto bis;
+                break;
+            case QUENCH:
+                quench();
+                break;
+            case SAVETP:
+                save_teleport();
+                break;
+            case RESTORETP:
+                restore_teleport();
+                break;
+            default:
+                break;
+        }
+        last_command = command;
+    }
+    g_text_activated = false;  
+}
 
 void    coord(void)
 {
@@ -205,7 +266,7 @@ void    teleport(void)
     int           loc;
     int           slot;
 
-    if (!is_pressed(BUTTON_B))
+    if (!is_pressed(BUTTON_B) && !g_text_activated)
         return;
 
     //Pointer to define whether player is indoors or not
@@ -216,7 +277,8 @@ void    teleport(void)
         slot = 1;
     else //If noting is pressed then use slot0
         slot = 0;
-    if (is_pressed(BUTTON_B + BUTTON_DU))
+    if (is_pressed(BUTTON_B + BUTTON_DU)
+        || (g_teleport_save && g_text_activated))
     {       
         if (loc == -1) 
         {           
@@ -229,7 +291,8 @@ void    teleport(void)
             indoor_Y[slot] = READU32(g_indoor_pos_z);
         }
     }
-    else if (is_pressed(BUTTON_B + BUTTON_DD))
+    else if (is_pressed(BUTTON_B + BUTTON_DD)
+             || (!g_teleport_save && g_text_activated))
     {
         if (loc == -1)
         {
@@ -314,12 +377,12 @@ void    weeder(void)
 
 void quench(void)
 {
-    int     i;
     u32     address;
     u32     item;
 
-    if (is_pressed(BUTTON_R + BUTTON_A))
-    // find all items in Town
+    if (!is_pressed(BUTTON_R + BUTTON_A) && !g_text_activated)
+        return;
+    // Parse all items in Town
     for (address = g_town_items; address < g_town_items + RANGE_TOWN_ITEMS; address += ITEM_BYTES)
     {
         item = READU16(address);
@@ -596,7 +659,6 @@ void    timeMachine(void)
     char        dd_str[3] = { 0 };
     char        hh_str[3] = { 0 };
     char        mz_str[3] = { 0 };
-    char        pm_str[2] = { 0 };
     s64         res_year = 0;
     s64         res_month = 0;
     s64         res_day = 0;
