@@ -48,6 +48,8 @@
 #define     USA_INPUT_TEXT_ADDR                 0x32CB0F60
 #define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
 #define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
+#define		USA_MINUTES_ADDR					0x9515BA
+#define		USA_HOURS_ADDR						0x9515BB
 
 enum
 {
@@ -95,6 +97,7 @@ void    timeMachine(void);
 void    timeTravel(void);
 void    real(void);
 void	collisions(void);
+void	midnight(void);
 
 
 #endif

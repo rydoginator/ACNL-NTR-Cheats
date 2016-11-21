@@ -28,6 +28,8 @@ u32     g_world_x;
 u32     g_world_y;
 u32     g_collisions;
 u32     g_input_text_buffer;
+u32     g_hours;
+u32     g_minutes;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -62,6 +64,8 @@ void    assign_region(u32 region)
     g_world_x = USA_WORLD_X_ADDR;
     g_world_y = USA_WORLD_Y_ADDR;
     g_collisions = USA_COLLISIONS_ADDR;
+    g_hours = USA_HOURS_ADDR;
+    g_minutes = USA_MINUTES_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -92,9 +96,11 @@ void    assign_region(u32 region)
             g_world_x -= 0x28380;
             g_world_y -= 0x28380;
             g_collisions -= 0x28380;
-            g_realtime += 0x1008;
-            g_seed += 0x1000;
-            g_player -= 0x1000;
+            g_hours = 0x9505B7;
+            g_minutes = 0x9505B6;
+            g_realtime = 0x95c500;
+            g_seed = 0x9B4268;
+            g_player = 0xA86610;
             g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
             break;
         case JAP:
@@ -119,10 +125,12 @@ void    assign_region(u32 region)
             g_savetime += 0x22A80;
             g_world_x += 0x22A80;
             g_world_y += 0x22A80;
+            g_hours = 0x9495B7;
+            g_minutes = 0x9495B6;
             g_realtime = 0x955500;
             g_collisions += 0x22A80;
             g_seed = 0x9AD248;
-            g_player -= 0x6000;
+            g_player = 0xAAD990;
             g_input_text_buffer = JAP_INPUT_TEXT_ADDR;
             break;
     }
@@ -149,7 +157,8 @@ enum
     BIS = 1,
     QUENCH,
     SAVETP,
-    RESTORETP
+    RESTORETP,
+    MIDNIGHT
 };
 
 void    text_to_cheats(void)
@@ -165,6 +174,7 @@ void    text_to_cheats(void)
     else if (match(command_text, "quench")) command = QUENCH;
     else if (match(command_text, "savetp")) command = SAVETP;
     else if (match(command_text, "restoretp")) command = RESTORETP;
+    else if (match(command_text, "midnight")) command = MIDNIGHT;
     if (command != last_command)
     {
     bis:
@@ -173,6 +183,9 @@ void    text_to_cheats(void)
             case BIS:
                 command = last_command;
                 goto bis;
+                break;
+            case MIDNIGHT:
+                midnight();
                 break;
             case QUENCH:
                 quench();
@@ -767,12 +780,13 @@ void    timeTravel(void)
 
 void    real(void)
 {
-    u32     x;
-    u32     y;
-    u32     reg0;
-    u32     reg1;
-    u32     offset;
-    int     input;
+    u32            x;
+    u32            y;
+    u32            reg0;
+    u32            reg1;
+    u32            offset;
+    static u32     item;
+    int            input;
 
     if (is_pressed(BUTTON_R + BUTTON_DD))
     {
@@ -794,7 +808,47 @@ void    real(void)
             get_input_id(&input, NULL);
             WRITEU16(g_town_items + offset, input);
         }
-    }   
+    }
+    if (is_pressed(BUTTON_L + BUTTON_DU))
+    {
+        x = READU32(g_world_x);
+        y = READU32(g_world_y);
+        if (x >= 0x10 && y >= 0x10)
+        {
+            x -= 0x10;
+            y -= 0x10;
+            reg0 = x % 0x10;
+            x /= 0x10;
+            reg1 = y % 0x10;
+            y /= 0x10;
+            reg0 *= 0x4;
+            reg1 *= 0x40;
+            x *= 0x400;
+            y *= 0x1400;
+            offset = reg0 + reg1 + x + y;           
+            item = READU32(g_town_items + offset);
+        }
+    }
+    if (is_pressed(BUTTON_L + BUTTON_DD))
+    {
+        x = READU32(g_world_x);
+        y = READU32(g_world_y);
+        if (x >= 0x10 && y >= 0x10)
+        {
+            x -= 0x10;
+            y -= 0x10;
+            reg0 = x % 0x10;
+            x /= 0x10;
+            reg1 = y % 0x10;
+            y /= 0x10;
+            reg0 *= 0x4;
+            reg1 *= 0x40;
+            x *= 0x400;
+            y *= 0x1400;
+            offset = reg0 + reg1 + x + y;           
+            WRITEU32(g_town_items + offset, item);
+        }
+    }
 }
 
 void    collisions(void)
@@ -807,4 +861,21 @@ void    collisions(void)
     {
         WRITEU8(g_collisions, 0x00);
     }
+}
+
+void    midnight(void)
+{
+    u8  hours;
+    u8  minutes;
+    u32 reg0;
+    u32 reg1;
+    u64 time;
+
+    hours = READU8(g_hours);
+    minutes = READU8(g_minutes);
+    reg0 = 0x17 - hours;
+    reg1 = 0x3c - minutes;
+    time = (reg0 * 0x34630B8A000) + (reg1 * 0xDF8475800);
+    ADD64(g_realtime, time);
+    ADD64(g_savetime, time);
 }
