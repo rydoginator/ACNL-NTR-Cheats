@@ -98,6 +98,8 @@ void    timeTravel(void);
 void    real(void);
 void	collisions(void);
 void	midnight(void);
+void	morning(void);
+void	noon(void);
 
 
 #endif

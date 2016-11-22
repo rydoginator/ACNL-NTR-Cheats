@@ -158,7 +158,9 @@ enum
     QUENCH,
     SAVETP,
     RESTORETP,
-    MIDNIGHT
+    MIDNIGHT,
+    MORNING,
+    NOON
 };
 
 void    text_to_cheats(void)
@@ -175,6 +177,8 @@ void    text_to_cheats(void)
     else if (match(command_text, "savetp")) command = SAVETP;
     else if (match(command_text, "restoretp")) command = RESTORETP;
     else if (match(command_text, "midnight")) command = MIDNIGHT;
+    else if (match(command_text, "noon")) command = NOON;
+    else if (match(command_text, "morning")) command = MORNING;
     if (command != last_command)
     {
     bis:
@@ -196,6 +200,10 @@ void    text_to_cheats(void)
             case RESTORETP:
                 restore_teleport();
                 break;
+            case MORNING:
+                morning();
+            case NOON:
+                noon();
             default:
                 break;
         }
@@ -878,4 +886,60 @@ void    midnight(void)
     time = (reg0 * 0x34630B8A000) + (reg1 * 0xDF8475800);
     ADD64(g_realtime, time);
     ADD64(g_savetime, time);
+}
+
+void    morning(void)
+{
+    u8  hours;
+    u8  minutes;
+    u32 reg0;
+    u32 reg1;
+    u64 time;
+
+    hours = READU8(g_hours);
+    minutes = READU8(g_minutes);
+    if (hours <= 0x6)
+    {
+        reg0 = 0x5 - hours;
+        reg1 = 0x3c - minutes;
+        time = (reg0 * 0x34630B8A000) + (reg1 * 0xDF8475800);
+        ADD64(g_realtime, time);
+        ADD64(g_savetime, time);    
+    }
+    else
+    {
+        reg0 = hours - 0x6;
+        reg1 = minutes;
+        time = (reg0 * 0x34630B8A000) + (reg1 * 0xDF8475800);
+        SUB64(g_realtime, time);
+        SUB64(g_savetime, time);            
+    }
+}
+
+void    noon(void)
+{
+    u8  hours;
+    u8  minutes;
+    u32 reg0;
+    u32 reg1;
+    u64 time;
+
+    hours = READU8(g_hours);
+    minutes = READU8(g_minutes);
+    if (hours <= 0xB)
+    {
+        reg0 = 0xB - hours;
+        reg1 = 0x3c - minutes;
+        time = (reg0 * 0x34630B8A000) + (reg1 * 0xDF8475800);
+        ADD64(g_realtime, time);
+        ADD64(g_savetime, time);    
+    }
+    else
+    {
+        reg0 = hours - 0xB;
+        reg1 = minutes;
+        time = (reg0 * 0x34630B8A000) + (reg1 * 0xDF8475800);
+        SUB64(g_realtime, time);
+        SUB64(g_savetime, time);            
+    }    
 }
