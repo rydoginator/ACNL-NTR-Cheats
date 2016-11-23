@@ -127,7 +127,7 @@ void    assign_region(u32 region)
             g_world_y += 0x22A80;
             g_hours = 0x9495B7;
             g_minutes = 0x9495B6;
-            g_realtime = 0x955500;
+            g_realtime = 0x956500;
             g_collisions += 0x22A80;
             g_seed = 0x9AD248;
             g_player = 0xAAD990;
@@ -900,7 +900,7 @@ void    morning(void)
     minutes = READU8(g_minutes);
     if (hours <= 0x6)
     {
-        reg0 = 0x5 - hours;
+        reg0 = 0x6 - hours;
         reg1 = 0x3c - minutes;
         time = (reg0 * 0x34630B8A000) + (reg1 * 0xDF8475800);
         ADD64(g_realtime, time);
