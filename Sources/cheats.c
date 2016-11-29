@@ -83,7 +83,7 @@ void    assign_region(u32 region)
             g_outdoor_pos_z -= 0x28380;
             g_town_items -= 0x28380;
             g_island_items -= 0x28380;
-            g_inv -= 0x28300;
+            g_inv -= 0x28380;
             g_grass_start -= 0x28380;
             g_grass_end -= 0x28380;
             g_velocity -= 0x28380;
