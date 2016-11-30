@@ -30,6 +30,17 @@ u32     g_collisions;
 u32     g_input_text_buffer;
 u32     g_hours;
 u32     g_minutes;
+u32     g_visitor_indoor_x;
+u32     g_visitor_indoor_z;
+u32     g_visitor_outdoor_x;
+u32     g_visitor_outdoor_z;
+u32     g_online0_inv;
+u32     g_online1_inv;
+u32     g_online2_inv;
+u32     g_online3_inv;
+u32     g_online4_inv;
+u32     g_online5_inv;
+u32     g_online6_inv;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -66,6 +77,17 @@ void    assign_region(u32 region)
     g_collisions = USA_COLLISIONS_ADDR;
     g_hours = USA_HOURS_ADDR;
     g_minutes = USA_MINUTES_ADDR;
+    g_visitor_outdoor_x = USA_VISITOR_OUTDOOR_X_ADDR;
+    g_visitor_outdoor_z = USA_VISITOR_OUTDOOR_Z_ADDR;
+    g_visitor_indoor_x = USA_VISITOR_INDOOR_X_ADDR;
+    g_visitor_indoor_z = USA_VISITOR_INDOOR_Z_ADDR;
+    g_online0_inv = USA_ONLINE0_INV_ADDR;
+    g_online1_inv = USA_ONLINE1_INV_ADDR;
+    g_online2_inv = USA_ONLINE2_INV_ADDR;
+    g_online3_inv = USA_ONLINE3_INV_ADDR;
+    g_online4_inv = USA_ONLINE4_INV_ADDR;
+    g_online5_inv = USA_ONLINE5_INV_ADDR;
+    g_online6_inv = USA_ONLINE6_INV_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -101,6 +123,17 @@ void    assign_region(u32 region)
             g_realtime = 0x95c500;
             g_seed = 0x9B4268;
             g_player = 0xA86610;
+            g_visitor_indoor_x;
+            g_visitor_indoor_z;
+            g_visitor_outdoor_x;
+            g_visitor_outdoor_z;
+            g_online0_inv;
+            g_online1_inv;
+            g_online2_inv;
+            g_online3_inv;
+            g_online4_inv;
+            g_online5_inv;
+            g_online6_inv;
             g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
             break;
         case JAP:
@@ -131,6 +164,17 @@ void    assign_region(u32 region)
             g_collisions += 0x22A80;
             g_seed = 0x9AD248;
             g_player = 0xAAD990;
+            g_visitor_indoor_x;
+            g_visitor_indoor_z;
+            g_visitor_outdoor_x;
+            g_visitor_outdoor_z;
+            g_online0_inv;
+            g_online1_inv;
+            g_online2_inv;
+            g_online3_inv;
+            g_online4_inv;
+            g_online5_inv;
+            g_online6_inv;
             g_input_text_buffer = JAP_INPUT_TEXT_ADDR;
             break;
     }
@@ -160,7 +204,8 @@ enum
     RESTORETP,
     MIDNIGHT,
     MORNING,
-    NOON
+    NOON,
+    STALK1
 };
 
 void    text_to_cheats(void)
@@ -179,6 +224,7 @@ void    text_to_cheats(void)
     else if (match(command_text, "midnight")) command = MIDNIGHT;
     else if (match(command_text, "noon")) command = NOON;
     else if (match(command_text, "morning")) command = MORNING;
+    else if (match(command_text, "stalk1")) command = STALK1;
     if (command != last_command)
     {
     bis:
@@ -202,8 +248,13 @@ void    text_to_cheats(void)
                 break;
             case MORNING:
                 morning();
+                break;
             case NOON:
                 noon();
+                break;
+            case STALK1:
+                stalking_1();
+                break;
             default:
                 break;
         }
@@ -270,11 +321,20 @@ void    text2item(void)
         return;
     get_input_id(&input, NULL);
     WRITEU16(g_inv + offset, input);
-/*  WRITEU16(0xAB36E4, input); //player 2
-    WRITEU16(0xABDB64, input); //player 3
-    WRITEU16(0xAAb0e4, input); //player 4
-    WRITEU16(0xA8C364, input); will look at this later.
-    WRITEU16(0xAA0C60, input); */
+    if (READU16(g_online0_inv) != 0)
+        WRITEU16(g_online0_inv, input);
+    if (READU16(g_online1_inv) != 0)
+        WRITEU16(g_online1_inv, input); 
+    if (READU16(g_online2_inv) != 0)
+        WRITEU16(g_online2_inv, input); 
+    if (READU16(g_online3_inv) != 0)
+        WRITEU16(g_online3_inv, input);
+    if (READU16(g_online4_inv) != 0)
+        WRITEU16(g_online4_inv, input); 
+    if (READU16(g_online5_inv) != 0)
+        WRITEU16(g_online5_inv, input); 
+    if (READU16(g_online6_inv) != 0)
+        WRITEU16(g_online6_inv, input);    
    wait_all_released();
 }
 
@@ -296,7 +356,7 @@ void    teleport(void)
         slot = 2;
     else if (is_pressed(BUTTON_R)) //If R is pressed then use slot2
         slot = 1;
-    else //If noting is pressed then use slot0
+    else //If nothing is pressed then use slot0
         slot = 0;
     if (is_pressed(BUTTON_B + BUTTON_DU)
         || (g_teleport_save && g_text_activated))
@@ -449,21 +509,17 @@ void    tree(void)
 
 void    duplicate(void)
 {
-    
- //   u32 dupe0 = 0;
- //   u32 dupe1 = 0;
- //   u32 dupe2 = 0;
- //   u32 dupe3 = 0;
- //   u32 dupe4 = 0;
- //   u32 dupe5 = 0;
-    u32     dupe = 0;
     u32     offset;
     u8      player;
-    /* OFFSETS FOUND 
-    ** 0xAAb0e0 only player on island.
-    ** 0xA8C360 2nd player on island.
-    ** 0xAA0C60 3rd player on island.        
-    */   
+    u32     dupe;
+    u32     dupe0;
+    u32     dupe1;
+    u32     dupe2;
+    u32     dupe3;
+    u32     dupe4;
+    u32     dupe5;
+    u32     dupe6;
+
     if (is_pressed(BUTTON_R))
     {
         player = READU8(g_player);
@@ -474,19 +530,29 @@ void    duplicate(void)
             offset = player * 0xA480;
         }
         dupe = READU32(g_inv + offset);
-        //dupe0 = READU32(0xAB36E0); //online pointer0
-        //dupe1 = READU32(0xABDB60); //online pointer1
-        //dupe2 = READU32(0xAC7FE0); //online pointer2
-        //dupe3 = READU32(0xAAb0e0);
-        //dupe4 = READU32(0xA8C360);
-        //dupe5 = READU32(0xAA0C60);
         WRITEU32(g_inv + offset + 0x4, dupe);
-        //WRITEU32(0xAB36E4, dupe0); //player 2
-        //WRITEU32(0xABDB64, dupe1); //player 3
-        //WRITEU32(0xAC7FE4, dupe2); //player 4
-        //WRITEU32(0xAAb0e4, dupe3);
-        //WRITEU32(0xA8C364, dupe4);
-        //WRITEU32(0xAA0C64, dupe5);
+        if (READU16(g_online0_inv) != 0)
+            dupe0 = READU32(g_online0_inv);
+            WRITEU32(g_online0_inv + 0x4, dupe0);
+        if (READU16(g_online1_inv) != 0)
+            dupe1 = READU32(g_online1_inv);
+            WRITEU32(g_online1_inv + 0x4, dupe1);
+        if (READU16(g_online2_inv) != 0)
+            dupe2 = READU32(g_online2_inv);
+            WRITEU32(g_online2_inv + 0x4, dupe2);
+        if (READU16(g_online3_inv) != 0)
+            dupe3 = READU32(g_online3_inv);
+            WRITEU32(g_online3_inv + 0x4, dupe3);
+        if (READU16(g_online4_inv) != 0)
+            dupe4 = READU32(g_online4_inv);
+            WRITEU32(g_online4_inv + 0x4, dupe4);
+        if (READU16(g_online5_inv) != 0)
+            dupe5 = READU32(g_online5_inv);
+            WRITEU32(g_online5_inv + 0x4, dupe5); 
+        if (READU16(g_online6_inv) != 0)
+            dupe6 = READU32(g_online6_inv);
+            WRITEU32(g_online6_inv, dupe6);   
+
     }
 }
 
@@ -942,4 +1008,27 @@ void    noon(void)
         SUB64(g_realtime, time);
         SUB64(g_savetime, time);            
     }    
+}
+
+void    stalking_1(void)
+{
+    static int loc;
+    u32 x;
+    u32 z;
+
+    loc = READU32(g_location);
+    if (loc == -1)
+    {
+        x = READU32(g_visitor_outdoor_x);
+        z = READU32(g_visitor_outdoor_z);
+        WRITEU32(g_outdoor_pos_x, x);
+        WRITEU32(g_outdoor_pos_z, z);
+    }
+    else
+    {
+        x = READU32(g_visitor_indoor_x);
+        z = READU32(g_visitor_indoor_z);
+        WRITEU32(g_indoor_pos_x, x);
+        WRITEU32(g_indoor_pos_z, z);
+    }
 }

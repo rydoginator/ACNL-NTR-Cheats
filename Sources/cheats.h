@@ -48,8 +48,19 @@
 #define     USA_INPUT_TEXT_ADDR                 0x32CB0F60
 #define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
 #define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
+#define		USA_VISITOR_OUTDOOR_X_ADDR			0x33079190
+#define		USA_VISITOR_OUTDOOR_Z_ADDR			0x33079198
+#define		USA_VISITOR_INDOOR_X_ADDR			0x330792bc
+#define		USA_VISITOR_INDOOR_Z_ADDR			0x330792c4
 #define		USA_MINUTES_ADDR					0x9515BA
 #define		USA_HOURS_ADDR						0x9515BB
+#define		USA_ONLINE0_INV_ADDR				0xAAB0e0
+#define		USA_ONLINE1_INV_ADDR				0xA8C360
+#define		USA_ONLINE2_INV_ADDR				0xA967E0
+#define		USA_ONLINE3_INV_ADDR				0xAA0C60
+#define		USA_ONLINE4_INV_ADDR				0xA8C360
+#define		USA_ONLINE5_INV_ADDR				0xA967E0
+#define		USA_ONLINE6_INV_ADDR				0xA9EC60
 
 enum
 {
@@ -100,6 +111,7 @@ void	collisions(void);
 void	midnight(void);
 void	morning(void);
 void	noon(void);
+void	stalking_1(void);
 
 
 #endif
