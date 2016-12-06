@@ -122,18 +122,18 @@ void    assign_region(u32 region)
             g_minutes = 0x9505B6;
             g_realtime = 0x95c500;
             g_seed = 0x9B4268;
-            g_player = 0xA86610;
+            g_player = 0xAAD990;
             g_visitor_indoor_x;
             g_visitor_indoor_z;
             g_visitor_outdoor_x;
             g_visitor_outdoor_z;
-            g_online0_inv;
-            g_online1_inv;
-            g_online2_inv;
-            g_online3_inv;
-            g_online4_inv;
-            g_online5_inv;
-            g_online6_inv;
+            g_online0_inv -= 0x1000;
+            g_online1_inv -= 0x1000;
+            g_online2_inv -= 0x1000;
+            g_online3_inv -= 0x1000;
+            g_online4_inv -= 0x1000;
+            g_online5_inv -= 0x1000;
+            g_online6_inv -= 0x1000;
             g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
             break;
         case JAP:
@@ -163,7 +163,7 @@ void    assign_region(u32 region)
             g_realtime = 0x956500;
             g_collisions += 0x22A80;
             g_seed = 0x9AD248;
-            g_player = 0xAAD990;
+            g_player = 0xAA7990;
             g_visitor_indoor_x;
             g_visitor_indoor_z;
             g_visitor_outdoor_x;
