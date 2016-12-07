@@ -112,6 +112,8 @@ void	midnight(void);
 void	morning(void);
 void	noon(void);
 void	stalking_1(void);
+void	gorgeous_set(void);
+void	clear_inv(void);
 
 
 #endif

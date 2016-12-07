@@ -83,7 +83,7 @@ static inline void  smenu(void)
         new_entry_with_note("Text to Item", t2i_note, text2item);
         new_entry_with_note("Duplication", dup_note, duplicate);
     exit_spoiler();
-    new_spoiler("Apparence Codes");
+    new_spoiler("Appearance Codes");
         new_spoiler_with_note("Tan Modifier", tan_note);
             new_unselectable_entry(tan_level_buffer);
             g_increase_menu_index = new_entry("Increase Tan", increase_tan_level);
@@ -129,17 +129,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Hourly USA");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Nightly USA");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Hourly EUR"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Nightly EUR"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Hourly JAP"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Nightly JAP"); 
     }
     else
     {
