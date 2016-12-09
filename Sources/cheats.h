@@ -61,6 +61,7 @@
 #define		USA_ONLINE4_INV_ADDR				0xA8C360
 #define		USA_ONLINE5_INV_ADDR				0xA967E0
 #define		USA_ONLINE6_INV_ADDR				0xA9EC60
+#define		USA_KEYBOARD_ADDR					0x32DC4A10
 
 enum
 {
@@ -77,6 +78,7 @@ void    find_and_replace_multiple(void *start_addr, u32 length);
 void    keep_it_off(void);
 void    retrieve_input_string(char *output, int size);
 void    get_input_id(int *first, int *second);
+void	keyboardInput(u32 region);
 bool    match(const char *str, const char *pattern);
 
 void    assign_region(u32 region);
@@ -114,6 +116,7 @@ void	noon(void);
 void	stalking_1(void);
 void	gorgeous_set(void);
 void	clear_inv(void);
+
 
 
 #endif

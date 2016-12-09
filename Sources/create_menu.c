@@ -67,6 +67,7 @@ static inline void  smenu(void)
     update_tan_entry();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
     new_entry("Text to cheat", text_to_cheats);
+    new_entry("Use keyboard for input", keyboardInput);
     new_spoiler_with_note("Environment Codes", enviro_note);
         new_spoiler("R + A Codes");
             new_radio_entry_with_note("Remove all weeds", weed_note, weeder);

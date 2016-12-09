@@ -41,6 +41,7 @@ u32     g_online3_inv;
 u32     g_online4_inv;
 u32     g_online5_inv;
 u32     g_online6_inv;
+u32     g_keyboard;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -88,6 +89,7 @@ void    assign_region(u32 region)
     g_online4_inv = USA_ONLINE4_INV_ADDR;
     g_online5_inv = USA_ONLINE5_INV_ADDR;
     g_online6_inv = USA_ONLINE6_INV_ADDR;
+    g_keyboard = USA_KEYBOARD_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -134,6 +136,7 @@ void    assign_region(u32 region)
             g_online4_inv -= 0x1000;
             g_online5_inv -= 0x1000;
             g_online6_inv -= 0x1000;
+            g_keyboard -= 0x28380;
             g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
             break;
         case JAP:
@@ -175,9 +178,15 @@ void    assign_region(u32 region)
             g_online4_inv += 0x7000;
             g_online5_inv += 0x7000;
             g_online6_inv += 0x7000;
+            g_keyboard += 0x22A80;
             g_input_text_buffer = JAP_INPUT_TEXT_ADDR;
             break;
     }
+}
+
+void    keyboardInput(u32 region)
+{
+    g_input_text_buffer = g_keyboard;
 }
 
 // Our cheats using our globals
@@ -1173,3 +1182,4 @@ void    clear_inv(void)
             }
     }
 }
+
