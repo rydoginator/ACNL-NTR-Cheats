@@ -70,6 +70,11 @@ enum
     JAP
 };
 
+enum
+{
+	KEYBOARDINPUT
+};
+
 /*
 ** Helpers
 */
@@ -78,7 +83,7 @@ void    find_and_replace_multiple(void *start_addr, u32 length);
 void    keep_it_off(void);
 void    retrieve_input_string(char *output, int size);
 void    get_input_id(int *first, int *second);
-void	keyboardInput(u32 region);
+void	keyboardInput(void);
 bool    match(const char *str, const char *pattern);
 
 void    assign_region(u32 region);

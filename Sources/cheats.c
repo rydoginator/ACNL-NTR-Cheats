@@ -184,9 +184,26 @@ void    assign_region(u32 region)
     }
 }
 
-void    keyboardInput(u32 region)
+void    keyboardInput(void)
 {
-    g_input_text_buffer = g_keyboard;
+    // Static variable to keep the state of the cheat
+    static int state = 0;
+    static u32 bubble = 0;
+
+    if (!state)
+    {
+        bubble = g_input_text_buffer;
+        g_input_text_buffer = g_keyboard;
+        state = 1;
+    }
+    else
+    {
+        g_input_text_buffer = bubble;
+        state = 0;
+    }
+    //We add the [on] or [off] to the entry according to the state
+    update_status(state, KEYBOARDINPUT);
+    disable_entry(KEYBOARDINPUT);
 }
 
 // Our cheats using our globals

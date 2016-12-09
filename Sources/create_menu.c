@@ -67,7 +67,7 @@ static inline void  smenu(void)
     update_tan_entry();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
     new_entry("Text to cheat", text_to_cheats);
-    new_entry("Use keyboard for input", keyboardInput);
+    new_toggle_entry("Use keyboard for input", keyboardInput, KEYBOARDINPUT);
     new_spoiler_with_note("Environment Codes", enviro_note);
         new_spoiler("R + A Codes");
             new_radio_entry_with_note("Remove all weeds", weed_note, weeder);
@@ -130,17 +130,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 4 USA");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 4 EUR"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1 Beta 4 JAP"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1"); 
     }
     else
     {
