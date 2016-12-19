@@ -1,6 +1,6 @@
 #include "cheats.h"
 
-char    *builder_name = "itsRyan";
+char    *builder_name = "RyDog";
 
     static const char * const t2i_note = "Type item ID and send it into chat,\n\nPress X+D Pad Right,\n\nTo write item to slot 1!";
     static const char * const dup_note = "Press R to duplicate the slot 1 item to slot 2!";
@@ -28,6 +28,7 @@ char    *builder_name = "itsRyan";
     static const char * const flwr_note = "Press R + A to replenish all your flowers!";
     static const char * const cl_note = "Only works outdoors! Press R + D Pad up to enable, Press R + D Pad down to disable.";
     static const char * const eat_note = "Type item ID into chat, send it and press L while eating an item to change the item to the item ID you typed in.";
+    static const char * const dynamic_note = "When inside a ADB, press Y + D pad right to write the decimal to slot 1.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
@@ -67,6 +68,7 @@ static inline void  smenu(void)
     update_tan_entry();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
     new_entry("Text to cheat", text_to_cheats);
+    //new_toggle_entry("Online Island Hot Fix", islandFinder, ISLANDFINDER);
     new_toggle_entry("Use keyboard for input", keyboardInput, KEYBOARDINPUT);
     new_spoiler_with_note("Environment Codes", enviro_note);
         new_spoiler("R + A Codes");
@@ -83,6 +85,7 @@ static inline void  smenu(void)
     new_spoiler("Inventory Codes");
         new_entry_with_note("Text to Item", t2i_note, text2item);
         new_entry_with_note("Duplication", dup_note, duplicate);
+        new_entry_with_note("Dynamic Slot 1 Modifier", dynamic_note, dynamicMod);
     exit_spoiler();
     new_spoiler("Appearance Codes");
         new_spoiler_with_note("Tan Modifier", tan_note);
@@ -93,6 +96,7 @@ static inline void  smenu(void)
     exit_spoiler();
     new_spoiler_with_note("Movement Codes", trans_note);
         new_entry_with_note("Walk Through Walls", cl_note, collisions);
+        new_entry_with_note("Walk Over Objects", cl_note, walkOver);
         new_entry_with_note("Warping", warp_note, warping);
         new_entry_with_note("Moon Jump", mj_note, moonjump);
         new_entry_with_note("Coordinates Modifier", cm_note, coord);
@@ -130,17 +134,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.2 USA");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.2 EUR"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.2 JAP"); 
     }
     else
     {

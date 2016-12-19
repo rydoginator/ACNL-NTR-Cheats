@@ -17,6 +17,9 @@
 #define     ADDTOFLOAT(addr, add_value)         *(float *)addr += (float)add_value
 #define     SUBTOFLOAT(addr, sub_value)         *(float *)addr -= (float)sub_value
 
+#define		EUR_DIFFERENCE						0x28380
+#define		JAP_DIFFERENCE						0x22A80
+
 /*
 ** USA Addresses
 */
@@ -62,6 +65,12 @@
 #define		USA_ONLINE5_INV_ADDR				0xA967E0
 #define		USA_ONLINE6_INV_ADDR				0xA9EC60
 #define		USA_KEYBOARD_ADDR					0x32DC4A10
+#define		USA_KEYBOARD_ISLAND_ADDR			0x32DF7F14
+#define		USA_INPUT_TEXT_ISLAND_ADDR			0x32CBD508
+#define		USA_ABD_ADDR 						0x32DD1AC8 //this one stays in memory, so it is used to write to the inventory. nvm, it doesn't
+#define		USA_ABD_REAL_ADDR					0x32DD1EF8 //this one is the real decimal offset,
+#define		USA_ABD_OFFLINE_ADDR				0x32DC5520
+#define		USA_WALKOVER_ADDR					0x33077533
 
 enum
 {
@@ -72,19 +81,31 @@ enum
 
 enum
 {
-	KEYBOARDINPUT
+	KEYBOARDINPUT,
+	ISLANDFINDER
 };
 
 /*
 ** Helpers
 */
 
+/*
+** helpers.c
+*/
+void    disable_entry(int identifier);
+void    update_status(int state, int identifier);
+void    new_entry_note(char *str, const char * const note, void (*function)(void));
+void    new_entry_index(char *str, void (*function)(void), int identifier);
+void    new_entry_index_note(char *str, const char * const note, void (*function)(void), int identifier);
+void    new_toggle_entry(char *str, void (*function)(void), int identifier);
+void    new_toggle_entry_note(char *str, char *note, void (*function)(void), int identifier);
 void    find_and_replace_multiple(void *start_addr, u32 length);
 void    keep_it_off(void);
 void    retrieve_input_string(char *output, int size);
 void    get_input_id(int *first, int *second);
 void	keyboardInput(void);
 bool    match(const char *str, const char *pattern);
+//void	islandFinder(void);
 
 void    assign_region(u32 region);
 void    text_to_cheats(void);
@@ -121,6 +142,8 @@ void	noon(void);
 void	stalking_1(void);
 void	gorgeous_set(void);
 void	clear_inv(void);
+void	dynamicMod(void);
+void	walkOver(void);
 
 
 

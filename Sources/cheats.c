@@ -42,6 +42,10 @@ u32     g_online4_inv;
 u32     g_online5_inv;
 u32     g_online6_inv;
 u32     g_keyboard;
+u32     g_island_bubble;
+u32     g_island_keyboard;
+u32     g_abd;
+u32     g_walkOver;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -90,6 +94,10 @@ void    assign_region(u32 region)
     g_online5_inv = USA_ONLINE5_INV_ADDR;
     g_online6_inv = USA_ONLINE6_INV_ADDR;
     g_keyboard = USA_KEYBOARD_ADDR;
+    g_island_keyboard = USA_KEYBOARD_ISLAND_ADDR;
+    g_island_bubble = USA_INPUT_TEXT_ISLAND_ADDR;
+    g_abd = USA_ABD_ADDR;
+    g_walkOver = USA_WALKOVER_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -98,37 +106,37 @@ void    assign_region(u32 region)
             g_input_text_buffer = USA_INPUT_TEXT_ADDR;
             break;
         case EUR:
-            g_location -= 0x28380;
-            g_indoor_pos_x -= 0x28380;
-            g_indoor_pos_y -= 0x28380;
-            g_indoor_pos_z -= 0x28380;
-            g_outdoor_pos_x -= 0x28380;
-            g_outdoor_pos_y -= 0x28380;
-            g_outdoor_pos_z -= 0x28380;
-            g_town_items -= 0x28380;
-            g_island_items -= 0x28380;
-            g_inv -= 0x28380;
-            g_grass_start -= 0x28380;
-            g_grass_end -= 0x28380;
-            g_velocity -= 0x28380;
-            g_nook -= 0x28380;
-            g_leif -= 0x28380;
-            g_tan -= 0x28380;
-            g_edible -= 0x28380;
-            g_id -= 0x28380;
-            g_savetime -= 0x28380;
-            g_world_x -= 0x28380;
-            g_world_y -= 0x28380;
-            g_collisions -= 0x28380;
+            g_location -= EUR_DIFFERENCE;
+            g_indoor_pos_x -= EUR_DIFFERENCE;
+            g_indoor_pos_y -= EUR_DIFFERENCE;
+            g_indoor_pos_z -= EUR_DIFFERENCE;
+            g_outdoor_pos_x -= EUR_DIFFERENCE;
+            g_outdoor_pos_y -= EUR_DIFFERENCE;
+            g_outdoor_pos_z -= EUR_DIFFERENCE;
+            g_town_items -= EUR_DIFFERENCE;
+            g_island_items -= EUR_DIFFERENCE;
+            g_inv -= EUR_DIFFERENCE;
+            g_grass_start -= EUR_DIFFERENCE;
+            g_grass_end -= EUR_DIFFERENCE;
+            g_velocity -= EUR_DIFFERENCE;
+            g_nook -= EUR_DIFFERENCE;
+            g_leif -= EUR_DIFFERENCE;
+            g_tan -= EUR_DIFFERENCE;
+            g_edible -= EUR_DIFFERENCE;
+            g_id -= EUR_DIFFERENCE;
+            g_savetime -= EUR_DIFFERENCE;
+            g_world_x -= EUR_DIFFERENCE;
+            g_world_y -= EUR_DIFFERENCE;
+            g_collisions -= EUR_DIFFERENCE;
             g_hours = 0x9505B7;
             g_minutes = 0x9505B6;
             g_realtime = 0x95c500;
             g_seed = 0x9B4268;
             g_player = 0xAAD990;
-            g_visitor_indoor_x -= 0x28380;
-            g_visitor_indoor_z -= 0x28380;
-            g_visitor_outdoor_x -= 0x28380;
-            g_visitor_outdoor_z -= 0x28380;
+            g_visitor_indoor_x -= EUR_DIFFERENCE;
+            g_visitor_indoor_z -= EUR_DIFFERENCE;
+            g_visitor_outdoor_x -= EUR_DIFFERENCE;
+            g_visitor_outdoor_z -= EUR_DIFFERENCE;
             g_online0_inv -= 0x1000;
             g_online1_inv -= 0x1000;
             g_online2_inv -= 0x1000;
@@ -136,41 +144,45 @@ void    assign_region(u32 region)
             g_online4_inv -= 0x1000;
             g_online5_inv -= 0x1000;
             g_online6_inv -= 0x1000;
-            g_keyboard -= 0x28380;
+            g_keyboard -= EUR_DIFFERENCE;
+            g_island_bubble -= EUR_DIFFERENCE;
+            g_island_keyboard -= EUR_DIFFERENCE;
+            g_abd -= EUR_DIFFERENCE;
+            g_walkOver -= EUR_DIFFERENCE;
             g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
             break;
         case JAP:
-            g_location += 0x22A80;
-            g_indoor_pos_x += 0x22A80;
-            g_indoor_pos_y += 0x22A80;
-            g_indoor_pos_z += 0x22A80;
-            g_outdoor_pos_x += 0x22A80;
-            g_outdoor_pos_y += 0x22A80;
-            g_outdoor_pos_z += 0x22A80;
-            g_town_items += 0x22A80;
-            g_island_items += 0x22A80;
-            g_grass_start += 0x22A80;
-            g_grass_end += 0x22A80;
-            g_inv += 0x22A80;
-            g_velocity += 0x22A80;
-            g_nook += 0x22A80;
-            g_leif += 0x22A80;
-            g_tan += 0x22A80;
-            g_id += 0x22A80;
-            g_edible += 0x22A80;
-            g_savetime += 0x22A80;
-            g_world_x += 0x22A80;
-            g_world_y += 0x22A80;
+            g_location += JAP_DIFFERENCE;
+            g_indoor_pos_x += JAP_DIFFERENCE;
+            g_indoor_pos_y += JAP_DIFFERENCE;
+            g_indoor_pos_z += JAP_DIFFERENCE;
+            g_outdoor_pos_x += JAP_DIFFERENCE;
+            g_outdoor_pos_y += JAP_DIFFERENCE;
+            g_outdoor_pos_z += JAP_DIFFERENCE;
+            g_town_items += JAP_DIFFERENCE;
+            g_island_items += JAP_DIFFERENCE;
+            g_grass_start += JAP_DIFFERENCE;
+            g_grass_end += JAP_DIFFERENCE;
+            g_inv += JAP_DIFFERENCE;
+            g_velocity += JAP_DIFFERENCE;
+            g_nook += JAP_DIFFERENCE;
+            g_leif += JAP_DIFFERENCE;
+            g_tan += JAP_DIFFERENCE;
+            g_id += JAP_DIFFERENCE;
+            g_edible += JAP_DIFFERENCE;
+            g_savetime += JAP_DIFFERENCE;
+            g_world_x += JAP_DIFFERENCE;
+            g_world_y += JAP_DIFFERENCE;
             g_hours = 0x9495B7;
             g_minutes = 0x9495B6;
             g_realtime = 0x956500;
-            g_collisions += 0x22A80;
+            g_collisions += JAP_DIFFERENCE;
             g_seed = 0x9AD248;
             g_player = 0xAA7990;
-            g_visitor_indoor_x += 0x22A80;
-            g_visitor_indoor_z += 0x22A80;
-            g_visitor_outdoor_x += 0x22A80;
-            g_visitor_outdoor_z += 0x22A80;
+            g_visitor_indoor_x += JAP_DIFFERENCE;
+            g_visitor_indoor_z += JAP_DIFFERENCE;
+            g_visitor_outdoor_x += JAP_DIFFERENCE;
+            g_visitor_outdoor_z += JAP_DIFFERENCE;
             g_online0_inv += 0x7000;
             g_online1_inv += 0x7000;
             g_online2_inv += 0x7000;
@@ -178,11 +190,42 @@ void    assign_region(u32 region)
             g_online4_inv += 0x7000;
             g_online5_inv += 0x7000;
             g_online6_inv += 0x7000;
-            g_keyboard += 0x22A80;
+            g_keyboard += JAP_DIFFERENCE;
+            g_island_bubble += JAP_DIFFERENCE;
+            g_island_keyboard += JAP_DIFFERENCE;
+            g_abd+= JAP_DIFFERENCE;
+            g_walkOver += JAP_DIFFERENCE; 
             g_input_text_buffer = JAP_INPUT_TEXT_ADDR;
             break;
     }
 }
+
+/*void    islandFinder(void)
+{
+    // Static variable to keep the state of the cheat
+    static int state = 0;
+    static u32 bubble = 0;
+    static u32 keyboard = 0;
+
+    if (!state)
+    {
+        bubble = g_input_text_buffer;
+        keyboard = g_keyboard;
+        g_input_text_buffer = g_input_text_buffer;
+        g_keyboard = g_island_keyboard;
+        state = 1;
+    }
+    else
+    {
+        g_input_text_buffer = bubble;
+        g_keyboard = keyboard;
+        state = 0;
+    }
+    //We add the [on] or [off] to the entry according to the state
+    update_status(state, ISLANDFINDER);
+    disable_entry(ISLANDFINDER);
+}
+*/
 
 void    keyboardInput(void)
 {
@@ -242,7 +285,7 @@ void    text_to_cheats(void)
     int             command;
     char            command_text[0x100];
 
-
+    //islandFinder();
     retrieve_input_string(command_text, 10);
     g_text_activated = true;
     if (match(command_text, "bis")) command = BIS;
@@ -350,6 +393,7 @@ void    text2item(void)
     u8      player;
     u32     offset;
     
+    //islandFinder();
     if (!is_pressed(BUTTON_X + BUTTON_DR))
         return;
     player = READU8(g_player);
@@ -358,6 +402,12 @@ void    text2item(void)
         offset = player * 0xa480;
         get_input_id(&input, NULL);
         WRITEU16(g_inv + offset, input);
+        if (READU16(g_online4_inv) != 0)
+            WRITEU16(g_online4_inv, input); 
+        if (READU16(g_online5_inv) != 0)
+            WRITEU16(g_online5_inv, input); 
+        if (READU16(g_online6_inv) != 0)
+            WRITEU16(g_online6_inv, input);
     }
     if (player >= 0x3)
     {
@@ -369,12 +419,6 @@ void    text2item(void)
             WRITEU16(g_online2_inv, input); 
         if (READU16(g_online3_inv) != 0)
             WRITEU16(g_online3_inv, input);
-        if (READU16(g_online4_inv) != 0)
-            WRITEU16(g_online4_inv, input); 
-        if (READU16(g_online5_inv) != 0)
-            WRITEU16(g_online5_inv, input); 
-        if (READU16(g_online6_inv) != 0)
-            WRITEU16(g_online6_inv, input);
     }  
    wait_all_released();
 }
@@ -571,6 +615,15 @@ void    duplicate(void)
             offset = player * 0xA480;
             dupe = READU32(g_inv + offset);
             WRITEU32(g_inv + offset + 0x4, dupe);
+            if (READU16(g_online4_inv) != 0)
+                dupe4 = READU32(g_online4_inv);
+                WRITEU32(g_online4_inv + 0x4, dupe4);
+            if (READU16(g_online5_inv) != 0)
+                dupe5 = READU32(g_online5_inv);
+                WRITEU32(g_online5_inv + 0x4, dupe5); 
+            if (READU16(g_online6_inv) != 0)
+                dupe6 = READU32(g_online6_inv);
+                WRITEU32(g_online6_inv, dupe6); 
         }
         if (player >= 0x3)
         {
@@ -586,15 +639,6 @@ void    duplicate(void)
             if (READU16(g_online3_inv) != 0)
                 dupe3 = READU32(g_online3_inv);
                 WRITEU32(g_online3_inv + 0x4, dupe3);
-            if (READU16(g_online4_inv) != 0)
-                dupe4 = READU32(g_online4_inv);
-                WRITEU32(g_online4_inv + 0x4, dupe4);
-            if (READU16(g_online5_inv) != 0)
-                dupe5 = READU32(g_online5_inv);
-                WRITEU32(g_online5_inv + 0x4, dupe5); 
-            if (READU16(g_online6_inv) != 0)
-                dupe6 = READU32(g_online6_inv);
-                WRITEU32(g_online6_inv, dupe6); 
         }  
     }
 }
@@ -757,6 +801,7 @@ void    edibleItems(void)
 {
     int     input;
 
+    //islandFinder();
     if (is_pressed(BUTTON_L))
     {
         get_input_id(&input, NULL);
@@ -1093,6 +1138,27 @@ void    gorgeous_set(void)
         {
             WRITEU16(g_inv + offset + 0x8 + (0x4 * i), 0x2ADC + i);
         }
+        if (READU16(g_online4_inv != 0x0))
+            WRITEU16(g_online4_inv, 0x2401);
+            WRITEU16(g_online4_inv + 0x4, 0x2362);
+            for (i = 0; i < 10; i++)
+            {
+                WRITEU16(g_online4_inv + 0x8 + (0x4 * i), 0x2ADC + i);
+            }
+       if (READU16(g_online5_inv != 0x0))
+            WRITEU16(g_online5_inv, 0x2401);
+            WRITEU16(g_online5_inv + 0x4, 0x2362);
+            for (i = 0; i < 10; i++)
+            {
+                WRITEU16(g_online5_inv + 0x8 + (0x4 * i), 0x2ADC + i);
+            }
+       if (READU16(g_online6_inv != 0x0))
+            WRITEU16(g_online6_inv, 0x2401);
+            WRITEU16(g_online6_inv + 0x4, 0x2362);
+            for (i = 0; i < 10; i++)
+            {
+                WRITEU16(g_online5_inv + 0x8 + (0x4 * i), 0x2ADC + i);
+            }
     if (player >= 0x3)
     {
         if (READU16(g_online0_inv != 0x0))
@@ -1123,27 +1189,6 @@ void    gorgeous_set(void)
             {
                 WRITEU16(g_online3_inv + 0x8 + (0x4 * i), 0x2ADC + i);
             }
-       if (READU16(g_online4_inv != 0x0))
-            WRITEU16(g_online4_inv, 0x2401);
-            WRITEU16(g_online4_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online4_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
-       if (READU16(g_online5_inv != 0x0))
-            WRITEU16(g_online5_inv, 0x2401);
-            WRITEU16(g_online5_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online5_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
-       if (READU16(g_online6_inv != 0x0))
-            WRITEU16(g_online6_inv, 0x2401);
-            WRITEU16(g_online6_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online5_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
     }
 }
 
@@ -1160,6 +1205,21 @@ void    clear_inv(void)
         {
             WRITEU16(g_inv + offset + (0x4 * i), 0x7FFE);
         }
+        if (READU16(g_online4_inv) != 0)
+            for (i = 0; i < 15; i++)
+            {
+                WRITEU16(g_online4_inv + offset + (0x4 * i), 0x7FFE);
+            }
+        if (READU16(g_online5_inv) != 0)
+            for (i = 0; i < 15; i++)
+            {
+                WRITEU16(g_online5_inv + offset + (0x4 * i), 0x7FFE);
+            }
+        if (READU16(g_online6_inv) != 0)
+            for (i = 0; i < 15; i++)
+            {
+                WRITEU16(g_online1_inv + offset + (0x4 * i), 0x7FFE);
+            }
     if (player >= 0x3)
     {
         if (READU16(g_online0_inv) != 0)
@@ -1182,21 +1242,52 @@ void    clear_inv(void)
             {
                 WRITEU16(g_online3_inv + offset + (0x4 * i), 0x7FFE);
             }
-        if (READU16(g_online4_inv) != 0)
-            for (i = 0; i < 15; i++)
-            {
-                WRITEU16(g_online4_inv + offset + (0x4 * i), 0x7FFE);
-            }
-        if (READU16(g_online5_inv) != 0)
-            for (i = 0; i < 15; i++)
-            {
-                WRITEU16(g_online5_inv + offset + (0x4 * i), 0x7FFE);
-            }
-        if (READU16(g_online6_inv) != 0)
-            for (i = 0; i < 15; i++)
-            {
-                WRITEU16(g_online1_inv + offset + (0x4 * i), 0x7FFE);
-            }
     }
 }
 
+void    dynamicMod(void)
+{
+    u32     offset;
+    u8      player;
+    u16     data;
+
+    if (is_pressed(BUTTON_Y + BUTTON_DR))
+    {
+        data = READU16(g_abd);
+        player = READU8(g_player);
+        if (player <= 0x3)
+        {
+            offset = player * 0xA480;
+            WRITEU16(g_inv + offset, data);
+            if (READU16(g_online4_inv) != 0)
+                WRITEU16(g_online4_inv, data);
+            if (READU16(g_online5_inv) != 0)
+                WRITEU16(g_online5_inv, data); 
+            if (READU16(g_online6_inv) != 0)
+                WRITEU16(g_online6_inv, data); 
+        }
+        if (player >= 0x3)
+        {
+            if (READU16(g_online0_inv) != 0)
+                WRITEU16(g_online0_inv, data);
+            if (READU16(g_online1_inv) != 0)
+                WRITEU16(g_online1_inv, data);
+            if (READU16(g_online2_inv) != 0)
+                WRITEU16(g_online2_inv, data);
+            if (READU16(g_online3_inv) != 0)
+                WRITEU16(g_online3_inv, data);
+        }  
+    }   
+}
+
+void    walkOver(void)
+{
+    if (is_pressed(BUTTON_R + BUTTON_DU))
+    {
+        WRITEU8(g_walkOver, 0x83);
+    }
+    if (is_pressed(BUTTON_R + BUTTON_DD))
+    {
+        WRITEU8(g_walkOver, 0x00);
+    }
+}

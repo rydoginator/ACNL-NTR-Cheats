@@ -23,8 +23,8 @@ EUR_TID 	= "0004000000086400"
 USA_TID 	= "0004000000086300"
 JAP_TID		= "0004000000086200"
 NAME 		= "ACNL_MULTI"
-FTP_FOLDER	= "./plugin/" + EUR_TID + "/"
-HOST		= "192.168.137.192"
+FTP_FOLDER	= "./plugin/" + USA_TID + "/"
+HOST		= "192.168.1.13"
 PORT		= "5000"
 COPYTOPATH	= NAME + ".plg"
 CC 			= "arm-none-eabi-gcc"
@@ -78,7 +78,7 @@ def error():
 
 cwd = os.getcwd()
 print("\n\n");
-printf("Hello Nanquitas !\n");
+printf("Hello RyDog !\n");
 printf("How are you ?\n");
 printf("I'm preparing to compile your " + COPYTOPATH + " plugin.\n");
 printf("Please just wait a second...\n");
