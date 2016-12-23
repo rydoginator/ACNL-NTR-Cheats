@@ -70,6 +70,20 @@ static inline void  smenu(void)
     new_entry("Text to cheat", text_to_cheats);
     //new_toggle_entry("Online Island Hot Fix", islandFinder, ISLANDFINDER);
     new_toggle_entry("Use keyboard for input", keyboardInput, KEYBOARDINPUT);
+        new_spoiler("Inventory Codes");
+        new_entry_with_note("Text to Item", t2i_note, text2item);
+        new_entry_with_note("Duplication", dup_note, duplicate);
+        new_entry_with_note("Dynamic Slot 1 Modifier", dynamic_note, dynamicMod);
+    exit_spoiler();
+    new_spoiler_with_note("Movement Codes", trans_note);
+        new_entry_with_note("Walk Through Walls", cl_note, collisions);
+        new_entry_with_note("Walk Over Objects", cl_note, walkOver);
+        new_entry_with_note("Warping", warp_note, warping);
+        new_entry_with_note("Moon Jump", mj_note, moonjump);
+        new_entry_with_note("Coordinates Modifier", cm_note, coord);
+        new_entry_with_note("Speed Hack", speed_note, speed);
+        new_entry_with_note("Teleport", tele_note, teleport);
+    exit_spoiler();
     new_spoiler_with_note("Environment Codes", enviro_note);
         new_spoiler("R + A Codes");
             new_radio_entry_with_note("Remove all weeds", weed_note, weeder);
@@ -82,26 +96,12 @@ static inline void  smenu(void)
         new_entry_with_note("Search and Replace", sar_note, search);
         new_entry_with_note("Instant Tree", tree_note, tree);
     exit_spoiler();
-    new_spoiler("Inventory Codes");
-        new_entry_with_note("Text to Item", t2i_note, text2item);
-        new_entry_with_note("Duplication", dup_note, duplicate);
-        new_entry_with_note("Dynamic Slot 1 Modifier", dynamic_note, dynamicMod);
-    exit_spoiler();
     new_spoiler("Appearance Codes");
         new_spoiler_with_note("Tan Modifier", tan_note);
             new_unselectable_entry(tan_level_buffer);
             g_increase_menu_index = new_entry("Increase Tan", increase_tan_level);
             g_decrease_menu_index = new_entry("Decrease Tan", decrease_tan_level);
         exit_spoiler();
-    exit_spoiler();
-    new_spoiler_with_note("Movement Codes", trans_note);
-        new_entry_with_note("Walk Through Walls", cl_note, collisions);
-        new_entry_with_note("Walk Over Objects", cl_note, walkOver);
-        new_entry_with_note("Warping", warp_note, warping);
-        new_entry_with_note("Moon Jump", mj_note, moonjump);
-        new_entry_with_note("Coordinates Modifier", cm_note, coord);
-        new_entry_with_note("Speed Hack", speed_note, speed);
-        new_entry_with_note("Teleport", tele_note, teleport);
     exit_spoiler();
     new_spoiler("Nookling Upgrades");
         new_radio_entry("T&T Mart", nook1);
@@ -134,17 +134,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.2 USA");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.3 USA");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.2 EUR"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.3 EUR"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.2 JAP"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.3 JAP"); 
     }
     else
     {

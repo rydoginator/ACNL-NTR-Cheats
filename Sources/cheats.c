@@ -1015,15 +1015,64 @@ void    real(void)
 
 void    collisions(void)
 {
-    if (is_pressed(BUTTON_R + BUTTON_DU))
+    if (is_pressed(BUTTON_L + BUTTON_DU))
     {
         WRITEU8(g_collisions, 0x01);
     }
-    if (is_pressed(BUTTON_R + BUTTON_DD))
+    if (is_pressed(BUTTON_L + BUTTON_DD))
     {
         WRITEU8(g_collisions, 0x00);
     }
 }
+
+void    dynamicMod(void)
+{
+    u32     offset;
+    u8      player;
+    u16     data;
+
+    if (is_pressed(BUTTON_Y + BUTTON_DR))
+    {
+        data = READU16(g_abd);
+        player = READU8(g_player);
+        if (player <= 0x3)
+        {
+            offset = player * 0xA480;
+            WRITEU16(g_inv + offset, data);
+            if (READU16(g_online4_inv) != 0)
+                WRITEU16(g_online4_inv, data);
+            if (READU16(g_online5_inv) != 0)
+                WRITEU16(g_online5_inv, data); 
+            if (READU16(g_online6_inv) != 0)
+                WRITEU16(g_online6_inv, data); 
+        }
+        if (player >= 0x3)
+        {
+            if (READU16(g_online0_inv) != 0)
+                WRITEU16(g_online0_inv, data);
+            if (READU16(g_online1_inv) != 0)
+                WRITEU16(g_online1_inv, data);
+            if (READU16(g_online2_inv) != 0)
+                WRITEU16(g_online2_inv, data);
+            if (READU16(g_online3_inv) != 0)
+                WRITEU16(g_online3_inv, data);
+        }  
+    }   
+}
+
+void    walkOver(void)
+{
+    if (is_pressed(BUTTON_L + BUTTON_DU))
+    {
+        WRITEU8(g_walkOver, 0x83);
+    }
+    if (is_pressed(BUTTON_L + BUTTON_DD))
+    {
+        WRITEU8(g_walkOver, 0x00);
+    }
+}
+
+// Text to cheat functions
 
 void    midnight(void)
 {
@@ -1201,93 +1250,46 @@ void    clear_inv(void)
     player = READU8(g_player);
     if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
         offset = player * 0xa480;
-        for (i = 0; i < 15; i++)
+        for (i = 0; i < 16; i++)
         {
             WRITEU16(g_inv + offset + (0x4 * i), 0x7FFE);
         }
         if (READU16(g_online4_inv) != 0)
-            for (i = 0; i < 15; i++)
+            for (i = 0; i < 16; i++)
             {
                 WRITEU16(g_online4_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online5_inv) != 0)
-            for (i = 0; i < 15; i++)
+            for (i = 0; i < 16; i++)
             {
                 WRITEU16(g_online5_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online6_inv) != 0)
-            for (i = 0; i < 15; i++)
+            for (i = 0; i < 16; i++)
             {
                 WRITEU16(g_online1_inv + offset + (0x4 * i), 0x7FFE);
             }
     if (player >= 0x3)
     {
         if (READU16(g_online0_inv) != 0)
-            for (i = 0; i < 15; i++)
+            for (i = 0; i < 16; i++)
             {
                 WRITEU16(g_online0_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online1_inv) != 0)
-            for (i = 0; i < 15; i++)
+            for (i = 0; i < 16; i++)
             {
                 WRITEU16(g_online1_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online2_inv) != 0)
-            for (i = 0; i < 15; i++)
+            for (i = 0; i < 16; i++)
             {
                 WRITEU16(g_online2_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online3_inv) != 0)
-            for (i = 0; i < 15; i++)
+            for (i = 0; i < 16; i++)
             {
                 WRITEU16(g_online3_inv + offset + (0x4 * i), 0x7FFE);
             }
-    }
-}
-
-void    dynamicMod(void)
-{
-    u32     offset;
-    u8      player;
-    u16     data;
-
-    if (is_pressed(BUTTON_Y + BUTTON_DR))
-    {
-        data = READU16(g_abd);
-        player = READU8(g_player);
-        if (player <= 0x3)
-        {
-            offset = player * 0xA480;
-            WRITEU16(g_inv + offset, data);
-            if (READU16(g_online4_inv) != 0)
-                WRITEU16(g_online4_inv, data);
-            if (READU16(g_online5_inv) != 0)
-                WRITEU16(g_online5_inv, data); 
-            if (READU16(g_online6_inv) != 0)
-                WRITEU16(g_online6_inv, data); 
-        }
-        if (player >= 0x3)
-        {
-            if (READU16(g_online0_inv) != 0)
-                WRITEU16(g_online0_inv, data);
-            if (READU16(g_online1_inv) != 0)
-                WRITEU16(g_online1_inv, data);
-            if (READU16(g_online2_inv) != 0)
-                WRITEU16(g_online2_inv, data);
-            if (READU16(g_online3_inv) != 0)
-                WRITEU16(g_online3_inv, data);
-        }  
-    }   
-}
-
-void    walkOver(void)
-{
-    if (is_pressed(BUTTON_R + BUTTON_DU))
-    {
-        WRITEU8(g_walkOver, 0x83);
-    }
-    if (is_pressed(BUTTON_R + BUTTON_DD))
-    {
-        WRITEU8(g_walkOver, 0x00);
     }
 }
