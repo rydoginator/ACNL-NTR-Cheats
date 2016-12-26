@@ -71,6 +71,7 @@
 #define		USA_ABD_REAL_ADDR					0x32DD1EF8 //this one is the real decimal offset,
 #define		USA_ABD_OFFLINE_ADDR				0x32DC5520
 #define		USA_WALKOVER_ADDR					0x33077533
+#define		USA_KEYBOARD_POINTER				0x95F110
 
 enum
 {

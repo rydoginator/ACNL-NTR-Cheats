@@ -68,8 +68,7 @@ static inline void  smenu(void)
     update_tan_entry();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
     new_entry("Text to cheat", text_to_cheats);
-    //new_toggle_entry("Online Island Hot Fix", islandFinder, ISLANDFINDER);
-    new_toggle_entry("Use keyboard for input", keyboardInput, KEYBOARDINPUT);
+    new_toggle_entry("Use keyboard on island", keyboardInput, KEYBOARDINPUT);
         new_spoiler("Inventory Codes");
         new_entry_with_note("Text to Item", t2i_note, text2item);
         new_entry_with_note("Duplication", dup_note, duplicate);
@@ -134,17 +133,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.3 USA");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.4 USA");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.3 EUR"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.4 EUR"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.3 JAP"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.4 JAP"); 
     }
     else
     {

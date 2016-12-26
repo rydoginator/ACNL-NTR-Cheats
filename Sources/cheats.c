@@ -46,6 +46,7 @@ u32     g_island_bubble;
 u32     g_island_keyboard;
 u32     g_abd;
 u32     g_walkOver;
+u32     g_kpointer;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -98,6 +99,7 @@ void    assign_region(u32 region)
     g_island_bubble = USA_INPUT_TEXT_ISLAND_ADDR;
     g_abd = USA_ABD_ADDR;
     g_walkOver = USA_WALKOVER_ADDR;
+    g_kpointer = USA_KEYBOARD_POINTER;
 
     // applying offset or particular address
     switch (region)
@@ -200,43 +202,25 @@ void    assign_region(u32 region)
     }
 }
 
-/*void    islandFinder(void)
-{
-    // Static variable to keep the state of the cheat
-    static int state = 0;
-    static u32 bubble = 0;
-    static u32 keyboard = 0;
-
-    if (!state)
-    {
-        bubble = g_input_text_buffer;
-        keyboard = g_keyboard;
-        g_input_text_buffer = g_input_text_buffer;
-        g_keyboard = g_island_keyboard;
-        state = 1;
-    }
-    else
-    {
-        g_input_text_buffer = bubble;
-        g_keyboard = keyboard;
-        state = 0;
-    }
-    //We add the [on] or [off] to the entry according to the state
-    update_status(state, ISLANDFINDER);
-    disable_entry(ISLANDFINDER);
-}
-*/
-
 void    keyboardInput(void)
 {
     // Static variable to keep the state of the cheat
     static int state = 0;
     static u32 bubble = 0;
 
+    /*if (!state)
+    {
+        bubble = g_input_text_buffer;
+        if (READU32(g_kpointer) != 0x0)
+        {
+            g_input_text_buffer = READU32(g_kpointer);
+        }
+        state = 1;
+    }*/
     if (!state)
     {
         bubble = g_input_text_buffer;
-        g_input_text_buffer = g_keyboard;
+        g_input_text_buffer = g_island_keyboard;
         state = 1;
     }
     else
@@ -397,10 +381,10 @@ void    text2item(void)
     if (!is_pressed(BUTTON_X + BUTTON_DR))
         return;
     player = READU8(g_player);
+    get_input_id(&input, NULL);
     if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
     {
         offset = player * 0xa480;
-        get_input_id(&input, NULL);
         WRITEU16(g_inv + offset, input);
         if (READU16(g_online4_inv) != 0)
             WRITEU16(g_online4_inv, input); 
