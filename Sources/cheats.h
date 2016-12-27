@@ -66,6 +66,7 @@
 #define		USA_ONLINE6_INV_ADDR				0xA9EC60
 #define		USA_KEYBOARD_ADDR					0x32DC4A10
 #define		USA_KEYBOARD_ISLAND_ADDR			0x32DF7F14
+#define		EUR_KEYBOAD_ISLAND_ADDR				0x32DCF994
 #define		USA_INPUT_TEXT_ISLAND_ADDR			0x32CBD508
 #define		USA_ABD_ADDR 						0x32DD1AC8 //this one stays in memory, so it is used to write to the inventory. nvm, it doesn't
 #define		USA_ABD_REAL_ADDR					0x32DD1EF8 //this one is the real decimal offset,

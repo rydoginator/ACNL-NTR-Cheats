@@ -148,7 +148,7 @@ void    assign_region(u32 region)
             g_online6_inv -= 0x1000;
             g_keyboard -= EUR_DIFFERENCE;
             g_island_bubble -= EUR_DIFFERENCE;
-            g_island_keyboard -= EUR_DIFFERENCE;
+            g_island_keyboard = EUR_KEYBOAD_ISLAND_ADDR;
             g_abd -= EUR_DIFFERENCE;
             g_walkOver -= EUR_DIFFERENCE;
             g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
