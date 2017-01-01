@@ -73,6 +73,42 @@
 #define		USA_ABD_OFFLINE_ADDR				0x32DC5520
 #define		USA_WALKOVER_ADDR					0x33077533
 #define		USA_KEYBOARD_POINTER				0x95F110
+#define     USA_BANK_ADDR                       0x31F2DBAC
+#define     USA_ONLINE0_BANK_ADDR               0xAAB09C
+#define     USA_ONLINE1_BANK_ADDR               0xA8C31C
+#define     USA_ONLINE2_BANK_ADDR               0xA9679C
+#define     USA_ONLINE3_BANK_ADDR               0xAA0C1C
+#define     USA_ONLINE4_BANK_ADDR               0xA8C31C
+#define     USA_ONLINE5_BANK_ADDR               0xA9679C
+#define     USA_ONLINE6_BANK_ADDR               0xA9EC1C
+
+#define     USA_MEOW_ADDR                       0x31F2FD3C
+#define     USA_ONLINE0_MEOW_ADDR               0xAAD22C
+#define     USA_ONLINE1_MEOW_ADDR               0xA8E4AC
+#define     USA_ONLINE2_MEOW_ADDR               0xA9892C
+#define     USA_ONLINE3_MEOW_ADDR               0xAA2DAC
+#define     USA_ONLINE4_MEOW_ADDR               0xA8E4AC
+#define     USA_ONLINE5_MEOW_ADDR               0xA9892C
+#define     USA_ONLINE6_MEOW_ADDR               0xAA0DAC
+
+#define     USA_WALLET_ADDR                     0x31F2DF28
+#define     USA_ONLINE0_WALLET_ADDR             0xAAB418
+#define     USA_ONLINE1_WALLET_ADDR             0xA8C698
+#define     USA_ONLINE2_WALLET_ADDR             0xA96B18
+#define     USA_ONLINE3_WALLET_ADDR             0xAA0F98
+#define     USA_ONLINE4_WALLET_ADDR             0xA8C698
+#define     USA_ONLINE5_WALLET_ADDR             0xA96B18
+#define     USA_ONLINE6_WALLET_ADDR             0xA9EF98
+
+
+#define     bell999M1        					0xA0127E55
+#define     bell999M2        					0x3F07C41E
+#define     bell1M1           					0xC59D1E4F
+#define     bell1M2    					        0x890D2C5C
+#define     bell99k1          					0x71E341DE
+#define     bell99k2          					0x2D191422
+#define     bell0k1            					0x4A53C78C
+#define     bell0k2            					0xAA0B2075
 
 enum
 {
@@ -146,7 +182,9 @@ void	gorgeous_set(void);
 void	clear_inv(void);
 void	dynamicMod(void);
 void	walkOver(void);
-
+void	bank_999m(void);
+void	bank_1m(void);
+void	bank_0m(void);
 
 
 #endif

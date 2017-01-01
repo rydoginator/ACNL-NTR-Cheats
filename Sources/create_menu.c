@@ -69,7 +69,14 @@ static inline void  smenu(void)
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
     new_entry("Text to cheat", text_to_cheats);
     new_toggle_entry("Use keyboard on island", keyboardInput, KEYBOARDINPUT);
-        new_spoiler("Inventory Codes");
+    new_spoiler("Inventory Codes");
+        new_spoiler("Money Codes(Beta)");
+            new_spoiler("Bank Values");
+                new_radio_entry("Bank Breaker", bank_999m);
+                new_radio_entry("Be a millionare!", bank_1m);
+                new_radio_entry("Go broke", bank_0m);
+            exit_spoiler();
+        exit_spoiler();
         new_entry_with_note("Text to Item", t2i_note, text2item);
         new_entry_with_note("Duplication", dup_note, duplicate);
         new_entry_with_note("Dynamic Slot 1 Modifier", dynamic_note, dynamicMod);
@@ -133,17 +140,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.4 USA");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.4 EUR"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.1.4 JAP"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly"); 
     }
     else
     {

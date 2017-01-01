@@ -47,6 +47,30 @@ u32     g_island_keyboard;
 u32     g_abd;
 u32     g_walkOver;
 u32     g_kpointer;
+u32        g_bank;
+u32     g_online0_bank;
+u32     g_online1_bank;
+u32     g_online2_bank;
+u32     g_online3_bank;
+u32     g_online4_bank;
+u32     g_online5_bank;
+u32     g_online6_bank;
+u32        g_meow;
+u32     g_online0_meow;
+u32     g_online1_meow;
+u32     g_online2_meow;
+u32     g_online3_meow;
+u32     g_online4_meow;
+u32     g_online5_meow;
+u32     g_online6_meow;
+u32        g_wallet;
+u32     g_online0_wallet;
+u32     g_online1_wallet;
+u32     g_online2_wallet;
+u32     g_online3_wallet;
+u32     g_online4_wallet;
+u32     g_online5_wallet;
+u32     g_online6_wallet;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -100,6 +124,30 @@ void    assign_region(u32 region)
     g_abd = USA_ABD_ADDR;
     g_walkOver = USA_WALKOVER_ADDR;
     g_kpointer = USA_KEYBOARD_POINTER;
+    g_bank = USA_BANK_ADDR;
+    g_online0_bank = USA_ONLINE0_BANK_ADDR;
+    g_online1_bank = USA_ONLINE1_BANK_ADDR;
+    g_online2_bank = USA_ONLINE2_BANK_ADDR;
+    g_online3_bank = USA_ONLINE3_BANK_ADDR;
+    g_online4_bank = USA_ONLINE4_BANK_ADDR;
+    g_online5_bank = USA_ONLINE5_BANK_ADDR;
+    g_online6_bank = USA_ONLINE6_BANK_ADDR;
+    g_meow = USA_MEOW_ADDR;
+    g_online0_meow = USA_ONLINE0_MEOW_ADDR;
+    g_online1_meow = USA_ONLINE1_MEOW_ADDR;
+    g_online2_meow = USA_ONLINE2_MEOW_ADDR;
+    g_online3_meow = USA_ONLINE3_MEOW_ADDR;
+    g_online4_meow = USA_ONLINE4_MEOW_ADDR;
+    g_online5_meow = USA_ONLINE5_MEOW_ADDR;
+    g_online6_meow = USA_ONLINE6_MEOW_ADDR;
+    g_wallet = USA_WALLET_ADDR;
+    g_online0_wallet = USA_ONLINE0_WALLET_ADDR;
+    g_online1_wallet = USA_ONLINE1_WALLET_ADDR;
+    g_online2_wallet = USA_ONLINE2_WALLET_ADDR;
+    g_online3_wallet = USA_ONLINE3_WALLET_ADDR;
+    g_online4_wallet = USA_ONLINE4_WALLET_ADDR;
+    g_online5_wallet = USA_ONLINE5_WALLET_ADDR;
+    g_online6_wallet = USA_ONLINE6_WALLET_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -152,6 +200,30 @@ void    assign_region(u32 region)
             g_abd -= EUR_DIFFERENCE;
             g_walkOver -= EUR_DIFFERENCE;
             g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
+            g_bank -= EUR_DIFFERENCE;
+            g_online0_bank -= 0x1000;
+            g_online1_bank -= 0x1000;
+            g_online2_bank -= 0x1000;
+            g_online3_bank -= 0x1000;
+            g_online4_bank -= 0x1000;
+            g_online5_bank -= 0x1000;
+            g_online6_bank -= 0x1000;
+            g_meow -= EUR_DIFFERENCE;
+            g_online0_meow -= 0x1000;
+            g_online1_meow -= 0x1000;
+            g_online2_meow -= 0x1000;
+            g_online3_meow -= 0x1000;
+            g_online4_meow -= 0x1000;
+            g_online5_meow -= 0x1000;
+            g_online6_meow -= 0x1000;
+            g_wallet -= EUR_DIFFERENCE;
+            g_online0_wallet -= 0x1000;
+            g_online1_wallet -= 0x1000;
+            g_online2_wallet -= 0x1000;
+            g_online3_wallet -= 0x1000;
+            g_online4_wallet -= 0x1000;
+            g_online5_wallet -= 0x1000;
+            g_online6_wallet -= 0x1000; 
             break;
         case JAP:
             g_location += JAP_DIFFERENCE;
@@ -198,6 +270,30 @@ void    assign_region(u32 region)
             g_abd+= JAP_DIFFERENCE;
             g_walkOver += JAP_DIFFERENCE; 
             g_input_text_buffer = JAP_INPUT_TEXT_ADDR;
+            g_bank += JAP_DIFFERENCE;
+            g_online0_bank += 0x7000;
+            g_online1_bank += 0x7000;
+            g_online2_bank += 0x7000;
+            g_online3_bank += 0x7000;
+            g_online4_bank += 0x7000;
+            g_online5_bank += 0x7000;
+            g_online6_bank += 0x7000;
+            g_bank += JAP_DIFFERENCE;
+            g_online0_meow += 0x7000;
+            g_online1_meow += 0x7000;
+            g_online2_meow += 0x7000;
+            g_online3_meow += 0x7000;
+            g_online4_meow += 0x7000;
+            g_online5_meow += 0x7000;
+            g_online6_meow += 0x7000;
+            g_wallet += JAP_DIFFERENCE;
+            g_online0_wallet += 0x7000;
+            g_online1_wallet += 0x7000;
+            g_online2_wallet += 0x7000;
+            g_online3_wallet += 0x7000;
+            g_online4_wallet += 0x7000;
+            g_online5_wallet += 0x7000;
+            g_online6_wallet += 0x7000;
             break;
     }
 }
@@ -1276,4 +1372,60 @@ void    clear_inv(void)
                 WRITEU16(g_online3_inv + offset + (0x4 * i), 0x7FFE);
             }
     }
+}
+
+void    bank_common(u32 enc1, u32 enc2)
+{
+    u32     offset;
+    u8      player;
+
+    {   
+        player = READU8(g_player);
+        if (player <= 0x3)
+        {
+            offset = player * 0xA480;
+            WRITEU32(g_bank + offset, enc1);
+            WRITEU32(g_bank + offset + 0x4, enc2);
+            if (READU32(g_online4_bank) != 0)
+                WRITEU32(g_online4_bank, enc1);
+                WRITEU32(g_online4_bank + 0x4, enc2);
+            if (READU32(g_online5_bank) != 0)
+                WRITEU32(g_online5_bank, enc1);
+                WRITEU32(g_online5_bank + 0x4, enc2);
+            if (READU32(g_online5_bank) != 0);
+                WRITEU32(g_online6_bank, enc1);
+                WRITEU32(g_online6_bank + 0x4, enc2);
+        }
+  
+        if (player >= 0x3)
+        {
+            if (READU32(g_online0_bank) != 0);
+                WRITEU32(g_online0_bank, enc1);
+                WRITEU32(g_online0_bank + 0x4, enc2);
+            if (READU32(g_online1_bank) != 0);
+                WRITEU32(g_online1_bank, enc1);
+                WRITEU32(g_online1_bank + 0x4, enc2);
+            if (READU32(g_online2_bank) != 0);
+                WRITEU32(g_online2_bank, enc1);
+                WRITEU32(g_online2_bank + 0x4, enc2);
+            if (READU32(g_online3_bank) != 0);
+                WRITEU32(g_online3_bank, enc1);
+                WRITEU32(g_online3_bank + 0x4, enc2);
+        }
+    }
+}
+
+void    bank_999m(void)
+{
+    bank_common(bell999M1, bell999M2);
+}
+
+void   bank_1m(void)
+{
+    bank_common(bell1M1, bell1M2);
+}
+
+void    bank_0m(void)
+{
+    bank_common(bell0k1, bell0k2);
 }
