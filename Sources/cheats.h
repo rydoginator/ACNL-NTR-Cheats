@@ -10,15 +10,12 @@
 #define     reset_search()                      memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
 #define     add_to_address(addr, value)         *(u32 *)addr += value
 #define     sub_to_address(addr, value)         *(u32 *)addr -= value
-#define     ITEM_BYTES                          0x04
-#define     RANGE_TOWN_ITEMS                    0x5000
 #define     ADD64(addr, value)                  *(vs64 *)addr += value
 #define     SUB64(addr, value)                  *(vs64 *)addr -= value
 #define     ADDTOFLOAT(addr, add_value)         *(float *)addr += (float)add_value
 #define     SUBTOFLOAT(addr, sub_value)         *(float *)addr -= (float)sub_value
 
-#define		EUR_DIFFERENCE						0x28380
-#define		JAP_DIFFERENCE						0x22A80
+
 
 /*
 ** USA Addresses
@@ -100,6 +97,19 @@
 #define     USA_ONLINE5_WALLET_ADDR             0xA96B18
 #define     USA_ONLINE6_WALLET_ADDR             0xA9EF98
 
+#define		USA_CONFIRM_BOOL_ADDR				0x32DC6555
+#define		USA_NOOKLING1_PRICE_ADDR			0x330B9278
+#define		USA_NOOKLING2_PRICE_ADDR			0x330BBA98
+
+/*
+** Values
+*/
+
+#define		EUR_DIFFERENCE						0x28380
+#define		JAP_DIFFERENCE						0x22A80
+
+#define     ITEM_BYTES                          0x04
+#define     RANGE_TOWN_ITEMS                    0x5000
 
 #define     bell999M1        					0xA0127E55
 #define     bell999M2        					0x3F07C41E
@@ -113,6 +123,7 @@
 #define		bellBound2							0x2D191422
 #define		bellNeg1							0x789C71D3
 #define		bellNeg2							0x12077362
+
 
 enum
 {
@@ -193,6 +204,8 @@ void    wallet_99k(void);
 void   wallet_0k(void);
 void    wallet_out(void);
 void    wallet_neg(void);
+void	canBuy(void);
+void	nookFree(void);
 
 
 #endif

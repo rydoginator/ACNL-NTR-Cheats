@@ -71,6 +71,9 @@ u32     g_online3_wallet;
 u32     g_online4_wallet;
 u32     g_online5_wallet;
 u32     g_online6_wallet;
+u32     g_confirm;
+u32     g_nook1Price;
+u32     g_nook2Price;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -148,6 +151,9 @@ void    assign_region(u32 region)
     g_online4_wallet = USA_ONLINE4_WALLET_ADDR;
     g_online5_wallet = USA_ONLINE5_WALLET_ADDR;
     g_online6_wallet = USA_ONLINE6_WALLET_ADDR;
+    g_confirm = USA_CONFIRM_BOOL_ADDR;
+    g_nook1Price = USA_NOOKLING1_PRICE_ADDR;
+    g_nook2Price = USA_NOOKLING2_PRICE_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -223,7 +229,9 @@ void    assign_region(u32 region)
             g_online3_wallet -= 0x1000;
             g_online4_wallet -= 0x1000;
             g_online5_wallet -= 0x1000;
-            g_online6_wallet -= 0x1000; 
+            g_online6_wallet -= 0x1000;
+            g_nook1Price -= EUR_DIFFERENCE;
+            g_nook2Price -= EUR_DIFFERENCE;
             break;
         case JAP:
             g_location += JAP_DIFFERENCE;
@@ -294,6 +302,8 @@ void    assign_region(u32 region)
             g_online4_wallet += 0x7000;
             g_online5_wallet += 0x7000;
             g_online6_wallet += 0x7000;
+            g_nook1Price += JAP_DIFFERENCE;
+            g_nook2Price += JAP_DIFFERENCE;
             break;
     }
 }
@@ -1489,4 +1499,16 @@ void    wallet_out(void)
 void    wallet_neg(void)
 {
     wallet_common(bellNeg1, bellNeg2);
+}
+
+
+void    canBuy(void)
+{
+    WRITEU8(g_confirm, 0x01);
+}
+
+void    nookFree(void)
+{
+    WRITEU32(g_nook1Price, 0x00000000);
+    WRITEU32(g_nook2Price, 0x00000000);
 }
