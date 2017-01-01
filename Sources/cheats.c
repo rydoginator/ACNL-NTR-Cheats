@@ -1473,7 +1473,7 @@ void    wallet_common(u32 enc1, u32 enc2)
 
 void    wallet_99k(void)
 {
-    wallet_common(bell999M1, bell999M2);
+    wallet_common(bell99k1, bell99k2);
 }
 
 void   wallet_0k(void)
