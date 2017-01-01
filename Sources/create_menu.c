@@ -74,6 +74,10 @@ static inline void  smenu(void)
         new_entry_with_note("Duplication", dup_note, duplicate);
         new_entry_with_note("Dynamic Slot 1 Modifier", dynamic_note, dynamicMod);
     exit_spoiler();
+    new_spoiler("Special NPC Mod");
+        new_entry("Brewster", changeBrewster);
+        new_entry("Nook", changeNook);
+    exit_spoiler();
     new_spoiler("Money Codes(Beta)");
         new_spoiler("Bank Values");
             new_radio_entry("Bank Breaker", bank_999m);
@@ -148,17 +152,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 1 U");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly U");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 1 E"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly E"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 1 J"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J"); 
     }
     else
     {

@@ -206,6 +206,8 @@ void    wallet_out(void);
 void    wallet_neg(void);
 void	canBuy(void);
 void	nookFree(void);
+void	changeNook(void);
+void	changeBrewster(void);
 
 
 #endif

@@ -1512,3 +1512,29 @@ void    nookFree(void)
     WRITEU32(g_nook1Price, 0x00000000);
     WRITEU32(g_nook2Price, 0x00000000);
 }
+
+/*void    changeAnimal(u32 value)
+{
+    WRITEU32(0x330B667E, value);
+    WRITEU32(0x330D0E4E, value);
+    WRITEU32(0x330B77FE, value);
+    //WRITEU32(0x330BEF6A, value);
+}
+*/
+void    changeAnimal(u8 symbols[])
+{
+    memcpy((void *)(0x330B667E), symbols, 3); //Isabelle Greeting
+    memcpy((void *)(0x330D0E4E), symbols, 3); //Booker trainstationz
+}
+
+void   changeBrewster(void)
+{
+    static u8 symbols[] = {0x70, 0x67, 0x65};
+    changeAnimal(symbols);
+}
+
+void changeNook(void)
+{
+    static u8 symbols[] = {0x72, 0x63, 0x69};
+    changeAnimal(symbols);
+}
