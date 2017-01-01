@@ -1429,3 +1429,64 @@ void    bank_0m(void)
 {
     bank_common(bell0k1, bell0k2);
 }
+
+void    wallet_common(u32 enc1, u32 enc2)
+{
+    u32     offset;
+    u8      player;
+
+    {   
+        player = READU8(g_player);
+        if (player <= 0x3)
+        {
+            offset = player * 0xA480;
+            WRITEU32(g_wallet + offset, enc1);
+            WRITEU32(g_wallet + offset + 0x4, enc2);
+            if (READU32(g_online4_wallet) != 0)
+                WRITEU32(g_online4_wallet, enc1);
+                WRITEU32(g_online4_wallet + 0x4, enc2);
+            if (READU32(g_online5_wallet) != 0)
+                WRITEU32(g_online5_wallet, enc1);
+                WRITEU32(g_online5_wallet + 0x4, enc2);
+            if (READU32(g_online5_wallet) != 0);
+                WRITEU32(g_online6_wallet, enc1);
+                WRITEU32(g_online6_wallet + 0x4, enc2);
+        }
+  
+        if (player >= 0x3)
+        {
+            if (READU32(g_online0_wallet) != 0);
+                WRITEU32(g_online0_wallet, enc1);
+                WRITEU32(g_online0_wallet + 0x4, enc2);
+            if (READU32(g_online1_wallet) != 0);
+                WRITEU32(g_online1_wallet, enc1);
+                WRITEU32(g_online1_wallet + 0x4, enc2);
+            if (READU32(g_online2_wallet) != 0);
+                WRITEU32(g_online2_wallet, enc1);
+                WRITEU32(g_online2_wallet + 0x4, enc2);
+            if (READU32(g_online3_wallet) != 0);
+                WRITEU32(g_online3_wallet, enc1);
+                WRITEU32(g_online3_wallet + 0x4, enc2);
+        }
+    }
+}
+
+void    wallet_99k(void)
+{
+    wallet_common(bell999M1, bell999M2);
+}
+
+void   wallet_0k(void)
+{
+    wallet_common(bell0k1, bell0k2);
+}
+
+void    wallet_out(void)
+{
+    wallet_common(bellBound1, bellBound2);
+}
+
+void    wallet_neg(void)
+{
+    wallet_common(bellNeg1, bellNeg2);
+}

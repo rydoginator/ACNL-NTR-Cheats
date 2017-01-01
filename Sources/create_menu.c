@@ -80,6 +80,12 @@ static inline void  smenu(void)
             new_radio_entry("Be a millionare!", bank_1m);
             new_radio_entry("Go broke", bank_0m);
         exit_spoiler();
+        new_spoiler("Wallet Values");
+            new_radio_entry("Wallet Breaker", wallet_out);
+            new_radio_entry("Infinite Bells", wallet_99k);
+            new_radio_entry("Go broke", wallet_0k);
+            new_radio_entry("Negative Bells", wallet_neg);
+        exit_spoiler();
     exit_spoiler();
     new_spoiler_with_note("Movement Codes", trans_note);
         new_entry_with_note("Walk Through Walls", cl_note, collisions);

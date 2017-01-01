@@ -109,6 +109,10 @@
 #define     bell99k2          					0x2D191422
 #define     bell0k1            					0x4A53C78C
 #define     bell0k2            					0xAA0B2075
+#define		bellBound1							0xDE41E371
+#define		bellBound2							0x2D191422
+#define		bellNeg1							0x789C71D3
+#define		bellNeg2							0x12077362
 
 enum
 {
@@ -185,6 +189,10 @@ void	walkOver(void);
 void	bank_999m(void);
 void	bank_1m(void);
 void	bank_0m(void);
+void    wallet_99k(void);
+void   wallet_0k(void);
+void    wallet_out(void);
+void    wallet_neg(void);
 
 
 #endif
