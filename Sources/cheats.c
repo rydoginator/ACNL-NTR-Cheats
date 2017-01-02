@@ -76,7 +76,16 @@ u32     g_nook1Price;
 u32     g_nook2Price;
 u32     g_room;
 u32     g_isabelle;
+u32     g_copper;
+u32     g_kappn;
+u32     g_kappnBoat;
+u32     g_grams;
+u32     g_leila;
+u32     g_leilani;
+u32     g_tortimer;
+u32     g_isabelleOut;
 u32     g_booker;
+u32     g_brewster;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -159,7 +168,16 @@ void    assign_region(u32 region)
     g_nook2Price = USA_NOOKLING2_PRICE_ADDR;
     g_room = USA_ROOM_ID_ADDR;
     g_isabelle = USA_ISABELLE_ADDR;
+    g_copper = USA_COPPER_ADDR;
+    g_kappn = USA_KAPPN_ADDR;
+    g_kappnBoat = USA_KAPPN_BOAT_ADDR;
+    g_grams = USA_GRAMS_ADDR;
+    g_leila = USA_LEILA_ADDR;
+    g_leilani = USA_LEILANI_ADDR;
+    g_tortimer = USA_TORTIMER_ADDR;
+    g_isabelleOut = USA_ISABELLE_OUT_ADDR;
     g_booker = USA_BOOKER_ADDR;
+    g_brewster = USA_BREWSTER_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -240,7 +258,16 @@ void    assign_region(u32 region)
             g_nook2Price -= EUR_DIFFERENCE;
             g_room = EUR_ROOM_ID_ADDR;
             g_isabelle -= EUR_DIFFERENCE;
+            g_copper -= EUR_DIFFERENCE;
+            g_kappn -= EUR_DIFFERENCE;
+            g_kappnBoat -= EUR_DIFFERENCE;
+            g_grams -= EUR_DIFFERENCE;
+            g_leila -= EUR_DIFFERENCE;
+            g_leilani -= EUR_DIFFERENCE;
+            g_tortimer -= EUR_DIFFERENCE;
+            g_isabelleOut -= EUR_DIFFERENCE;
             g_booker -= EUR_DIFFERENCE;
+            g_brewster -= EUR_DIFFERENCE;
             break;
         case JAP:
             g_location += JAP_DIFFERENCE;
@@ -315,7 +342,16 @@ void    assign_region(u32 region)
             g_nook2Price += JAP_DIFFERENCE;
             g_room = JAP_ROOM_ID_ADDR;
             g_isabelle += JAP_DIFFERENCE;
+            g_copper += JAP_DIFFERENCE;
+            g_kappn += JAP_DIFFERENCE;
+            g_kappnBoat += JAP_DIFFERENCE;
+            g_grams += JAP_DIFFERENCE;
+            g_leila += JAP_DIFFERENCE;
+            g_leilani += JAP_DIFFERENCE;
+            g_tortimer += JAP_DIFFERENCE;
+            g_isabelleOut += JAP_DIFFERENCE;
             g_booker += JAP_DIFFERENCE;
+            g_brewster += JAP_DIFFERENCE;
             break;
     }
 }
@@ -1525,23 +1561,46 @@ void    nookFree(void)
     WRITEU32(g_nook2Price, 0x00000000);
 }
 
-/*void    changeAnimal(u32 value)
-{
-    WRITEU32(0x330B667E, value);
-    WRITEU32(0x330D0E4E, value);
-    WRITEU32(0x330B77FE, value);
-    //WRITEU32(0x330BEF6A, value);
-}
-*/
 void    changeAnimal(u8 symbols[])
 {
     u8 roomID;
 
     roomID = READU8(g_room);
     if (roomID == 0x63)
-        memcpy((void *)(g_isabelle), symbols, 3); //Isabelle Greeting
+    {
+        memcpy((void *)(g_isabelle), symbols, 3); 
+    }
     if (roomID == 0x02)
-        memcpy((void *)(g_booker), symbols, 3); //Booker trainstationz
+    {
+        memcpy((void *)(g_copper), symbols, 3);
+    }
+    if (roomID == 0x6D)
+    {
+        memcpy((void *)(g_tortimer), symbols, 3);
+    }
+    if (roomID == 0x00)
+    {
+        memcpy((void *)(g_kappn), symbols, 3);
+        memcpy((void *)(g_isabelleOut), symbols, 3);
+    }
+    if (roomID == 0x67)
+    {
+        memcpy((void *)(g_grams), symbols, 3);
+        memcpy((void *)(g_leila), symbols, 3);
+        memcpy((void *)(g_leilani), symbols, 3);
+    }
+    if (roomID == 0x65)
+    {
+        memcpy((void *)(g_kappnBoat), symbols, 3);
+    }
+    if (roomID == 0x31)
+    {
+        memcpy((void *)(g_brewster), symbols, 3);
+    }
+    if (roomID == 0x32)
+    {
+        memcpy((void *)(g_booker), symbols, 3);
+    }
 }
 
 void   changeBrewster(void)
