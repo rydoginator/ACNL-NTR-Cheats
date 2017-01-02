@@ -74,6 +74,9 @@ u32     g_online6_wallet;
 u32     g_confirm;
 u32     g_nook1Price;
 u32     g_nook2Price;
+u32     g_room;
+u32     g_isabelle;
+u32     g_booker;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -154,6 +157,9 @@ void    assign_region(u32 region)
     g_confirm = USA_CONFIRM_BOOL_ADDR;
     g_nook1Price = USA_NOOKLING1_PRICE_ADDR;
     g_nook2Price = USA_NOOKLING2_PRICE_ADDR;
+    g_room = USA_ROOM_ID_ADDR;
+    g_isabelle = USA_ISABELLE_ADDR;
+    g_booker = USA_BOOKER_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -232,6 +238,9 @@ void    assign_region(u32 region)
             g_online6_wallet -= 0x1000;
             g_nook1Price -= EUR_DIFFERENCE;
             g_nook2Price -= EUR_DIFFERENCE;
+            g_room = EUR_ROOM_ID_ADDR;
+            g_isabelle -= EUR_DIFFERENCE;
+            g_booker -= EUR_DIFFERENCE;
             break;
         case JAP:
             g_location += JAP_DIFFERENCE;
@@ -304,6 +313,9 @@ void    assign_region(u32 region)
             g_online6_wallet += 0x7000;
             g_nook1Price += JAP_DIFFERENCE;
             g_nook2Price += JAP_DIFFERENCE;
+            g_room = JAP_ROOM_ID_ADDR;
+            g_isabelle += JAP_DIFFERENCE;
+            g_booker += JAP_DIFFERENCE;
             break;
     }
 }
@@ -1525,11 +1537,11 @@ void    changeAnimal(u8 symbols[])
 {
     u8 roomID;
 
-    roomID = READU8(0x94F4C5);
+    roomID = READU8(g_room);
     if (roomID == 0x63)
-        memcpy((void *)(0x330B667E), symbols, 3); //Isabelle Greeting
+        memcpy((void *)(g_isabelle), symbols, 3); //Isabelle Greeting
     if (roomID == 0x02)
-        memcpy((void *)(0x330D0E4E), symbols, 3); //Booker trainstationz
+        memcpy((void *)(g_booker), symbols, 3); //Booker trainstationz
 }
 
 void   changeBrewster(void)
