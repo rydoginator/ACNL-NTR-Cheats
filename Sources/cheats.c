@@ -1583,12 +1583,12 @@ void    changeAnimal(u8 symbols[])
         memcpy((void *)(g_kappn), symbols, 3);
         memcpy((void *)(g_isabelleOut), symbols, 3);
     }
-    if (roomID == 0x67)
+    /*if (roomID == 0x67)
     {
         memcpy((void *)(g_grams), symbols, 3);
         memcpy((void *)(g_leila), symbols, 3);
         memcpy((void *)(g_leilani), symbols, 3);
-    }
+    }*/
     if (roomID == 0x65)
     {
         memcpy((void *)(g_kappnBoat), symbols, 3);
