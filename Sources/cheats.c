@@ -1523,8 +1523,13 @@ void    nookFree(void)
 */
 void    changeAnimal(u8 symbols[])
 {
-    memcpy((void *)(0x330B667E), symbols, 3); //Isabelle Greeting
-    memcpy((void *)(0x330D0E4E), symbols, 3); //Booker trainstationz
+    u8 roomID;
+
+    roomID = READU8(0x94F4C5);
+    if (roomID == 0x63)
+        memcpy((void *)(0x330B667E), symbols, 3); //Isabelle Greeting
+    if (roomID == 0x02)
+        memcpy((void *)(0x330D0E4E), symbols, 3); //Booker trainstationz
 }
 
 void   changeBrewster(void)
