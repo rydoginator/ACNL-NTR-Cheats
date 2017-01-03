@@ -86,6 +86,7 @@ u32     g_tortimer;
 u32     g_isabelleOut;
 u32     g_booker;
 u32     g_brewster;
+u32     g_npc;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -178,6 +179,7 @@ void    assign_region(u32 region)
     g_isabelleOut = USA_ISABELLE_OUT_ADDR;
     g_booker = USA_BOOKER_ADDR;
     g_brewster = USA_BREWSTER_ADDR;
+    g_npc = USA_NPC_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -268,6 +270,7 @@ void    assign_region(u32 region)
             g_isabelleOut -= EUR_DIFFERENCE;
             g_booker -= EUR_DIFFERENCE;
             g_brewster -= EUR_DIFFERENCE;
+            g_npc = EUR_NPC_ADDR;
             break;
         case JAP:
             g_location += JAP_DIFFERENCE;
@@ -352,6 +355,7 @@ void    assign_region(u32 region)
             g_isabelleOut += JAP_DIFFERENCE;
             g_booker += JAP_DIFFERENCE;
             g_brewster += JAP_DIFFERENCE;
+            g_npc = JAP_NPC_ADDR;
             break;
     }
 }

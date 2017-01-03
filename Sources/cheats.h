@@ -105,6 +105,10 @@
 #define		EUR_ROOM_ID_ADDR					0x94E4C5
 #define		JAP_ROOM_ID_ADDR					0x9484C5
 
+#define		USA_NPC_ADDR 						0x204ACE
+#define		EUR_NPC_ADDR						0x204AEE
+#define		JAP_NPC_ADDR						0x204A0E
+
 #define		USA_ISABELLE_ADDR					0x330B667E
 #define		USA_COPPER_ADDR						0x330D0E4E
 #define		USA_KAPPN_ADDR						0x330B77FE
