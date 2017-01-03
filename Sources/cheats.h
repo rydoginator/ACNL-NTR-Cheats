@@ -226,6 +226,7 @@ void	canBuy(void);
 void	nookFree(void);
 void	changeNook(void);
 void	changeBrewster(void);
+void 	changeOwl(void);
 
 
 #endif
