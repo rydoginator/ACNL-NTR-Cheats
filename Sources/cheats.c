@@ -1561,6 +1561,46 @@ void    nookFree(void)
     WRITEU32(g_nook2Price, 0x00000000);
 }
 
+/*void    changeAnimal(u8 symbols[])
+{
+    u8 roomID;
+    roomID = READU8 (g_room);
+
+    /*if (roomID == 0x00)
+    {
+        svcSleepThread(207000000);
+        memcpy((void *)(0x204ACE), symbols, 9);
+    }
+    else
+    {*/
+    //svcSleepThread(206637436);
+    //memcpy((void *)(0x204ACE), symbols, 9);
+
+    //}
+/*}
+
+void   changeBrewster(void)
+{
+    //0x9513CD is_loading boolean?
+    static u8 symbols[] = {0x6F, 0x77, 0x6C, 0x2E, 0x62, 0x63, 0x72, 0x65, 0x73};
+    static u8 original[] = {0x25, 0x73, 0x2E, 0x62, 0x63, 0x72, 0x65, 0x73, 0x00};
+    if (is_pressed(BUTTON_L))
+    {
+        changeAnimal(symbols);
+    }
+    else
+    {
+        changeAnimal(original);
+    }
+}
+
+void changeNook(void)
+{
+    static u8 symbols[] = {0x72, 0x63, 0x69};
+    changeAnimal(symbols);
+}
+*/
+
 void    changeAnimal(u8 symbols[])
 {
     u8 roomID;
@@ -1583,12 +1623,12 @@ void    changeAnimal(u8 symbols[])
         memcpy((void *)(g_kappn), symbols, 3);
         memcpy((void *)(g_isabelleOut), symbols, 3);
     }
-    /*if (roomID == 0x67)
+    if (roomID == 0x67)
     {
-        memcpy((void *)(g_grams), symbols, 3);
+        //memcpy((void *)(g_grams), symbols, 3);
         memcpy((void *)(g_leila), symbols, 3);
-        memcpy((void *)(g_leilani), symbols, 3);
-    }*/
+        //memcpy((void *)(g_leilani), symbols, 3);
+    }
     if (roomID == 0x65)
     {
         memcpy((void *)(g_kappnBoat), symbols, 3);
