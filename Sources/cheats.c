@@ -1537,7 +1537,7 @@ void    changeAnimal(u8 symbols[], u8 name[])
 
     if (roomID == 0x63)
     {
-        memcpy((void *)(0x204ACE), original, 9);
+        memcpy((void *)(g_npc), original, 9);
         memcpy((void *)(g_isabelle), name, 3); 
     }
     else if (roomID == 0x00)
@@ -1546,7 +1546,7 @@ void    changeAnimal(u8 symbols[], u8 name[])
     }
     else
     {
-        memcpy((void *)(0x204ACE), symbols, 9);        
+        memcpy((void *)(g_npc), symbols, 9);        
     }
 }
 
