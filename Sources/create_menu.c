@@ -153,17 +153,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly U");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 2 U");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly E"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 2 E"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 2 J"); 
     }
     else
     {
