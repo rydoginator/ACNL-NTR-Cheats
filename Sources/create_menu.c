@@ -132,7 +132,7 @@ static inline void  smenu(void)
     exit_spoiler();
     new_spoiler("Misc. Codes");
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
-        new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
+        //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
     exit_spoiler();
 
@@ -153,17 +153,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 2 U");
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly U");
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 2 E"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly E"); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 2 J"); 
+        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J"); 
     }
     else
     {

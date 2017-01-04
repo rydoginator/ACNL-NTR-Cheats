@@ -44,7 +44,6 @@
 #define     USA_REALTIME_ADDR                   0x95D508 //955500, 95c500
 #define     USA_WORLD_X_ADDR                    0x33077838
 #define     USA_WORLD_Y_ADDR                    0x3307783C
-#define	    USA_COLLISIONS_ADDR                 0x33077534
 #define     USA_INPUT_TEXT_ADDR                 0x32CB0F60
 #define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
 #define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
@@ -69,6 +68,16 @@
 #define		USA_ABD_REAL_ADDR					0x32DD1EF8 //this one is the real decimal offset,
 #define		USA_ABD_OFFLINE_ADDR				0x32DC5520
 #define		USA_WALKOVER_ADDR					0x33077533
+
+#define		USA_CONDITIONAL_ADDR				0x33077524
+#define		USA_CONDITIONAL0_ADDR				0x33077650
+#define		USA_COLLISION_OUTDOOR_ADDR			0x33077537
+#define		USA_COLLISION0_OUTDOOR_ADDR			0x33077534
+#define 	USA_COLLISION1_OUTDOOR_ADDR			0x33077530
+
+#define		USA_GRAVITY_ADDR					0x33077660
+#define		USA_GRAVITY0_ADDR					0x33077663
+
 #define		USA_KEYBOARD_POINTER				0x95F110
 #define     USA_BANK_ADDR                       0x31F2DBAC
 #define     USA_ONLINE0_BANK_ADDR               0xAAB09C
@@ -222,6 +231,7 @@ void	nookFree(void);
 void	changeNook(void);
 void	changeBrewster(void);
 void 	changeOwl(void);
+
 
 
 #endif
