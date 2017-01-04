@@ -26,7 +26,6 @@ u32     g_realtime;
 u32     g_savetime;
 u32     g_world_x;
 u32     g_world_y;
-u32     g_collisions;
 u32     g_input_text_buffer;
 u32     g_hours;
 u32     g_minutes;
@@ -79,6 +78,14 @@ u32     g_isabelle;
 u32     g_kappn;
 u32     g_npc;
 u32		g_badge;
+u32     g_collision;
+u32     g_cond;
+u32     g_cond0;
+u32     g_col0;
+u32     g_col1;
+u32     g_grav;
+u32     g_grav0;
+
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -112,7 +119,6 @@ void    assign_region(u32 region)
     g_realtime = USA_REALTIME_ADDR;
     g_world_x = USA_WORLD_X_ADDR;
     g_world_y = USA_WORLD_Y_ADDR;
-    g_collisions = USA_COLLISIONS_ADDR;
     g_hours = USA_HOURS_ADDR;
     g_minutes = USA_MINUTES_ADDR;
     g_visitor_outdoor_x = USA_VISITOR_OUTDOOR_X_ADDR;
@@ -165,6 +171,14 @@ void    assign_region(u32 region)
     g_npc = USA_NPC_ADDR;
 	g_badge = USA_BADGE_ADDR;
 
+    g_collision = USA_COLLISION_OUTDOOR_ADDR;
+    g_cond = USA_CONDITIONAL_ADDR;
+    g_cond0 = USA_CONDITIONAL0_ADDR;
+    g_col0 = USA_COLLISION0_OUTDOOR_ADDR;
+    g_col1 = USA_COLLISION1_OUTDOOR_ADDR;
+    g_grav = USA_GRAVITY_ADDR;
+    g_grav0 = USA_GRAVITY0_ADDR;
+
     // applying offset or particular address
     switch (region)
     {
@@ -193,7 +207,7 @@ void    assign_region(u32 region)
             g_savetime -= EUR_DIFFERENCE;
             g_world_x -= EUR_DIFFERENCE;
             g_world_y -= EUR_DIFFERENCE;
-            g_collisions -= EUR_DIFFERENCE;
+            g_collision -= EUR_DIFFERENCE;
             g_hours = 0x9505B7;
             g_minutes = 0x9505B6;
             g_realtime = 0x95c500;
@@ -247,6 +261,15 @@ void    assign_region(u32 region)
             g_kappn -= EUR_DIFFERENCE;
             g_npc = EUR_NPC_ADDR;
 			g_badge -= EUR_DIFFERENCE;
+
+            g_collision -= EUR_DIFFERENCE;
+            g_cond -= EUR_DIFFERENCE;
+            g_cond0 -= EUR_DIFFERENCE;
+            g_col0 -= EUR_DIFFERENCE;
+            g_col1 -= EUR_DIFFERENCE;
+            g_grav -= EUR_DIFFERENCE;
+            g_grav0 -= EUR_DIFFERENCE;
+
             break;
         case JAP:
             g_location += JAP_DIFFERENCE;
@@ -273,7 +296,7 @@ void    assign_region(u32 region)
             g_hours = 0x9495B7;
             g_minutes = 0x9495B6;
             g_realtime = 0x956500;
-            g_collisions += JAP_DIFFERENCE;
+            g_collision += JAP_DIFFERENCE;
             g_seed = 0x9AD248;
             g_player = 0xAA7990;
             g_visitor_indoor_x += JAP_DIFFERENCE;
@@ -324,6 +347,13 @@ void    assign_region(u32 region)
             g_kappn += JAP_DIFFERENCE;
             g_npc = JAP_NPC_ADDR;
 			g_badge += JAP_DIFFERENCE;
+            g_collision += JAP_DIFFERENCE;
+            g_cond += JAP_DIFFERENCE;
+            g_cond0 += JAP_DIFFERENCE;
+            g_col0 += JAP_DIFFERENCE;
+            g_col1 += JAP_DIFFERENCE;
+            g_grav += JAP_DIFFERENCE;
+            g_grav0 += JAP_DIFFERENCE;
             break;
     }
 }
@@ -1123,17 +1153,6 @@ void    real(void)
     }
 }
 
-void    collisions(void)
-{
-    if (is_pressed(BUTTON_L + BUTTON_DU))
-    {
-        WRITEU8(g_collisions, 0x01);
-    }
-    if (is_pressed(BUTTON_L + BUTTON_DD))
-    {
-        WRITEU8(g_collisions, 0x00);
-    }
-}
 
 void    dynamicMod(void)
 {
@@ -1546,6 +1565,7 @@ void    changeAnimal(u8 symbols[], u8 name[])
     }
     else if (roomID == 0x00)
     {
+        memcpy((void *)(g_npc), original, 9);
         memcpy((void *)(g_kappn), name, 3);
     }
     else
@@ -1575,6 +1595,7 @@ void changeBrewster(void)
     static u8 symbols[] = {0x70, 0x67, 0x65, 0x2e, 0x62, 0x63, 0x72, 0x65, 0x73};
     changeAnimal(symbols, name);
 }
+
 
 void    all_badges(u8 bdge)
 {
@@ -1614,4 +1635,49 @@ void    badge_bronze(void)
 void    badge_none(void)
 {
 	all_badges(0x0);
+}
+void collisions(void)
+{
+    if (is_pressed(BUTTON_L + BUTTON_DU))
+    {
+        if (READU16(g_cond) == 0x7FFE)
+        {
+            WRITEU16(g_collision, 0x00FF);
+            WRITEU8(g_col0, 0x01);
+            WRITEU16(g_col1, 0x003F);
+        }
+        else if (READU16(g_cond0) == 0x7FFE)
+        {
+            WRITEU8(g_grav, 0x00);
+            WRITEU16(g_grav0, 0x00FF);
+        }
+    }
+    if (is_pressed(BUTTON_R))
+    {
+        if (READU16(g_cond) == 0x7FFE)
+        {
+            WRITEU8(g_col0, 0x00);
+            WRITEU16(g_collision, 0xFFFF);           
+        }
+        else if (READU16(g_cond0) == 0x7FFE)
+        {
+            WRITEU8(g_grav, 0x00);
+            WRITEU16(g_grav0, 0xFFFF);
+        }
+
+    }
+    if (is_pressed(BUTTON_L + BUTTON_DD))
+    {
+        if (READU16(g_cond) == 0x7FFE)
+        {
+            WRITEU16(g_collision, 0x00FA);
+            WRITEU8(g_col0, 0x01);
+            WRITEU16(g_col1, 0x0036);
+        }
+        else if (READU16(g_cond0) == 0x7FFE)
+        {
+            WRITEU16(g_grav, 0x0000);
+            WRITEU16(g_grav0, 0x00FA);
+        }
+    }
 }
