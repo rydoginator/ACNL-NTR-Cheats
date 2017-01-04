@@ -135,6 +135,12 @@ static inline void  smenu(void)
         //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
     exit_spoiler();
+	new_spoiler("Badge Codes");
+		new_radio_entry("All Gold", badge_gold);
+		new_radio_entry("All Silver", badge_silver);
+		new_radio_entry("All Bronze", badge_bronze);
+		new_radio_entry("No Badges", badge_none);
+	exit_spoiler();
 
 }
 
