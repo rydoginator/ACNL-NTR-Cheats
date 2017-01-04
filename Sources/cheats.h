@@ -112,6 +112,8 @@
 #define		USA_ISABELLE_ADDR					0x330B667E
 #define		USA_KAPPN_ADDR						0x330B77FE
 
+#define		USA_BADGE_ADDR						0x31F2C6BC
+
 
 /*
 ** Values
@@ -222,6 +224,10 @@ void	nookFree(void);
 void	changeNook(void);
 void	changeBrewster(void);
 void 	changeOwl(void);
+void    badge_gold(void);
+void    badge_silver(void);
+void    badge_bronze(void);
+void    badge_none(void);
 
 
 #endif

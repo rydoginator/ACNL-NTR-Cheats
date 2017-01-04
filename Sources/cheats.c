@@ -78,6 +78,7 @@ u32     g_room;
 u32     g_isabelle;
 u32     g_kappn;
 u32     g_npc;
+u32		g_badge;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -162,6 +163,7 @@ void    assign_region(u32 region)
     g_isabelle = USA_ISABELLE_ADDR;
     g_kappn = USA_KAPPN_ADDR;
     g_npc = USA_NPC_ADDR;
+	g_badge = USA_BADGE_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -244,6 +246,7 @@ void    assign_region(u32 region)
             g_isabelle -= EUR_DIFFERENCE;
             g_kappn -= EUR_DIFFERENCE;
             g_npc = EUR_NPC_ADDR;
+			g_badge -= EUR_DIFFERENCE;
             break;
         case JAP:
             g_location += JAP_DIFFERENCE;
@@ -320,6 +323,7 @@ void    assign_region(u32 region)
             g_isabelle += JAP_DIFFERENCE;
             g_kappn += JAP_DIFFERENCE;
             g_npc = JAP_NPC_ADDR;
+			g_badge += JAP_DIFFERENCE;
             break;
     }
 }
@@ -1535,15 +1539,13 @@ void    changeAnimal(u8 symbols[], u8 name[])
     u8 roomID;
     roomID = READU8(g_room);
 
-        //if (READU8(0x32237970) == 0x01)
     if (roomID == 0x63)
     {
         memcpy((void *)(g_npc), original, 9);
-        memcpy((void *)(g_isabelle), name, 3);
+        memcpy((void *)(g_isabelle), name, 3); 
     }
     else if (roomID == 0x00)
     {
-        memcpy((void *)(g_npc), original, 9);
         memcpy((void *)(g_kappn), name, 3);
     }
     else
@@ -1572,4 +1574,44 @@ void changeBrewster(void)
     static u8 name[] = {0x70, 0x67, 0x65};
     static u8 symbols[] = {0x70, 0x67, 0x65, 0x2e, 0x62, 0x63, 0x72, 0x65, 0x73};
     changeAnimal(symbols, name);
+}
+
+void    all_badges(u8 bdge)
+{
+    u32     offset;
+    u8      player;
+	int		i;
+
+	if(is_pressed(BUTTON_Y))
+	{
+        player = READU8(g_player);
+        if (player <= 0x3)
+        {
+            offset = player * 0xA480;
+			for (i = 0; i < 24; i++)
+            {
+                WRITEU8(g_badge + offset + (0x1 * i), bdge);
+            }
+        }
+    }
+}
+
+void    badge_gold(void)
+{
+	all_badges(0x3);
+}
+
+void    badge_silver(void)
+{
+	all_badges(0x2);
+}
+
+void    badge_bronze(void)
+{
+	all_badges(0x1);
+}
+
+void    badge_none(void)
+{
+	all_badges(0x0);
 }
