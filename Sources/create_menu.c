@@ -171,6 +171,11 @@ void    my_menus(void)
         assign_region(JAP);
         new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J"); 
     }
+    else if (tid == 0x198E0)
+    {
+        assign_region(USA);
+        new_unselectable_entry("ACNLWA NTR Cheats Ver 3.2 Nightly U");
+    }
     else
     {
         new_unselectable_entry("Unsupported ID");
