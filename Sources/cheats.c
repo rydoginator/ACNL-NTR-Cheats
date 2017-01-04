@@ -1535,13 +1535,15 @@ void    changeAnimal(u8 symbols[], u8 name[])
     u8 roomID;
     roomID = READU8(g_room);
 
+        //if (READU8(0x32237970) == 0x01)
     if (roomID == 0x63)
     {
         memcpy((void *)(g_npc), original, 9);
-        memcpy((void *)(g_isabelle), name, 3); 
+        memcpy((void *)(g_isabelle), name, 3);
     }
     else if (roomID == 0x00)
     {
+        memcpy((void *)(g_npc), original, 9);
         memcpy((void *)(g_kappn), name, 3);
     }
     else
