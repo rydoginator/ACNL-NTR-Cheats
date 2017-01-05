@@ -1694,8 +1694,8 @@ void    turnip_990(void)
 	{
 		for (i = 0; i < 12; i++)
 		{
-		WRITEU32(g_turnip + (0x8 * i), 0x848F1963);
-		WRITEU32(g_turnip + 0x4 + (0x8 * i), 0x4914EB74);
+		WRITEU32(g_turnip + (0x8 * i), bell990_1);
+		WRITEU32(g_turnip + 0x4 + (0x8 * i), bell990_2);
 		}
     }
 }
