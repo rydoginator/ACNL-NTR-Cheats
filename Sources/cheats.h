@@ -122,6 +122,7 @@
 #define		USA_KAPPN_ADDR						0x330B77FE
 
 #define		USA_BADGE_ADDR						0x31F2C6BC
+#define		USA_TURNIP_ADDR						0x31F41660
 
 
 /*
@@ -140,6 +141,8 @@
 #define     bell1M2    					        0x890D2C5C
 #define     bell99k1          					0x71E341DE
 #define     bell99k2          					0x2D191422
+#define		bell990_1							0x848F1963
+#define		bell990_2							0x4914EB74
 #define     bell0k1            					0x4A53C78C
 #define     bell0k2            					0xAA0B2075
 #define		bellBound1							0xDE41E371
@@ -237,6 +240,7 @@ void    badge_gold(void);
 void    badge_silver(void);
 void    badge_bronze(void);
 void    badge_none(void);
+void	turnip_990(void);
 
 
 

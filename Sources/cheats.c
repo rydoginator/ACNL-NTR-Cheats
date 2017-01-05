@@ -85,6 +85,7 @@ u32     g_col0;
 u32     g_col1;
 u32     g_grav;
 u32     g_grav0;
+u32		g_turnip;
 
 
 u32     g_find[100];
@@ -178,6 +179,7 @@ void    assign_region(u32 region)
     g_col1 = USA_COLLISION1_OUTDOOR_ADDR;
     g_grav = USA_GRAVITY_ADDR;
     g_grav0 = USA_GRAVITY0_ADDR;
+	g_turnip = USA_TURNIP_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -269,6 +271,7 @@ void    assign_region(u32 region)
             g_col1 -= EUR_DIFFERENCE;
             g_grav -= EUR_DIFFERENCE;
             g_grav0 -= EUR_DIFFERENCE;
+			g_turnip -= EUR_DIFFERENCE;
 
             break;
         case JAP:
@@ -354,6 +357,7 @@ void    assign_region(u32 region)
             g_col1 += JAP_DIFFERENCE;
             g_grav += JAP_DIFFERENCE;
             g_grav0 += JAP_DIFFERENCE;
+			g_turnip += JAP_DIFFERENCE;
             break;
     }
 }
@@ -1679,5 +1683,19 @@ void collisions(void)
             WRITEU16(g_grav, 0x0000);
             WRITEU16(g_grav0, 0x00FA);
         }
+    }
+}
+
+void    turnip_990(void)
+{
+	int		i;
+
+	if(is_pressed(BUTTON_Y))
+	{
+		for (i = 0; i < 12; i++)
+		{
+		WRITEU32(g_turnip + (0x8 * i), 0x848F1963);
+		WRITEU32(g_turnip + 0x4 + (0x8 * i), 0x4914EB74);
+		}
     }
 }
