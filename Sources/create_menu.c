@@ -134,6 +134,7 @@ static inline void  smenu(void)
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
         //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
+<<<<<<< HEAD
         new_entry("Turnip Price is 990", turnip_990);
         new_spoiler("Badge Codes");
             new_radio_entry("All Gold", badge_gold);
@@ -141,6 +142,15 @@ static inline void  smenu(void)
             new_radio_entry("All Bronze", badge_bronze);
             new_radio_entry("No Badges", badge_none);
         exit_spoiler();
+=======
+		new_entry("Turnip Price is 990", turnip_990);
+		new_spoiler("Badge Codes");
+			new_radio_entry("All Gold", badge_gold);
+			new_radio_entry("All Silver", badge_silver);
+			new_radio_entry("All Bronze", badge_bronze);
+			new_radio_entry("No Badges", badge_none);
+		exit_spoiler();
+>>>>>>> origin/master
     exit_spoiler();
 
 

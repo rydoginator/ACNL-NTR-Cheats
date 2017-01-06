@@ -85,7 +85,11 @@ u32     g_col0;
 u32     g_col1;
 u32     g_grav;
 u32     g_grav0;
+<<<<<<< HEAD
 u32     g_turnip;
+=======
+u32		g_turnip;
+>>>>>>> origin/master
 
 
 u32     g_find[100];
@@ -179,7 +183,11 @@ void    assign_region(u32 region)
     g_col1 = USA_COLLISION1_OUTDOOR_ADDR;
     g_grav = USA_GRAVITY_ADDR;
     g_grav0 = USA_GRAVITY0_ADDR;
+<<<<<<< HEAD
     g_turnip = USA_TURNIP_ADDR;
+=======
+	g_turnip = USA_TURNIP_ADDR;
+>>>>>>> origin/master
 
     // applying offset or particular address
     switch (region)
@@ -271,7 +279,11 @@ void    assign_region(u32 region)
             g_col1 -= EUR_DIFFERENCE;
             g_grav -= EUR_DIFFERENCE;
             g_grav0 -= EUR_DIFFERENCE;
+<<<<<<< HEAD
             g_turnip -= EUR_DIFFERENCE;
+=======
+			g_turnip -= EUR_DIFFERENCE;
+>>>>>>> origin/master
 
             break;
         case JAP:
@@ -357,7 +369,11 @@ void    assign_region(u32 region)
             g_col1 += JAP_DIFFERENCE;
             g_grav += JAP_DIFFERENCE;
             g_grav0 += JAP_DIFFERENCE;
+<<<<<<< HEAD
             g_turnip += JAP_DIFFERENCE;
+=======
+			g_turnip += JAP_DIFFERENCE;
+>>>>>>> origin/master
             break;
     }
 }
@@ -1688,6 +1704,7 @@ void collisions(void)
 
 void    turnip_all(u32 enc1, u32 enc2)
 {
+<<<<<<< HEAD
     int     i;
 
     if(is_pressed(BUTTON_Y))
@@ -1703,4 +1720,21 @@ void    turnip_all(u32 enc1, u32 enc2)
 void    turnip_990(void)
 {
     turnip_all(bell990_1, bell990_2);
+=======
+	int		i;
+
+	if(is_pressed(BUTTON_Y))
+	{
+		for (i = 0; i < 12; i++)
+		{
+		WRITEU32(g_turnip + (0x8 * i), enc1);
+		WRITEU32(g_turnip + 0x4 + (0x8 * i), enc2);
+		}
+    }
+}
+
+void	turnip_990(void)
+{
+	turnip_all(bell990_1, bell990_2);
+>>>>>>> origin/master
 }
