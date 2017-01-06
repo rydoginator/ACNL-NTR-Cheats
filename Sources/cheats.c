@@ -1703,3 +1703,4 @@ void    turnip_all(u32 enc1, u32 enc2)
 void	turnip_990(void)
 {
 	turnip_all(bell990_1, bell990_2);
+}
