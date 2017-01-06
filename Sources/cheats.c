@@ -1695,7 +1695,7 @@ void    turnip_all(u32 enc1, u32 enc2)
 		for (i = 0; i < 12; i++)
 		{
 		WRITEU32(g_turnip + (0x8 * i), enc1);
-		WRITEU32(g_turnip + 0x4 + (0x8 * i), enc1);
+		WRITEU32(g_turnip + 0x4 + (0x8 * i), enc2);
 		}
     }
 }
