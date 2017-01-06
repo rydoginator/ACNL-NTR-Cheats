@@ -134,13 +134,15 @@ static inline void  smenu(void)
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
         //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
+        new_entry("Turnip Price is 990", turnip_990);
+        new_spoiler("Badge Codes");
+            new_radio_entry("All Gold", badge_gold);
+            new_radio_entry("All Silver", badge_silver);
+            new_radio_entry("All Bronze", badge_bronze);
+            new_radio_entry("No Badges", badge_none);
+        exit_spoiler();
     exit_spoiler();
-	new_spoiler("Badge Codes");
-		new_radio_entry("All Gold", badge_gold);
-		new_radio_entry("All Silver", badge_silver);
-		new_radio_entry("All Bronze", badge_bronze);
-		new_radio_entry("No Badges", badge_none);
-	exit_spoiler();
+
 
 }
 
@@ -171,7 +173,7 @@ void    my_menus(void)
         assign_region(JAP);
         new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J"); 
     }
-    else if (tid == 0x198E0)
+    else if (tid == 0x198E00)
     {
         assign_region(USA);
         new_unselectable_entry("ACNLWA NTR Cheats Ver 3.2 Nightly U");

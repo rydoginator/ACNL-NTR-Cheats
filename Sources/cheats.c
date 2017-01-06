@@ -77,7 +77,7 @@ u32     g_room;
 u32     g_isabelle;
 u32     g_kappn;
 u32     g_npc;
-u32		g_badge;
+u32     g_badge;
 u32     g_collision;
 u32     g_cond;
 u32     g_cond0;
@@ -85,6 +85,7 @@ u32     g_col0;
 u32     g_col1;
 u32     g_grav;
 u32     g_grav0;
+u32     g_turnip;
 
 
 u32     g_find[100];
@@ -169,7 +170,7 @@ void    assign_region(u32 region)
     g_isabelle = USA_ISABELLE_ADDR;
     g_kappn = USA_KAPPN_ADDR;
     g_npc = USA_NPC_ADDR;
-	g_badge = USA_BADGE_ADDR;
+    g_badge = USA_BADGE_ADDR;
 
     g_collision = USA_COLLISION_OUTDOOR_ADDR;
     g_cond = USA_CONDITIONAL_ADDR;
@@ -178,6 +179,7 @@ void    assign_region(u32 region)
     g_col1 = USA_COLLISION1_OUTDOOR_ADDR;
     g_grav = USA_GRAVITY_ADDR;
     g_grav0 = USA_GRAVITY0_ADDR;
+    g_turnip = USA_TURNIP_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -260,7 +262,7 @@ void    assign_region(u32 region)
             g_isabelle -= EUR_DIFFERENCE;
             g_kappn -= EUR_DIFFERENCE;
             g_npc = EUR_NPC_ADDR;
-			g_badge -= EUR_DIFFERENCE;
+            g_badge -= EUR_DIFFERENCE;
 
             g_collision -= EUR_DIFFERENCE;
             g_cond -= EUR_DIFFERENCE;
@@ -269,6 +271,7 @@ void    assign_region(u32 region)
             g_col1 -= EUR_DIFFERENCE;
             g_grav -= EUR_DIFFERENCE;
             g_grav0 -= EUR_DIFFERENCE;
+            g_turnip -= EUR_DIFFERENCE;
 
             break;
         case JAP:
@@ -346,7 +349,7 @@ void    assign_region(u32 region)
             g_isabelle += JAP_DIFFERENCE;
             g_kappn += JAP_DIFFERENCE;
             g_npc = JAP_NPC_ADDR;
-			g_badge += JAP_DIFFERENCE;
+            g_badge += JAP_DIFFERENCE;
             g_collision += JAP_DIFFERENCE;
             g_cond += JAP_DIFFERENCE;
             g_cond0 += JAP_DIFFERENCE;
@@ -354,6 +357,7 @@ void    assign_region(u32 region)
             g_col1 += JAP_DIFFERENCE;
             g_grav += JAP_DIFFERENCE;
             g_grav0 += JAP_DIFFERENCE;
+            g_turnip += JAP_DIFFERENCE;
             break;
     }
 }
@@ -1601,15 +1605,15 @@ void    all_badges(u8 bdge)
 {
     u32     offset;
     u8      player;
-	int		i;
+    int     i;
 
-	if(is_pressed(BUTTON_Y))
-	{
+    if(is_pressed(BUTTON_Y))
+    {
         player = READU8(g_player);
         if (player <= 0x3)
         {
             offset = player * 0xA480;
-			for (i = 0; i < 24; i++)
+            for (i = 0; i < 24; i++)
             {
                 WRITEU8(g_badge + offset + (0x1 * i), bdge);
             }
@@ -1619,22 +1623,22 @@ void    all_badges(u8 bdge)
 
 void    badge_gold(void)
 {
-	all_badges(0x3);
+    all_badges(0x3);
 }
 
 void    badge_silver(void)
 {
-	all_badges(0x2);
+    all_badges(0x2);
 }
 
 void    badge_bronze(void)
 {
-	all_badges(0x1);
+    all_badges(0x1);
 }
 
 void    badge_none(void)
 {
-	all_badges(0x0);
+    all_badges(0x0);
 }
 void collisions(void)
 {
@@ -1680,4 +1684,23 @@ void collisions(void)
             WRITEU16(g_grav0, 0x00FA);
         }
     }
+}
+
+void    turnip_all(u32 enc1, u32 enc2)
+{
+    int     i;
+
+    if(is_pressed(BUTTON_Y))
+    {
+        for (i = 0; i < 12; i++)
+        {
+        WRITEU32(g_turnip + (0x8 * i), enc1);
+        WRITEU32(g_turnip + 0x4 + (0x8 * i), enc2);
+        }
+    }
+}
+
+void    turnip_990(void)
+{
+    turnip_all(bell990_1, bell990_2);
 }
