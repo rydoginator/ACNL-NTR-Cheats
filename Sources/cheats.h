@@ -122,7 +122,7 @@
 #define		USA_KAPPN_ADDR						0x330B77FE
 
 #define		USA_BADGE_ADDR						0x31F2C6BC
-#define		USA_TURNIP_ADDR						0x31F41660
+#define		USA_TURNIP_ADDR						0x31F91D60
 
 
 /*

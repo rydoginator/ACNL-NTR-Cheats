@@ -1686,7 +1686,7 @@ void collisions(void)
     }
 }
 
-void    turnip_990(void)
+void    turnip_all(u32 enc1, u32 enc2)
 {
 	int		i;
 
@@ -1694,8 +1694,12 @@ void    turnip_990(void)
 	{
 		for (i = 0; i < 12; i++)
 		{
-		WRITEU32(g_turnip + (0x8 * i), bell990_1);
-		WRITEU32(g_turnip + 0x4 + (0x8 * i), bell990_2);
+		WRITEU32(g_turnip + (0x8 * i), enc1);
+		WRITEU32(g_turnip + 0x4 + (0x8 * i), enc1);
 		}
     }
 }
+
+void	turnip_990(void)
+{
+	turnip_all(bell990_1, bell990_2);
