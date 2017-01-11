@@ -1704,3 +1704,7 @@ void    turnip_990(void)
 {
     turnip_all(bell990_1, bell990_2);
 }
+void	turnip_990(void)
+{
+	turnip_all(bell990_1, bell990_2);
+}
