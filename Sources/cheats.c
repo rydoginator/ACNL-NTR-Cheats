@@ -86,6 +86,9 @@ u32     g_col1;
 u32     g_grav;
 u32     g_grav0;
 u32     g_turnip;
+u32     g_main_x;
+u32     g_main_y;
+u32     g_main_items;
 
 
 u32     g_find[100];
@@ -171,7 +174,6 @@ void    assign_region(u32 region)
     g_kappn = USA_KAPPN_ADDR;
     g_npc = USA_NPC_ADDR;
     g_badge = USA_BADGE_ADDR;
-
     g_collision = USA_COLLISION_OUTDOOR_ADDR;
     g_cond = USA_CONDITIONAL_ADDR;
     g_cond0 = USA_CONDITIONAL0_ADDR;
@@ -180,6 +182,9 @@ void    assign_region(u32 region)
     g_grav = USA_GRAVITY_ADDR;
     g_grav0 = USA_GRAVITY0_ADDR;
     g_turnip = USA_TURNIP_ADDR;
+    g_main_x = USA_MAINSTREET_X;
+    g_main_y = USA_MAINSTREET_Y;
+    g_main_items = USA_MAINSTREET_ITEMS;
 
     // applying offset or particular address
     switch (region)
@@ -263,7 +268,6 @@ void    assign_region(u32 region)
             g_kappn -= EUR_DIFFERENCE;
             g_npc = EUR_NPC_ADDR;
             g_badge -= EUR_DIFFERENCE;
-
             g_collision -= EUR_DIFFERENCE;
             g_cond -= EUR_DIFFERENCE;
             g_cond0 -= EUR_DIFFERENCE;
@@ -272,6 +276,9 @@ void    assign_region(u32 region)
             g_grav -= EUR_DIFFERENCE;
             g_grav0 -= EUR_DIFFERENCE;
             g_turnip -= EUR_DIFFERENCE;
+            g_main_x -= EUR_DIFFERENCE;
+            g_main_y -= EUR_DIFFERENCE;
+            g_main_items -= EUR_DIFFERENCE;
 
             break;
         case JAP:
@@ -358,6 +365,9 @@ void    assign_region(u32 region)
             g_grav += JAP_DIFFERENCE;
             g_grav0 += JAP_DIFFERENCE;
             g_turnip += JAP_DIFFERENCE;
+            g_main_x += JAP_DIFFERENCE;
+            g_main_y += JAP_DIFFERENCE;
+            g_main_items += JAP_DIFFERENCE;
             break;
     }
 }
@@ -1096,12 +1106,10 @@ void    real(void)
 
     if (is_pressed(BUTTON_R + BUTTON_DD))
     {
-        x = READU32(g_world_x);
-        y = READU32(g_world_y);
-        if (x >= 0x10 && y >= 0x10)
+        if (READU8(g_room) == 0x01)
         {
-            x -= 0x10;
-            y -= 0x10;
+            x = READU32(g_main_x);
+            y = READU32(g_main_y);
             reg0 = x % 0x10;
             x /= 0x10;
             reg1 = y % 0x10;
@@ -1112,7 +1120,28 @@ void    real(void)
             y *= 0x1400;
             offset = reg0 + reg1 + x + y;           
             get_input_id(&input, NULL);
-            WRITEU16(g_town_items + offset, input);
+            WRITEU16(g_main_items + offset, input);
+        }
+        else if (READU8(g_room) == 0x00)
+        {
+        x = READU32(g_world_x);
+        y = READU32(g_world_y);
+            if (x >= 0x10 && y >= 0x10)
+            {
+                x -= 0x10;
+                y -= 0x10;
+                reg0 = x % 0x10;
+                x /= 0x10;
+                reg1 = y % 0x10;
+                y /= 0x10;
+                reg0 *= 0x4;
+                reg1 *= 0x40;
+                x *= 0x400;
+                y *= 0x1400;
+                offset = reg0 + reg1 + x + y;           
+                get_input_id(&input, NULL);
+                WRITEU16(g_town_items + offset, input);
+            }
         }
     }
     if (is_pressed(BUTTON_L + BUTTON_DU))
@@ -1704,7 +1733,4 @@ void    turnip_990(void)
 {
     turnip_all(bell990_1, bell990_2);
 }
-void	turnip_990(void)
-{
-	turnip_all(bell990_1, bell990_2);
-}
+

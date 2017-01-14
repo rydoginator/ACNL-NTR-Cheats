@@ -124,6 +124,10 @@
 #define		USA_BADGE_ADDR						0x31F2C6BC
 #define		USA_TURNIP_ADDR						0x31F91D60
 
+#define		USA_MAINSTREET_ITEMS				0x305ACF38
+#define		USA_MAINSTREET_X					0x33077838
+#define		USA_MAINSTREET_Y					0x3307783C
+
 
 /*
 ** Values
