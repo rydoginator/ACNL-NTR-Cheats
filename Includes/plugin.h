@@ -41,7 +41,7 @@ void    init_img(void);
 /* void menu(void)
 ** Initialize the menu
 */
-void    menu(void);
+//void    menu(void);
 
 /*
 ** void set_default_speed(int speed)

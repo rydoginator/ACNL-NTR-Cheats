@@ -1,5 +1,37 @@
 #include "cheats.h"
 
+#define ENTRY_COUNT 300
+
+typedef struct s_menu
+{
+    int         count;
+    int         status;
+    u32         f[ENTRY_COUNT];
+    u32         s[ENTRY_COUNT];
+    int         a[ENTRY_COUNT];
+    const char  *t[ENTRY_COUNT];
+    const char  *n[ENTRY_COUNT];
+    void        (*fp[ENTRY_COUNT])();
+}             t_menu;
+
+
+typedef void    (*FuncPointer)(void);
+extern t_menu menu;
+
+
+
+void    new_super_unselectable_entry(char *str, FuncPointer function)
+{
+    int index;
+
+    index = menu.count;
+    if (index >= 300)
+        return;
+    new_unselectable_entry(str);
+    menu.f[index] |= BIT(0) | BIT(1);
+    menu.fp[index] = function;
+}
+
 char    *builder_name = "RyDog";
 
     static const char * const t2i_note = "Type item ID and send it into chat,\n\nPress X+D Pad Right,\n\nTo write item to slot 1!";
@@ -60,6 +92,7 @@ inline void new_spoiler_with_note(const char *name, const char *note)
     with_note_common(name, note, NULL, 2);
 }
 
+
 char    tan_level_buffer[40] = "First init";
 int     g_increase_menu_index = 0;
 int     g_decrease_menu_index = 0;
@@ -67,7 +100,6 @@ int     g_decrease_menu_index = 0;
 static inline void  smenu(void)
 {
     update_tan_entry();
-    text_to_cheats();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
     new_toggle_entry("Use keyboard on island", keyboardInput, KEYBOARDINPUT);
     new_spoiler("Inventory Codes");
@@ -154,6 +186,11 @@ static inline void  smenu(void)
 ** JAP: 00040000 00086200
 */
 
+void    while_plugin_is_alive(void)
+{
+    text_to_cheats();
+}
+
 void    my_menus(void)
 {
     u32 tid;
@@ -163,17 +200,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly U");
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly U", while_plugin_is_alive);
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly E"); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly E", while_plugin_is_alive); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J"); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J", while_plugin_is_alive); 
     }
     else
     {
