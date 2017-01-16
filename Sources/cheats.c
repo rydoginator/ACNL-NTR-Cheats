@@ -1767,16 +1767,10 @@ void   antiGravity(void)
 {
     if (is_pressed(BUTTON_L + BUTTON_DU))
     {
-        if (READU16(g_out_col) == 0x7FFE)
-        {
-            WRITEU16(g_out_grav, 0xFFFF);
-        }
+        WRITEU16(g_out_grav, 0xFFFF);
     }  
     if (is_pressed(BUTTON_L + BUTTON_DD))
     {
-        if (READU16(g_out_col) == 0x7FFE)
-        {
-            WRITEU16(g_out_grav, 0x0000);
-        }
+        WRITEU16(g_out_grav, 0x0000);
     } 
 }
