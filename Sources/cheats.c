@@ -79,17 +79,16 @@ u32     g_kappn;
 u32     g_npc;
 u32     g_badge;
 u32     g_collision;
-u32     g_cond;
-u32     g_cond0;
-u32     g_col0;
-u32     g_col1;
-u32     g_grav;
-u32     g_grav0;
 u32     g_turnip;
 u32     g_main_x;
 u32     g_main_y;
 u32     g_main_items;
-
+u32     g_in_cond;
+u32     g_out_cond;
+u32     g_in_col;
+u32     g_out_col;
+u32     g_quick;
+u32     g_out_grav;
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -174,17 +173,16 @@ void    assign_region(u32 region)
     g_kappn = USA_KAPPN_ADDR;
     g_npc = USA_NPC_ADDR;
     g_badge = USA_BADGE_ADDR;
-    g_collision = USA_COLLISION_OUTDOOR_ADDR;
-    g_cond = USA_CONDITIONAL_ADDR;
-    g_cond0 = USA_CONDITIONAL0_ADDR;
-    g_col0 = USA_COLLISION0_OUTDOOR_ADDR;
-    g_col1 = USA_COLLISION1_OUTDOOR_ADDR;
-    g_grav = USA_GRAVITY_ADDR;
-    g_grav0 = USA_GRAVITY0_ADDR;
     g_turnip = USA_TURNIP_ADDR;
     g_main_x = USA_MAINSTREET_X;
     g_main_y = USA_MAINSTREET_Y;
     g_main_items = USA_MAINSTREET_ITEMS;
+    g_in_cond = USA_CONDITIONAL_IN_ADDR;
+    g_out_cond = USA_CONDITIONAL_OUT_ADDR;
+    g_in_col = USA_COLLISION_IN_ADDR;
+    g_out_col = USA_COLLISION_OUT_ADDR;
+    g_quick = USA_QUICKFIRE_ADDR;
+    g_out_grav = USA_GRAVITY_OUT_ADDR;
 
     // applying offset or particular address
     switch (region)
@@ -214,7 +212,6 @@ void    assign_region(u32 region)
             g_savetime -= EUR_DIFFERENCE;
             g_world_x -= EUR_DIFFERENCE;
             g_world_y -= EUR_DIFFERENCE;
-            g_collision -= EUR_DIFFERENCE;
             g_hours = 0x9505B7;
             g_minutes = 0x9505B6;
             g_realtime = 0x95c500;
@@ -268,17 +265,16 @@ void    assign_region(u32 region)
             g_kappn -= EUR_DIFFERENCE;
             g_npc = EUR_NPC_ADDR;
             g_badge -= EUR_DIFFERENCE;
-            g_collision -= EUR_DIFFERENCE;
-            g_cond -= EUR_DIFFERENCE;
-            g_cond0 -= EUR_DIFFERENCE;
-            g_col0 -= EUR_DIFFERENCE;
-            g_col1 -= EUR_DIFFERENCE;
-            g_grav -= EUR_DIFFERENCE;
-            g_grav0 -= EUR_DIFFERENCE;
             g_turnip -= EUR_DIFFERENCE;
             g_main_x -= EUR_DIFFERENCE;
             g_main_y -= EUR_DIFFERENCE;
             g_main_items -= EUR_DIFFERENCE;
+            g_in_cond -= EUR_DIFFERENCE;
+            g_out_cond -= EUR_DIFFERENCE;
+            g_in_col -= EUR_DIFFERENCE;
+            g_out_col -= EUR_DIFFERENCE;
+            g_quick -= EUR_DIFFERENCE;
+            g_out_grav -= EUR_DIFFERENCE;
 
             break;
         case JAP:
@@ -306,7 +302,6 @@ void    assign_region(u32 region)
             g_hours = 0x9495B7;
             g_minutes = 0x9495B6;
             g_realtime = 0x956500;
-            g_collision += JAP_DIFFERENCE;
             g_seed = 0x9AD248;
             g_player = 0xAA7990;
             g_visitor_indoor_x += JAP_DIFFERENCE;
@@ -357,17 +352,16 @@ void    assign_region(u32 region)
             g_kappn += JAP_DIFFERENCE;
             g_npc = JAP_NPC_ADDR;
             g_badge += JAP_DIFFERENCE;
-            g_collision += JAP_DIFFERENCE;
-            g_cond += JAP_DIFFERENCE;
-            g_cond0 += JAP_DIFFERENCE;
-            g_col0 += JAP_DIFFERENCE;
-            g_col1 += JAP_DIFFERENCE;
-            g_grav += JAP_DIFFERENCE;
-            g_grav0 += JAP_DIFFERENCE;
             g_turnip += JAP_DIFFERENCE;
             g_main_x += JAP_DIFFERENCE;
             g_main_y += JAP_DIFFERENCE;
             g_main_items += JAP_DIFFERENCE;
+            g_in_cond += JAP_DIFFERENCE;
+            g_out_cond += JAP_DIFFERENCE;
+            g_in_col += JAP_DIFFERENCE;
+            g_out_col += JAP_DIFFERENCE;
+            g_quick += JAP_DIFFERENCE;
+            g_out_grav += JAP_DIFFERENCE;
             break;
     }
 }
@@ -922,7 +916,7 @@ void    moonjump(void)
     int     loc;
     u32     height;
 
-    if (!(any_is_pressed(R)) && is_pressed(BUTTON_L)) //it's better to test the negation first
+    if (is_pressed(BUTTON_L + BUTTON_DU))
     {
         loc = READU32(g_location);
         height = READU32(g_outdoor_pos_y);
@@ -941,11 +935,40 @@ void    moonjump(void)
         {
             if (loc == -1)
             {
-                ADDTOFLOAT(g_outdoor_pos_y, 6.0);
+                WRITEU16(g_out_grav, 0xFFFF);
+                ADDTOFLOAT(g_outdoor_pos_y, 0.1);
             }
             else
             {
                 ADDTOFLOAT(g_indoor_pos_y, 6.0);
+            }
+        }   
+    }
+    if (is_pressed(BUTTON_L + BUTTON_DD))
+    {
+        loc = READU32(g_location);
+        height = READU32(g_outdoor_pos_y);
+        if (height >= 0x440F0000)
+        {
+            if (loc == -1)
+            {
+                WRITEU32(g_outdoor_pos_y, 0x440F0000);
+            }
+            else
+            {
+                WRITEU32(g_indoor_pos_y, 0x440F0000);
+            }
+        }
+        else
+        {
+            if (loc == -1)
+            {
+                WRITEU16(g_out_grav, 0xFFFF);
+                SUBTOFLOAT(g_outdoor_pos_y, 0.1);
+            }
+            else
+            {
+                SUBTOFLOAT(g_indoor_pos_y, 6.0);
             }
         }   
     }
@@ -1141,6 +1164,27 @@ void    real(void)
                 offset = reg0 + reg1 + x + y;           
                 get_input_id(&input, NULL);
                 WRITEU16(g_town_items + offset, input);
+            }
+        }
+        else if (READU8(g_room) == 0x68)
+        {
+        x = READU32(g_world_x);
+        y = READU32(g_world_y);
+            if (x >= 0x10 && y >= 0x10)
+            {
+                x -= 0x10;
+                y -= 0x10;
+                reg0 = x % 0x10;
+                x /= 0x10;
+                reg1 = y % 0x10;
+                y /= 0x10;
+                reg0 *= 0x4;
+                reg1 *= 0x40;
+                x *= 0x400;
+                y *= 0x1400;
+                offset = reg0 + reg1 + x + y;           
+                get_input_id(&input, NULL);
+                WRITEU16(g_island_items + offset, input);
             }
         }
     }
@@ -1669,48 +1713,33 @@ void    badge_none(void)
 {
     all_badges(0x0);
 }
+
 void collisions(void)
 {
+    int loc;
+
+    loc = READU32(g_location);
+
     if (is_pressed(BUTTON_L + BUTTON_DU))
     {
-        if (READU16(g_cond) == 0x7FFE)
+        if (loc == -1) //FFFFFFFF=outdoors 
         {
-            WRITEU16(g_collision, 0x00FF);
-            WRITEU8(g_col0, 0x01);
-            WRITEU16(g_col1, 0x003F);
+            WRITEU8(g_out_col, 0x01);
         }
-        else if (READU16(g_cond0) == 0x7FFE)
+        else
         {
-            WRITEU8(g_grav, 0x00);
-            WRITEU16(g_grav0, 0x00FF);
+            WRITEU8(g_in_col, 0xFF);
         }
-    }
-    if (is_pressed(BUTTON_R))
-    {
-        if (READU16(g_cond) == 0x7FFE)
-        {
-            WRITEU8(g_col0, 0x00);
-            WRITEU16(g_collision, 0xFFFF);           
-        }
-        else if (READU16(g_cond0) == 0x7FFE)
-        {
-            WRITEU8(g_grav, 0x00);
-            WRITEU16(g_grav0, 0xFFFF);
-        }
-
     }
     if (is_pressed(BUTTON_L + BUTTON_DD))
     {
-        if (READU16(g_cond) == 0x7FFE)
+        if (loc == -1) //FFFFFFFF=outdoors 
         {
-            WRITEU16(g_collision, 0x00FA);
-            WRITEU8(g_col0, 0x01);
-            WRITEU16(g_col1, 0x0036);
+            WRITEU8(g_out_col, 0x00);
         }
-        else if (READU16(g_cond0) == 0x7FFE)
+        else if (READU16(g_in_col) == 0x7FFE)
         {
-            WRITEU16(g_grav, 0x0000);
-            WRITEU16(g_grav0, 0x00FA);
+            WRITEU8(g_in_col, 0x00);
         }
     }
 }
@@ -1734,3 +1763,20 @@ void    turnip_990(void)
     turnip_all(bell990_1, bell990_2);
 }
 
+void   antiGravity(void)
+{
+    if (is_pressed(BUTTON_L + BUTTON_DU))
+    {
+        if (READU16(g_out_col) == 0x7FFE)
+        {
+            WRITEU16(g_out_grav, 0xFFFF);
+        }
+    }  
+    if (is_pressed(BUTTON_L + BUTTON_DD))
+    {
+        if (READU16(g_out_col) == 0x7FFE)
+        {
+            WRITEU16(g_out_grav, 0x0000);
+        }
+    } 
+}

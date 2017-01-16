@@ -7,7 +7,7 @@ char    *builder_name = "RyDog";
     static const char * const tan_note = "Go into a different room to see changes.";
     static const char * const trans_note = "Do not execute during loading screens!";
     static const char * const cm_note = "Press A+D Pad in any direction to move around at turbo speed!";
-    static const char * const mj_note = "Press and hold L to moon jump!";
+    static const char * const mj_note = "Press and hold L + D Pad Up to fly higher, Press L + D Pad down to go lower.";
     static const char * const tele_note = "B+D Pad Up to save,\n\nB+D Pad Down to teleport,\n\nPress L/R to store multiple.";
     static const char * const speed_note = "Press and hold B to start running at turbo fast speed!";
     static const char * const warp_note = "Touch the map to warp anywhere!";
@@ -26,9 +26,10 @@ char    *builder_name = "RyDog";
     static const char * const lush_note = "Press R + A to replenish all your grass!";
     static const char * const weed_note = "Press R + A to remove all weeds!";
     static const char * const flwr_note = "Press R + A to replenish all your flowers!";
-    static const char * const cl_note = "Only works outdoors! Press R + D Pad up to enable, Press R + D Pad down to disable.";
+    static const char * const cl_note = "Only works outdoors! Press R + D Pad up to enable, Press L + D Pad down to disable.";
     static const char * const eat_note = "Type item ID into chat, send it and press L while eating an item to change the item to the item ID you typed in.";
     static const char * const dynamic_note = "When inside a ADB, press Y + D pad right to write the decimal to slot 1.";
+    static const char * const gr_note = "Rapid fire with tools, anti gravity and more. Enable with L + D Pad up, disable with L + D Pad down.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
@@ -66,8 +67,8 @@ int     g_decrease_menu_index = 0;
 static inline void  smenu(void)
 {
     update_tan_entry();
+    text_to_cheats();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
-    new_entry("Text to cheat", text_to_cheats);
     new_toggle_entry("Use keyboard on island", keyboardInput, KEYBOARDINPUT);
     new_spoiler("Inventory Codes");
         new_entry_with_note("Text to Item", t2i_note, text2item);
@@ -93,6 +94,7 @@ static inline void  smenu(void)
         exit_spoiler();
     exit_spoiler();
     new_spoiler_with_note("Movement Codes", trans_note);
+        new_entry_with_note("Anti Gravity and more", gr_note, antiGravity);
         new_entry_with_note("Walk Through Walls", cl_note, collisions);
         new_entry_with_note("Walk Over Objects", cl_note, walkOver);
         new_entry_with_note("Warping", warp_note, warping);
