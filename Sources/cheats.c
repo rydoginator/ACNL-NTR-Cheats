@@ -745,13 +745,6 @@ void    duplicate(void)
     u32     offset;
     u8      player;
     u32     dupe;
-    u32     dupe0;
-    u32     dupe1;
-    u32     dupe2;
-    u32     dupe3;
-    u32     dupe4;
-    u32     dupe5;
-    u32     dupe6;
 
     if (is_pressed(BUTTON_R))
     {
@@ -764,30 +757,112 @@ void    duplicate(void)
             dupe = READU32(g_inv + offset);
             WRITEU32(g_inv + offset + 0x4, dupe);
             if (READU16(g_online4_inv) != 0)
-                dupe4 = READU32(g_online4_inv);
-                WRITEU32(g_online4_inv + 0x4, dupe4);
+                dupe = READU32(g_online4_inv);
+                WRITEU32(g_online4_inv + 0x4, dupe);
             if (READU16(g_online5_inv) != 0)
-                dupe5 = READU32(g_online5_inv);
-                WRITEU32(g_online5_inv + 0x4, dupe5); 
+                dupe = READU32(g_online5_inv);
+                WRITEU32(g_online5_inv + 0x4, dupe); 
             if (READU16(g_online6_inv) != 0)
-                dupe6 = READU32(g_online6_inv);
-                WRITEU32(g_online6_inv, dupe6); 
+                dupe = READU32(g_online6_inv);
+                WRITEU32(g_online6_inv, dupe); 
         }
         if (player >= 0x3)
         {
             if (READU16(g_online0_inv) != 0)
-                dupe0 = READU32(g_online0_inv);
-                WRITEU32(g_online0_inv + 0x4, dupe0);
+                dupe = READU32(g_online0_inv);
+                WRITEU32(g_online0_inv + 0x4, dupe);
             if (READU16(g_online1_inv) != 0)
-                dupe1 = READU32(g_online1_inv);
-                WRITEU32(g_online1_inv + 0x4, dupe1);
+                dupe = READU32(g_online1_inv);
+                WRITEU32(g_online1_inv + 0x4, dupe);
             if (READU16(g_online2_inv) != 0)
-                dupe2 = READU32(g_online2_inv);
-                WRITEU32(g_online2_inv + 0x4, dupe2);
+                dupe = READU32(g_online2_inv);
+                WRITEU32(g_online2_inv + 0x4, dupe);
             if (READU16(g_online3_inv) != 0)
-                dupe3 = READU32(g_online3_inv);
-                WRITEU32(g_online3_inv + 0x4, dupe3);
+                dupe = READU32(g_online3_inv);
+                WRITEU32(g_online3_inv + 0x4, dupe);
         }  
+    }
+    if (is_pressed(BUTTON_R + BUTTON_X))
+    {
+        player = READU8(g_player);
+        // Player 4 should be the highest value stored here. 
+        // It goes to 0x7 when visiting a dream and someone's town I think?
+        if (player <= 0x3)
+        {
+            offset = player * 0xA480;
+            dupe = READU32(g_inv + offset);
+            for (int i = 0; i < 15; i++)
+            {
+                if (READU16(g_inv + 0x4 + (i * 4) + offset) == 0x7FFE)
+                    WRITEU32(g_inv + offset + 0x4 + (i * 4), dupe);
+            }
+            if (READU16(g_online4_inv) != 0)
+            {
+                dupe = READU32(g_online4_inv);
+                for (int i = 0; i < 15; i++)
+                {
+                    if (READU16(g_online4_inv + 0x4 + (i * 4)) == 0x7FFE)
+                        WRITEU32(g_online4_inv + 0x4 + (i * 4), dupe);
+                }
+            }
+            if (READU16(g_online5_inv) != 0)
+            {
+                dupe = READU32(g_online5_inv);
+                for (int i = 0; i < 15; i++)
+                {
+                    if (READU16(g_online5_inv + 0x4 + (i * 4)) == 0x7FFE)
+                        WRITEU32(g_online5_inv + 0x4 + (i * 4), dupe);
+                }
+            } 
+            if (READU16(g_online6_inv) != 0)
+            {
+                dupe = READU32(g_online6_inv);
+                for (int i = 0; i < 15; i++)
+                {
+                    if (READU16(g_online6_inv + 0x4 + (i * 4)) == 0x7FFE)
+                        WRITEU32(g_online6_inv + 0x4 + (i * 4), dupe);
+                }
+            } 
+        }
+        if (player >= 0x3)
+        {
+            if (READU16(g_online0_inv) != 0)
+            {
+                dupe = READU32(g_online0_inv);
+                for (int i = 0; i < 15; i++)
+                {
+                    if (READU16(g_online0_inv + 0x4 + (i * 4)) == 0x7FFE)
+                        WRITEU32(g_online0_inv + 0x4 + (i * 4), dupe);
+                }
+            }
+            if (READU16(g_online1_inv) != 0)
+            {
+                dupe = READU32(g_online1_inv);
+                for (int i = 0; i < 15; i++)
+                {
+                    if (READU16(g_online1_inv + 0x4 + (i * 4)) == 0x7FFE)
+                        WRITEU32(g_online1_inv + 0x4 + (i * 4), dupe);
+                }
+            }
+            if (READU16(g_online2_inv) != 0)
+            {
+                dupe = READU32(g_online2_inv);
+                for (int i = 0; i < 15; i++)
+                {
+                    if (READU16(g_online2_inv + 0x4 + (i * 4)) == 0x7FFE)
+                        WRITEU32(g_online2_inv + 0x4 + (i * 4), dupe);
+                }
+            }
+            if (READU16(g_online3_inv) != 0)
+            {
+                dupe = READU32(g_online3_inv);
+                for (int i = 0; i < 15; i++)
+                {
+                    if (READU16(g_online3_inv + 0x4 + (i * 4)) == 0x7FFE)
+                        WRITEU32(g_online3_inv + 0x4 + (i * 4), dupe);
+                }
+            } 
+        }       
     }
 }
 
@@ -797,7 +872,7 @@ void    grass(void)
     {
         int i;
 
-        for (i = g_grass_start; i < g_grass_end; i++)
+        for (int i = g_grass_start; i < g_grass_end; i++)
             *(u32 *)i = 0xFFFFFFFF;
         wait_all_released();
     }
@@ -809,7 +884,7 @@ void    desert(void)
     {
         int i;
 
-        for (i = g_grass_start; i < g_grass_end; i++)
+        for (int i = g_grass_start; i < g_grass_end; i++)
             *(u32 *)i = 0x00000000;
         wait_all_released();
     }
@@ -1389,28 +1464,28 @@ void    gorgeous_set(void)
         offset = player * 0xa480;
         WRITEU16(g_inv + offset, 0x2401);
         WRITEU16(g_inv + offset + 0x4, 0x2362);
-        for (i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             WRITEU16(g_inv + offset + 0x8 + (0x4 * i), 0x2ADC + i);
         }
         if (READU16(g_online4_inv != 0x0))
             WRITEU16(g_online4_inv, 0x2401);
             WRITEU16(g_online4_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 WRITEU16(g_online4_inv + 0x8 + (0x4 * i), 0x2ADC + i);
             }
        if (READU16(g_online5_inv != 0x0))
             WRITEU16(g_online5_inv, 0x2401);
             WRITEU16(g_online5_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 WRITEU16(g_online5_inv + 0x8 + (0x4 * i), 0x2ADC + i);
             }
        if (READU16(g_online6_inv != 0x0))
             WRITEU16(g_online6_inv, 0x2401);
             WRITEU16(g_online6_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 WRITEU16(g_online5_inv + 0x8 + (0x4 * i), 0x2ADC + i);
             }
@@ -1419,28 +1494,28 @@ void    gorgeous_set(void)
         if (READU16(g_online0_inv != 0x0))
             WRITEU16(g_online0_inv, 0x2401);
             WRITEU16(g_online0_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 WRITEU16(g_online0_inv + 0x8 + (0x4 * i), 0x2ADC + i);
             }
        if (READU16(g_online1_inv != 0x0))
             WRITEU16(g_online1_inv, 0x2401);
             WRITEU16(g_online1_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 WRITEU16(g_online1_inv + 0x8 + (0x4 * i), 0x2ADC + i);
             }
        if (READU16(g_online2_inv != 0x0))
             WRITEU16(g_online2_inv, 0x2401);
             WRITEU16(g_online2_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 WRITEU16(g_online2_inv + 0x8 + (0x4 * i), 0x2ADC + i);
             }
        if (READU16(g_online3_inv != 0x0))
             WRITEU16(g_online3_inv, 0x2401);
             WRITEU16(g_online3_inv + 0x4, 0x2362);
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 WRITEU16(g_online3_inv + 0x8 + (0x4 * i), 0x2ADC + i);
             }
@@ -1456,44 +1531,44 @@ void    clear_inv(void)
     player = READU8(g_player);
     if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
         offset = player * 0xa480;
-        for (i = 0; i < 16; i++)
+        for (int i = 0; i < 16; i++)
         {
             WRITEU16(g_inv + offset + (0x4 * i), 0x7FFE);
         }
         if (READU16(g_online4_inv) != 0)
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 WRITEU16(g_online4_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online5_inv) != 0)
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 WRITEU16(g_online5_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online6_inv) != 0)
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 WRITEU16(g_online1_inv + offset + (0x4 * i), 0x7FFE);
             }
     if (player >= 0x3)
     {
         if (READU16(g_online0_inv) != 0)
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 WRITEU16(g_online0_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online1_inv) != 0)
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 WRITEU16(g_online1_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online2_inv) != 0)
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 WRITEU16(g_online2_inv + offset + (0x4 * i), 0x7FFE);
             }
         if (READU16(g_online3_inv) != 0)
-            for (i = 0; i < 16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 WRITEU16(g_online3_inv + offset + (0x4 * i), 0x7FFE);
             }
@@ -1686,7 +1761,7 @@ void    all_badges(u8 bdge)
         if (player <= 0x3)
         {
             offset = player * 0xA480;
-            for (i = 0; i < 24; i++)
+            for (int i = 0; i < 24; i++)
             {
                 WRITEU8(g_badge + offset + (0x1 * i), bdge);
             }
@@ -1750,7 +1825,7 @@ void    turnip_all(u32 enc1, u32 enc2)
 
     if(is_pressed(BUTTON_Y))
     {
-        for (i = 0; i < 12; i++)
+        for (int i = 0; i < 12; i++)
         {
         WRITEU32(g_turnip + (0x8 * i), enc1);
         WRITEU32(g_turnip + 0x4 + (0x8 * i), enc2);
