@@ -1709,20 +1709,26 @@ void    changeAnimal(u8 symbols[], u8 name[])
     static u8 original[] = {0x25, 0x73, 0x2E, 0x62, 0x63, 0x72, 0x65, 0x73, 0x00};
     u8 roomID;
     roomID = READU8(g_room);
-
-    if (roomID == 0x63)
+    if (roomID != 0x27)
     {
-        memcpy((void *)(g_npc), original, 9);
-        memcpy((void *)(g_isabelle), name, 3); 
-    }
-    else if (roomID == 0x00)
-    {
-        memcpy((void *)(g_npc), original, 9);
-        memcpy((void *)(g_kappn), name, 3);
+        if (roomID == 0x63)
+        {
+            memcpy((void *)(g_npc), original, 9);
+            memcpy((void *)(g_isabelle), name, 3); 
+        }
+        else if (roomID == 0x00)
+        {
+            memcpy((void *)(g_npc), original, 9);
+            memcpy((void *)(g_kappn), name, 3);
+        }
+        else
+        {
+            memcpy((void *)(g_npc), symbols, 9);        
+        }
     }
     else
     {
-        memcpy((void *)(g_npc), symbols, 9);        
+        svcSleepThread(6000000000);
     }
 }
 
