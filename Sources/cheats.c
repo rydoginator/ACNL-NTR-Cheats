@@ -1855,3 +1855,64 @@ void   antiGravity(void)
         WRITEU16(g_out_grav, 0x0000);
     } 
 }
+
+void    cameraMod(void)
+{
+    u32 offset;
+    int loc;
+    static u32 x;
+    static u32 z;
+
+    if (READU32(0x951884) != 0)
+    {
+        if (!is_pressed(KEY_CPAD))
+        {
+            if (loc == -1)
+            {
+                x = READU32(g_outdoor_pos_x);
+                z = READU32(g_outdoor_pos_z);
+            }
+            else
+            {
+                x = READU32(g_indoor_pos_x);
+                z = READU32(g_indoor_pos_z);
+            }
+        }
+        offset = READU32(0x951884);
+        loc = READU32(g_location);
+        if (is_pressed(BUTTON_R + BUTTON_CD))
+        {
+            offset += 0x12C;
+            ADD16(offset, 0x10);
+        }
+        if (is_pressed(BUTTON_R + BUTTON_CU))
+        {
+            offset += 0x12C;  
+            SUB16(offset, 0x10);
+            WRITEU32(0x33077528, 0x0);
+        }
+        if (is_pressed(BUTTON_R + BUTTON_CR))
+        {
+            offset += 0x12E;
+            ADD16(offset, 0x10);
+        }
+        if (is_pressed(BUTTON_R + BUTTON_CL))
+        {
+            offset += 0x12E;
+            SUB16(offset, 0x10);
+        }
+        if (is_pressed(BUTTON_A + BUTTON_R + BUTTON_CD || BUTTON_CU || BUTTON_CD || BUTTON_CR))
+        {
+            if (loc == -1)
+            {
+                WRITEU32(g_outdoor_pos_x, x);
+                WRITEU32(g_outdoor_pos_z, z);
+            }
+            else
+            {
+                WRITEU32(g_indoor_pos_x, x);
+                WRITEU32(g_indoor_pos_z, z);
+            }
+        }
+    }
+}

@@ -77,6 +77,18 @@
 #ifndef BUTTON_Y
 #   define BUTTON_Y                 0x00000800
 #endif
+#ifndef BUTTON_CD
+#   define BUTTON_CD	            0x80000000
+#endif
+#ifndef BUTTON_CL
+#   define BUTTON_CL	            0x20000000
+#endif
+#ifndef BUTTON_CR
+#   define BUTTON_CR	            0x10000000
+#endif
+#ifndef BUTTON_CU
+#   define BUTTON_CU	            0x40000000
+#endif
 
 #ifndef A
 #   define A                        BUTTON_A
@@ -119,4 +131,16 @@
 #endif
 #ifndef DR
 #   define DR                       BUTTON_DR
+#endif
+#ifndef CU
+#   define CU                       BUTTON_CU
+#endif
+#ifndef CL
+#   define CL                       BUTTON_CL
+#endif
+#ifndef CR
+#   define CR                       BUTTON_CR
+#endif
+#ifndef CD
+#   define CD                       BUTTON_CD
 #endif

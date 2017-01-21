@@ -12,6 +12,8 @@
 #define     sub_to_address(addr, value)         *(u32 *)addr -= value
 #define     ADD64(addr, value)                  *(vs64 *)addr += value
 #define     SUB64(addr, value)                  *(vs64 *)addr -= value
+#define		ADD16(addr, value)					*(u16 *)addr += value
+#define		SUB16(addr, value)					*(u16 *)addr -= value
 #define     ADDTOFLOAT(addr, add_value)         *(float *)addr += (float)add_value
 #define     SUBTOFLOAT(addr, sub_value)         *(float *)addr -= (float)sub_value
 
@@ -244,6 +246,7 @@ void    badge_bronze(void);
 void    badge_none(void);
 void	turnip_990(void);
 void	antiGravity(void);
+void	cameraMod(void);
 
 
 #endif
