@@ -62,7 +62,7 @@ char    *builder_name = "RyDog";
     static const char * const eat_note = "Type item ID into chat, send it and press L while eating an item to change the item to the item ID you typed in.";
     static const char * const dynamic_note = "When inside a ADB, press Y + D pad right to write the decimal to slot 1.";
     static const char * const gr_note = "Rapid fire with tools, anti gravity and more. Enable with L + D Pad up, disable with L + D Pad down.";
-    static const char * const cam_note = "Press R + Circle Pad to move the camera around! Press A while moving the camera to stop your character from moving.";
+    static const char * const cam_note = "R + Circle pad = rotation \n\n R + A stop player from moving or Y unlock camera, X unlock camera (needed) \n\n B + D pad move camerea, L/R up and down";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {

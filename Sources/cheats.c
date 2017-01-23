@@ -1862,16 +1862,21 @@ void    cameraMod(void)
     static u32 pointer;
     static u32 x;
     static u32 z;
+    static u32 storage;
 
+    if (!is_pressed(BUTTON_B))
+    {
+        WRITEU32(0x764504, 0x2A000020);
+    }
     if (READU32(0x951884) != 0)
     {
         if (!is_pressed(BUTTON_CD || BUTTON_CU || BUTTON_CD || BUTTON_CR))
         {
-            if (READU32(0xAAE994) != 0)
+            if (READU32(0x32FD57C8) != 0)
             {
-                pointer = READU32(0xAAE994);
-                x = READU32(pointer + 0x14);
-                z = READU32(pointer + 0x1C);
+                pointer = READU32(0x32FD57C8);
+                x = READU32(pointer + 0x24);
+                z = READU32(pointer + 0x2C);
             }
         }
         offset = READU32(0x951884);
@@ -1884,7 +1889,6 @@ void    cameraMod(void)
         {
             offset += 0x12C;  
             SUB16(offset, 0x10);
-            WRITEU32(0x33077528, 0x0);
         }
         if (is_pressed(BUTTON_R + BUTTON_CR))
         {
@@ -1896,14 +1900,60 @@ void    cameraMod(void)
             offset += 0x12E;
             SUB16(offset, 0x10);
         }
-        if (is_pressed(BUTTON_A + BUTTON_R + BUTTON_CD || BUTTON_CU || BUTTON_CD || BUTTON_CR))
+        if (is_pressed(BUTTON_R + BUTTON_A + BUTTON_CD || BUTTON_CU || BUTTON_CD || BUTTON_CR))
         {
             if (READU32(0xAAE994) != 0)
             {
-                pointer = READU32(0xAAE994);
-                WRITEU32(pointer + 0x14, x);
-                WRITEU32(pointer + 0x1C, z);
+                pointer = READU32(0x32FD57C8);
+                WRITEU32(pointer + 0x24, x);
+                WRITEU32(pointer + 0x2C, z);
             }            
         }
+        if (is_pressed(BUTTON_R + BUTTON_X))
+        {
+            if (READU32(0xAAE994) != 0)
+            {
+                storage = READU32(0xAAE994);
+                WRITEU32(0xAAE994, 0x00000000);
+                wait_all_released();
+            }
+        }
+        if (is_pressed(BUTTON_R + BUTTON_Y))
+        {
+            if (storage != 0)
+            {
+                WRITEU32(0xAAE994, storage);
+            }
+        }
+    }
+    if (is_pressed(BUTTON_B + BUTTON_DL))
+    {
+        WRITEU32(0x764504, 0xEA000020); //nop the instruction that writes to camera coordinates
+        SUBTOFLOAT(0x9866F4, 1.0);
+    }
+    if (is_pressed(BUTTON_B + BUTTON_DR))
+    {
+        WRITEU32(0x764504, 0xEA000020);
+        ADDTOFLOAT(0x9866F4, 1.0);
+    }
+    if (is_pressed(BUTTON_B + BUTTON_DD))
+    {
+        WRITEU32(0x764504, 0xEA000020);
+        ADDTOFLOAT(0x9866FC, 1.0);
+    }
+    if (is_pressed(BUTTON_B + BUTTON_DU))
+    {
+        WRITEU32(0x764504, 0xEA000020);
+        SUBTOFLOAT(0x9866FC, 1.0);
+    }
+    if (is_pressed(BUTTON_B + BUTTON_R))
+    {
+        WRITEU32(0x764504, 0xEA000020);
+        ADDTOFLOAT(0x9866F8, 1.0);
+    }
+    if (is_pressed(BUTTON_B + BUTTON_L))
+    {
+        WRITEU32(0x764504, 0xEA000020);
+        SUBTOFLOAT(0x9866F8, 1.0);
     }
 }
