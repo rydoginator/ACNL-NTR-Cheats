@@ -2343,7 +2343,7 @@ void	medals_100s(void)
 void	medals_1000s(void)
 {
 	medals_all(0x3E8);
-
+}
 void    furnitureMod(void)
 {
     u8 player;
