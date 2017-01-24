@@ -240,6 +240,16 @@ void	nookFree(void);
 void	changeNook(void);
 void	changeBrewster(void);
 void 	changeOwl(void);
+void	changeJoan(void);
+void	changeKatrina(void);
+void	changeAcorn(void);
+void	changeRedd(void);
+void	changeKK(void);
+void	changeWisp(void);
+void	changeKappa(void);
+void	changeResetti(void);
+void	changeRover(void);
+void	changeHarvey(void);
 void    badge_gold(void);
 void    badge_silver(void);
 void    badge_bronze(void);
@@ -247,6 +257,7 @@ void    badge_none(void);
 void	turnip_990(void);
 void	antiGravity(void);
 void	cameraMod(void);
+void 	furnitureMod(void);
 
 
 #endif

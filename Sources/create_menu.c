@@ -112,6 +112,16 @@ static inline void  smenu(void)
         new_radio_entry("Owl", changeOwl);
         new_radio_entry("Brewster", changeBrewster);
         new_radio_entry("Nook", changeNook);
+        new_radio_entry("Joan", changeJoan);
+        new_radio_entry("Katrina", changeKatrina);
+        new_radio_entry("Acorn Tortimer", changeAcorn);
+        new_radio_entry("Redd", changeRedd);
+        new_radio_entry("K.K. Slider", changeKK);
+        new_radio_entry("Wisp", changeWisp);
+        new_radio_entry("Kapp'n", changeKappa);
+        new_radio_entry("Resetti", changeResetti);
+        new_radio_entry("Rover", changeRover);
+        new_radio_entry("Harvey", changeHarvey);
     exit_spoiler();
     new_spoiler("Money Codes(Beta)");
         new_spoiler("Bank Values");
@@ -167,6 +177,7 @@ static inline void  smenu(void)
     exit_spoiler();
     new_spoiler("Misc. Codes");
         new_entry_with_note("WIP Camera Mod", cam_note, cameraMod);
+        new_entry("Furniture Mod", furnitureMod);
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
         //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
