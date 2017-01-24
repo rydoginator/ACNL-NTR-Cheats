@@ -22,7 +22,7 @@ def allFolderFile(pattern, ext):
 EUR_TID 	= "0004000000086400"
 USA_TID 	= "0004000000086300"
 JAP_TID		= "0004000000086200"
-WA_USA_TID      = "0004000000198E00"
+#WA_USA_TID      = "0004000000198E00"
 NAME 		= "ACNL_MULTI"
 FTP_FOLDER	= "./plugin/" + USA_TID + "/"
 HOST		= "192.168.1.2"
@@ -120,7 +120,7 @@ printf("Copying the plugin in each folder...");
 shutil.copy2(COPYTOPATH, "./plugin/plugin/" + EUR_TID + "/" + NAME + "_EUR.plg");
 shutil.copy2(COPYTOPATH, "./plugin/plugin/" + USA_TID + "/" + NAME + "_USA.plg");
 shutil.copy2(COPYTOPATH, "./plugin/plugin/" + JAP_TID + "/" + NAME + "_JAP.plg");
-shutil.copy2(COPYTOPATH, "./plugin/plugin/" + WA_USA_TID + "/" + NAME + "_USA.plg");
+#shutil.copy2(COPYTOPATH, "./plugin/plugin/" + WA_USA_TID + "/" + NAME + "_USA.plg");
 printf("Creating the zip folder...");
 shutil.make_archive(NAME, 'zip', ".\plugin");
 printf("Should I send the plugin on your console ?");

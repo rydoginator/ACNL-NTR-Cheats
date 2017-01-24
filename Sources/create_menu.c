@@ -63,6 +63,10 @@ char    *builder_name = "RyDog";
     static const char * const dynamic_note = "When inside a ADB, press Y + D pad right to write the decimal to slot 1.";
     static const char * const gr_note = "Rapid fire with tools, anti gravity and more. Enable with L + D Pad up, disable with L + D Pad down.";
     static const char * const cam_note = "R + Circle pad = rotation \n\n R + A stop player from moving or Y unlock camera, X unlock camera (needed) \n\n B + D pad move camerea, L/R up and down";
+    static const char * const turn_note = "Press Y to set the turnip price to 990 bells for the current week.";	
+    static const char * const badge_note = "Press Y to change all badges to selected type.";
+    static const char * const med_note = "Change your Medal Amount to the selected value.";
+	static const char * const medun_note = "  WARNING!! Unstable!!\nMedals may become negative\nwhen Adding!! To fix: Decrease to a positive\nnumber & buy anything!\nTo Use: Press Up to increase medals by amount selected,Press Down to decrease by selected value.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
@@ -180,13 +184,33 @@ static inline void  smenu(void)
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
         //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
-        new_entry("Turnip Price is 990", turnip_990);
-        new_spoiler("Badge Codes");
+        new_entry_with_note("Turnip Price is 990", turn_note, turnip_990);
+        new_spoiler_with_note("Badge Codes", badge_note);
             new_radio_entry("All Gold", badge_gold);
             new_radio_entry("All Silver", badge_silver);
             new_radio_entry("All Bronze", badge_bronze);
             new_radio_entry("No Badges", badge_none);
         exit_spoiler();
+		new_spoiler("Medal Modifiers");
+			new_spoiler_with_note("Stable Modifier", med_note);
+				new_radio_entry("50K Medals", medal_50k);
+				new_radio_entry("10K Medals", medal_10k);
+				new_radio_entry("1K Medals", medal_1k);
+				new_radio_entry("0 Medals", medal_0);
+			exit_spoiler();
+			new_spoiler_with_note("Unstable Modifier", medun_note);
+				new_unselectable_entry("Read Unstable's Note!");
+				new_radio_entry("Medal Mod 1", medals_1s);
+				new_radio_entry("Medal Mod 10", medals_10s);
+				new_radio_entry("Medal Mod 100", medals_100s);
+				new_radio_entry("Medal Mod 1000", medals_1000s);
+			exit_spoiler();
+		exit_spoiler();
+		new_spoiler("Meow Coupon Codes");
+            new_radio_entry("Infinite Meow Coupons", meow_99k);
+            new_radio_entry("No Coupons Left", meow_0k);
+            new_radio_entry("Negative Copuons", meow_neg);
+        exit_spoiler();	
     exit_spoiler();
 
 
@@ -225,15 +249,20 @@ void    my_menus(void)
         new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J", while_plugin_is_alive); 
     }
     else
-    {
-        new_unselectable_entry("Unsupported ID");
-        new_unselectable_entry("!!! Title id unrecognized !!!");
-        new_unselectable_entry("!!! You need              !!!");
-        new_unselectable_entry("!!! 00040000 00086200     !!!");
-        new_unselectable_entry("!!! or                    !!!");
-        new_unselectable_entry("!!! 00040000 00086300     !!!");
-        new_unselectable_entry("!!! or                    !!!");
-        new_unselectable_entry("!!! 00040000 00086400     !!!");
+   {
+						printf("Current TitleID: %s", get_title_id());	
+        new_unselectable_entry("You're Using An Unsupported TitleID!");			
+        new_unselectable_entry("This plugin does not support");
+		new_unselectable_entry("The Welcome Amiibo Cart!");
+		new_unselectable_entry("The plugin only supports the");
+		new_unselectable_entry("Following TitleIDs:");
+		new_unselectable_entry("0004000000086200 (JAP, v1.5)");
+		new_unselectable_entry("0004000000086300 (USA, v1.5)");
+		new_unselectable_entry("0004000000086400 (EUR, v1.5)");
+        new_unselectable_entry("Please download the original");
+        new_unselectable_entry("ACNL from freeShop / CiaAngel");
+		new_unselectable_entry("And install the v1.5 update!");
+		
         return;
     }
     smenu();
