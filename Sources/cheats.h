@@ -246,6 +246,7 @@ void	collisions(void);
 void	midnight(void);
 void	morning(void);
 void	noon(void);
+void	dupeAll(void);
 void	stalking_1(void);
 void	gorgeous_set(void);
 void	clear_inv(void);
@@ -263,6 +264,16 @@ void	nookFree(void);
 void	changeNook(void);
 void	changeBrewster(void);
 void 	changeOwl(void);
+void	changeJoan(void);
+void	changeKatrina(void);
+void	changeAcorn(void);
+void	changeRedd(void);
+void	changeKK(void);
+void	changeWisp(void);
+void	changeKappa(void);
+void	changeResetti(void);
+void	changeRover(void);
+void	changeHarvey(void);
 void    badge_gold(void);
 void    badge_silver(void);
 void    badge_bronze(void);
@@ -281,6 +292,6 @@ void	medals_1s(void);
 void	medals_10s(void);
 void	medals_100s(void);
 void	medals_1000s(void);
-
+void 	furnitureMod(void);
 
 #endif
