@@ -424,7 +424,8 @@ enum
     NOON,
     STALK1,
     GORGEOUSSET,
-    CLEARINV
+    CLEARINV,
+    DUPEALL
 };
 
 void    text_to_cheats(void)
@@ -446,6 +447,7 @@ void    text_to_cheats(void)
     else if (match(command_text, "stalk1")) command = STALK1;
     else if (match(command_text, "gorgeset")) command = GORGEOUSSET;
     else if (match(command_text, "clearinv")) command = CLEARINV;
+    else if (match(command_text, "dupeall")) command = DUPEALL;
     if (command != last_command)
     {
     bis:
@@ -482,6 +484,8 @@ void    text_to_cheats(void)
             case CLEARINV:
                 clear_inv();
                 break;
+            case DUPEALL:
+                dupeAll();
             default:
                 break;
         }
@@ -1923,6 +1927,93 @@ void   antiGravity(void)
     {
         WRITEU16(g_out_grav, 0x0000);
     } 
+}
+
+void    dupeAll(void)
+{
+    u8 player;
+    u32 dupe;
+    u32 offset;
+
+    player = READU8(g_player);
+    // Player 4 should be the highest value stored here. 
+    // It goes to 0x7 when visiting a dream and someone's town I think?
+    if (player <= 0x3)
+    {
+        offset = player * 0xA480;
+        dupe = READU32(g_inv + offset);
+        for (int i = 0; i < 15; i++)
+        {
+            if (READU16(g_inv + 0x4 + (i * 4) + offset) == 0x7FFE)
+                WRITEU32(g_inv + offset + 0x4 + (i * 4), dupe);
+        }
+        if (READU16(g_online4_inv) != 0)
+        {
+            dupe = READU32(g_online4_inv);
+            for (int i = 0; i < 15; i++)
+            {
+                if (READU16(g_online4_inv + 0x4 + (i * 4)) == 0x7FFE)
+                    WRITEU32(g_online4_inv + 0x4 + (i * 4), dupe);
+            }
+        }
+        if (READU16(g_online5_inv) != 0)
+        {
+            dupe = READU32(g_online5_inv);
+            for (int i = 0; i < 15; i++)
+            {
+                if (READU16(g_online5_inv + 0x4 + (i * 4)) == 0x7FFE)
+                    WRITEU32(g_online5_inv + 0x4 + (i * 4), dupe);
+            }
+        } 
+        if (READU16(g_online6_inv) != 0)
+        {
+            dupe = READU32(g_online6_inv);
+            for (int i = 0; i < 15; i++)
+            {
+                if (READU16(g_online6_inv + 0x4 + (i * 4)) == 0x7FFE)
+                    WRITEU32(g_online6_inv + 0x4 + (i * 4), dupe);
+            }
+        } 
+    }
+    if (player >= 0x3)
+    {
+        if (READU16(g_online0_inv) != 0)
+        {
+            dupe = READU32(g_online0_inv);
+            for (int i = 0; i < 15; i++)
+            {
+                if (READU16(g_online0_inv + 0x4 + (i * 4)) == 0x7FFE)
+                    WRITEU32(g_online0_inv + 0x4 + (i * 4), dupe);
+            }
+        }
+        if (READU16(g_online1_inv) != 0)
+        {
+            dupe = READU32(g_online1_inv);
+            for (int i = 0; i < 15; i++)
+            {
+                if (READU16(g_online1_inv + 0x4 + (i * 4)) == 0x7FFE)
+                    WRITEU32(g_online1_inv + 0x4 + (i * 4), dupe);
+            }
+        }
+        if (READU16(g_online2_inv) != 0)
+        {
+            dupe = READU32(g_online2_inv);
+            for (int i = 0; i < 15; i++)
+            {
+                if (READU16(g_online2_inv + 0x4 + (i * 4)) == 0x7FFE)
+                    WRITEU32(g_online2_inv + 0x4 + (i * 4), dupe);
+            }
+        }
+        if (READU16(g_online3_inv) != 0)
+        {
+            dupe = READU32(g_online3_inv);
+            for (int i = 0; i < 15; i++)
+            {
+                if (READU16(g_online3_inv + 0x4 + (i * 4)) == 0x7FFE)
+                    WRITEU32(g_online3_inv + 0x4 + (i * 4), dupe);
+            }
+        } 
+    }           
 }
 
 void    cameraMod(void)

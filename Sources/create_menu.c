@@ -177,7 +177,6 @@ static inline void  smenu(void)
     exit_spoiler();
     new_spoiler("Misc. Codes");
         new_entry_with_note("WIP Camera Mod", cam_note, cameraMod);
-        new_entry("Furniture Mod", furnitureMod);
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
         //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
