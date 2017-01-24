@@ -181,15 +181,15 @@ static inline void  smenu(void)
             new_radio_entry("All Bronze", badge_bronze);
             new_radio_entry("No Badges", badge_none);
         exit_spoiler();
-		new_spoiler("Medal Modifiers")
-			new_spoiler_with_note("Stable Modifier", med_note)
-				new_radio_entry("50K Medals", medal_50k)
-				new_radio_entry("10K Medals", medal_10k)
-				new_radio_entry("1K Medals", medal_1k)
-				new_radio_entry("0 Medals", medal_0)
+		new_spoiler("Medal Modifiers");
+			new_spoiler_with_note("Stable Modifier", med_note);
+				new_radio_entry("50K Medals", medal_50k);
+				new_radio_entry("10K Medals", medal_10k);
+				new_radio_entry("1K Medals", medal_1k);
+				new_radio_entry("0 Medals", medal_0);
 			exit_spoiler();
 			new_spoiler_with_note("Unstable Modifier", medun_note);
-				new_unselectable_entry("Read Unstable's Note!")
+				new_unselectable_entry("Read Unstable's Note!");
 				new_radio_entry("Medal Mod 1", medals_1s);
 				new_radio_entry("Medal Mod 10", medals_10s);
 				new_radio_entry("Medal Mod 100", medals_100s);

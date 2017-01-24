@@ -2056,33 +2056,33 @@ void    medal_common(u32 enc1, u32 enc2)
         if (player <= 0x3)
         {
             offset = player * 0xA480;
-            WRITEU32(g_medal + offset, enc1);
-            WRITEU32(g_medal + offset + 0x4, enc2);
-            if (READU32(g_online4_medal) != 0)
-                WRITEU32(g_online4_medal, enc1);
-                WRITEU32(g_online4_medal + 0x4, enc2);
-            if (READU32(g_online5_medal) != 0)
-                WRITEU32(g_online5_medal, enc1);
-                WRITEU32(g_online5_medal + 0x4, enc2);
-            if (READU32(g_online5_medal) != 0);
-                WRITEU32(g_online6_medal, enc1);
-                WRITEU32(g_online6_medal + 0x4, enc2);
+            WRITEU32(g_medals + offset, enc1);
+            WRITEU32(g_medals + offset + 0x4, enc2);
+            if (READU32(g_online4_medals) != 0)
+                WRITEU32(g_online4_medals, enc1);
+                WRITEU32(g_online4_medals + 0x4, enc2);
+            if (READU32(g_online5_medals) != 0)
+                WRITEU32(g_online5_medals, enc1);
+                WRITEU32(g_online5_medals + 0x4, enc2);
+            if (READU32(g_online5_medals) != 0);
+                WRITEU32(g_online6_medals, enc1);
+                WRITEU32(g_online6_medals + 0x4, enc2);
         }
   
         if (player >= 0x3)
         {
-            if (READU32(g_online0_medal) != 0);
-                WRITEU32(g_online0_medal, enc1);
-                WRITEU32(g_online0_medal + 0x4, enc2);
-            if (READU32(g_online1_medal) != 0);
-                WRITEU32(g_online1_medal, enc1);
-                WRITEU32(g_online1_medal + 0x4, enc2);
-            if (READU32(g_online2_medal) != 0);
-                WRITEU32(g_online2_medal, enc1);
-                WRITEU32(g_online2_medal + 0x4, enc2);
-            if (READU32(g_online3_medal) != 0);
-                WRITEU32(g_online3_medal, enc1);
-                WRITEU32(g_online3_medal + 0x4, enc2);
+            if (READU32(g_online0_medals) != 0);
+                WRITEU32(g_online0_medals, enc1);
+                WRITEU32(g_online0_medals + 0x4, enc2);
+            if (READU32(g_online1_medals) != 0);
+                WRITEU32(g_online1_medals, enc1);
+                WRITEU32(g_online1_medals + 0x4, enc2);
+            if (READU32(g_online2_medals) != 0);
+                WRITEU32(g_online2_medals, enc1);
+                WRITEU32(g_online2_medals + 0x4, enc2);
+            if (READU32(g_online3_medals) != 0);
+                WRITEU32(g_online3_medals, enc1);
+                WRITEU32(g_online3_medals + 0x4, enc2);
         }
     }
 }
@@ -2189,3 +2189,4 @@ void	medals_100s(void)
 void	medals_1000s(void)
 {
 	medals_all(0x3E8);
+}
