@@ -1866,16 +1866,13 @@ void    badges_common(u8 bdge)
     u8      player;
     int     i;
 
-    if(is_pressed(BUTTON_Y))
+    player = READU8(g_player);
+    if (player <= 0x3)
     {
-        player = READU8(g_player);
-        if (player <= 0x3)
+        offset = player * 0xA480;
+        for (int i = 0; i < 24; i++)
         {
-            offset = player * 0xA480;
-            for (int i = 0; i < 24; i++)
-            {
-                WRITEU8(g_badge + offset + (0x1 * i), bdge);
-            }
+            WRITEU8(g_badge + offset + (0x1 * i), bdge);
         }
     }
 }
@@ -1934,13 +1931,10 @@ void    turnip_common(u32 enc1, u32 enc2)
 {
     int     i;
 
-    if(is_pressed(BUTTON_Y))
+    for (int i = 0; i < 12; i++)
     {
-        for (int i = 0; i < 12; i++)
-        {
-        WRITEU32(g_turnip + (0x8 * i), enc1);
-        WRITEU32(g_turnip + 0x4 + (0x8 * i), enc2);
-        }
+    WRITEU32(g_turnip + (0x8 * i), enc1);
+    WRITEU32(g_turnip + 0x4 + (0x8 * i), enc2);
     }
 }
 
