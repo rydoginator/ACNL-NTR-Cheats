@@ -137,6 +137,7 @@
 #define		USA_ONLINE5_MEDALS_ADDR				0xA967B0
 #define		USA_ONLINE6_MEDALS_ADDR				0xA9EC30
 
+<<<<<<< HEAD
 #define		USA_CAMERA_ASM_ADDR					0x764504
 #define		EUR_CAMERA_ASM_ADDR					0x76350C
 #define		JAP_CAMERA_ASM_ADDR					0x762CA4
@@ -167,6 +168,8 @@
 #define		JAP_COORDINATES_POINTER				0x32FF8248
 
 
+=======
+>>>>>>> origin/master
 
 /*
 ** Values
@@ -206,6 +209,10 @@
 #define		medal0_1							0x19380E8F
 #define		medal0_2							0xA804C3DC
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 
 enum
 {

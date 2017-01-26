@@ -236,17 +236,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly U", while_plugin_is_alive);
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 4 USA", while_plugin_is_alive);
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly E", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 4 EUR", while_plugin_is_alive); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Nightly J", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 4 JAP", while_plugin_is_alive); 
     }
     else
    {

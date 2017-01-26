@@ -97,6 +97,7 @@ u32		g_online3_medals;
 u32		g_online4_medals;
 u32		g_online5_medals;
 u32		g_online6_medals;
+<<<<<<< HEAD
 u32     g_camera_asm;
 u32     g_camera_x;
 u32     g_camera_y;
@@ -105,6 +106,8 @@ u32     g_camera_pointer;
 u32     g_camstop_pointer;
 u32     g_coordinates_pointer;
 
+=======
+>>>>>>> origin/master
 
 u32     g_find[100];
 u32     g_replace[100];
@@ -207,6 +210,7 @@ void    assign_region(u32 region)
     g_online4_medals = USA_ONLINE4_MEDALS_ADDR;
     g_online5_medals = USA_ONLINE5_MEDALS_ADDR;
     g_online6_medals = USA_ONLINE6_MEDALS_ADDR;
+<<<<<<< HEAD
     g_camera_asm = USA_CAMERA_ASM_ADDR;
     g_camera_x = USA_CAMERA_X_ADDR;
     g_camera_y = USA_CAMERA_Y_ADDR;
@@ -214,6 +218,8 @@ void    assign_region(u32 region)
     g_camera_pointer = USA_CAMERA_POINTER;
     g_camstop_pointer = USA_CAMSTOP_POINTER;
     g_coordinates_pointer = USA_COORDINATES_POINTER;
+=======
+>>>>>>> origin/master
 
     // applying offset or particular address
     switch (region)
@@ -314,6 +320,7 @@ void    assign_region(u32 region)
             g_online4_medals -= 0x1000;
             g_online5_medals -= 0x1000;
             g_online6_medals -= 0x1000;
+<<<<<<< HEAD
             g_camera_asm = EUR_CAMERA_ASM_ADDR;
             g_camera_x = EUR_CAMERA_X_ADDR;
             g_camera_y = EUR_CAMERA_Y_ADDR;
@@ -322,6 +329,8 @@ void    assign_region(u32 region)
             g_camstop_pointer = EUR_CAMSTOP_POINTER;
             g_coordinates_pointer = EUR_COORDINATES_POINTER;
 
+=======
+>>>>>>> origin/master
 
             break;
         case JAP:
@@ -417,6 +426,7 @@ void    assign_region(u32 region)
             g_online4_medals += 0x7000;
             g_online5_medals += 0x7000;
             g_online6_medals += 0x7000;
+<<<<<<< HEAD
             g_camera_asm = JAP_CAMERA_ASM_ADDR;
             g_camera_x = JAP_CAMERA_X_ADDR;
             g_camera_y = JAP_CAMERA_Y_ADDR;
@@ -424,6 +434,8 @@ void    assign_region(u32 region)
             g_camera_pointer = JAP_CAMERA_POINTER;
             g_camstop_pointer = JAP_CAMSTOP_POINTER;
             g_coordinates_pointer = JAP_COORDINATES_POINTER;
+=======
+>>>>>>> origin/master
             break;
     }
 }
@@ -2175,6 +2187,209 @@ void    cameraMod(void)
 }
 
 void    meow_common(u32 enc1, u32 enc2)
+<<<<<<< HEAD
+=======
+{
+    u32     offset;
+    u8      player;
+
+    {   
+        player = READU8(g_player);
+        if (player <= 0x3)
+        {
+            offset = player * 0xA480;
+            WRITEU32(g_meow + offset, enc1);
+            WRITEU32(g_meow + offset + 0x4, enc2);
+            if (READU32(g_online4_meow) != 0)
+                WRITEU32(g_online4_meow, enc1);
+                WRITEU32(g_online4_meow + 0x4, enc2);
+            if (READU32(g_online5_meow) != 0)
+                WRITEU32(g_online5_meow, enc1);
+                WRITEU32(g_online5_meow + 0x4, enc2);
+            if (READU32(g_online5_meow) != 0);
+                WRITEU32(g_online6_meow, enc1);
+                WRITEU32(g_online6_meow + 0x4, enc2);
+        }
+  
+        if (player >= 0x3)
+        {
+            if (READU32(g_online0_meow) != 0);
+                WRITEU32(g_online0_meow, enc1);
+                WRITEU32(g_online0_meow + 0x4, enc2);
+            if (READU32(g_online1_meow) != 0);
+                WRITEU32(g_online1_meow, enc1);
+                WRITEU32(g_online1_meow + 0x4, enc2);
+            if (READU32(g_online2_meow) != 0);
+                WRITEU32(g_online2_meow, enc1);
+                WRITEU32(g_online2_meow + 0x4, enc2);
+            if (READU32(g_online3_meow) != 0);
+                WRITEU32(g_online3_meow, enc1);
+                WRITEU32(g_online3_meow + 0x4, enc2);
+        }
+    }
+}
+
+void    meow_99k(void)
+{
+    meow_common(bell99k1, bell99k2);
+}
+
+void   meow_0k(void)
+{
+    meow_common(bell0k1, bell0k2);
+}
+
+void    meow_neg(void)
+{
+    meow_common(bellNeg1, bellNeg2);
+}
+
+void    medal_common(u32 enc1, u32 enc2)
+{
+    u32     offset;
+    u8      player;
+
+    {   
+        player = READU8(g_player);
+        if (player <= 0x3)
+        {
+            offset = player * 0xA480;
+            WRITEU32(g_medals + offset, enc1);
+            WRITEU32(g_medals + offset + 0x4, enc2);
+            if (READU32(g_online4_medals) != 0)
+                WRITEU32(g_online4_medals, enc1);
+                WRITEU32(g_online4_medals + 0x4, enc2);
+            if (READU32(g_online5_medals) != 0)
+                WRITEU32(g_online5_medals, enc1);
+                WRITEU32(g_online5_medals + 0x4, enc2);
+            if (READU32(g_online5_medals) != 0);
+                WRITEU32(g_online6_medals, enc1);
+                WRITEU32(g_online6_medals + 0x4, enc2);
+        }
+  
+        if (player >= 0x3)
+        {
+            if (READU32(g_online0_medals) != 0);
+                WRITEU32(g_online0_medals, enc1);
+                WRITEU32(g_online0_medals + 0x4, enc2);
+            if (READU32(g_online1_medals) != 0);
+                WRITEU32(g_online1_medals, enc1);
+                WRITEU32(g_online1_medals + 0x4, enc2);
+            if (READU32(g_online2_medals) != 0);
+                WRITEU32(g_online2_medals, enc1);
+                WRITEU32(g_online2_medals + 0x4, enc2);
+            if (READU32(g_online3_medals) != 0);
+                WRITEU32(g_online3_medals, enc1);
+                WRITEU32(g_online3_medals + 0x4, enc2);
+        }
+    }
+}
+
+void    medal_50k(void)
+{
+    medal_common(medal50k_1, medal50k_2);
+}
+
+void   medal_10k(void)
+{
+    medal_common(medal10k_1, medal10k_2);
+}
+
+void   medal_1k(void)
+{
+    medal_common(medal1k_1, medal1k_2);
+}
+
+void   medal_0(void)
+{
+    medal_common(medal0_1, medal0_2);
+}
+
+void	medals_all(u16 val)
+{
+    u32     offset;
+    u8      player;
+	
+	if (is_pressed(BUTTON_DU))
+	{
+		player = READU8(g_player);
+		if (player <= 0x3)
+		{
+			offset = player * 0xA480;
+			SUB32((g_medals + offset), val); //Subtracting adds to medal amount
+			if (READU32(g_online4_medals) != 0)
+			SUB32(g_online4_medals, val);
+			if (READU32(g_online5_medals) != 0)
+			SUB32(g_online5_medals, val);
+			if (READU32(g_online6_medals) != 0)
+			SUB32(g_online6_medals, val);
+		}
+		
+        if (player >= 0x3)
+        {
+            if (READU32(g_online0_medals) != 0);
+			SUB32(g_online0_medals, val);
+            if (READU32(g_online1_medals) != 0);
+			SUB32(g_online1_medals, val);
+            if (READU32(g_online2_medals) != 0);
+			SUB32(g_online2_medals, val);
+            if (READU32(g_online3_medals) != 0);
+			SUB32(g_online3_medals, val);
+        }
+		wait_keys_released(DU);
+	}
+	
+	if (is_pressed(BUTTON_DD))
+	{
+		player = READU8(g_player);
+		if (player <= 0x3)
+		{
+			offset = player * 0xA480;
+			ADD32((g_medals + offset), val); //Adding subtracts from medal amount
+			if (READU32(g_online4_medals) != 0)
+			ADD32(g_online4_medals, val);
+			if (READU32(g_online5_medals) != 0)
+			ADD32(g_online5_medals, val);
+			if (READU32(g_online6_medals) != 0)
+			ADD32(g_online6_medals, val);
+		}
+		
+        if (player >= 0x3)
+        {
+            if (READU32(g_online0_medals) != 0);
+			ADD32(g_online0_medals, val);
+            if (READU32(g_online1_medals) != 0);
+			ADD32(g_online1_medals, val);
+            if (READU32(g_online2_medals) != 0);
+			ADD32(g_online2_medals, val);
+            if (READU32(g_online3_medals) != 0);
+			ADD32(g_online3_medals, val);
+        }
+		wait_keys_released(DD);
+	}
+}
+
+void	medals_1s(void)
+{
+	medals_all(0x1);
+}
+
+void	medals_10s(void)
+{
+	medals_all(0xA);
+}
+
+void	medals_100s(void)
+{
+	medals_all(0x64);
+}
+
+void	medals_1000s(void)
+{
+	medals_all(0x3E8);
+}
+void    furnitureMod(void)
+>>>>>>> origin/master
 {
     u32     offset;
     u8      player;
