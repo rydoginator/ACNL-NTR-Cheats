@@ -8,8 +8,8 @@
 
 #define     add_search_replace(find, replace)   g_find[g_i] = find; g_replace[g_i] = replace; g_i++
 #define     reset_search()                      memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
-#define     add_to_address(addr, value)         *(u32 *)addr += value
-#define     sub_to_address(addr, value)         *(u32 *)addr -= value
+#define     ADD32(addr, value)         *(u32 *)addr += value
+#define     SUB32(addr, value)         *(u32 *)addr -= value
 #define     ADD64(addr, value)                  *(vs64 *)addr += value
 #define     SUB64(addr, value)                  *(vs64 *)addr -= value
 #define		ADD16(addr, value)					*(u16 *)addr += value
@@ -128,6 +128,45 @@
 #define		USA_MAINSTREET_X					0x33077838
 #define		USA_MAINSTREET_Y					0x3307783C
 
+#define     USA_MEDALS_ADDR						0x31F2DBC0
+#define		USA_ONLINE0_MEDALS_ADDR				0xAAB0B0
+#define		USA_ONLINE1_MEDALS_ADDR				0xA8C330
+#define		USA_ONLINE2_MEDALS_ADDR				0xA967B0
+#define		USA_ONLINE3_MEDALS_ADDR				0xAA0C30
+#define		USA_ONLINE4_MEDALS_ADDR				0xA8C330
+#define		USA_ONLINE5_MEDALS_ADDR				0xA967B0
+#define		USA_ONLINE6_MEDALS_ADDR				0xA9EC30
+
+#define		USA_CAMERA_ASM_ADDR					0x764504
+#define		EUR_CAMERA_ASM_ADDR					0x76350C
+#define		JAP_CAMERA_ASM_ADDR					0x762CA4
+
+#define		USA_CAMERA_X_ADDR					0x9866F4
+#define		EUR_CAMERA_X_ADDR					0x9856F4
+#define		JAP_CAMERA_X_ADDR					0x97F6F4
+
+#define		USA_CAMERA_Y_ADDR					0x9866F8
+#define		EUR_CAMERA_Y_ADDR					0x9856F8
+#define		JAP_CAMERA_Y_ADDR					0x97F6F8
+
+#define		USA_CAMERA_Z_ADDR					0x9866FC
+#define		EUR_CAMERA_Z_ADDR					0x9856FC
+#define		JAP_CAMERA_Z_ADDR					0x97F6FC
+
+#define		USA_CAMERA_POINTER					0x951884
+#define		EUR_CAMERA_POINTER					0x950880
+#define		JAP_CAMERA_POINTER					0x94A880
+
+#define		USA_CAMSTOP_POINTER					0xAAE994 //the game's internal pointer for coordinates
+#define		EUR_CAMSTOP_POINTER					0xAAD994
+#define 	JAP_CAMSTOP_POINTER					0xAA7994
+
+
+#define		USA_COORDINATES_POINTER				0x32FD57C8
+#define		EUR_COORDINATES_POINTER				0x32FAD448
+#define		JAP_COORDINATES_POINTER				0x32FF8248
+
+
 
 /*
 ** Values
@@ -139,6 +178,7 @@
 #define     ITEM_BYTES                          0x04
 #define     RANGE_TOWN_ITEMS                    0x5000
 
+//Bells
 #define     bell999M1        					0xA0127E55
 #define     bell999M2        					0x3F07C41E
 #define     bell1M1           					0xC59D1E4F
@@ -153,6 +193,18 @@
 #define		bellBound2							0x2D191422
 #define		bellNeg1							0x789C71D3
 #define		bellNeg2							0x12077362
+
+//Medals
+#define		medal50k_1							0xE33DEE51
+#define		medal50k_2							0x1901B7F0
+#define		medal10k_1							0x6271C63C
+#define		medal10k_2							0x8F06012F
+#define		medal1k_1							0x966658F1
+#define		medal1k_2							0xFF08EE4B
+#define		medal100_1							0x268F1888
+#define		medal100_2							0x0F141390
+#define		medal0_1							0x19380E8F
+#define		medal0_2							0xA804C3DC
 
 
 enum
@@ -233,7 +285,7 @@ void	bank_999m(void);
 void	bank_1m(void);
 void	bank_0m(void);
 void    wallet_99k(void);
-void   wallet_0k(void);
+void	wallet_0k(void);
 void    wallet_out(void);
 void    wallet_neg(void);
 void	canBuy(void);
@@ -258,7 +310,17 @@ void    badge_none(void);
 void	turnip_990(void);
 void	antiGravity(void);
 void	cameraMod(void);
+void    meow_99k(void);
+void	meow_0k(void);
+void    meow_neg(void);
+void	medal_50k(void);
+void	medal_10k(void);
+void	medal_1k(void);
+void	medal_0(void);
+void	medals_1s(void);
+void	medals_10s(void);
+void	medals_100s(void);
+void	medals_1000s(void);
 void 	furnitureMod(void);
-
 
 #endif
