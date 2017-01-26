@@ -63,9 +63,10 @@ char    *builder_name = "RyDog";
     static const char * const dynamic_note = "When inside a ADB, press Y + D pad right to write the decimal to slot 1.";
     static const char * const gr_note = "Rapid fire with tools, anti gravity and more. Enable with L + D Pad up, disable with L + D Pad down.";
     static const char * const cam_note = "R + Circle pad = rotation \n\n R + A stop player from moving or Y unlock camera, X unlock camera (needed) \n\n B + D pad move camerea, L/R up and down";
-    static const char * const turn_note = "Press Y to set the turnip price to 990 bells for the current week.";	
-    static const char * const badge_note = "Press Y to change all badges to selected type.";
+    static const char * const turn_note = "Set the turnip price to 990 bells for the current week.";	
+    static const char * const badge_note = "Change all badges to selected type.";
     static const char * const med_note = "Change your Medal Amount to the selected value.";
+    static const char * const meow_note = "Change your Meow Coupon Amount to the selected value.";
 	static const char * const medun_note = "  WARNING!! Unstable!!\nMedals may become negative\nwhen Adding!! To fix: Decrease to a positive\nnumber & buy anything!\nTo Use: Press Up to increase medals by amount selected,Press Down to decrease by selected value.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
@@ -205,12 +206,11 @@ static inline void  smenu(void)
 				new_radio_entry("Medal Mod 100", medals_100s);
 				new_radio_entry("Medal Mod 1000", medals_1000s);
 			exit_spoiler();
-		exit_spoiler();
-		new_spoiler("Meow Coupon Codes");
-            new_radio_entry("Infinite Meow Coupons", meow_99k);
-            new_radio_entry("No Coupons Left", meow_0k);
-            new_radio_entry("Negative Copuons", meow_neg);
-        exit_spoiler();	
+			new_spoiler_with_note("Meow Coupon Codes", meow_note);
+				new_radio_entry("Infinite Meow Coupons", meow_99k);
+				new_radio_entry("No Coupons Left", meow_0k);
+				new_radio_entry("Negative Copuons", meow_neg);
+			exit_spoiler();	
     exit_spoiler();
 
 
