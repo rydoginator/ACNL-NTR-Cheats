@@ -128,7 +128,7 @@ static inline void  smenu(void)
         new_radio_entry("Rover", changeRover);
         new_radio_entry("Harvey", changeHarvey);
     exit_spoiler();
-    new_spoiler("Money Codes(Beta)");
+    new_spoiler("Money Codes");
         new_spoiler("Bank Values");
             new_radio_entry("Bank Breaker", bank_999m);
             new_radio_entry("Be a millionare!", bank_1m);
@@ -141,24 +141,22 @@ static inline void  smenu(void)
             new_radio_entry("Negative Bells", wallet_neg);
         exit_spoiler();
         new_spoiler("Medal Modifiers");
-            new_spoiler_with_note("Stable Modifier", med_note);
-                new_radio_entry("50K Medals", medal_50k);
-                new_radio_entry("10K Medals", medal_10k);
-                new_radio_entry("1K Medals", medal_1k);
-                new_radio_entry("0 Medals", medal_0);
-            exit_spoiler();
-            new_spoiler_with_note("Unstable Modifier", medun_note);
-                new_unselectable_entry("Read Unstable's Note!");
-                new_radio_entry("Medal Mod 1", medals_1s);
-                new_radio_entry("Medal Mod 10", medals_10s);
-                new_radio_entry("Medal Mod 100", medals_100s);
-                new_radio_entry("Medal Mod 1000", medals_1000s);
-            exit_spoiler();
-            new_spoiler_with_note("Meow Coupon Codes", meow_note);
-                new_radio_entry("Infinite Meow Coupons", meow_99k);
-                new_radio_entry("No Coupons Left", meow_0k);
-                new_radio_entry("Negative Copuons", meow_neg);
-            exit_spoiler(); 
+            //new_entry_with_note("---Stable Modifier---", med_note, keep_it_off);
+            new_radio_entry("50K Medals", medal_50k);
+            new_radio_entry("10K Medals", medal_10k);
+            new_radio_entry("1K Medals", medal_1k);
+            new_radio_entry("0 Medals", medal_0);
+            /*new_entry_with_note("---Unstable Modifier---", medun_note, keep_it_off);
+            new_radio_entry("Medal Mod 1", medals_1s);
+            new_radio_entry("Medal Mod 10", medals_10s);
+            new_radio_entry("Medal Mod 100", medals_100s);
+            new_radio_entry("Medal Mod 1000", medals_1000s);*/
+        exit_spoiler(); 
+        new_spoiler_with_note("Meow Coupon Codes", meow_note);
+            new_radio_entry("Infinite Meow Coupons", meow_99k);
+            new_radio_entry("No Coupons Left", meow_0k);
+            new_radio_entry("Negative Coupons", meow_neg);
+        exit_spoiler();
     exit_spoiler();
     new_spoiler_with_note("Movement Codes", trans_note);
         new_entry_with_note("Anti Gravity and more", gr_note, antiGravity);
@@ -206,7 +204,7 @@ static inline void  smenu(void)
         new_entry_with_note("Time Machine", tm_note, timeMachine);
     exit_spoiler();
     new_spoiler("Misc. Codes");
-        new_entry_with_note("WIP Camera Mod", cam_note, cameraMod);
+        new_entry_with_note("Camera Mod", cam_note, cameraMod);
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
         //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
@@ -236,17 +234,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 4 USA", while_plugin_is_alive);
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 USA", while_plugin_is_alive);
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 4 EUR", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 EUR", while_plugin_is_alive); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 Beta 4 JAP", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 JAP", while_plugin_is_alive); 
     }
     else
    {
