@@ -58,7 +58,7 @@ char    *builder_name = "RyDog";
     static const char * const lush_note = "Press R + A to replenish all your grass!";
     static const char * const weed_note = "Press R + A to remove all weeds!";
     static const char * const flwr_note = "Press R + A to replenish all your flowers!";
-    static const char * const cl_note = "Only works outdoors! Press R + D Pad up to enable, Press L + D Pad down to disable.";
+    static const char * const cl_note = "Only works outdoors! Press L + D Pad up to enable, Press L + D Pad down to disable.";
     static const char * const eat_note = "Type item ID into chat, send it and press L while eating an item to change the item to the item ID you typed in.";
     static const char * const dynamic_note = "When inside a ADB, press Y + D pad right to write the decimal to slot 1.";
     static const char * const gr_note = "Rapid fire with tools, anti gravity and more. Enable with L + D Pad up, disable with L + D Pad down.";
@@ -234,17 +234,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 USA", while_plugin_is_alive);
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 USA", while_plugin_is_alive);
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 EUR", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 EUR", while_plugin_is_alive); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2 JAP", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 JAP", while_plugin_is_alive); 
     }
     else
    {

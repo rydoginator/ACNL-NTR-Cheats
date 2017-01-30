@@ -63,7 +63,7 @@
 #define		USA_ONLINE5_INV_ADDR				0xA967E0
 #define		USA_ONLINE6_INV_ADDR				0xA9EC60
 #define		USA_KEYBOARD_ADDR					0x32DC4A10
-#define		USA_KEYBOARD_ISLAND_ADDR			0x32DD0FB8
+#define		USA_KEYBOARD_ISLAND_ADDR			0x32DF7D14
 #define		EUR_KEYBOAD_ISLAND_ADDR				0x32DCF994
 #define		USA_INPUT_TEXT_ISLAND_ADDR			0x32CBD508
 #define		USA_ABD_ADDR 						0x32DD1AC8 //this one stays in memory, so it is used to write to the inventory. nvm, it doesn't
