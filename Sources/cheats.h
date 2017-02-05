@@ -49,9 +49,15 @@
 #define     USA_INPUT_TEXT_ADDR                 0x32CB0F60
 #define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
 #define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
+
 #define		USA_VISITOR_OUTDOOR_X_ADDR			0x33079190
+#define		USA_VISITOR1_OUTDOOR_X_ADDR			0x3307A2E0
+#define		USA_VISITOR2_OUTDOOR_X_ADDR			0x3307B42C
 #define		USA_VISITOR_OUTDOOR_Z_ADDR			0x33079198
+#define		USA_VISITOR1_OUTDOOR_Z_ADDR			0x3307A2E8
+#define		USA_VISITOR2_OUTDOOR_Z_ADDR			0x3307B434
 #define		USA_VISITOR_INDOOR_X_ADDR			0x330792bc
+#define		USA_VISITOR1_OUTDOOR_X_ADDR			0x
 #define		USA_VISITOR_INDOOR_Z_ADDR			0x330792c4
 #define		USA_MINUTES_ADDR					0x9515BA
 #define		USA_HOURS_ADDR						0x9515BB
@@ -320,6 +326,7 @@ void	medals_1s(void);
 void	medals_10s(void);
 void	medals_100s(void);
 void	medals_1000s(void);
-void 	furnitureMod(void);
+void	deleteAll(void);
+
 
 #endif

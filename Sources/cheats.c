@@ -592,9 +592,12 @@ void    search(void)
     {
         get_input_id(&search, &replace);
         reset_search();
-        add_search_replace(search, replace);
-        find_and_replace_multiple((void *)g_town_items, 0x5000);
-        find_and_replace_multiple((void *)g_island_items, 0x1000);
+        if (search != 0x0000)
+        {
+            add_search_replace(search, replace);
+            find_and_replace_multiple((void *)g_town_items, 0x5000);
+            find_and_replace_multiple((void *)g_island_items, 0x1000);
+        }
     }
 }
 
@@ -1115,12 +1118,17 @@ void    moonjump(void)
 void    edibleItems(void)
 {
     int     input;
+    static u16 placeHolder;
 
     //islandFinder();
     if (is_pressed(BUTTON_L))
     {
         get_input_id(&input, NULL);
-        WRITEU16(g_edible, input);
+        placeHolder = input;
+    }
+    if (is_pressed(BUTTON_R + BUTTON_A))
+    {
+        WRITEU16(g_edible, placeHolder);
     }
 }
 
@@ -2370,4 +2378,15 @@ void	medals_100s(void)
 void	medals_1000s(void)
 {
 	medals_all(0x3E8);
+}
+
+void deleteAll(void)
+{
+    if (is_pressed(BUTTON_R + BUTTON_A))
+    {
+        for (int i = 0; i < 5000; i++)
+        {
+            WRITEU32(g_town_items + (i * 4), 0x00007FFE);
+        }
+    }
 }

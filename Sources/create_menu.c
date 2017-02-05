@@ -59,7 +59,7 @@ char    *builder_name = "RyDog";
     static const char * const weed_note = "Press R + A to remove all weeds!";
     static const char * const flwr_note = "Press R + A to replenish all your flowers!";
     static const char * const cl_note = "Only works outdoors! Press L + D Pad up to enable, Press L + D Pad down to disable.";
-    static const char * const eat_note = "Type item ID into chat, send it and press L while eating an item to change the item to the item ID you typed in.";
+    static const char * const eat_note = "Type item ID into chat, send it and press L to store it, and press R + A while eating an item to change that item into what you typed into the chat/keyboard.";
     static const char * const dynamic_note = "When inside a ADB, press Y + D pad right to write the decimal to slot 1.";
     static const char * const gr_note = "Rapid fire with tools, anti gravity and more. Enable with L + D Pad up, disable with L + D Pad down.";
     static const char * const cam_note = "R + Circle pad = rotation \n\n R + A stop player from moving or Y lock camera, X unlock camera (needed) \n\n B + D pad move camera, L/R up and down";
@@ -68,6 +68,7 @@ char    *builder_name = "RyDog";
     static const char * const med_note = "Change your Medal Amount to the selected value.";
     static const char * const meow_note = "Change your Meow Coupon Amount to the selected value.";
 	static const char * const medun_note = "  WARNING!! Unstable!!\nMedals may become negative\nwhen Adding!! To fix: Decrease to a positive\nnumber & buy anything!\nTo Use: Press Up to increase medals by amount selected,Press Down to decrease by selected value.";
+    static const char * const clear_note = "Press R + A to completely clear your town of everything. There is no going back, so don't save if you don't like it.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
@@ -170,6 +171,7 @@ static inline void  smenu(void)
     exit_spoiler();
     new_spoiler_with_note("Environment Codes", enviro_note);
         new_spoiler("R + A Codes");
+            new_radio_entry_with_note("Clear your town of all items", clear_note, deleteAll);
             new_radio_entry_with_note("Remove all weeds", weed_note, weeder);
             new_radio_entry_with_note("Water all flowers", flwr_note, quench);
             new_radio_entry_with_note("Grass", lush_note, grass);
