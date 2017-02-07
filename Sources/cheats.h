@@ -57,8 +57,12 @@
 #define		USA_VISITOR1_OUTDOOR_Z_ADDR			0x3307A2E8
 #define		USA_VISITOR2_OUTDOOR_Z_ADDR			0x3307B434
 #define		USA_VISITOR_INDOOR_X_ADDR			0x330792bc
-#define		USA_VISITOR1_OUTDOOR_X_ADDR			0x
+#define		USA_VISITOR1_INDOOR_X_ADDR			0x3307A3F4
+#define		USA_VISITOR2_INDOOR_X_ADDR			0x3307B77C
 #define		USA_VISITOR_INDOOR_Z_ADDR			0x330792c4
+#define		USA_VISITOR1_INDOOR_Z_ADDR			0x3307A3FC
+#define		USA_VISITOR2_INDOOR_Z_ADDR			0x3307B784
+
 #define		USA_MINUTES_ADDR					0x9515BA
 #define		USA_HOURS_ADDR						0x9515BB
 #define		USA_ONLINE0_INV_ADDR				0xAAB0e0
@@ -282,6 +286,8 @@ void	morning(void);
 void	noon(void);
 void	dupeAll(void);
 void	stalking_1(void);
+void	stalking_2(void);
+void	stalking_3(void);
 void	gorgeous_set(void);
 void	clear_inv(void);
 void	dynamicMod(void);

@@ -33,6 +33,14 @@ u32     g_visitor_indoor_x;
 u32     g_visitor_indoor_z;
 u32     g_visitor_outdoor_x;
 u32     g_visitor_outdoor_z;
+u32     g_visitor1_indoor_x;
+u32     g_visitor1_indoor_z;
+u32     g_visitor1_outdoor_x;
+u32     g_visitor1_outdoor_z;
+u32     g_visitor2_indoor_x;
+u32     g_visitor2_indoor_z;
+u32     g_visitor2_outdoor_x;
+u32     g_visitor2_outdoor_z;
 u32     g_online0_inv;
 u32     g_online1_inv;
 u32     g_online2_inv;
@@ -143,6 +151,14 @@ void    assign_region(u32 region)
     g_visitor_outdoor_z = USA_VISITOR_OUTDOOR_Z_ADDR;
     g_visitor_indoor_x = USA_VISITOR_INDOOR_X_ADDR;
     g_visitor_indoor_z = USA_VISITOR_INDOOR_Z_ADDR;
+    g_visitor1_outdoor_x = USA_VISITOR1_OUTDOOR_X_ADDR;
+    g_visitor1_outdoor_z = USA_VISITOR1_OUTDOOR_Z_ADDR;
+    g_visitor1_indoor_x = USA_VISITOR1_INDOOR_X_ADDR;
+    g_visitor1_indoor_z = USA_VISITOR1_INDOOR_Z_ADDR;
+    g_visitor2_outdoor_x = USA_VISITOR2_OUTDOOR_X_ADDR;
+    g_visitor2_outdoor_z = USA_VISITOR2_OUTDOOR_Z_ADDR;
+    g_visitor2_indoor_x = USA_VISITOR2_INDOOR_X_ADDR;
+    g_visitor2_indoor_z = USA_VISITOR2_INDOOR_Z_ADDR;
     g_online0_inv = USA_ONLINE0_INV_ADDR;
     g_online1_inv = USA_ONLINE1_INV_ADDR;
     g_online2_inv = USA_ONLINE2_INV_ADDR;
@@ -251,6 +267,14 @@ void    assign_region(u32 region)
             g_visitor_indoor_z -= EUR_DIFFERENCE;
             g_visitor_outdoor_x -= EUR_DIFFERENCE;
             g_visitor_outdoor_z -= EUR_DIFFERENCE;
+            g_visitor1_indoor_x -= EUR_DIFFERENCE;
+            g_visitor1_indoor_z -= EUR_DIFFERENCE;
+            g_visitor1_outdoor_x -= EUR_DIFFERENCE;
+            g_visitor1_outdoor_z -= EUR_DIFFERENCE;
+            g_visitor2_indoor_x -= EUR_DIFFERENCE;
+            g_visitor2_indoor_z -= EUR_DIFFERENCE;
+            g_visitor2_outdoor_x -= EUR_DIFFERENCE;
+            g_visitor2_outdoor_z -= EUR_DIFFERENCE;
             g_online0_inv -= 0x1000;
             g_online1_inv -= 0x1000;
             g_online2_inv -= 0x1000;
@@ -352,6 +376,14 @@ void    assign_region(u32 region)
             g_visitor_indoor_z += JAP_DIFFERENCE;
             g_visitor_outdoor_x += JAP_DIFFERENCE;
             g_visitor_outdoor_z += JAP_DIFFERENCE;
+            g_visitor1_indoor_x += JAP_DIFFERENCE;
+            g_visitor1_indoor_z += JAP_DIFFERENCE;
+            g_visitor1_outdoor_x += JAP_DIFFERENCE;
+            g_visitor1_outdoor_z += JAP_DIFFERENCE;
+            g_visitor2_indoor_x += JAP_DIFFERENCE;
+            g_visitor2_indoor_z += JAP_DIFFERENCE;
+            g_visitor2_outdoor_x += JAP_DIFFERENCE;
+            g_visitor2_outdoor_z += JAP_DIFFERENCE;
             g_online0_inv += 0x7000;
             g_online1_inv += 0x7000;
             g_online2_inv += 0x7000;
@@ -482,6 +514,8 @@ enum
     MORNING,
     NOON,
     STALK1,
+    STALK2,
+    STALK3,
     GORGEOUSSET,
     CLEARINV,
     DUPEALL
@@ -504,6 +538,8 @@ void    text_to_cheats(void)
     else if (match(command_text, "noon")) command = NOON;
     else if (match(command_text, "morning")) command = MORNING;
     else if (match(command_text, "stalk1")) command = STALK1;
+    else if (match(command_text, "stalk2")) command = STALK2;
+    else if (match(command_text, "stalk3")) command = STALK3;
     else if (match(command_text, "gorgeset")) command = GORGEOUSSET;
     else if (match(command_text, "clearinv")) command = CLEARINV;
     else if (match(command_text, "dupeall")) command = DUPEALL;
@@ -536,6 +572,12 @@ void    text_to_cheats(void)
                 break;
             case STALK1:
                 stalking_1();
+                break;
+            case STALK2:
+                stalking_2();
+                break;
+            case STALK3:
+                stalking_3();
                 break;
             case GORGEOUSSET:
                 gorgeous_set();
@@ -2388,5 +2430,55 @@ void deleteAll(void)
         {
             WRITEU32(g_town_items + (i * 4), 0x00007FFE);
         }
+    }
+}
+
+void    stalking_2(void)
+{
+    static int loc;
+    u32 x;
+    u32 z;
+
+    loc = READU32(g_location);
+    if (loc == -1)
+    {
+        x = READU32(g_visitor1_outdoor_x);
+        z = READU32(g_visitor1_outdoor_z);
+        if (X != 0)
+            WRITEU32(g_outdoor_pos_x, x);
+            WRITEU32(g_outdoor_pos_z, z);
+    }
+    else
+    {
+        x = READU32(g_visitor1_indoor_x);
+        z = READU32(g_visitor1_indoor_z);
+        if (x != 0)
+            WRITEU32(g_indoor_pos_x, x);
+            WRITEU32(g_indoor_pos_z, z);
+    }
+}
+
+void    stalking_3(void)
+{
+    static int loc;
+    u32 x;
+    u32 z;
+
+    loc = READU32(g_location);
+    if (loc == -1)
+    {
+        x = READU32(g_visitor2_outdoor_x);
+        z = READU32(g_visitor2_outdoor_z);
+        if (X != 0)
+            WRITEU32(g_outdoor_pos_x, x);
+            WRITEU32(g_outdoor_pos_z, z);
+    }
+    else
+    {
+        x = READU32(g_visitor2_indoor_x);
+        z = READU32(g_visitor2_indoor_z);
+        if (x != 0)
+            WRITEU32(g_indoor_pos_x, x);
+            WRITEU32(g_indoor_pos_z, z);
     }
 }
