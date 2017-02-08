@@ -1468,6 +1468,36 @@ void    walkOver(void)
 
 // Text to cheat functions
 
+void    writeSlot(int slot, u16 item)
+{
+    u8      player;
+    u32     offset;
+    
+    player = READU8(g_player);
+    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+    {
+        offset = player * 0xa480;
+        WRITEU16(g_inv + offset + (slot * 4), item);
+        if (READU16(g_online4_inv) != 0)
+            WRITEU16(g_online4_inv + (slot * 4), item); 
+        if (READU16(g_online5_inv) != 0)
+            WRITEU16(g_online5_inv + (slot * 4), item); 
+        if (READU16(g_online6_inv) != 0)
+            WRITEU16(g_online6_inv + (slot * 4), item);
+    }
+    if (player >= 0x3)
+    {
+        if (READU16(g_online0_inv) != 0)
+            WRITEU16(g_online0_inv + (slot * 4), item);
+        if (READU16(g_online1_inv) != 0)
+            WRITEU16(g_online1_inv + (slot * 4), item); 
+        if (READU16(g_online2_inv) != 0)
+            WRITEU16(g_online2_inv + (slot * 4), item);
+        if (READU16(g_online3_inv) != 0)
+            WRITEU16(g_online3_inv + (slot * 4), item);
+    }      
+}
+
 void    midnight(void)
 {
     u8  hours;
@@ -1568,123 +1598,19 @@ void    stalking_1(void)
 
 void    gorgeous_set(void)
 {
-    u32 offset;
-    u8 player;
-    int i;
-
-    player = READU8(g_player);
-    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-        offset = player * 0xa480;
-        WRITEU16(g_inv + offset, 0x2401);
-        WRITEU16(g_inv + offset + 0x4, 0x2362);
-        for (int i = 0; i < 10; i++)
-        {
-            WRITEU16(g_inv + offset + 0x8 + (0x4 * i), 0x2ADC + i);
-        }
-        if (READU16(g_online4_inv != 0x0))
-            WRITEU16(g_online4_inv, 0x2401);
-            WRITEU16(g_online4_inv + 0x4, 0x2362);
-            for (int i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online4_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
-       if (READU16(g_online5_inv != 0x0))
-            WRITEU16(g_online5_inv, 0x2401);
-            WRITEU16(g_online5_inv + 0x4, 0x2362);
-            for (int i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online5_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
-       if (READU16(g_online6_inv != 0x0))
-            WRITEU16(g_online6_inv, 0x2401);
-            WRITEU16(g_online6_inv + 0x4, 0x2362);
-            for (int i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online5_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
-    if (player >= 0x3)
+    for (int i = 0; i < 11; i++)
     {
-        if (READU16(g_online0_inv != 0x0))
-            WRITEU16(g_online0_inv, 0x2401);
-            WRITEU16(g_online0_inv + 0x4, 0x2362);
-            for (int i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online0_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
-       if (READU16(g_online1_inv != 0x0))
-            WRITEU16(g_online1_inv, 0x2401);
-            WRITEU16(g_online1_inv + 0x4, 0x2362);
-            for (int i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online1_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
-       if (READU16(g_online2_inv != 0x0))
-            WRITEU16(g_online2_inv, 0x2401);
-            WRITEU16(g_online2_inv + 0x4, 0x2362);
-            for (int i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online2_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
-       if (READU16(g_online3_inv != 0x0))
-            WRITEU16(g_online3_inv, 0x2401);
-            WRITEU16(g_online3_inv + 0x4, 0x2362);
-            for (int i = 0; i < 10; i++)
-            {
-                WRITEU16(g_online3_inv + 0x8 + (0x4 * i), 0x2ADC + i);
-            }
+        writeSlot(i, 0x2adc + i); //put item ID of first furniture in series
     }
+    writeSlot(11, 0x2401); //put flooring/wallpaper here.
+    writeSlot(12, 0x2362);
 }
 
 void    clear_inv(void)
 {
-    u32 offset;
-    u8 player;
-    int i;
-
-    player = READU8(g_player);
-    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-        offset = player * 0xa480;
-        for (int i = 0; i < 16; i++)
-        {
-            WRITEU16(g_inv + offset + (0x4 * i), 0x7FFE);
-        }
-        if (READU16(g_online4_inv) != 0)
-            for (int i = 0; i < 16; i++)
-            {
-                WRITEU16(g_online4_inv + offset + (0x4 * i), 0x7FFE);
-            }
-        if (READU16(g_online5_inv) != 0)
-            for (int i = 0; i < 16; i++)
-            {
-                WRITEU16(g_online5_inv + offset + (0x4 * i), 0x7FFE);
-            }
-        if (READU16(g_online6_inv) != 0)
-            for (int i = 0; i < 16; i++)
-            {
-                WRITEU16(g_online1_inv + offset + (0x4 * i), 0x7FFE);
-            }
-    if (player >= 0x3)
+    for (int i = 0; i < 16; i++)
     {
-        if (READU16(g_online0_inv) != 0)
-            for (int i = 0; i < 16; i++)
-            {
-                WRITEU16(g_online0_inv + offset + (0x4 * i), 0x7FFE);
-            }
-        if (READU16(g_online1_inv) != 0)
-            for (int i = 0; i < 16; i++)
-            {
-                WRITEU16(g_online1_inv + offset + (0x4 * i), 0x7FFE);
-            }
-        if (READU16(g_online2_inv) != 0)
-            for (int i = 0; i < 16; i++)
-            {
-                WRITEU16(g_online2_inv + offset + (0x4 * i), 0x7FFE);
-            }
-        if (READU16(g_online3_inv) != 0)
-            for (int i = 0; i < 16; i++)
-            {
-                WRITEU16(g_online3_inv + offset + (0x4 * i), 0x7FFE);
-            }
+        writeSlot(i, 0x7FFE);
     }
 }
 

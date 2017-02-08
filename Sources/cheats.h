@@ -332,6 +332,7 @@ void	medals_1s(void);
 void	medals_10s(void);
 void	medals_100s(void);
 void	medals_1000s(void);
+void    writeSlot(int slot, u16 item);
 void	deleteAll(void);
 
 
