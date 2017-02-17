@@ -11,6 +11,7 @@ u32     g_outdoor_pos_y;
 u32     g_outdoor_pos_z;
 u32     g_town_items;
 u32     g_island_items;
+u32		g_pwp;
 u32     g_player;
 u32     g_inv;
 u32     g_velocity;
@@ -130,6 +131,7 @@ void    assign_region(u32 region)
     g_outdoor_pos_z = USA_OUTDOOR_POS_Z_ADDR;
     g_town_items = USA_TOWN_ITEMS_ADDR;
     g_island_items = USA_ISLAND_ITEMS_ADDR;
+	g_pwp = USA_PWP_ADDR;
     g_player = USA_PLAYER_ADDR;
     g_inv = USA_INV_ADDR;
     g_velocity = USA_VELOCITY_ADDR;
@@ -246,6 +248,7 @@ void    assign_region(u32 region)
             g_outdoor_pos_z -= EUR_DIFFERENCE;
             g_town_items -= EUR_DIFFERENCE;
             g_island_items -= EUR_DIFFERENCE;
+			g_pwp -= EUR_DIFFERENCE;
             g_inv -= EUR_DIFFERENCE;
             g_grass_start -= EUR_DIFFERENCE;
             g_grass_end -= EUR_DIFFERENCE;
@@ -355,6 +358,7 @@ void    assign_region(u32 region)
             g_outdoor_pos_z += JAP_DIFFERENCE;
             g_town_items += JAP_DIFFERENCE;
             g_island_items += JAP_DIFFERENCE;
+			g_pwp += JAP_DIFFERENCE;
             g_grass_start += JAP_DIFFERENCE;
             g_grass_end += JAP_DIFFERENCE;
             g_inv += JAP_DIFFERENCE;
@@ -2407,4 +2411,20 @@ void    stalking_3(void)
             WRITEU32(g_indoor_pos_x, x);
             WRITEU32(g_indoor_pos_z, z);
     }
+}
+
+void	PWP_all(void)
+{
+	u8 player;
+	int i;
+
+	player = READU8(g_player);
+	
+    if (player = 0x0)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			WRITEU8(g_pwp + (0x1 * i), 0xff);
+		}
+	}
 }
