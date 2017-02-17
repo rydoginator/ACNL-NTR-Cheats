@@ -336,6 +336,7 @@ void	medals_1000s(void);
 void    writeSlot(int slot, u16 item);
 void	deleteAll(void);
 void	PWP_all(void);
+void	GoldTools(void);
 
 
 #endif

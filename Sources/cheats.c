@@ -522,7 +522,8 @@ enum
     STALK3,
     GORGEOUSSET,
     CLEARINV,
-    DUPEALL
+    DUPEALL,
+	GOLDSET
 };
 
 void    text_to_cheats(void)
@@ -547,6 +548,7 @@ void    text_to_cheats(void)
     else if (match(command_text, "gorgeset")) command = GORGEOUSSET;
     else if (match(command_text, "clearinv")) command = CLEARINV;
     else if (match(command_text, "dupeall")) command = DUPEALL;
+	else if (match(command_text, "goldset")) command = GOLDSET;
     if (command != last_command)
     {
     bis:
@@ -591,6 +593,8 @@ void    text_to_cheats(void)
                 break;
             case DUPEALL:
                 dupeAll();
+			case GOLDSET:
+				GoldTools();
             default:
                 break;
         }
@@ -2427,4 +2431,12 @@ void	PWP_all(void)
 			WRITEU8(g_pwp + (0x1 * i), 0xff);
 		}
 	}
+}
+
+void    GoldTools(void)
+{
+    for (int i = 0; i < 6; i++)
+    {
+        writeSlot(i, 0x334f + (i * 4)); //put item ID of first furniture in series
+    }
 }
