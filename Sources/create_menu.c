@@ -251,8 +251,7 @@ void    my_menus(void)
         new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 JAP", while_plugin_is_alive); 
     }
     else
-   {
-						printf("Current TitleID: %s", get_title_id());	
+   {	
         new_unselectable_entry("You're Using An Unsupported TitleID!");			
         new_unselectable_entry("This plugin does not support");
 		new_unselectable_entry("The Welcome Amiibo Cart!");
