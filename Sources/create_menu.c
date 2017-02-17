@@ -69,6 +69,7 @@ char    *builder_name = "RyDog";
     static const char * const meow_note = "Change your Meow Coupon Amount to the selected value.";
 	static const char * const medun_note = "  WARNING!! Unstable!!\nMedals may become negative\nwhen Adding!! To fix: Decrease to a positive\nnumber & buy anything!\nTo Use: Press Up to increase medals by amount selected,Press Down to decrease by selected value.";
     static const char * const clear_note = "Press R + A to completely clear your town of everything. There is no going back, so don't save if you don't like it.";
+    static const char * const pwp_note = "Unlock all PWPs. Only works when using Player 1. Don't save if you don't like it.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
