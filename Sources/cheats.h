@@ -32,6 +32,7 @@
 #define     USA_TOWN_ITEMS_ADDR                 0x31F7A458
 #define     USA_ISLAND_ITEMS_ADDR               0x31F96E58
 #define     USA_PLAYER_ADDR                     0xAAE990 //0xAAD990, 0xAA6990
+#define		USA_PWP_ADDR						0x31F772A8
 #define     USA_INV_ADDR                        0x31F2DBF0
 #define     USA_VELOCITY_ADDR                   0x330773FC
 #define     USA_GRASS_START_ADDR                0x31F80880
@@ -334,6 +335,8 @@ void	medals_100s(void);
 void	medals_1000s(void);
 void    writeSlot(int slot, u16 item);
 void	deleteAll(void);
+void	PWP_all(void);
+void	GoldTools(void);
 
 
 #endif

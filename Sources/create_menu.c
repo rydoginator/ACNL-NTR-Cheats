@@ -69,6 +69,7 @@ char    *builder_name = "RyDog";
     static const char * const meow_note = "Change your Meow Coupon Amount to the selected value.";
 	static const char * const medun_note = "  WARNING!! Unstable!!\nMedals may become negative\nwhen Adding!! To fix: Decrease to a positive\nnumber & buy anything!\nTo Use: Press Up to increase medals by amount selected,Press Down to decrease by selected value.";
     static const char * const clear_note = "Press R + A to completely clear your town of everything. There is no going back, so don't save if you don't like it.";
+    static const char * const pwp_note = "Unlock all PWPs. Only works when using Player 1. Don't save if you don't like it.";
 
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
@@ -208,6 +209,7 @@ static inline void  smenu(void)
     new_spoiler("Misc. Codes");
         new_entry_with_note("Camera Mod", cam_note, cameraMod);
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
+		new_entry_with_note("Unlock All PWPS", pwp_note, PWP_all);
         //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
         new_entry_with_note("Turnip Price is 990", turn_note, turnip_990);
@@ -249,8 +251,7 @@ void    my_menus(void)
         new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 JAP", while_plugin_is_alive); 
     }
     else
-   {
-						printf("Current TitleID: %s", get_title_id());	
+   {	
         new_unselectable_entry("You're Using An Unsupported TitleID!");			
         new_unselectable_entry("This plugin does not support");
 		new_unselectable_entry("The Welcome Amiibo Cart!");
