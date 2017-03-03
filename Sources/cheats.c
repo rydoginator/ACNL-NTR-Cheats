@@ -593,6 +593,7 @@ void    text_to_cheats(void)
                 break;
             case DUPEALL:
                 dupeAll();
+				break;
 			case GOLDSET:
 				GoldTools();
             default:
