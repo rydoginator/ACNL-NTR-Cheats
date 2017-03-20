@@ -166,6 +166,8 @@
 #define 	USA_THOUGHT_TEXT_ADDR				0x33077D50
 #define		USA_CLUB_ADDR						0x301b5aa0
 
+#define		USA_GARDENRAM_ADDR					0x31F26F80
+
 
 
 /*

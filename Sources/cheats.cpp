@@ -135,6 +135,7 @@ namespace CTRPluginFramework
 	u32		g_thought;
 	u32		g_club_items;
 	u32		g_building_addr;
+	u32 	g_garden;
 
 	u32     g_find[100];
 	u32     g_replace[100];
@@ -255,6 +256,7 @@ namespace CTRPluginFramework
 	    g_thought = USA_THOUGHT_ADDR;
 	    g_club_items = USA_CLUB_ADDR;
 	    g_building_addr = USA_BUILDING_ADDR;
+	    g_garden = USA_GARDENRAM_ADDR;
 
 	    // applying offset or particular aess
 	    switch (region)
@@ -371,6 +373,7 @@ namespace CTRPluginFramework
 	            g_camstop_pointer = EUR_CAMSTOP_POINTER;
 	            g_coordinates_pointer = EUR_COORDINATES_POINTER;
 	            g_building_addr -= EUR_DIFFERENCE;
+	            g_garden -= EUR_DIFFERENCE;
 	            break;
 	        case JAP:
 	            g_location += JAP_DIFFERENCE;
@@ -481,6 +484,7 @@ namespace CTRPluginFramework
 	            g_camstop_pointer = JAP_CAMSTOP_POINTER;
 	            g_coordinates_pointer = JAP_COORDINATES_POINTER;
 	            g_building_addr += JAP_DIFFERENCE;
+	            g_garden += JAP_DIFFERENCE;
 	            break;
 	    }
 	}
@@ -1133,7 +1137,7 @@ namespace CTRPluginFramework
 
         if (ret == 0)
         {
-            int res = file.Dump(0x31F26F80, 0x89A80);
+            int res = file.Dump(g_garden, 0x89A80);
             file.Close(); 
             entry->Disable();
 
@@ -1152,7 +1156,7 @@ namespace CTRPluginFramework
         int ret = File::Open(file, "gardenram.bin", File::READ);
         if (ret == 0)
         {
-            int res = file.Inject(0x31F26F80, 0x89A80);
+            int res = file.Inject(g_garden, 0x89A80);
             file.Close(); 
             entry->Disable();
 
@@ -1171,11 +1175,9 @@ namespace CTRPluginFramework
         int ret = File::Open(file, "image.jpg", File::READ);
         if (ret == 0)
         {
-            int res = file.Inject(0x31F2C6D8, file.GetSize());
+            int res = file.Inject(g_garden + 0x5758, file.GetSize());
             file.Close(); 
             entry->Disable();
-
-            OSD::Notify("Done!");
         }
 	}
 }
