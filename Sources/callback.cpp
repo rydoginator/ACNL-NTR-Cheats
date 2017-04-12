@@ -11,14 +11,9 @@ namespace CTRPluginFramework
             // Creating my entry list
             std::vector<std::string> list = 
             {
-                "Cheat 1",
-                "Cheat 2",
-                "Cheat 3",
-                "Cheat 4",
-                "Cheat 5",
-                "Cheat 6",
-                "Cheat 7",
-                "Cheat 8"
+                "Save Teleport",
+                "Restore Teleport",
+                "Water Flowers"
             };
 
             // Populate the keyboard with the entries
@@ -31,7 +26,7 @@ namespace CTRPluginFramework
             // If userChoice == -1, the user aborted the keybord or an error occurred
             if (userChoice != -1)
             {
-                OSD::Notify("You've selected: [" + list[userChoice] + "]");
+                OSD::Notify("You've selected " + userChoice);
             }
         }
     }

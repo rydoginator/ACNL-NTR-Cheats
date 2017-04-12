@@ -254,11 +254,14 @@ namespace CTRPluginFramework
 	void	keyboardInput(void);
 	bool    match(const char *str, const char *pattern);
 	void    assign_region(u32 region);
-	void 	writeSlot(int slot, u16 item);
+	void 	writeSlot(int slot, u32 item);
 	bool    CheckItemInput(const void *input, std::string &error);
 	void 	writeLocation(u32 location, u32 item);
 	u32		computeOffset(u32 x, u32 y);
 	u32		getItem(u32 location);
+	u32 *	   readSlot(int slot);
+	void 	writeSlotArray(int slot, u32 item[8]);
+
 
 
 	void	coord(MenuEntry *entry);
@@ -269,6 +272,7 @@ namespace CTRPluginFramework
 	void	moonJump(MenuEntry *entry);
 	void	pass_collisions(MenuEntry *entry);
 	void 	text2item(MenuEntry *entry);
+	void 	duplication(MenuEntry *entry);
 	void 	worldEdit(MenuEntry *entry);
 	void	showBuried(MenuEntry *entry);
 	void	pickBuried(MenuEntry *entry);

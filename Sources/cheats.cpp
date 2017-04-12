@@ -799,6 +799,60 @@ namespace CTRPluginFramework
 	    }      
 	}
 
+	u32	*   readSlot(int slot)
+	{
+		static u32 item[8];
+		u8		player;
+		u32		offset;
+		player = READU8(g_player);
+		if (player <= 0x3)
+		{
+			offset = player * 0xA480;
+			item[1] = READU32(g_inv + offset + (slot * 4));
+			item[2] = READU32(g_online4_inv + (slot * 4));
+			item[3] = READU32(g_online5_inv + (slot * 4));
+			item[4] = READU32(g_online6_inv + (slot * 4));
+		}
+		else
+		{
+			item[5] = READU32(g_online0_inv + (slot * 4));
+			item[6] = READU32(g_online1_inv + (slot * 4));
+			item[7] = READU32(g_online2_inv + (slot * 4));
+			item[8] = READU32(g_online3_inv + (slot * 4));
+		}
+		return item;
+	}
+
+	void 	writeSlotArray(int slot, u32 item[8])
+	{
+		u8      player;
+	    u32     offset;
+	    
+	    player = READU8(g_player);
+	    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
+	    {
+	        offset = player * 0xa480; //difference bet
+	        WRITEU16(g_inv + offset + (slot * 4), item[1]);
+	        if (READU16(g_online4_inv) != 0)
+	            WRITEU16(g_online4_inv + (slot * 4), item[2]); 
+	        if (READU16(g_online5_inv) != 0)
+	            WRITEU16(g_online5_inv + (slot * 4), item[3]); 
+	        if (READU16(g_online6_inv) != 0)
+	            WRITEU16(g_online6_inv + (slot * 4), item[4]);
+	    }
+	    if (player >= 0x3)
+	    {
+	        if (READU16(g_online0_inv) != 0)
+	            WRITEU16(g_online0_inv + (slot * 4), item[5]);
+	        if (READU16(g_online1_inv) != 0)
+	            WRITEU16(g_online1_inv + (slot * 4), item[6]); 
+	        if (READU16(g_online2_inv) != 0)
+	            WRITEU16(g_online2_inv + (slot * 4), item[7]);
+	        if (READU16(g_online3_inv) != 0)
+	            WRITEU16(g_online3_inv + (slot * 4), item[8]);
+	    }      		
+	}
+
 	u32        computeOffset(u32 x, u32 y)
 	{
 	    u32   reg0;
@@ -868,9 +922,17 @@ namespace CTRPluginFramework
             if (keyboard.Open(output) != -1)
             {
             	writeSlot(0, output);  
-            }
-               
-                                  
+            }                      
+		}
+	}
+
+	void 	duplication(MenuEntry *entry)
+	{
+		u32 *item;
+		if (Controller::IsKeyDown(R))
+		{
+			item = readSlot(0);
+			writeSlotArray(1, item);
 		}
 	}
 

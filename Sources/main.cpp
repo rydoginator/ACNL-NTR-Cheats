@@ -75,6 +75,7 @@ namespace CTRPluginFramework
 
        folder = new MenuFolder("Inventory");
        folder->Append(new MenuEntry("Text to Item", text2item, "Press " FONT_X " and " FONT_DR " to open the keyboard to enter in the ID you want to recieve."));
+       folder->Append(new MenuEntry("Duplicate", duplication, "Press " FONT_R " to duplicate the item that is slot 01 to slot 02."));
        folder->Append(new MenuEntry("Show names of buried items", showBuried));
        folder->Append(new MenuEntry("Pick up buried items", pickBuried));
        menu.Append(folder);
