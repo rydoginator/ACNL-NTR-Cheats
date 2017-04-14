@@ -586,6 +586,7 @@ namespace CTRPluginFramework
 	            /*case MORNING:
 	                morning();
 	                break;
+	      
 	            case NOON:
 	                noon();
 	                break;
@@ -798,32 +799,36 @@ namespace CTRPluginFramework
 	            WRITEU16(g_online3_inv + (slot * 4), item);
 	    }      
 	}
-
-	u32	*   readSlot(int slot)
+	//readSlot requires an arra to be used since it will be returning more than 1 value
+	u32     *readSlot(int slot)
 	{
-		static u32 item[8];
-		u8		player;
-		u32		offset;
-		player = READU8(g_player);
-		if (player <= 0x3)
-		{
-			offset = player * 0xA480;
-			item[1] = READU32(g_inv + offset + (slot * 4));
-			item[2] = READU32(g_online4_inv + (slot * 4));
-			item[3] = READU32(g_online5_inv + (slot * 4));
-			item[4] = READU32(g_online6_inv + (slot * 4));
-		}
-		else
-		{
-			item[5] = READU32(g_online0_inv + (slot * 4));
-			item[6] = READU32(g_online1_inv + (slot * 4));
-			item[7] = READU32(g_online2_inv + (slot * 4));
-			item[8] = READU32(g_online3_inv + (slot * 4));
-		}
-		return item;
+	    static u32 item[4];
+
+	    u8      player;
+	    u32     offset;
+
+	    player = READU8(g_player);
+
+	    if (player <= 0x3)
+	    {
+	        offset = player * 0xA480;
+	        item[0] = READU32(g_inv + offset + (slot * 4));
+	        item[1] = READU32(g_online4_inv + (slot * 4));
+	        item[2] = READU32(g_online5_inv + (slot * 4));
+	        item[3] = READU32(g_online6_inv + (slot * 4));
+	    }
+	    else
+	    {
+	        item[0] = READU32(g_online0_inv + (slot * 4));
+	        item[1] = READU32(g_online1_inv + (slot * 4));
+	        item[2] = READU32(g_online2_inv + (slot * 4));
+	        item[3] = READU32(g_online3_inv + (slot * 4));
+	    }
+	    
+	    return (item);
 	}
 
-	void 	writeSlotArray(int slot, u32 item[8])
+	void 	writeSlotArray(int slot, u32 item[3])
 	{
 		u8      player;
 	    u32     offset;
@@ -832,24 +837,24 @@ namespace CTRPluginFramework
 	    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
 	    {
 	        offset = player * 0xa480; //difference bet
-	        WRITEU16(g_inv + offset + (slot * 4), item[1]);
+	        WRITEU16(g_inv + offset + (slot * 4), item[0]);
 	        if (READU16(g_online4_inv) != 0)
-	            WRITEU16(g_online4_inv + (slot * 4), item[2]); 
+	            WRITEU16(g_online4_inv + (slot * 4), item[1]); 
 	        if (READU16(g_online5_inv) != 0)
-	            WRITEU16(g_online5_inv + (slot * 4), item[3]); 
+	            WRITEU16(g_online5_inv + (slot * 4), item[2]); 
 	        if (READU16(g_online6_inv) != 0)
-	            WRITEU16(g_online6_inv + (slot * 4), item[4]);
+	            WRITEU16(g_online6_inv + (slot * 4), item[3]);
 	    }
 	    if (player >= 0x3)
 	    {
 	        if (READU16(g_online0_inv) != 0)
-	            WRITEU16(g_online0_inv + (slot * 4), item[5]);
+	            WRITEU16(g_online0_inv + (slot * 4), item[0]);
 	        if (READU16(g_online1_inv) != 0)
-	            WRITEU16(g_online1_inv + (slot * 4), item[6]); 
+	            WRITEU16(g_online1_inv + (slot * 4), item[1]); 
 	        if (READU16(g_online2_inv) != 0)
-	            WRITEU16(g_online2_inv + (slot * 4), item[7]);
+	            WRITEU16(g_online2_inv + (slot * 4), item[2]);
 	        if (READU16(g_online3_inv) != 0)
-	            WRITEU16(g_online3_inv + (slot * 4), item[8]);
+	            WRITEU16(g_online3_inv + (slot * 4), item[3]);
 	    }      		
 	}
 
@@ -928,7 +933,7 @@ namespace CTRPluginFramework
 
 	void 	duplication(MenuEntry *entry)
 	{
-		u32 *item;
+		u32 *item; //use a pointer to access an array
 		if (Controller::IsKeyDown(R))
 		{
 			item = readSlot(0);
@@ -1175,18 +1180,15 @@ namespace CTRPluginFramework
 
 	void 	weeder(MenuEntry *entry)
 	{
+		u16 weeds[] = {0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8};
 	    if (Controller::IsKeysDown(R + A))
 	    {
-	        reset_search();
-	        add_search_replace(0x0000007C, 0x00007FFE);
-	        add_search_replace(0x0000007D, 0x00007FFE);
-	        add_search_replace(0x0000007E, 0x00007FFE);
-	        add_search_replace(0x0000007F, 0x00007FFE);
-	        add_search_replace(0x000000CB, 0x00007FFE);
-	        add_search_replace(0x000000CC, 0x00007FFE);
-	        add_search_replace(0x000000CD, 0x00007FFE);
-	        add_search_replace(0x000000F8, 0x00007FFE);
-	        find_and_replace_multiple(g_town_items, 0x5000);
+	        for (int i = 0; i < 7; i++)
+	        {
+	        	reset_search();
+	        	add_search_replace(weeds[i], 0x7FFE);
+	        	find_and_replace_multiple(g_town_items, 0x5000);
+	        }
 		}
 	}
 
@@ -1241,5 +1243,113 @@ namespace CTRPluginFramework
             file.Close(); 
             entry->Disable();
         }
+	}
+
+	void 	timeTravel(MenuEntry *entry)
+	{
+
+	}
+
+
+	void 	setTimeTo(int hour)
+	{
+	    u8  minutes = READU8(g_minutes);
+	    u8 hours = READU8(g_hours);
+	    u64 time;
+
+	    if (hour != -1 && hour < 24)
+	    {
+		    switch(hour)
+		    {
+		    	case 0:
+		    		if (hours < 6) //go backwards in time if the time is before 6AM to prevent saving.
+		    		{
+		    			time = (hours * 0x34630B8A000) + (minutes * 0xDF8475800);
+		    			SUB64(g_realtime, time); 
+		        		SUB64(g_savetime, time); 
+		    		}
+		    		else // go forwards in time
+		    		{
+		    			hours = 24 - hours; 
+		    			time = (hours * 0x34630B8A000) - (minutes * 0xDF8475800); //we want to subtract minutes for this time
+		    			ADD64(g_realtime, time); //since you're before entered time, you need to travel forward in time
+		        		ADD64(g_savetime, time);
+		    		}
+		    		break;
+		    	case 1:
+		    		if (hours == 0) //if it's midnight, we only want to go forward an hour
+		    		{
+		    			hours += 1;
+		    			time = (hours * 0x34630B8A000) - (minutes * 0xDF8475800); //and subtract the minutes 
+		    			ADD64(g_realtime, time); 
+		        		ADD64(g_savetime, time);
+		    		}
+		    		else if (hours < 6 && hours >= 1) // if the time is between 1AM and 5AM, we want to go backwards in time
+		    		{
+		    			hours -= 1;
+		    			time = (hours * 0x34630B8A000) + (minutes * 0xDF8475800);
+		    			SUB64(g_realtime, time); 
+		        		SUB64(g_savetime, time); 	    			
+		    		}
+		    		else
+		    		{
+		    			hours = 25 - hours; // 25 - whatever the current hour is will get you to how far away it is from 1am (example: 25 - 13(1pm) = 12 hours away)
+		    			time = (hours * 0x34630B8A000) - (minutes * 0xDF8475800);
+		    			ADD64(g_realtime, time); 
+		        		ADD64(g_savetime, time);
+		    		}
+		    		break;
+		    	case 2:
+		    		if (hours <= 1) //if it's 1AM or midnight, we want to go forward 2 or 3 hours
+		    		{
+		    			hours = 2 + hours;
+		    			time = (hours * 0x34630B8A000) - (minutes * 0xDF8475800); //and subtract the minutes 
+		    			ADD64(g_realtime, time); 
+		        		ADD64(g_savetime, time);
+		    		}
+		    		else if (hours < 6 && hours >= 2) // if the time is between 1AM and 5AM, we want to go backwards in time
+		    		{
+		    			hours -= 2;
+		    			time = (hours * 0x34630B8A000) + (minutes * 0xDF8475800);
+		    			SUB64(g_realtime, time); 
+		        		SUB64(g_savetime, time); 	    			
+		    		}
+		    		else
+		    		{
+		    			hours = 26 - hours; 
+		    			time = (hours * 0x34630B8A000) - (minutes * 0xDF8475800);
+		    			ADD64(g_realtime, time); 
+		        		ADD64(g_savetime, time);		    			
+		    		}
+		    		break;
+		    	case 12:
+		    		if (hours >= 6 && hours <= 11) //if the time is between 6AM and 11AM, we go forward in time
+		    		{
+		    			hours = 12 - hours;
+		    			time = (hours * 0x34630B8A000) - (minutes * 0xDF8475800);
+		    			ADD64(g_realtime, time); 
+		        		ADD64(g_savetime, time);
+		    		}
+		    		else if (hours >= 12 && hours <= 23)// if the time is between 12PM and 11PM, we want to go backwards in time
+		    		{
+		    			hours = 12 - hours;
+		    			minutes = 60 - minutes;
+		    			time = (hours * 0x34630B8A000) + (minutes * 0xDF8475800);
+		    			SUB64(g_realtime, time); 
+		        		SUB64(g_savetime, time); 
+		    		}
+		    		else //we'll have to travel backwards if the time is between 12AM and 5AM in order to prevent a new day cycle.
+		    		{
+		    			hours = 12 + hours;
+		    			minutes = 60 - minutes;
+		    			time = (hours * 0x34630B8A000) + (minutes * 0xDF8475800);
+		    			SUB64(g_realtime, time); 
+		        		SUB64(g_savetime, time);
+		    		}
+		    		break;
+		    	default:
+		    		break;
+		    }
+		}
 	}
 }

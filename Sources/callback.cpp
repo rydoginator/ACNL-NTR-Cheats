@@ -6,14 +6,15 @@ namespace CTRPluginFramework
     {
         if (Controller::IsKeysDown(R + X))
         {
-            Keyboard  keyboard("Select which command you'd like to execute.");
+            Keyboard  keyboard("Select which command \nyou'd like to execute.");
 
             // Creating my entry list
             std::vector<std::string> list = 
             {
-                "Save Teleport",
-                "Restore Teleport",
-                "Water Flowers"
+                "Water Flowers",
+                "Pull All Weeds",
+                "Duplicate All Items",
+                "Set Time to..."
             };
 
             // Populate the keyboard with the entries
@@ -24,9 +25,52 @@ namespace CTRPluginFramework
             int  userChoice = keyboard.Open();
 
             // If userChoice == -1, the user aborted the keybord or an error occurred
-            if (userChoice != -1)
+            if (userChoice == 0)
             {
                 OSD::Notify("You've selected " + userChoice);
+            }
+            else if (userChoice == 3)
+            {
+                timePicker();
+            }
+        }
+    }
+    void    timePicker(void)
+    {
+        Keyboard  keyboard("Select which time you'd like to travel\nto");
+        std::vector<std::string> list = 
+        {
+            "12 AM",
+            "1 AM",
+            "2 AM",
+            "3 AM",
+            "12 PM"
+        };
+        keyboard.Populate(list);
+
+        int  userChoice = keyboard.Open();
+
+        if (userChoice != -1)
+        {
+            switch(userChoice)
+            {
+                case 0:
+                    setTimeTo(0);
+                    break;
+                case 1:
+                    setTimeTo(1);
+                    break;
+                case 2:
+                    setTimeTo(2);
+                    break;
+                case 3:
+                    setTimeTo(3);
+                    break;
+                case 4:
+                    setTimeTo(12);
+                    break;
+                default:
+                    break;
             }
         }
     }

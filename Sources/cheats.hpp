@@ -286,6 +286,8 @@ namespace CTRPluginFramework
 	void    restore(MenuEntry *entry);
 
 	void    CheatsKeyboard(void);
+	void    timePicker(void);
+	void 	setTimeTo(int hour);
 	void    InjectTCP(MenuEntry *entry);
 }
 #endif
