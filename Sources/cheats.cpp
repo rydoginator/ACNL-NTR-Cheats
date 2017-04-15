@@ -12,6 +12,7 @@ namespace CTRPluginFramework
     #define WRITEU8(a, v) 	*(u8 *)(a) = (u8)v
     #define WRITEU16(a, v) 	*(u16 *)(a) = (u16)v
     #define WRITEU32(a, v) 	*(u32 *)(a) = (u32)v 
+    #define WRITEU64(a, v)	*(u64 *)(a) = (u64)v
 
 	#define ADD32(a, v)  *(u32 *)a += v
 	#define SUB32(a, v)  *(u32 *)a -= v
@@ -1245,9 +1246,35 @@ namespace CTRPluginFramework
         }
 	}
 
-	void 	timeTravel(MenuEntry *entry)
+	void    timeTravel(MenuEntry *entry)
 	{
-
+		if (Controller::IsKeysDown(R + DPadRight))
+		{
+	        ADD64(g_savetime, 0x9EF21AA);
+	        ADD64(g_realtime, 0x9EF21AA);
+		}
+		if (Controller::IsKeysDown(R + DPadLeft))
+		{
+	        SUB64(g_savetime, 0x9EF21AA);
+	        SUB64(g_realtime, 0x9EF21AA);
+		}
+	    if (!Controller::IsKeyDown(Key::B))
+	        return;
+	    if (Controller::IsKeyPressed(Key::DPadRight))
+	    {
+	        ADD64(g_savetime, 0x34630B8A000);
+	        ADD64(g_realtime, 0x34630B8A000);
+	    }
+	    if (Controller::IsKeyPressed(Key::DPadLeft))
+	    {
+	        SUB64(g_savetime, 0x34630B8A000);
+	        SUB64(g_realtime, 0x34630B8A000);
+	    }
+	    if (Controller::IsKeyPressed(Key::DPadDown))
+	    {
+	        WRITEU64(g_savetime, 0x0000000000000000);
+	        WRITEU64(g_realtime, 0x0000000000000000);	    	
+	    }
 	}
 
 
@@ -1333,7 +1360,6 @@ namespace CTRPluginFramework
 		    		else if (hours >= 12 && hours <= 23)// if the time is between 12PM and 11PM, we want to go backwards in time
 		    		{
 		    			hours = 12 - hours;
-		    			minutes = 60 - minutes;
 		    			time = (hours * 0x34630B8A000) + (minutes * 0xDF8475800);
 		    			SUB64(g_realtime, time); 
 		        		SUB64(g_savetime, time); 
@@ -1341,8 +1367,7 @@ namespace CTRPluginFramework
 		    		else //we'll have to travel backwards if the time is between 12AM and 5AM in order to prevent a new day cycle.
 		    		{
 		    			hours = 12 + hours;
-		    			minutes = 60 - minutes;
-		    			time = (hours * 0x34630B8A000) + (minutes * 0xDF8475800);
+		    			time = (hours * 0x34630B8A000) - (minutes * 0xDF8475800);
 		    			SUB64(g_realtime, time); 
 		        		SUB64(g_savetime, time);
 		    		}

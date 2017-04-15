@@ -281,7 +281,7 @@ namespace CTRPluginFramework
 	void 	customBuilding(MenuEntry *entry);
 	void 	deleteAll(MenuEntry *entry);
 	void 	weeder(MenuEntry *entry);
-
+	void 	timeTravel(MenuEntry *entry);
 	void    backup(MenuEntry *entry);
 	void    restore(MenuEntry *entry);
 
