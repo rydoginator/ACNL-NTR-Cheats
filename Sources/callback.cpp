@@ -44,7 +44,9 @@ namespace CTRPluginFramework
             "1 AM",
             "2 AM",
             "3 AM",
-            "12 PM"
+            "4 AM",
+            "12 PM",
+
         };
         keyboard.Populate(list);
 
@@ -66,7 +68,7 @@ namespace CTRPluginFramework
                 case 3:
                     setTimeTo(3);
                     break;
-                case 4:
+                case 5:
                     setTimeTo(12);
                     break;
                 default:
