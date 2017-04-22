@@ -270,7 +270,7 @@ namespace CTRPluginFramework
 	u32		getItem(u32 location);
 	u32 *	   readSlot(int slot);
 	void 	writeSlotArray(int slot, u32 item[8]);
-	void 	changeGender(u8 gender);
+	void 	changeGender(void);
 
 
 

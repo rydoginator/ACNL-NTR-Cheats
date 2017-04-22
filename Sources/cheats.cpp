@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include "player.hpp"
 #include <cstring>
 #include <stdio.h>
 
@@ -32,7 +33,7 @@ namespace CTRPluginFramework
 	u32     g_outdoor_pos_z;
 	u32     g_town_items;
 	u32     g_island_items;
-	u32     g_player;
+	extern u32     g_playerId;
 	u32     g_inv;
 	u32     g_velocity;
 	u32     g_grass_start;
@@ -158,7 +159,7 @@ namespace CTRPluginFramework
 	    g_outdoor_pos_z = USA_OUTDOOR_POS_Z_ADDR;
 	    g_town_items = USA_TOWN_ITEMS_ADDR;
 	    g_island_items = USA_ISLAND_ITEMS_ADDR;
-	    g_player = USA_PLAYER_ADDR;
+	    g_playerId = USA_PLAYER_ADDR;
 	    g_inv = USA_INV_ADDR;
 	    g_velocity = USA_VELOCITY_ADDR;
 	    g_grass_start = USA_GRASS_START_ADDR;
@@ -295,7 +296,7 @@ namespace CTRPluginFramework
 	            g_minutes = 0x9505B6;
 	            g_realtime = 0x95c500;
 	            g_seed = 0x9B4268;
-	            g_player = 0xAAD990;
+	            g_playerId = 0xAAD990;
 	            g_visitor_indoor_x -= EUR_DIFFERENCE;
 	            g_visitor_indoor_z -= EUR_DIFFERENCE;
 	            g_visitor_outdoor_x -= EUR_DIFFERENCE;
@@ -407,7 +408,7 @@ namespace CTRPluginFramework
 	            g_minutes = 0x9495B6;
 	            g_realtime = 0x956500;
 	            g_seed = 0x9AD248;
-	            g_player = 0xAA7990;
+	            g_playerId = 0xAA7990;
 	            g_visitor_indoor_x += JAP_DIFFERENCE;
 	            g_visitor_indoor_z += JAP_DIFFERENCE;
 	            g_visitor_outdoor_x += JAP_DIFFERENCE;
@@ -495,6 +496,15 @@ namespace CTRPluginFramework
 	            break;
 	    }
 	}
+
+	Player  *g_player = nullptr;
+
+    void    Assign(void)
+    {
+        // Create a new Player object
+        g_player = new Player();
+        //...
+    }
 
 	void    coord(MenuEntry *entry)
 	{
@@ -738,7 +748,7 @@ namespace CTRPluginFramework
 		u8      player;
 	    u32     offset;
 	    
-	    player = READU8(g_player);
+	    player = READU8(g_playerId);
 	    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
 	    {
 	        offset = player * 0xa480; //difference bet
@@ -770,7 +780,7 @@ namespace CTRPluginFramework
 	    u8      player;
 	    u32     offset;
 
-	    player = READU8(g_player);
+	    player = READU8(g_playerId);
 
 	    if (player <= 0x3)
 	    {
@@ -796,7 +806,7 @@ namespace CTRPluginFramework
 		u8      player;
 	    u32     offset;
 	    
-	    player = READU8(g_player);
+	    player = READU8(g_playerId);
 	    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
 	    {
 	        offset = player * 0xa480; //difference between each player
@@ -1478,45 +1488,32 @@ namespace CTRPluginFramework
 	    }
 	}
 
-	void 	changeGender(void)
-	{
-		u8		player = READU8(g_player);
-		u32		offset = 0;
 
+    void    changeGender(void)
+    {
+        Keyboard  keyboard("Which gender would you like?");
+        std::vector<std::string> list = 
+        {
+            "Male", //there are only two genders, folks
+            "Female"
+        };
+        keyboard.Populate(list);
 
-		Keyboard  keyboard("Which gender would you like?");
-		std::vector<std::string> list = 
-		{
-			"Male", //there are only two genders, folks
-			"Female"
-		};
-		keyboard.Populate(list);
+        int userChoice = keyboard.Open();
 
-		int userChoice = keyboard.Open();
+        if (g_player->GetId() <= 3)
+        {
+            if (userChoice != -1)
+                g_player->Write(g_gender, userChoice);
 
-		if (player <= 3)
-		{
-			offset = player * 0xA480;
-			if (userChoice == 0)
-			{
-			  	WRITEU8(g_gender + offset, 0x0);
-			  	appearanceMod(); //this creates infinite keyboards until the user cancels/chooses female
-			}
-			if (userChoice == 1)
-			{
-				WRITEU8(g_gender + offset, 0x01);
-			}
-			else
-			{
-				appearanceMod(); //if the user cancels, we go back to the appearence screen.
-			}
-		}
-		else
-		{
-			OSD::Notify("You must load your save to use this cheat!");//once I find a conditional for the island, it will only say it doesn't work on the island if the conditional is true
-			OSD::Notify("This cheat doesn't work on the island.");
-		}
-	}
+            appearanceMod();
+        }
+        else
+        {
+            OSD::Notify("You must load your save to use this cheat!");//once I find a conditional for the island, it will only say it doesn't work on the island if the conditional is true
+            OSD::Notify("This cheat doesn't work on the island.");
+        }
+    }
 
 
 	void 	appearanceMod(void)
