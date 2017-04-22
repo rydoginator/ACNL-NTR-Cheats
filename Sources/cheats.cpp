@@ -1258,95 +1258,96 @@ namespace CTRPluginFramework
 		static u8 minutes, hours, days, months, years;
 		u64 time;
 		static bool direction = false;
-
+		if (Controller::IsKeysDown(Y + DPadRight))
 		{
-	        Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
-	        std::vector<std::string> list = 
-	        {
-	            "Forwards",
-	            "Backwards"
-	        };
-	        keyboard.Populate(list);
+			{
+		        Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
+		        std::vector<std::string> list = 
+		        {
+		            "Forwards",
+		            "Backwards"
+		        };
+		        keyboard.Populate(list);
 
-	        int  userChoice = keyboard.Open();
+		        int  userChoice = keyboard.Open();
 
-	        if (userChoice == 0)
-	        {
-	        	direction = true;
-	        }
-	        else if (userChoice == -1)
-	        {
-	        	direction = false;
-	        }
-	        else
-	        {
-	        	return;
-	        }
-    	}
-    	{
-    		Keyboard keyboard("How many minutes?");
-    		keyboard.IsHexadecimal(false);
-    		keyboard.SetCompareCallback(CheckMinuteInput);
-    		
-    		if (keyboard.Open(minutes) == -1)
-    		{
-    			return;
-    		}
-    	}
-    	{
-    	    Keyboard keyboard("How many hours?");
-    		keyboard.IsHexadecimal(false);
-    		keyboard.SetCompareCallback(CheckHourInput);
-    		
-    		if (keyboard.Open(hours) == -1)
-    		{
-    			return;
-    		}
-    	}
-    	{
-    	    Keyboard keyboard("How many days?");
-    		keyboard.IsHexadecimal(false);
-    		keyboard.SetCompareCallback(CheckDayInput);
-    		
-    		if (keyboard.Open(days) == -1)
-    		{
-    			return;
-    		}
-    	}
-    	{
-    	    Keyboard keyboard("How many months?");
-    		keyboard.IsHexadecimal(false);
-    		keyboard.SetCompareCallback(CheckDayInput);
-    		
-    		if (keyboard.Open(months) == -1)
-    		{
-    			return;
-    		}    		
-    	}
-    	{
-    	    Keyboard keyboard("How many years?");
-    		keyboard.IsHexadecimal(false);
-    		keyboard.SetCompareCallback(CheckYearInput);
-    		
-    		if (keyboard.Open(hours) == -1)
-    		{
-    			return;
-    		}   		
-    	}
-    	time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
-    	if (direction == true)
-    	{
-    		ADD64(g_realtime, time); 
-		    ADD64(g_savetime, time);
-		    entry-> Disable();
-    	}
-    	else
-    	{
-    		SUB64(g_realtime, time); 
-		    SUB64(g_savetime, time);
-		    entry-> Disable();    		
-    	}
-    	entry-> Disable();
+		        if (userChoice == 0)
+		        {
+		        	direction = true;
+		        }
+		        else if (userChoice == -1)
+		        {
+		        	direction = false;
+		        }
+		        else
+		        {
+		        	return;
+		        }
+	    	}
+	    	{
+	    		Keyboard keyboard("How many minutes?");
+	    		keyboard.IsHexadecimal(false);
+	    		keyboard.SetCompareCallback(CheckMinuteInput);
+	    		
+	    		if (keyboard.Open(minutes) == -1)
+	    		{
+	    			return;
+	    		}
+	    	}
+	    	{
+	    	    Keyboard keyboard("How many hours?");
+	    		keyboard.IsHexadecimal(false);
+	    		keyboard.SetCompareCallback(CheckHourInput);
+	    		
+	    		if (keyboard.Open(hours) == -1)
+	    		{
+	    			return;
+	    		}
+	    	}
+	    	{
+	    	    Keyboard keyboard("How many days?");
+	    		keyboard.IsHexadecimal(false);
+	    		keyboard.SetCompareCallback(CheckDayInput);
+	    		
+	    		if (keyboard.Open(days) == -1)
+	    		{
+	    			return;
+	    		}
+	    	}
+	    	{
+	    	    Keyboard keyboard("How many months?");
+	    		keyboard.IsHexadecimal(false);
+	    		keyboard.SetCompareCallback(CheckDayInput);
+	    		
+	    		if (keyboard.Open(months) == -1)
+	    		{
+	    			return;
+	    		}    		
+	    	}
+	    	{
+	    	    Keyboard keyboard("How many years?");
+	    		keyboard.IsHexadecimal(false);
+	    		keyboard.SetCompareCallback(CheckYearInput);
+	    		
+	    		if (keyboard.Open(hours) == -1)
+	    		{
+	    			return;
+	    		}   		
+	    	}
+	    	time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
+	    	if (direction == true)
+	    	{
+	    		ADD64(g_realtime, time); 
+			    ADD64(g_savetime, time);
+			    OSD::Notify("Welcome to the future, time traveler.");
+	    	}
+	    	else
+	    	{
+	    		SUB64(g_realtime, time); 
+			    SUB64(g_savetime, time);
+			    OSD::Notify("Welcome to the past, time traveler.");   		
+	    	}
+	    }
 	}
 
 	void 	quench(MenuEntry *entry)
@@ -1512,7 +1513,8 @@ namespace CTRPluginFramework
 		}
 		else
 		{
-			OSD::Notify("You must load your save to use this cheat!\nThis cheat doesn't work on the island.");//once I find a conditional for the island, it will only say it doesn't work on the island if the conditional is true
+			OSD::Notify("You must load your save to use this cheat!");//once I find a conditional for the island, it will only say it doesn't work on the island if the conditional is true
+			OSD::Notify("This cheat doesn't work on the island.");
 		}
 	}
 

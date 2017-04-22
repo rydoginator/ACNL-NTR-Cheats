@@ -93,8 +93,8 @@ namespace CTRPluginFramework
        menu.Append(folder);
 
        folder = new MenuFolder("Time Travel Codes");
-       folder->Append(new MenuEntry("Time Travel", timeTravel, "Press " FONT_R " and " FONT_A " to enter the time machine :)"));
-       folder->Append(new MenuEntry("Time Machine", timeMachine));
+       folder->Append(new MenuEntry("Time Travel", timeTravel, "Press either " FONT_R " or " FONT_B " and " FONT_DR " to travel forward or " FONT_DL " to retwind time or " FONT_B " and " FONT_DD " to set ingame time back to your 3DS's clock."));
+       folder->Append(new MenuEntry("Time Machine", timeMachine, "Press " FONT_Y " and " FONT_DR " to start time traveling."));
        menu.Append(folder);
 
        folder = new MenuFolder("Misc.");
