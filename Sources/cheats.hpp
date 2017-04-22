@@ -251,6 +251,7 @@ namespace CTRPluginFramework
 {
 
 	extern bool g_command;
+	extern bool overRide;
 	//helpers
 	void    find_and_replace_multiple(u32 start_addr, u32 length);
 	void    retrieve_input_string(char *output, int size);

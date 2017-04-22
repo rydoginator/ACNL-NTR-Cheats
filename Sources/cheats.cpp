@@ -145,6 +145,7 @@ namespace CTRPluginFramework
 
 
 	bool g_command = false;
+	bool overRide = false;
 	// Function to assign our aesses
 
 	void    assign_region(u32 region)
@@ -1499,7 +1500,7 @@ namespace CTRPluginFramework
 			if (userChoice == 0)
 			{
 			  	WRITEU8(g_gender + offset, 0x0);
-			  	appearanceMod();
+			  	appearanceMod(); //this creates infinite keyboards until the user cancels/chooses female
 			}
 			if (userChoice == 1)
 			{
@@ -1538,9 +1539,9 @@ namespace CTRPluginFramework
 	    		changeGender();
 				break;
 			case 1:
-				
+
 			default:
-				CheatsKeyboard(); //go back to the main menu if user aborts.
+				overRide = true; //go back to the main menu if user aborts.
 				break;
 	    }
 
