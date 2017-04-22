@@ -5,8 +5,7 @@ namespace CTRPluginFramework
     void    CheatsKeyboard(void) //allow accessing the menu without pressing R+X
     {
         bool g_command;
-        bool overRide;
-        if (Controller::IsKeysDown(R + X) || overRide == true)
+        if (Controller::IsKeysDown(R + X))
         {
             g_command = true;
             Keyboard  keyboard("Select which command \nyou'd like to execute.");

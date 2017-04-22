@@ -145,7 +145,6 @@ namespace CTRPluginFramework
 
 
 	bool g_command = false;
-	bool overRide = false;
 	// Function to assign our aesses
 
 	void    assign_region(u32 region)
@@ -1538,10 +1537,7 @@ namespace CTRPluginFramework
 	    	case 0:
 	    		changeGender();
 				break;
-			case 1:
-
 			default:
-				overRide = true; //go back to the main menu if user aborts.
 				break;
 	    }
 
