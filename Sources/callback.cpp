@@ -4,8 +4,10 @@ namespace CTRPluginFramework
 {
     void    CheatsKeyboard(void)
     {
+        bool g_command;
         if (Controller::IsKeysDown(R + X))
         {
+            g_command = true;
             Keyboard  keyboard("Select which command \nyou'd like to execute.");
 
             // Creating my entry list
@@ -14,7 +16,8 @@ namespace CTRPluginFramework
                 "Water Flowers",
                 "Pull All Weeds",
                 "Duplicate All Items",
-                "Set Time to..."
+                "Set Time to...",
+                "Appearance Modifier..."
             };
 
             // Populate the keyboard with the entries
@@ -25,16 +28,31 @@ namespace CTRPluginFramework
             int  userChoice = keyboard.Open();
 
             // If userChoice == -1, the user aborted the keybord or an error occurred
-            if (userChoice == 0)
+            switch(userChoice)
             {
-                OSD::Notify("You've selected " + userChoice);
-            }
-            else if (userChoice == 3)
-            {
-                timePicker();
+                case 0:
+                    quench(nullptr);
+                    g_command = false;
+                    break;
+                case 1:
+                    weeder(nullptr);
+                    g_command = false;
+                    break;
+                case 2:
+                    duplicationAll();
+                    break;
+                case 3:
+                    timePicker();
+                    break;
+                case 4:
+                    appearanceMod();
+                    break;
+                default:
+                    break;
             }
         }
     }
+    
     void    timePicker(void)
     {
         Keyboard  keyboard("Select which time you'd like to travel\nto");
@@ -46,7 +64,6 @@ namespace CTRPluginFramework
             "3 AM",
             "4 AM",
             "12 PM",
-
         };
         keyboard.Populate(list);
 

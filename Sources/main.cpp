@@ -85,6 +85,7 @@ namespace CTRPluginFramework
 
        ra->Append(new MenuEntry(1, "Remove All Items", deleteAll, "Press " FONT_R " and " FONT_A " to execute... Beware as there is no going back if you save."));
        ra->Append(new MenuEntry(1, "Remove All Weeds", weeder, "Press " FONT_R " and " FONT_A " to execute."));
+       ra->Append(new MenuEntry(1, "Water All Flowers", quench, "Press " FONT_R " and " FONT_A "to execute."));
        folder->Append(ra);
 
        folder->Append(new MenuEntry("Real Time World Edit", worldEdit, "Press " FONT_R " and " FONT_DL " to open the keyboard to store the item. " FONT_R " and " FONT_DU " to store the item that you're standing on. And " FONT_R " + " FONT_DD " to write the item to the place that you're standing on."));
@@ -92,12 +93,14 @@ namespace CTRPluginFramework
        menu.Append(folder);
 
        folder = new MenuFolder("Time Travel Codes");
-       folder->Append(new MenuEntry("Time Travel", timeTravel, "Press "));
+       folder->Append(new MenuEntry("Time Travel", timeTravel, "Press " FONT_R " and " FONT_A " to enter the time machine :)"));
+       folder->Append(new MenuEntry("Time Machine", timeMachine));
        menu.Append(folder);
 
        folder = new MenuFolder("Misc.");
        folder->Append(new MenuEntry("Real Time Building Placer", customBuilding));
        folder->Append(new MenuEntry("Ghost Mode", ghostMode));
+       folder->Append(new MenuEntry("Camera Mod", cameraMod));
        menu.Append(folder);
 
         // Add Text2Cheat to plugin's main loop

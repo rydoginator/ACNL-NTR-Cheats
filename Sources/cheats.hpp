@@ -35,6 +35,7 @@
 #define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
 #define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
 #define		USA_BUILDING_ADDR					0x31F72E08
+#define		USA_GENDER_ADDR						0x31f2c5da
 
 #define		USA_VISITOR_OUTDOOR_X_ADDR			0x33079190
 #define		USA_VISITOR1_OUTDOOR_X_ADDR			0x3307A2E0
@@ -245,8 +246,11 @@ enum
 };
 
 
+
 namespace CTRPluginFramework
 {
+
+	extern bool g_command;
 	//helpers
 	void    find_and_replace_multiple(u32 start_addr, u32 length);
 	void    retrieve_input_string(char *output, int size);
@@ -256,11 +260,17 @@ namespace CTRPluginFramework
 	void    assign_region(u32 region);
 	void 	writeSlot(int slot, u32 item);
 	bool    CheckItemInput(const void *input, std::string &error);
+	bool 	CheckMinuteInput(const void *input, std::string &error);
+	bool 	CheckHourInput(const void *input, std::string &error);
+	bool 	CheckDayInput(const void *input, std::string &error);
+	bool 	CheckMonthInput(const void *input, std::string &error);
+	bool 	CheckYearInput(const void *input, std::string &error);
 	void 	writeLocation(u32 location, u32 item);
 	u32		computeOffset(u32 x, u32 y);
 	u32		getItem(u32 location);
 	u32 *	   readSlot(int slot);
 	void 	writeSlotArray(int slot, u32 item[8]);
+	void 	changeGender(u8 gender);
 
 
 
@@ -276,12 +286,15 @@ namespace CTRPluginFramework
 	void 	worldEdit(MenuEntry *entry);
 	void	showBuried(MenuEntry *entry);
 	void	pickBuried(MenuEntry *entry);
+	void 	quench(MenuEntry *entry);
+	void    cameraMod(MenuEntry *entry);
 	
 	void 	ghostMode(MenuEntry *entry);
 	void 	customBuilding(MenuEntry *entry);
 	void 	deleteAll(MenuEntry *entry);
 	void 	weeder(MenuEntry *entry);
 	void 	timeTravel(MenuEntry *entry);
+	void 	timeMachine(MenuEntry *entry);
 	void    backup(MenuEntry *entry);
 	void    restore(MenuEntry *entry);
 
@@ -289,5 +302,7 @@ namespace CTRPluginFramework
 	void    timePicker(void);
 	void 	setTimeTo(int hour);
 	void    InjectTCP(MenuEntry *entry);
+	void 	appearanceMod(void);
+	void 	duplicationAll(void);
 }
 #endif

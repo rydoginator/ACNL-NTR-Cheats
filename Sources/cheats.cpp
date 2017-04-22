@@ -137,11 +137,14 @@ namespace CTRPluginFramework
 	u32		g_club_items;
 	u32		g_building_addr;
 	u32 	g_garden;
+	u32 	g_gender;
 
 	u32     g_find[100];
 	u32     g_replace[100];
 	int     g_i = 0;
 
+
+	bool g_command = false;
 	// Function to assign our aesses
 
 	void    assign_region(u32 region)
@@ -258,6 +261,7 @@ namespace CTRPluginFramework
 	    g_club_items = USA_CLUB_ADDR;
 	    g_building_addr = USA_BUILDING_ADDR;
 	    g_garden = USA_GARDENRAM_ADDR;
+	    g_gender = USA_GENDER_ADDR;
 
 	    // applying offset or particular aess
 	    switch (region)
@@ -375,6 +379,7 @@ namespace CTRPluginFramework
 	            g_coordinates_pointer = EUR_COORDINATES_POINTER;
 	            g_building_addr -= EUR_DIFFERENCE;
 	            g_garden -= EUR_DIFFERENCE;
+	            g_gender -= EUR_DIFFERENCE;
 	            break;
 	        case JAP:
 	            g_location += JAP_DIFFERENCE;
@@ -486,6 +491,7 @@ namespace CTRPluginFramework
 	            g_coordinates_pointer = JAP_COORDINATES_POINTER;
 	            g_building_addr += JAP_DIFFERENCE;
 	            g_garden += JAP_DIFFERENCE;
+	            g_gender += JAP_DIFFERENCE;
 	            break;
 	    }
 	}
@@ -509,113 +515,6 @@ namespace CTRPluginFramework
 		}
 	}
 
-	bool    g_text_activated = false;
-	bool    g_teleport_save = true;
-
-	inline void save_teleport(void)
-	{
-	    g_teleport_save = true;
-	    teleport(nullptr);
-	}
-
-	inline void restore_teleport(void)
-	{
-	    g_teleport_save = false;
-	    teleport(nullptr);
-	}
-
-	enum
-	{
-	    BIS = 1,
-	    QUENCH,
-	    SAVETP,
-	    RESTORETP,
-	    MIDNIGHT,
-	    MORNING,
-	    NOON,
-	    STALK1,
-	    STALK2,
-	    STALK3,
-	    GORGEOUSSET,
-	    CLEARINV,
-	    DUPEALL
-	};
-
-	void    text_to_cheats(void)
-	{
-	    static int      last_command = 0;
-	    int             command;
-	    char            command_text[0x100];
-
-	    //islandFinder();
-	    retrieve_input_string(command_text, 10);
-	    g_text_activated = true;
-	    if (match(command_text, "bis")) command = BIS;
-	    //else if (match(command_text, "quench")) command = QUENCH;
-	    else if (match(command_text, "savetp")) command = SAVETP;
-	    else if (match(command_text, "restoretp")) command = RESTORETP;
-	    //else if (match(command_text, "midnight")) command = MIDNIGHT;
-	    //else if (match(command_text, "noon")) command = NOON;
-	    //else if (match(command_text, "morning")) command = MORNING;
-	    //else if (match(command_text, "stalk1")) command = STALK1;
-	    //else if (match(command_text, "stalk2")) command = STALK2;
-	    //else if (match(command_text, "stalk3")) command = STALK3;
-	    //else if (match(command_text, "gorgeset")) command = GORGEOUSSET;
-	    //else if (match(command_text, "clearinv")) command = CLEARINV;
-	    //else if (match(command_text, "dupeall")) command = DUPEALL;
-	    if (command != last_command)
-	    {
-	    bis:
-	        switch (command)
-	        {
-	            case BIS:
-	                command = last_command;
-	                goto bis;
-	                break;
-	            //case MIDNIGHT:
-	            //    midnight();
-	            //    break;
-	            //case QUENCH:
-	            //    quench();
-	            //    break;
-	            case SAVETP:
-	                save_teleport();
-	                break;
-	            case RESTORETP:
-	                restore_teleport();
-	                break;
-	            /*case MORNING:
-	                morning();
-	                break;
-	      
-	            case NOON:
-	                noon();
-	                break;
-	            case STALK1:
-	                stalking_1();
-	                break;
-	            case STALK2:
-	                stalking_2();
-	                break;
-	            case STALK3:
-	                stalking_3();
-	                break;
-	            case GORGEOUSSET:
-	                gorgeous_set();
-	                break;
-	            case CLEARINV:
-	                clear_inv();
-	                break;
-	            case DUPEALL:
-	                dupeAll();
-	            default:
-	                break;*/
-	        }
-	        last_command = command;
-	    }
-	    g_text_activated = false;  
-	}
-
     bool    CheckItemInput(const void *input, std::string &error)
     {
         // Cast the input into the appropriate type (must match the type provided to Open)
@@ -632,6 +531,69 @@ namespace CTRPluginFramework
         // The value is valid
         return (true);
     }
+
+    bool 	CheckMinuteInput(const void *input, std::string &error)
+    {
+        int  in = *static_cast<const int *>(input);
+        if (in >= 60) 
+        {
+        	error = "Minutes can't be over 60!";
+        	return (false);
+        }
+
+        return (true);   	
+    }
+
+    bool 	CheckHourInput(const void *input, std::string &error)
+    {
+        int  in = *static_cast<const int *>(input);
+        if (in >= 24) 
+        {
+        	error = "Hours can't be over 24!";
+        	return (false);
+        }
+
+        return (true);   	
+    }
+
+	bool 	CheckDayInput(const void *input, std::string &error)
+    {
+        int  in = *static_cast<const int *>(input);
+        if (in >= 30) 
+        {
+        	error = "Days can't be over 30!";
+        	return (false);
+        }
+
+        return (true);   	
+    }
+
+    bool 	CheckMonthInput(const void *input, std::string &error)
+    {
+        int  in = *static_cast<const int *>(input);
+        if (in >= 24) 
+        {
+        	error = "Months can't be over 12!";
+        	return (false);
+        }
+
+        return (true);   	
+    }
+
+    bool 	CheckYearInput(const void *input, std::string &error)
+    {
+        int  in = *static_cast<const int *>(input);
+        if (in >= 50) 
+        {
+        	error = "Years can't be over 50!";
+        	return (false);
+        }
+
+        return (true);   	
+    }
+
+
+
 	void    teleport(MenuEntry *entry)
 	{
 		static u32 offset;
@@ -837,7 +799,7 @@ namespace CTRPluginFramework
 	    player = READU8(g_player);
 	    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
 	    {
-	        offset = player * 0xa480; //difference bet
+	        offset = player * 0xa480; //difference between each player
 	        WRITEU16(g_inv + offset + (slot * 4), item[0]);
 	        if (READU16(g_online4_inv) != 0)
 	            WRITEU16(g_online4_inv + (slot * 4), item[1]); 
@@ -939,6 +901,20 @@ namespace CTRPluginFramework
 		{
 			item = readSlot(0);
 			writeSlotArray(1, item);
+		}
+	}
+
+	void 	duplicationAll(void)
+	{
+		u32 *item;
+
+		item = readSlot(0);
+		for (int i = 1; i < 15; i++)
+		{
+			if (*readSlot(i) == 0x7FFE) 
+			{
+				writeSlotArray(i, item);
+			}
 		}
 	}
 
@@ -1182,15 +1158,15 @@ namespace CTRPluginFramework
 	void 	weeder(MenuEntry *entry)
 	{
 		u16 weeds[] = {0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8};
-	    if (Controller::IsKeysDown(R + A))
+
+	    if (!Controller::IsKeysPressed(R + A) && g_command)
+	    	return;
+	    for (int i = 0; i < 7; i++)
 	    {
-	        for (int i = 0; i < 7; i++)
-	        {
-	        	reset_search();
-	        	add_search_replace(weeds[i], 0x7FFE);
-	        	find_and_replace_multiple(g_town_items, 0x5000);
-	        }
-		}
+	        reset_search();
+	        add_search_replace(weeds[i], 0x7FFE);
+	        find_and_replace_multiple(g_town_items, 0x5000);
+	    }
 	}
 
 	void    backup(MenuEntry *entry)
@@ -1277,6 +1253,298 @@ namespace CTRPluginFramework
 	    }
 	}
 
+	void 	timeMachine(MenuEntry *entry)
+	{
+		static u8 minutes, hours, days, months, years;
+		u64 time;
+		static bool direction = false;
+
+		{
+	        Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
+	        std::vector<std::string> list = 
+	        {
+	            "Forwards",
+	            "Backwards"
+	        };
+	        keyboard.Populate(list);
+
+	        int  userChoice = keyboard.Open();
+
+	        if (userChoice == 0)
+	        {
+	        	direction = true;
+	        }
+	        else if (userChoice == -1)
+	        {
+	        	direction = false;
+	        }
+	        else
+	        {
+	        	return;
+	        }
+    	}
+    	{
+    		Keyboard keyboard("How many minutes?");
+    		keyboard.IsHexadecimal(false);
+    		keyboard.SetCompareCallback(CheckMinuteInput);
+    		
+    		if (keyboard.Open(minutes) == -1)
+    		{
+    			return;
+    		}
+    	}
+    	{
+    	    Keyboard keyboard("How many hours?");
+    		keyboard.IsHexadecimal(false);
+    		keyboard.SetCompareCallback(CheckHourInput);
+    		
+    		if (keyboard.Open(hours) == -1)
+    		{
+    			return;
+    		}
+    	}
+    	{
+    	    Keyboard keyboard("How many days?");
+    		keyboard.IsHexadecimal(false);
+    		keyboard.SetCompareCallback(CheckDayInput);
+    		
+    		if (keyboard.Open(days) == -1)
+    		{
+    			return;
+    		}
+    	}
+    	{
+    	    Keyboard keyboard("How many months?");
+    		keyboard.IsHexadecimal(false);
+    		keyboard.SetCompareCallback(CheckDayInput);
+    		
+    		if (keyboard.Open(months) == -1)
+    		{
+    			return;
+    		}    		
+    	}
+    	{
+    	    Keyboard keyboard("How many years?");
+    		keyboard.IsHexadecimal(false);
+    		keyboard.SetCompareCallback(CheckYearInput);
+    		
+    		if (keyboard.Open(hours) == -1)
+    		{
+    			return;
+    		}   		
+    	}
+    	time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
+    	if (direction == true)
+    	{
+    		ADD64(g_realtime, time); 
+		    ADD64(g_savetime, time);
+		    entry-> Disable();
+    	}
+    	else
+    	{
+    		SUB64(g_realtime, time); 
+		    SUB64(g_savetime, time);
+		    entry-> Disable();    		
+    	}
+    	entry-> Disable();
+	}
+
+	void 	quench(MenuEntry *entry)
+	{
+	    u32     address;
+	    u32     item;
+
+	    if (!Controller::IsKeysPressed(R + A) && g_command)
+	        return;
+	    // Parse all items in Town
+	    for (address = g_town_items; address < g_town_items + RANGE_TOWN_ITEMS; address += ITEM_BYTES)
+	    {
+	        item = READU16(address);
+	        // Deal with wilted flower
+	        if (item >= 0xCE && item <= 0xF7)
+	        {
+	            item -= 0x2F;
+	        }
+	        // If item is a flower add water flag
+	        if (item >= 0x9F && item <= 0xC8)
+	        {
+	            item |= 0x40000000;
+	            WRITEU32(address, item);
+	        }
+	    }
+	}
+
+	void    cameraMod(MenuEntry *entry)
+	{
+	    u32 offset;
+	    static u32 pointer;
+	    static u32 x;
+	    static u32 z;
+	    static u32 storage;
+        u32   patch  = 0xEA000020;
+        u32   original = 0x2A000020;
+
+	    if (!Controller::IsKeyPressed(B))
+	    {
+	        Process::Patch(g_camera_asm, (u8 *)&original, 4);
+	    }
+	    if (READU32(g_camera_pointer) != 0)
+	    {
+	        if (!Controller::IsKeyDown(CPad))
+	        {
+	            if (READU32(g_coordinates_pointer) != 0)
+	            {
+	                pointer = READU32(g_coordinates_pointer);
+	                x = READU32(pointer + 0x24);
+	                z = READU32(pointer + 0x2C);
+	            }
+	        }
+	        offset = READU32(g_camera_pointer);
+	        if (Controller::IsKeysDown(R + CPadDown))
+	        {
+	            offset += 0x12C;
+	            ADD16(offset, 0x1);
+	        }
+	        if (Controller::IsKeysDown(R + CPadUp))
+	        {
+	            offset += 0x12C;  
+	            SUB16(offset, 0x1);
+	        }
+	        if (Controller::IsKeysDown(R + CPadRight))
+	        {
+	            offset += 0x12E;
+	            ADD16(offset, 0x1);
+	        }
+	        if (Controller::IsKeysDown(R + CPadLeft))
+	        {
+	            offset += 0x12E;
+	            SUB16(offset, 0x1);
+	        }
+	        if (Controller::IsKeysDown(R + CPadDown))
+	        {
+	            if (READU32(g_coordinates_pointer) != 0)
+	            {
+	                pointer = READU32(g_coordinates_pointer);
+	                WRITEU32(pointer + 0x24, x);
+	                WRITEU32(pointer + 0x2C, z);
+	            }            
+	        }
+	        if (Controller::IsKeysDown(R + X))
+	        {
+	            if (READU32(g_camstop_pointer) != 0)
+	            {
+	                storage = READU32(g_camstop_pointer);
+	                WRITEU32(g_camstop_pointer, 0x00000000);
+	            }
+	        }
+	        if (Controller::IsKeysDown(R + Y))
+	        {
+	            if (storage != 0)
+	            {
+	                WRITEU32(g_camstop_pointer, storage);
+	            }
+	        }
+	    }
+	    if (Controller::IsKeysDown(B + DPadLeft))
+	    {
+	        Process::Patch(g_camera_asm, (u8 *)&patch, 4); //change the asm instruction to b, allows overwriting camera coordinates
+	        SUBTOFLOAT(g_camera_x, 0.1f);
+	    }
+	    if (Controller::IsKeysDown(B + DPadRight))
+	    {
+	        Process::Patch(g_camera_asm, (u8 *)&patch, 4);
+	        ADDTOFLOAT(g_camera_x, 0.1f);
+	    }
+	    if (Controller::IsKeysDown(B + DPadDown))
+	    {
+	        Process::Patch(g_camera_asm, (u8 *)&patch, 4);
+	        ADDTOFLOAT(g_camera_z, 0.1f);
+	    }
+	    if (Controller::IsKeysDown(B + DPadUp))
+	    {
+	        Process::Patch(g_camera_asm, (u8 *)&patch, 4);
+	        SUBTOFLOAT(g_camera_z, 0.1f);
+	    }
+	    if (Controller::IsKeysDown(B + R))
+	    {
+	        Process::Patch(g_camera_asm, (u8 *)&patch, 4);
+	        ADDTOFLOAT(g_camera_y, 0.1f);
+	    }
+	    if (Controller::IsKeysDown(B + L))
+	    {
+	        Process::Patch(g_camera_asm, (u8 *)&patch, 4);
+	        SUBTOFLOAT(g_camera_y, 0.1f);
+	    }
+	}
+
+	void 	changeGender(void)
+	{
+		u8		player = READU8(g_player);
+		u32		offset = 0;
+
+
+		Keyboard  keyboard("Which gender would you like?");
+		std::vector<std::string> list = 
+		{
+			"Male", //there are only two genders, folks
+			"Female"
+		};
+		keyboard.Populate(list);
+
+		int userChoice = keyboard.Open();
+
+		if (player <= 3)
+		{
+			offset = player * 0xA480;
+			if (userChoice == 0)
+			{
+			  	WRITEU8(g_gender + offset, 0x0);
+			  	appearanceMod();
+			}
+			if (userChoice == 1)
+			{
+				WRITEU8(g_gender + offset, 0x01);
+			}
+			else
+			{
+				appearanceMod(); //if the user cancels, we go back to the appearence screen.
+			}
+		}
+		else
+		{
+			OSD::Notify("You must load your save to use this cheat!\nThis cheat doesn't work on the island.");//once I find a conditional for the island, it will only say it doesn't work on the island if the conditional is true
+		}
+	}
+
+
+	void 	appearanceMod(void)
+	{
+		Keyboard  keyboard("Choose what to edit");
+	    std::vector<std::string> list = 
+	    {
+	        "Gender",
+	        "Hair",
+	        "Face",
+	        "Tan",
+	        "Apparel",
+	        "Return to main menu..."
+	    };
+	    keyboard.Populate(list);
+	    int userChoice = keyboard.Open();
+
+	    switch (userChoice)
+	    {
+	    	case 0:
+	    		changeGender();
+				break;
+			case 1:
+				
+			default:
+				CheatsKeyboard(); //go back to the main menu if user aborts.
+				break;
+	    }
+
+	}
 
 	void 	setTimeTo(int hour)
 	{
