@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include "Player.hpp"
 
 namespace CTRPluginFramework
 {
@@ -51,6 +52,14 @@ namespace CTRPluginFramework
                     break;
             }
         }
+    }
+
+    void    PlayerUpdateCallback(void)
+    {
+        Player  *Player = Player::GetInstance();
+
+        if (Player != nullptr)
+            Player->Update();
     }
     
     void    timePicker(void)

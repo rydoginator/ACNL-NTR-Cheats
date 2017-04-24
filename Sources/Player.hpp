@@ -17,8 +17,8 @@ namespace CTRPluginFramework
         void    Update(void);
 
         // Write data relative to player's offset
-        template <typename T>
-        bool    Write(u32 offset, T value) const;
+        //template <typename T>
+        bool    Write(u32 offset, u8 value) const;
 
         // Return current Player instance
         static Player *GetInstance(void);

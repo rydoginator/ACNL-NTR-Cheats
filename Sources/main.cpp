@@ -105,6 +105,8 @@ namespace CTRPluginFramework
 
         // Add Text2Cheat to plugin's main loop
         menu.Callback(CheatsKeyboard);
+        menu.Callback(PlayerUpdateCallback);
+        Assign();
 
         // Launch menu and mainloop
         menu.Run();

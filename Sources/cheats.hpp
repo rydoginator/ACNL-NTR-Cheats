@@ -252,6 +252,8 @@ namespace CTRPluginFramework
 
 	extern bool g_command;
 	//helpers
+	void 	Assign(void);
+	void    PlayerUpdateCallback(void);
 	void    find_and_replace_multiple(u32 start_addr, u32 length);
 	void    retrieve_input_string(char *output, int size);
 	void    get_input_id(int *first, int *second);

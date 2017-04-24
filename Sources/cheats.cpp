@@ -1,5 +1,5 @@
 #include "cheats.hpp"
-#include "player.hpp"
+#include "Player.hpp"
 #include <cstring>
 #include <stdio.h>
 
@@ -1487,7 +1487,6 @@ namespace CTRPluginFramework
 	        SUBTOFLOAT(g_camera_y, 0.1f);
 	    }
 	}
-
 
     void    changeGender(void)
     {

@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "Player.hpp"
 namespace   CTRPluginFramework
 {
     #define READU8(x) *(u8 *)(x)
@@ -15,6 +15,12 @@ namespace   CTRPluginFramework
             delete _instance;
 
         _instance = this;
+    }
+
+    // Return current Player's instance
+    Player  *Player::GetInstance(void)
+    {
+        return (_instance);
     }
 
     // Return current player's ID
@@ -37,10 +43,10 @@ namespace   CTRPluginFramework
     }
 
     // Write data relative to player's offset
-    template <typename T>
-    bool    Player::Write(u32 offset, T value) const
+    //template <typename T>
+    bool    Player::Write(u32 offset, u8 value) const
     {
-        u32     size = sizeof(T);
+        u32     size = sizeof(value);
         u32     address = offset + _offset;
 
         // Check for the address to exists and be editable
