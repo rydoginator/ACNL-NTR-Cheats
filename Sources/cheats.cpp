@@ -1188,19 +1188,26 @@ namespace CTRPluginFramework
     {
         File file;
         if (!entry->IsActivated())
-        return;
-        int ret = File::Open(file, "gardenram.bin", File::READ | File::WRITE | File::CREATE);
+        	return;
 
-        if (ret == 0)
+		Keyboard keyboard("GardenRam Dumper\n\nName the dump you'd like to create.");
+        std::string     input;
+        if (keyboard.Open(input) != -1)
         {
-            int res = file.Dump(g_garden, 0x89A80);
-            file.Close(); 
-            entry->Disable();
+        	input += ".bin";
+        	if (Directory::IsExists("dumps") == 0)
+        		Directory::Create("dumps");
+        	Directory::ChangeWorkingDirectory("dumps");
+	        int ret = File::Open(file, input, File::READ | File::WRITE | File::CREATE);
 
-            char buffer[0x200];
+	        if (ret == 0)
+	        {
+	            int res = file.Dump(g_garden, 0x89A80);
+	            MessageBox msgBox("File dumped to\nSD:/plugin/<title_id>/dumps/*.bin !", DialogType::DialogOk);
+	            file.Close(); 
 
-            sprintf(buffer, "%08X  %08X", ret, res);
-            OSD::Notify(buffer);
+	            entry->Disable();
+	        }
         }
     }
 
@@ -1559,7 +1566,7 @@ namespace CTRPluginFramework
         if (keyboard.Open(input) != -1)
         {
             // Ask for a second line name
-            MessageBox msgBox("Do you want your name to appear below the bubble?", DialogType::DialogYesNo);
+            MessageBox msgBox("Do you want your name to\nappear below the bubble?", DialogType::DialogYesNo);
 
             if (msgBox())
             {
