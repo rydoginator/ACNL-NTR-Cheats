@@ -168,6 +168,7 @@
 #define		USA_CLUB_ADDR						0x301b5aa0
 
 #define		USA_GARDENRAM_ADDR					0x31F26F80
+#define		USA_NAME_ADDR						0x31F2C5C8
 
 
 
@@ -290,6 +291,7 @@ namespace CTRPluginFramework
 	void	pickBuried(MenuEntry *entry);
 	void 	quench(MenuEntry *entry);
 	void    cameraMod(MenuEntry *entry);
+	void    SetNameTo(MenuEntry *entry);
 	
 	void 	ghostMode(MenuEntry *entry);
 	void 	customBuilding(MenuEntry *entry);

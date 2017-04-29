@@ -44,7 +44,7 @@ namespace   CTRPluginFramework
 
     // Write data relative to player's offset
     //template <typename T>
-    bool    Player::Write(u32 offset, u8 value) const
+    bool    Player::Write(u32 offset, u32 value) const
     {
         u32     size = sizeof(value);
         u32     address = offset + _offset;
@@ -54,5 +54,14 @@ namespace   CTRPluginFramework
             return (false);
 
         return (Process::Patch(address, (u8 *)&value, size));
+    }
+
+    bool    Player::CopyMemory(u32 offset, u16 value[]) const
+    {
+        u32     address = offset + _offset;
+
+        if (!Process::CheckAddress(address))
+            return (false);
+        return (Process::CopyMemory((void *) address, value, 0x14));
     }
 }

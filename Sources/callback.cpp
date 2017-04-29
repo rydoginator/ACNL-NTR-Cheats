@@ -3,7 +3,7 @@
 
 namespace CTRPluginFramework
 {
-    void    CheatsKeyboard(void) //allow accessing the menu without pressing R+X
+    void    CheatsKeyboard(void) 
     {
         bool g_command;
         if (Controller::IsKeysDown(R + X))

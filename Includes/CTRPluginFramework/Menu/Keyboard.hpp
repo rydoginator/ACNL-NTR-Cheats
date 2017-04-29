@@ -58,8 +58,9 @@ namespace CTRPluginFramework
         int     Open(double &output);
         int     Open(double &output, double start);
 
-        int     Open(std::string &output); //<- Not yet implemented
-        int     Open(std::string &output, std::string start); //<- Not yet implemented
+        int     Open(std::string &output);
+        int     Open(std::string &output, std::string start);
+
 
         bool    DisplayTopScreen;
     private:

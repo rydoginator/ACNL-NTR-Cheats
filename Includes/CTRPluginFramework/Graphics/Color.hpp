@@ -43,6 +43,22 @@ namespace CTRPluginFramework
         u8      g;
         u8      b;
         u8      a;
+
+        static Color    Black;
+        static Color    Blank;
+        static Color    Red;
+        static Color    Green;
+        static Color    Blue;
+        static Color    BlackGrey;
+        static Color    DarkGrey;
+        static Color    Grey;
+        static Color    Silver;
+        static Color    Gainsboro;
+        static Color    DimGrey;
+        static Color    LimeGreen;
+        static Color    SkyBlue;
+        static Color    DeepSkyBlue;
+        static Color    DodgerBlue;
     };
 }
 

@@ -5,5 +5,6 @@
 #include "CTRPluginFramework/Menu/MenuEntry.hpp"
 #include "CTRPluginFramework/Menu/MenuFolder.hpp"
 #include "CTRPluginFramework/Menu/PluginMenu.hpp"
+#include "CTRPluginFramework/Menu/MessageBox.hpp"
 
 #endif

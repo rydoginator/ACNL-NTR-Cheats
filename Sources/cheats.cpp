@@ -2,6 +2,7 @@
 #include "Player.hpp"
 #include <cstring>
 #include <stdio.h>
+#include "ctrulib/util/utf.h"
 
 namespace CTRPluginFramework
 {
@@ -139,6 +140,7 @@ namespace CTRPluginFramework
 	u32		g_building_addr;
 	u32 	g_garden;
 	u32 	g_gender;
+	u32		g_name;
 
 	u32     g_find[100];
 	u32     g_replace[100];
@@ -263,6 +265,7 @@ namespace CTRPluginFramework
 	    g_building_addr = USA_BUILDING_ADDR;
 	    g_garden = USA_GARDENRAM_ADDR;
 	    g_gender = USA_GENDER_ADDR;
+	    g_name = USA_NAME_ADDR;
 
 	    // applying offset or particular aess
 	    switch (region)
@@ -381,6 +384,7 @@ namespace CTRPluginFramework
 	            g_building_addr -= EUR_DIFFERENCE;
 	            g_garden -= EUR_DIFFERENCE;
 	            g_gender -= EUR_DIFFERENCE;
+	            g_name -= EUR_DIFFERENCE;
 	            break;
 	        case JAP:
 	            g_location += JAP_DIFFERENCE;
@@ -493,6 +497,7 @@ namespace CTRPluginFramework
 	            g_building_addr += JAP_DIFFERENCE;
 	            g_garden += JAP_DIFFERENCE;
 	            g_gender += JAP_DIFFERENCE;
+	            g_name += JAP_DIFFERENCE;
 	            break;
 	    }
 	}
@@ -1540,6 +1545,42 @@ namespace CTRPluginFramework
 	    }
 
 	}
+
+
+    void    SetNameTo(MenuEntry *entry)
+    {
+    	if (!entry->IsActivated())
+        	return;
+        Keyboard keyboard("Name Changer\n\nEnter the name you'd like to have:");
+
+        std::string     input;
+        u16             output[0x100] = {0};
+
+        if (keyboard.Open(input) != -1)
+        {
+            // Ask for a second line name
+            MessageBox msgBox("Do you want your name to appear below the bubble?", DialogType::DialogYesNo);
+
+            if (msgBox())
+            {
+                std::string secondLine = "\n";
+
+                secondLine += input;
+                input = secondLine;
+            }
+
+            // Convert input to game's format
+            int res = utf8_to_utf16(output, reinterpret_cast<const u8*>(input.c_str()), 0x100);
+
+            if (res > 0)
+            {
+                g_player->CopyMemory(g_name, output);
+                entry->Disable();
+            }
+        }
+        else
+        	entry->Disable();
+    }
 
 	void 	setTimeTo(int hour)
 	{

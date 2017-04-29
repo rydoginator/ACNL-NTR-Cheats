@@ -58,6 +58,7 @@ namespace CTRPluginFramework
            assign_region(JAP);
 
        MenuFolder *folder = new MenuFolder("Garden Codes");
+       folder->Append(new MenuEntry("Set name to...", SetNameTo));
        folder->Append(new MenuEntry("Dump gardenram.bin", backup));
        folder->Append(new MenuEntry("Restore gardenram.bin", restore));
        folder->Append(new MenuEntry("Inject TCP Picture", InjectTCP));

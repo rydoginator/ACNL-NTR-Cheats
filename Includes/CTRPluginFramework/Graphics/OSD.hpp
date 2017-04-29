@@ -1,4 +1,4 @@
-#ifndef CTRPLUGINFRAMEWORK_OSD_HPP
+    #ifndef CTRPLUGINFRAMEWORK_OSD_HPP
 #define CTRPLUGINFRAMEWORK_OSD_HPP
 
 #include "CTRPluginFramework/Graphics/Color.hpp"

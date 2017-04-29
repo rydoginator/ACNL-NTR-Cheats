@@ -2,7 +2,7 @@
 #define CTRPLUGINFRAMEWORK_MENUENTRY_HPP
 
 #include <string>
-#include <memory>
+//#include <memory>
 
 namespace CTRPluginFramework
 {
@@ -16,7 +16,7 @@ namespace CTRPluginFramework
 
     public:
 
-        MenuEntry(std::string name, std::string note = "");
+        explicit MenuEntry(std::string name, std::string note = "");
         MenuEntry(std::string name, FuncPointer func, std::string note = "");
         MenuEntry(int radioGroup, std::string name, FuncPointer func, std::string note = "");
         ~MenuEntry(){};
