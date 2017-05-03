@@ -52,13 +52,8 @@
 
 #define		USA_MINUTES_ADDR					0x9515BA
 #define		USA_HOURS_ADDR						0x9515BB
-#define		USA_ONLINE0_INV_ADDR				0xAAB0e0
-#define		USA_ONLINE1_INV_ADDR				0xA8C360
-#define		USA_ONLINE2_INV_ADDR				0xA967E0
-#define		USA_ONLINE3_INV_ADDR				0xAA0C60
-#define		USA_ONLINE4_INV_ADDR				0xA8C360
-#define		USA_ONLINE5_INV_ADDR				0xA967E0
-#define		USA_ONLINE6_INV_ADDR				0xA9EC60
+#define		USA_PLAYER_POINTER					0xAB014C
+
 #define		USA_KEYBOARD_ADDR					0x32DC4A10
 #define		USA_KEYBOARD_ISLAND_ADDR			0x32DF7D14
 #define		EUR_KEYBOAD_ISLAND_ADDR				0x32DCF994
@@ -86,22 +81,8 @@
 #define     USA_ONLINE6_BANK_ADDR               0xA9EC1C
 
 #define     USA_MEOW_ADDR                       0x31F2FD3C
-#define     USA_ONLINE0_MEOW_ADDR               0xAAD22C
-#define     USA_ONLINE1_MEOW_ADDR               0xA8E4AC
-#define     USA_ONLINE2_MEOW_ADDR               0xA9892C
-#define     USA_ONLINE3_MEOW_ADDR               0xAA2DAC
-#define     USA_ONLINE4_MEOW_ADDR               0xA8E4AC
-#define     USA_ONLINE5_MEOW_ADDR               0xA9892C
-#define     USA_ONLINE6_MEOW_ADDR               0xAA0DAC
 
 #define     USA_WALLET_ADDR                     0x31F2DF28
-#define     USA_ONLINE0_WALLET_ADDR             0xAAB418
-#define     USA_ONLINE1_WALLET_ADDR             0xA8C698
-#define     USA_ONLINE2_WALLET_ADDR             0xA96B18
-#define     USA_ONLINE3_WALLET_ADDR             0xAA0F98
-#define     USA_ONLINE4_WALLET_ADDR             0xA8C698
-#define     USA_ONLINE5_WALLET_ADDR             0xA96B18
-#define     USA_ONLINE6_WALLET_ADDR             0xA9EF98
 
 #define		USA_CONFIRM_BOOL_ADDR				0x32DC6555
 #define		USA_NOOKLING1_PRICE_ADDR			0x330B9278

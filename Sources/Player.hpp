@@ -8,8 +8,6 @@ namespace CTRPluginFramework
         Player(void);
         ~Player(void){};
 
-        // Return current player's ID
-        int     GetId(void) const;
         // Return current player's offset
         u32     GetOffset(void) const;
 
@@ -20,8 +18,16 @@ namespace CTRPluginFramework
         //template <typename T>
         bool    Write(u32 offset, u32 value) const;
 
+        bool    Read(u32 offset, u32 &value) const;
 
-        //Copy memory relative to player's offset
+        bool    ReadSlot(int slot, u32 &item) const;
+
+
+
+
+        bool    WriteSlot(int slot, u32 item);
+
+        //Copy memory relative to player's offset. Really only needed to be used for the name function.
         bool    CopyMemory(u32 offset, u16 value[]) const;
 
         // Return current Player instance

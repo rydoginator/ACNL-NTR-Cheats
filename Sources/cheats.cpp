@@ -34,7 +34,8 @@ namespace CTRPluginFramework
 	u32     g_outdoor_pos_z;
 	u32     g_town_items;
 	u32     g_island_items;
-	extern u32     g_playerId;
+	u32     g_playerId;
+	extern u32	g_playerPointer;
 	u32     g_inv;
 	u32     g_velocity;
 	u32     g_grass_start;
@@ -64,43 +65,12 @@ namespace CTRPluginFramework
 	u32     g_visitor2_indoor_z;
 	u32     g_visitor2_outdoor_x;
 	u32     g_visitor2_outdoor_z;
-	u32     g_online0_inv;
-	u32     g_online1_inv;
-	u32     g_online2_inv;
-	u32     g_online3_inv;
-	u32     g_online4_inv;
-	u32     g_online5_inv;
-	u32     g_online6_inv;
 	u32     g_keyboard;
 	u32     g_island_bubble;
 	u32     g_island_keyboard;
 	u32     g_abd;
 	u32     g_walkOver;
 	u32     g_kpointer;
-	u32        g_bank;
-	u32     g_online0_bank;
-	u32     g_online1_bank;
-	u32     g_online2_bank;
-	u32     g_online3_bank;
-	u32     g_online4_bank;
-	u32     g_online5_bank;
-	u32     g_online6_bank;
-	u32        g_meow;
-	u32     g_online0_meow;
-	u32     g_online1_meow;
-	u32     g_online2_meow;
-	u32     g_online3_meow;
-	u32     g_online4_meow;
-	u32     g_online5_meow;
-	u32     g_online6_meow;
-	u32        g_wallet;
-	u32     g_online0_wallet;
-	u32     g_online1_wallet;
-	u32     g_online2_wallet;
-	u32     g_online3_wallet;
-	u32     g_online4_wallet;
-	u32     g_online5_wallet;
-	u32     g_online6_wallet;
 	u32     g_confirm;
 	u32     g_nook1Price;
 	u32     g_nook2Price;
@@ -121,13 +91,6 @@ namespace CTRPluginFramework
 	u32     g_quick;
 	u32     g_out_grav;
 	u32		g_medals;
-	u32		g_online0_medals;
-	u32		g_online1_medals;
-	u32		g_online2_medals;
-	u32		g_online3_medals;
-	u32		g_online4_medals;
-	u32		g_online5_medals;
-	u32		g_online6_medals;
 	u32     g_camera_asm;
 	u32     g_camera_x;
 	u32     g_camera_y;
@@ -190,43 +153,12 @@ namespace CTRPluginFramework
 	    g_visitor2_outdoor_z = USA_VISITOR2_OUTDOOR_Z_ADDR;
 	    g_visitor2_indoor_x = USA_VISITOR2_INDOOR_X_ADDR;
 	    g_visitor2_indoor_z = USA_VISITOR2_INDOOR_Z_ADDR;
-	    g_online0_inv = USA_ONLINE0_INV_ADDR;
-	    g_online1_inv = USA_ONLINE1_INV_ADDR;
-	    g_online2_inv = USA_ONLINE2_INV_ADDR;
-	    g_online3_inv = USA_ONLINE3_INV_ADDR;
-	    g_online4_inv = USA_ONLINE4_INV_ADDR;
-	    g_online5_inv = USA_ONLINE5_INV_ADDR;
-	    g_online6_inv = USA_ONLINE6_INV_ADDR;
 	    g_keyboard = USA_KEYBOARD_ADDR;
 	    g_island_keyboard = USA_KEYBOARD_ISLAND_ADDR;
 	    g_island_bubble = USA_INPUT_TEXT_ISLAND_ADDR;
 	    g_abd = USA_ABD_ADDR;
 	    g_walkOver = USA_WALKOVER_ADDR;
 	    g_kpointer = USA_KEYBOARD_POINTER;
-	    g_bank = USA_BANK_ADDR;
-	    g_online0_bank = USA_ONLINE0_BANK_ADDR;
-	    g_online1_bank = USA_ONLINE1_BANK_ADDR;
-	    g_online2_bank = USA_ONLINE2_BANK_ADDR;
-	    g_online3_bank = USA_ONLINE3_BANK_ADDR;
-	    g_online4_bank = USA_ONLINE4_BANK_ADDR;
-	    g_online5_bank = USA_ONLINE5_BANK_ADDR;
-	    g_online6_bank = USA_ONLINE6_BANK_ADDR;
-	    g_meow = USA_MEOW_ADDR;
-	    g_online0_meow = USA_ONLINE0_MEOW_ADDR;
-	    g_online1_meow = USA_ONLINE1_MEOW_ADDR;
-	    g_online2_meow = USA_ONLINE2_MEOW_ADDR;
-	    g_online3_meow = USA_ONLINE3_MEOW_ADDR;
-	    g_online4_meow = USA_ONLINE4_MEOW_ADDR;
-	    g_online5_meow = USA_ONLINE5_MEOW_ADDR;
-	    g_online6_meow = USA_ONLINE6_MEOW_ADDR;
-	    g_wallet = USA_WALLET_ADDR;
-	    g_online0_wallet = USA_ONLINE0_WALLET_ADDR;
-	    g_online1_wallet = USA_ONLINE1_WALLET_ADDR;
-	    g_online2_wallet = USA_ONLINE2_WALLET_ADDR;
-	    g_online3_wallet = USA_ONLINE3_WALLET_ADDR;
-	    g_online4_wallet = USA_ONLINE4_WALLET_ADDR;
-	    g_online5_wallet = USA_ONLINE5_WALLET_ADDR;
-	    g_online6_wallet = USA_ONLINE6_WALLET_ADDR;
 	    g_confirm = USA_CONFIRM_BOOL_ADDR;
 	    g_nook1Price = USA_NOOKLING1_PRICE_ADDR;
 	    g_nook2Price = USA_NOOKLING2_PRICE_ADDR;
@@ -246,13 +178,6 @@ namespace CTRPluginFramework
 	    g_quick = USA_QUICKFIRE_ADDR;
 	    g_out_grav = USA_GRAVITY_OUT_ADDR;
 		g_medals = USA_MEDALS_ADDR;
-	    g_online0_medals = USA_ONLINE0_MEDALS_ADDR;
-	    g_online1_medals = USA_ONLINE1_MEDALS_ADDR;
-	    g_online2_medals = USA_ONLINE2_MEDALS_ADDR;
-	    g_online3_medals = USA_ONLINE3_MEDALS_ADDR;
-	    g_online4_medals = USA_ONLINE4_MEDALS_ADDR;
-	    g_online5_medals = USA_ONLINE5_MEDALS_ADDR;
-	    g_online6_medals = USA_ONLINE6_MEDALS_ADDR;
 	    g_camera_asm = USA_CAMERA_ASM_ADDR;
 	    g_camera_x = USA_CAMERA_X_ADDR;
 	    g_camera_y = USA_CAMERA_Y_ADDR;
@@ -266,6 +191,7 @@ namespace CTRPluginFramework
 	    g_garden = USA_GARDENRAM_ADDR;
 	    g_gender = USA_GENDER_ADDR;
 	    g_name = USA_NAME_ADDR;
+	    g_playerPointer = USA_PLAYER_POINTER;
 
 	    // applying offset or particular aess
 	    switch (region)
@@ -312,43 +238,12 @@ namespace CTRPluginFramework
 	            g_visitor2_indoor_z -= EUR_DIFFERENCE;
 	            g_visitor2_outdoor_x -= EUR_DIFFERENCE;
 	            g_visitor2_outdoor_z -= EUR_DIFFERENCE;
-	            g_online0_inv -= 0x1000;
-	            g_online1_inv -= 0x1000;
-	            g_online2_inv -= 0x1000;
-	            g_online3_inv -= 0x1000;
-	            g_online4_inv -= 0x1000;
-	            g_online5_inv -= 0x1000;
-	            g_online6_inv -= 0x1000;
 	            g_keyboard -= EUR_DIFFERENCE;
 	            g_island_bubble -= EUR_DIFFERENCE;
 	            g_island_keyboard = EUR_KEYBOAD_ISLAND_ADDR;
 	            g_abd -= EUR_DIFFERENCE;
 	            g_walkOver -= EUR_DIFFERENCE;
 	            g_input_text_buffer = EUR_INPUT_TEXT_ADDR;
-	            g_bank -= EUR_DIFFERENCE;
-	            g_online0_bank -= 0x1000;
-	            g_online1_bank -= 0x1000;
-	            g_online2_bank -= 0x1000;
-	            g_online3_bank -= 0x1000;
-	            g_online4_bank -= 0x1000;
-	            g_online5_bank -= 0x1000;
-	            g_online6_bank -= 0x1000;
-	            g_meow -= EUR_DIFFERENCE;
-	            g_online0_meow -= 0x1000;
-	            g_online1_meow -= 0x1000;
-	            g_online2_meow -= 0x1000;
-	            g_online3_meow -= 0x1000;
-	            g_online4_meow -= 0x1000;
-	            g_online5_meow -= 0x1000;
-	            g_online6_meow -= 0x1000;
-	            g_wallet -= EUR_DIFFERENCE;
-	            g_online0_wallet -= 0x1000;
-	            g_online1_wallet -= 0x1000;
-	            g_online2_wallet -= 0x1000;
-	            g_online3_wallet -= 0x1000;
-	            g_online4_wallet -= 0x1000;
-	            g_online5_wallet -= 0x1000;
-	            g_online6_wallet -= 0x1000;
 	            g_nook1Price -= EUR_DIFFERENCE;
 	            g_nook2Price -= EUR_DIFFERENCE;
 	            g_room = EUR_ROOM_ID_ADDR;
@@ -367,13 +262,6 @@ namespace CTRPluginFramework
 	            g_quick -= EUR_DIFFERENCE;
 	            g_out_grav -= EUR_DIFFERENCE;
 				g_medals -= EUR_DIFFERENCE;
-	            g_online0_medals -= 0x1000;
-	            g_online1_medals -= 0x1000;
-	            g_online2_medals -= 0x1000;
-	            g_online3_medals -= 0x1000;
-	            g_online4_medals -= 0x1000;
-	            g_online5_medals -= 0x1000;
-	            g_online6_medals -= 0x1000;
 	            g_camera_asm = EUR_CAMERA_ASM_ADDR;
 	            g_camera_x = EUR_CAMERA_X_ADDR;
 	            g_camera_y = EUR_CAMERA_Y_ADDR;
@@ -425,43 +313,12 @@ namespace CTRPluginFramework
 	            g_visitor2_indoor_z += JAP_DIFFERENCE;
 	            g_visitor2_outdoor_x += JAP_DIFFERENCE;
 	            g_visitor2_outdoor_z += JAP_DIFFERENCE;
-	            g_online0_inv += 0x7000;
-	            g_online1_inv += 0x7000;
-	            g_online2_inv += 0x7000;
-	            g_online3_inv += 0x7000;
-	            g_online4_inv += 0x7000;
-	            g_online5_inv += 0x7000;
-	            g_online6_inv += 0x7000;
 	            g_keyboard += JAP_DIFFERENCE;
 	            g_island_bubble += JAP_DIFFERENCE;
 	            g_island_keyboard += JAP_DIFFERENCE;
 	            g_abd+= JAP_DIFFERENCE;
 	            g_walkOver += JAP_DIFFERENCE; 
 	            g_input_text_buffer = JAP_INPUT_TEXT_ADDR;
-	            g_bank += JAP_DIFFERENCE;
-	            g_online0_bank += 0x7000;
-	            g_online1_bank += 0x7000;
-	            g_online2_bank += 0x7000;
-	            g_online3_bank += 0x7000;
-	            g_online4_bank += 0x7000;
-	            g_online5_bank += 0x7000;
-	            g_online6_bank += 0x7000;
-	            g_bank += JAP_DIFFERENCE;
-	            g_online0_meow += 0x7000;
-	            g_online1_meow += 0x7000;
-	            g_online2_meow += 0x7000;
-	            g_online3_meow += 0x7000;
-	            g_online4_meow += 0x7000;
-	            g_online5_meow += 0x7000;
-	            g_online6_meow += 0x7000;
-	            g_wallet += JAP_DIFFERENCE;
-	            g_online0_wallet += 0x7000;
-	            g_online1_wallet += 0x7000;
-	            g_online2_wallet += 0x7000;
-	            g_online3_wallet += 0x7000;
-	            g_online4_wallet += 0x7000;
-	            g_online5_wallet += 0x7000;
-	            g_online6_wallet += 0x7000;
 	            g_nook1Price += JAP_DIFFERENCE;
 	            g_nook2Price += JAP_DIFFERENCE;
 	            g_room = JAP_ROOM_ID_ADDR;
@@ -480,13 +337,6 @@ namespace CTRPluginFramework
 	            g_quick += JAP_DIFFERENCE;
 	            g_out_grav += JAP_DIFFERENCE;
 				g_medals += JAP_DIFFERENCE;
-	            g_online0_medals += 0x7000;
-	            g_online1_medals += 0x7000;
-	            g_online2_medals += 0x7000;
-	            g_online3_medals += 0x7000;
-	            g_online4_medals += 0x7000;
-	            g_online5_medals += 0x7000;
-	            g_online6_medals += 0x7000;
 	            g_camera_asm = JAP_CAMERA_ASM_ADDR;
 	            g_camera_x = JAP_CAMERA_X_ADDR;
 	            g_camera_y = JAP_CAMERA_Y_ADDR;
@@ -748,93 +598,6 @@ namespace CTRPluginFramework
 		}
 	}
 
-	void 	writeSlot(int slot, u32 item)
-	{
-		u8      player;
-	    u32     offset;
-	    
-	    player = READU8(g_playerId);
-	    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	    {
-	        offset = player * 0xa480; //difference bet
-	        WRITEU16(g_inv + offset + (slot * 4), item);
-	        if (READU16(g_online4_inv) != 0)
-	            WRITEU16(g_online4_inv + (slot * 4), item); 
-	        if (READU16(g_online5_inv) != 0)
-	            WRITEU16(g_online5_inv + (slot * 4), item); 
-	        if (READU16(g_online6_inv) != 0)
-	            WRITEU16(g_online6_inv + (slot * 4), item);
-	    }
-	    if (player >= 0x3)
-	    {
-	        if (READU16(g_online0_inv) != 0)
-	            WRITEU16(g_online0_inv + (slot * 4), item);
-	        if (READU16(g_online1_inv) != 0)
-	            WRITEU16(g_online1_inv + (slot * 4), item); 
-	        if (READU16(g_online2_inv) != 0)
-	            WRITEU16(g_online2_inv + (slot * 4), item);
-	        if (READU16(g_online3_inv) != 0)
-	            WRITEU16(g_online3_inv + (slot * 4), item);
-	    }      
-	}
-	//readSlot requires an arra to be used since it will be returning more than 1 value
-	u32     *readSlot(int slot)
-	{
-	    static u32 item[4];
-
-	    u8      player;
-	    u32     offset;
-
-	    player = READU8(g_playerId);
-
-	    if (player <= 0x3)
-	    {
-	        offset = player * 0xA480;
-	        item[0] = READU32(g_inv + offset + (slot * 4));
-	        item[1] = READU32(g_online4_inv + (slot * 4));
-	        item[2] = READU32(g_online5_inv + (slot * 4));
-	        item[3] = READU32(g_online6_inv + (slot * 4));
-	    }
-	    else
-	    {
-	        item[0] = READU32(g_online0_inv + (slot * 4));
-	        item[1] = READU32(g_online1_inv + (slot * 4));
-	        item[2] = READU32(g_online2_inv + (slot * 4));
-	        item[3] = READU32(g_online3_inv + (slot * 4));
-	    }
-	    
-	    return (item);
-	}
-
-	void 	writeSlotArray(int slot, u32 item[3])
-	{
-		u8      player;
-	    u32     offset;
-	    
-	    player = READU8(g_playerId);
-	    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-	    {
-	        offset = player * 0xa480; //difference between each player
-	        WRITEU16(g_inv + offset + (slot * 4), item[0]);
-	        if (READU16(g_online4_inv) != 0)
-	            WRITEU16(g_online4_inv + (slot * 4), item[1]); 
-	        if (READU16(g_online5_inv) != 0)
-	            WRITEU16(g_online5_inv + (slot * 4), item[2]); 
-	        if (READU16(g_online6_inv) != 0)
-	            WRITEU16(g_online6_inv + (slot * 4), item[3]);
-	    }
-	    if (player >= 0x3)
-	    {
-	        if (READU16(g_online0_inv) != 0)
-	            WRITEU16(g_online0_inv + (slot * 4), item[0]);
-	        if (READU16(g_online1_inv) != 0)
-	            WRITEU16(g_online1_inv + (slot * 4), item[1]); 
-	        if (READU16(g_online2_inv) != 0)
-	            WRITEU16(g_online2_inv + (slot * 4), item[2]);
-	        if (READU16(g_online3_inv) != 0)
-	            WRITEU16(g_online3_inv + (slot * 4), item[3]);
-	    }      		
-	}
 
 	u32        computeOffset(u32 x, u32 y)
 	{
@@ -904,32 +667,35 @@ namespace CTRPluginFramework
             // If the function return -1, then the user canceled the keyboard, so do nothing 
             if (keyboard.Open(output) != -1)
             {
-            	writeSlot(0, output);  
+            	g_player->WriteSlot(0, output);  
             }                      
 		}
 	}
 
 	void 	duplication(MenuEntry *entry)
 	{
-		u32 *item; //use a pointer to access an array
+		u32 item;
 		if (Controller::IsKeyDown(R))
 		{
-			item = readSlot(0);
-			writeSlotArray(1, item);
+			g_player->ReadSlot(0, item);
+			g_player->WriteSlot(1, item);
 		}
 	}
 
 	void 	duplicationAll(void)
 	{
-		u32 *item;
+		u32 item[15]; //store the entire inventory into an array so that we can check the contents of the inventory
 
-		item = readSlot(0);
-		for (int i = 1; i < 15; i++)
+
+		for (int i = 0; i < 15; i++)
 		{
-			if (*readSlot(i) == 0x7FFE) 
-			{
-				writeSlotArray(i, item);
-			}
+			g_player->ReadSlot(i, item[i]);
+		}
+
+		for (int i = 0; i < 15; i++)
+		{
+			if (item[i] == 0x00007FFE) //check to see if the current index of the inventory is blank
+				g_player->WriteSlot(i, item[0]); //duplicate all the items from slot 0
 		}
 	}
 
@@ -1184,30 +950,76 @@ namespace CTRPluginFramework
 	    }
 	}
 
-	void    backup(MenuEntry *entry)
-    {
-        File file;
+  void    backup(MenuEntry *entry)
+    {        
         if (!entry->IsActivated())
-        	return;
+            return;
 
-		Keyboard keyboard("GardenRam Dumper\n\nName the dump you'd like to create.");
+        Keyboard        keyboard("GardenRam Dumper\n\nName the dump you'd like to create.");
         std::string     input;
+        File            file;
+        Directory       dir;
+
         if (keyboard.Open(input) != -1)
         {
-        	input += ".bin";
-        	if (Directory::IsExists("dumps") == 0)
-        		Directory::Create("dumps");
-        	Directory::ChangeWorkingDirectory("dumps");
-	        int ret = File::Open(file, input, File::READ | File::WRITE | File::CREATE);
+            // Add extension to the name if user didn't
+            if (input.find(".bin") == std::string::npos)
+                input += ".bin";
+            // Open dumps folder, create it if it doesn't exist
+            if (Directory::Open(dir, "dumps", true) == 0)
+            {
+                // Folder successfully opened
+                
+                // Let's create and open the file
+                if (dir.OpenFile(file, input, true) == 0)
+                {
+                    // Successfully opened the file 
+                    
+                    // Dump to the file
+                    if (file.Dump(g_garden, 0x89A80) == 0)
+                    {
+                        // Success
+                        
+                        std::string     path; 
+                        std::string     message;
 
-	        if (ret == 0)
-	        {
-	            int res = file.Dump(g_garden, 0x89A80);
-	            MessageBox msgBox("File dumped to\nSD:/plugin/<title_id>/dumps/*.bin !", DialogType::DialogOk);
-	            file.Close(); 
+                        // Assemble full path
+                        path = dir.GetPath();
+                        path += input;
 
-	            entry->Disable();
-	        }
+                        // Assemble message for MessageBox
+                        message = "File dumped to:\n";
+                        message += path;
+
+                        // Create MessageBox and open it
+                        MessageBox      msgBox(message);
+
+                        msgBox(); 
+                    }
+                    else
+                    {
+                        //  Failed
+                        
+                        MessageBox msgBox("Error\nDump failed.");
+
+                        msgBox();
+                    }
+                }
+            }
+            else
+            {
+                // Failed to open the folder, notify the user
+                MessageBox msgBox("Error\nCouldn't open dumps folder.");
+
+                msgBox();
+            }
+
+            // Close file and directory
+            file.Close();
+            dir.Close(); 
+
+            // Disable entry
+            entry->Disable();
         }
     }
 
@@ -1512,17 +1324,14 @@ namespace CTRPluginFramework
 
         int userChoice = keyboard.Open();
 
-        if (g_player->GetId() <= 3)
+        if (userChoice != -1)
         {
-            if (userChoice != -1)
-                g_player->Write(g_gender, userChoice);
-
+            g_player->Write(0x55BA, userChoice);
             appearanceMod();
         }
         else
         {
-            OSD::Notify("You must load your save to use this cheat!");//once I find a conditional for the island, it will only say it doesn't work on the island if the conditional is true
-            OSD::Notify("This cheat doesn't work on the island.");
+            OSD::Notify("You must load your save to use this cheat!");
         }
     }
 

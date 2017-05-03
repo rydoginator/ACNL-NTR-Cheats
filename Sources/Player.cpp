@@ -1,9 +1,9 @@
 #include "Player.hpp"
 namespace   CTRPluginFramework
 {
-    #define READU8(x) *(u8 *)(x)
 
-    u32         g_playerId;
+
+    u32     g_playerPointer;
     Player      *Player::_instance = nullptr;
 
     // Constructor
@@ -23,11 +23,7 @@ namespace   CTRPluginFramework
         return (_instance);
     }
 
-    // Return current player's ID
-    int     Player::GetId(void) const
-    {
-        return (_playerID);
-    }
+    
 
     // Return current player's offset
     u32     Player::GetOffset(void) const
@@ -38,9 +34,9 @@ namespace   CTRPluginFramework
     // Update Player's infos
     void    Player::Update(void)
     {
-        _playerID = READU8(g_playerId);
-        _offset = _playerID * 0xA480;
+        Process::Read32(g_playerPointer, _offset);
     }
+
 
     // Write data relative to player's offset
     //template <typename T>
@@ -50,17 +46,41 @@ namespace   CTRPluginFramework
         u32     address = offset + _offset;
 
         // Check for the address to exists and be editable
-        if (!Process::CheckAddress(address))
-            return (false);
-
+        if (!Process::CheckAddress(_offset))
+            return (false); 
         return (Process::Patch(address, (u8 *)&value, size));
+    }
+
+    bool    Player::Read(u32 offset, u32 &value) const
+    {
+        u32     address = offset + _offset;
+
+        if (!Process::CheckAddress(_offset))
+            return (false);
+        return (Process::Read32(address, value));
+    }
+
+
+    bool    Player::WriteSlot(int slot, u32 item)
+    {
+        if (!Process::CheckAddress(_offset))
+            return (false); 
+        return (Write(0x6BD0 + (slot * 4), item));
+    }
+
+    bool    Player::ReadSlot(int slot, u32 &item) const
+    {
+        if (!Process::CheckAddress(_offset))
+            return (false);
+        return (Read(0x6BD0 + (slot * 4), item));
+
     }
 
     bool    Player::CopyMemory(u32 offset, u16 value[]) const
     {
         u32     address = offset + _offset;
 
-        if (!Process::CheckAddress(address))
+        if (!Process::CheckAddress(_offset))
             return (false);
         return (Process::CopyMemory((void *) address, value, 0x14));
     }

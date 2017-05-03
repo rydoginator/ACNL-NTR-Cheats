@@ -59,7 +59,10 @@ namespace CTRPluginFramework
 
        MenuFolder *folder = new MenuFolder("Garden Codes");
        folder->Append(new MenuEntry("Set name to...", SetNameTo));
-       folder->Append(new MenuEntry("Dump gardenram.bin", backup));
+       MenuEntry *entry;
+       folder->Append(entry = new MenuEntry("Garden Dumper", backup));
+       entry->SetMenuFunc(backup);
+       menu.Append(entry);
        folder->Append(new MenuEntry("Restore gardenram.bin", restore));
        folder->Append(new MenuEntry("Inject TCP Picture", InjectTCP));
        menu.Append(folder);
@@ -81,7 +84,10 @@ namespace CTRPluginFramework
        folder->Append(new MenuEntry("Pick up buried items", pickBuried));
        menu.Append(folder);
 
+
+       //This is the new folder that I declared.
        folder = new MenuFolder("Enviroment");
+       //Subfolder of Enviroment. These codes only execute when R+A is pressed, so I only want 1 enabled. I use the radio group parameter to prevent multiple from being enabled.
        MenuFolder *ra = new MenuFolder("R + A Codes");
 
        ra->Append(new MenuEntry(1, "Remove All Items", deleteAll, "Press " FONT_R " and " FONT_A " to execute... Beware as there is no going back if you save."));
