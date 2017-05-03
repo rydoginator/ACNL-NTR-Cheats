@@ -252,9 +252,8 @@ namespace CTRPluginFramework
 	void 	writeLocation(u32 location, u32 item);
 	u32		computeOffset(u32 x, u32 y);
 	u32		getItem(u32 location);
-	u32 *	   readSlot(int slot);
-	void 	writeSlotArray(int slot, u32 item[8]);
 	void 	changeGender(void);
+	void 	SleepThread(void);
 
 
 

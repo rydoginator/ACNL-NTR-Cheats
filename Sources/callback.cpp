@@ -54,12 +54,33 @@ namespace CTRPluginFramework
         }
     }
 
-    void    PlayerUpdateCallback(void)
+   void    PlayerUpdateCallback(void)
     {
-        Player  *Player = Player::GetInstance();
+        // Wait 10seconds that the user launch it's save
+        static Clock    timer;
+        static bool     isLaunched = false;
 
-        if (Player != nullptr)
-            Player->Update();
+        // Check only twice per minutes
+        if (isLaunched && timer.HasTimePassed(Seconds(0.5f)))
+        {
+            Player  *Player = Player::GetInstance();
+
+            if (Player != nullptr)
+                Player->Update();
+
+            timer.Restart();
+        }
+        else if (timer.HasTimePassed(Seconds(10.f)))
+        {
+            isLaunched = true;
+            timer.Restart();
+        }        
+    }
+
+    void    SleepThread(void)
+    {
+        // Put the thread as sleep for 0.001 seconds. Prevents overloading the thread
+        svcSleepThread(1000000);
     }
     
     void    timePicker(void)

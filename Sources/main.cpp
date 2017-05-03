@@ -59,13 +59,12 @@ namespace CTRPluginFramework
 
        MenuFolder *folder = new MenuFolder("Garden Codes");
        folder->Append(new MenuEntry("Set name to...", SetNameTo));
-       MenuEntry *entry;
-       folder->Append(entry = new MenuEntry("Garden Dumper", backup));
-       entry->SetMenuFunc(backup);
-       menu.Append(entry);
-       folder->Append(new MenuEntry("Restore gardenram.bin", restore));
+       MenuEntry *entry = new MenuEntry("Garden Dumper");
+       folder->Append(entry);
+       folder->Append(new MenuEntry("Garden Restore", restore));
        folder->Append(new MenuEntry("Inject TCP Picture", InjectTCP));
        menu.Append(folder);
+       menu.Append(entry);
 
        folder = new MenuFolder("Movement Codes");
 
@@ -111,6 +110,7 @@ namespace CTRPluginFramework
        menu.Append(folder);
 
         // Add Text2Cheat to plugin's main loop
+        menu.Callback(SleepThread);
         menu.Callback(CheatsKeyboard);
         menu.Callback(PlayerUpdateCallback);
         Assign();

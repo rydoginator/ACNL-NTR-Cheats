@@ -684,15 +684,15 @@ namespace CTRPluginFramework
 
 	void 	duplicationAll(void)
 	{
-		u32 item[15]; //store the entire inventory into an array so that we can check the contents of the inventory
+		u32 item[16]; //store the entire inventory into an array so that we can check the contents of the inventory
 
 
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 16; i++)
 		{
 			g_player->ReadSlot(i, item[i]);
 		}
 
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 16; i++)
 		{
 			if (item[i] == 0x00007FFE) //check to see if the current index of the inventory is blank
 				g_player->WriteSlot(i, item[0]); //duplicate all the items from slot 0
@@ -952,9 +952,6 @@ namespace CTRPluginFramework
 
   void    backup(MenuEntry *entry)
     {        
-        if (!entry->IsActivated())
-            return;
-
         Keyboard        keyboard("GardenRam Dumper\n\nName the dump you'd like to create.");
         std::string     input;
         File            file;
@@ -1017,29 +1014,56 @@ namespace CTRPluginFramework
             // Close file and directory
             file.Close();
             dir.Close(); 
-
-            // Disable entry
-            entry->Disable();
         }
     }
 
     void    restore(MenuEntry *entry)
     {
-        File file;
-        if (!entry->IsActivated())
-        return;
-        int ret = File::Open(file, "gardenram.bin", File::READ);
-        if (ret == 0)
-        {
-            int res = file.Inject(g_garden, 0x89A80);
-            file.Close(); 
-            entry->Disable();
+        File            file;
+        Directory       dir;
+        std::vector<std::string> list;
+    	if (Directory::Open(dir, "dumps", true) == 0)
+    	{
+    		if (dir.ListFiles(list, ".bin") == 0)
+    		{
+    			Keyboard keyboard("Select which dump to restore.");
+    			keyboard.Populate(list);
 
-            char buffer[0x200];
+    			int userChoice = keyboard.Open();
 
-            sprintf(buffer, "%08X  %08X", ret, res);
-            OSD::Notify(buffer);
-        }
+    			if (userChoice != -1)
+    			{
+    				if (File::Open(file, list[userChoice], File::READ) == 0)
+    				{
+    					if (file.Inject(g_garden, 0x89A80) == 0)
+    					{
+							MessageBox      msgBox("Successfully restored your\nsave!");
+
+							msgBox();   						
+    					}
+    					else
+    					{
+    						MessageBox msgBox("Error\nError injecting dump!");
+    					}
+    				}
+    				else
+    				{
+			             MessageBox msgBox("Error\nError opening dump!");
+
+			            msgBox();    					
+    				}
+    			}
+    		}
+    	}
+    	else
+    	{
+            // Failed to open the folder, notify the user
+            MessageBox msgBox("Error\nCouldn't open dumps folder.");
+
+            msgBox();   		
+    	}
+    	file.Close();
+    	dir.Close();
     }
 
     void    InjectTCP(MenuEntry *entry)
