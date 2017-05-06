@@ -263,7 +263,6 @@ namespace CTRPluginFramework
 	void	walkOver(MenuEntry *entry);
 	void	speed(MenuEntry *entry);
 	void	moonJump(MenuEntry *entry);
-	void	pass_collisions(MenuEntry *entry);
 	void 	text2item(MenuEntry *entry);
 	void 	duplication(MenuEntry *entry);
 	void 	worldEdit(MenuEntry *entry);
@@ -272,6 +271,7 @@ namespace CTRPluginFramework
 	void 	quench(MenuEntry *entry);
 	void    cameraMod(MenuEntry *entry);
 	void    SetNameTo(MenuEntry *entry);
+	void 	KeyboardExtender(MenuEntry *entry);
 	
 	void 	ghostMode(MenuEntry *entry);
 	void 	customBuilding(MenuEntry *entry);

@@ -498,30 +498,24 @@ namespace CTRPluginFramework
 
 	void    walkOver(MenuEntry *entry)
 	{
-		int loc;
+		u32 offsets[] = {0x6503FC, 0x650414, 0x650578, 0x6505F0, 0x6506A4, 0x6506BC, 0x6506C0, 0x6506ec};
+		u32 original[]={0x0A000094, 0x0A000052, 0x0A000001, 0xDA000014, 0xED841A05, 0xED840A07, 0x0A000026, 0x0A000065};
+		u32 patch[]= {0xEA000094, 0xEA000052, 0xEA000001, 0xEA000014, 0xE1A00000, 0xE1A00000, 0xEA000026, 0xEA000065};
+		if (Controller::IsKeysDown(L + DPadUp))
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				Process::Patch(offsets[i], (u8 *)&patch[i], 4); 
+			}
+		}
 
-		loc = READU32(g_location);
-
-	    if (Controller::IsKeysDown(L + DPadUp))
-	    {
-	    	if (loc == -1)
-	    	{
-	    		WRITEU8(g_walkOver, 0x83);
-	    	}
-	    	else
-	    	{
-	            WRITEU8(g_in_col, 0xFF);
-	    	}
-	    }
-	    if (Controller::IsKeysDown(L + DPadDown))
-	    	if (loc == -1)
-	    	{
-	    		WRITEU8(g_walkOver, 0x00);
-	    	}
-	    	else
-	    	{
-	            WRITEU8(g_in_col, 0x00);
-	    	}
+		if (Controller::IsKeysDown(L + DPadDown))
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				Process::Patch(offsets[i], (u8 *)&original[i], 4); 
+			}
+		}
 	}
 
 	void    speed(MenuEntry *entry)
@@ -540,36 +534,6 @@ namespace CTRPluginFramework
 	        else if (velocity > 0)
 	        {
 	            ADDTOFLOAT(g_velocity, 0.1f);
-	        }
-	    }
-	}
-
-	void pass_collisions(MenuEntry *entry)
-	{
-	    int loc;
-
-	    loc = READU32(g_location);
-
-	    if (Controller::IsKeysDown(L + DPadUp))
-	    {
-	        if (loc == -1) //FFFFFFFF=outdoors 
-	        {
-	            WRITEU8(g_out_col, 0x01);
-	        }
-	        else
-	        {
-	            WRITEU8(g_in_col, 0xFF);
-	        }
-	    }
-	    if (Controller::IsKeysDown(L + DPadDown))
-	    {
-	        if (loc == -1) //FFFFFFFF=outdoors 
-	        {
-	            WRITEU8(g_out_col, 0x00);
-	        }
-	        else if (READU16(g_in_col) == 0x7FFE)
-	        {
-	            WRITEU8(g_in_col, 0x00);
 	        }
 	    }
 	}
@@ -1024,7 +988,8 @@ namespace CTRPluginFramework
         std::vector<std::string> list;
     	if (Directory::Open(dir, "dumps", true) == 0)
     	{
-    		if (dir.ListFiles(list, ".bin") == 0)
+    		dir.ListFiles(list, ".bin");
+    		if (!list.empty())
     		{
     			Keyboard keyboard("Select which dump to restore.");
     			keyboard.Populate(list);
@@ -1033,7 +998,7 @@ namespace CTRPluginFramework
 
     			if (userChoice != -1)
     			{
-    				if (File::Open(file, list[userChoice], File::READ) == 0)
+    				if (dir.OpenFile(file, list[userChoice], File::READ) == 0)
     				{
     					if (file.Inject(g_garden, 0x89A80) == 0)
     					{
@@ -1048,11 +1013,16 @@ namespace CTRPluginFramework
     				}
     				else
     				{
-			             MessageBox msgBox("Error\nError opening dump!");
+			             MessageBox msgBox("Error\nCouldn't open the dump!");
 
 			            msgBox();    					
     				}
     			}
+    		}
+    		else
+    		{
+    			MessageBox msgBox("Error\nCouldn't find any dumps!");
+    			msgBox();
     		}
     	}
     	else
@@ -1386,6 +1356,19 @@ namespace CTRPluginFramework
 
 	}
 
+	void 	KeyboardExtender(MenuEntry *entry)
+	{
+		u32 offset = 0;
+
+		Process::Read32(0x95F11C, offset);
+		if (offset != 0)
+		{
+			Process::Write32(0xC + offset, 0x36);
+			Process::Write32(0x12B + offset, 0x45);
+			Process::Write8(0xAD7253, 0x01);
+		}
+	}
+
 
     void    SetNameTo(MenuEntry *entry)
     {
@@ -1414,7 +1397,7 @@ namespace CTRPluginFramework
 
             if (res > 0)
             {
-                g_player->CopyMemory(g_name, output);
+                g_player->CopyMemory(0x55a8, output);
                 entry->Disable();
             }
         }

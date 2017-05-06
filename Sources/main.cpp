@@ -59,12 +59,14 @@ namespace CTRPluginFramework
 
        MenuFolder *folder = new MenuFolder("Garden Codes");
        folder->Append(new MenuEntry("Set name to...", SetNameTo));
-       MenuEntry *entry = new MenuEntry("Garden Dumper");
-       folder->Append(entry);
-       folder->Append(new MenuEntry("Garden Restore", restore));
+       MenuEntry *dumper = new MenuEntry("Garden Dumper");
+       folder->Append(dumper);
+       dumper->SetMenuFunc(backup);
+       MenuEntry *restorer = (new MenuEntry("Garden Restore"));
+       folder->Append(restorer);
+       restorer->SetMenuFunc(restore);
        folder->Append(new MenuEntry("Inject TCP Picture", InjectTCP));
        menu.Append(folder);
-       menu.Append(entry);
 
        folder = new MenuFolder("Movement Codes");
 
@@ -72,7 +74,6 @@ namespace CTRPluginFramework
        folder->Append(new MenuEntry("Teleport", teleport, "Press \uE001 and \uE079 to save your location, \uE001 and \uE07A to teleport back to the location. Use \uE052 or \uE053 to use multiple locations!"));
        folder->Append(new MenuEntry("Walk Over Things", walkOver, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."));
        folder->Append(new MenuEntry("Speed Hack", speed));
-       folder->Append(new MenuEntry("Walk Through Walls", pass_collisions, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."));
        folder->Append(new MenuEntry("Moon Jump v4", moonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."));
        menu.Append(folder);
 
@@ -107,6 +108,7 @@ namespace CTRPluginFramework
        folder->Append(new MenuEntry("Real Time Building Placer", customBuilding));
        folder->Append(new MenuEntry("Ghost Mode", ghostMode));
        folder->Append(new MenuEntry("Camera Mod", cameraMod));
+       folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters. Now you can type short stories into chat :)"));
        menu.Append(folder);
 
         // Add Text2Cheat to plugin's main loop
