@@ -20,11 +20,12 @@ namespace CTRPluginFramework
 
         enum Mode
         {
-            READ = 1,
-            WRITE = 1 << 1,
-            CREATE = 1 << 2,
-            APPEND = 1 << 3,
-            TRUNCATE = 1 << 4
+            READ = 1,           ///< Gives read permission
+            WRITE = 1 << 1,     ///< Gives write permission
+            CREATE = 1 << 2,    ///< The file will be created if it doesn't exist
+            APPEND = 1 << 3,    ///< You'll be unable to overwrite the file, only append data to it
+            TRUNCATE = 1 << 4,  ///< Will clear the file
+            SYNC = 1 << 5       ///< Will flush and update time on each write
         };
 
         /*
@@ -75,7 +76,7 @@ namespace CTRPluginFramework
         ** 0 : Success        
         ** Other : result value by FS
         *************************************************/
-        static int  Open(File &output, std::string path, int mode = READ | WRITE);
+        static int  Open(File &output, std::string path, int mode = READ | WRITE | SYNC);
         /*
         ** Close a file
         ** return value:     
@@ -128,7 +129,7 @@ namespace CTRPluginFramework
         /*
         ** Return the current position in the file
         *************************************************/
-        u64     Tell(void);
+        u64     Tell(void) const;
         /*
         **
         *************************************************/
@@ -139,7 +140,7 @@ namespace CTRPluginFramework
         ** -1 : Error    
         ** Other : file size
         *************************************************/
-        u64     GetSize(void);
+        u64     GetSize(void) const;
         /*
         ** Dump memory into a file
         ** address to dump from
@@ -161,7 +162,12 @@ namespace CTRPluginFramework
         *************************************************/
         int     Inject(u32 address, u32 length);
         
-        File (){}
+        File(void);
+
+        /*
+        ** Return if the File is open
+        *************************************************/
+        bool    IsOpen(void) const;
 
     private:
         std::string     _path;
@@ -169,8 +175,7 @@ namespace CTRPluginFramework
         Handle          _handle;
         u64             _offset;
         int             _mode;
-
-        File (std::string &path, Handle handle, int mode);
+        bool            _isOpen;
     };
 }
 

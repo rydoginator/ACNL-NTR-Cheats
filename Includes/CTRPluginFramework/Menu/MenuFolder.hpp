@@ -13,16 +13,20 @@ namespace CTRPluginFramework
 
     public:
         MenuFolder(std::string name, std::string note = "");
-        ~MenuFolder(){};
+        ~MenuFolder();
 
-        void    Append(MenuEntry *item);
-        void    Append(MenuFolder *item);
-        u32     ItemsCount(void);
+        // Hide the folder from the menu. Will disable every sub entries
+        void    Hide(void) const;
+        // Reinsert an entry previously hidden in the menu
+        void    Show(void) const;
+
+        void    Append(MenuEntry *item) const;
+        void    Append(MenuFolder *item) const;
+        u32     ItemsCount(void) const;
 
     private:
         friend class PluginMenu;
-        MenuFolderImpl *_item;
-        //std::unique_ptr<MenuFolderImpl> _item;
+        std::unique_ptr<MenuFolderImpl> _item;
     };
 }
 

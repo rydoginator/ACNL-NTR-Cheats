@@ -3,6 +3,7 @@
 
 namespace CTRPluginFramework
 {
+
     class UIntVector;
     class Touch
     {

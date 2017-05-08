@@ -90,7 +90,26 @@ namespace CTRPluginFramework
         *********************************************/
         int     OpenFile(File &output, std::string path, bool create = true);
 
+        /*
+        ** List the files in the current directory
+        ** &files = reference to a std::vector to output the filenames
+        ** pattern = if specified, the function will only return the files 
+        ** which contain the pattern in their name (extension included)
+        ** Return value:
+        ** -1: the current Directory isn't properly opened
+        ** >=0 : the total of files found (that matched the pattern if specified)
+        *********************************************/
         int     ListFiles(std::vector<std::string> &files, std::string pattern = "");
+
+        /*
+        ** List the folders in the current directory
+        ** &folders = reference to a std::vector to output the foldernames
+        ** pattern = if specified, the function will only return the folders
+        ** which contain the pattern in their name
+        ** Return value:
+        ** -1: the current Directory isn't properly opened
+        ** >=0 : the total of folders found (that matched the pattern if specified)
+        *********************************************/
         int     ListFolders(std::vector<std::string> &folders, std::string pattern = "");
 
         std::string &GetPath(void);
