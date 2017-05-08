@@ -361,7 +361,7 @@ namespace CTRPluginFramework
         //...
     }
 
-	void    coord(MenuEntry *entry)
+	void    CoordinateModifier(MenuEntry *entry)
 	{
 	    static u32 offset;
 
@@ -459,7 +459,7 @@ namespace CTRPluginFramework
 
 
 
-	void    teleport(MenuEntry *entry)
+	void    Teleporter(MenuEntry *entry)
 	{
 		static u32 offset;
 	    static u32    X[3] = { 0 };
@@ -497,7 +497,7 @@ namespace CTRPluginFramework
 	    }
 	}
 
-	void    walkOver(MenuEntry *entry)
+	void    WalkOverThings(MenuEntry *entry)
 	{
 		u32 offsets[] = {0x6503FC, 0x650414, 0x650578, 0x6505F0, 0x6506A4, 0x6506BC, 0x6506C0, 0x6506ec};
 		u32 original[]={0x0A000094, 0x0A000052, 0x0A000001, 0xDA000014, 0xED841A05, 0xED840A07, 0x0A000026, 0x0A000065};
@@ -519,7 +519,7 @@ namespace CTRPluginFramework
 		}
 	}
 
-	void    speed(MenuEntry *entry)
+	void    SpeedHack(MenuEntry *entry)
 	{
 		char buffer[0x100];
 	    u32     velocity;
@@ -539,7 +539,7 @@ namespace CTRPluginFramework
 	    }
 	}
 
-	void    moonJump(MenuEntry *entry)
+	void    MoonJump(MenuEntry *entry)
 	{
 	    u32		offset;
 
@@ -618,7 +618,7 @@ namespace CTRPluginFramework
 	    WRITEU32(dst + offset, item);
 	}
 
-	void 	text2item(MenuEntry *entry)
+	void 	Text2Item(MenuEntry *entry)
 	{
 		if (Controller::IsKeysDown(X + DPadRight))
 		{
@@ -637,7 +637,7 @@ namespace CTRPluginFramework
 		}
 	}
 
-	void 	duplication(MenuEntry *entry)
+	void 	Duplication(MenuEntry *entry)
 	{
 		u32 item;
 		if (Controller::IsKeyDown(R))
@@ -664,7 +664,7 @@ namespace CTRPluginFramework
 		}
 	}
 
-    void     worldEdit(MenuEntry *entry)
+    void     WorldEdit(MenuEntry *entry)
     {
         static u32 item;
         static int valid = -1;
@@ -743,7 +743,7 @@ namespace CTRPluginFramework
         }
     }
 
-    void 	showBuried(MenuEntry *entry)
+    void 	ShowBuriedItems(MenuEntry *entry)
     {
     	u8    room = READU8(g_room);
    		u32   x = room == 0x01 ? READU32(g_main_x) : READU32(g_world_x);
@@ -790,7 +790,7 @@ namespace CTRPluginFramework
         }
     }
 
-    void 	pickBuried(MenuEntry *entry)
+    void 	PickBuriedItems(MenuEntry *entry)
 	{
 	  	u8    room = READU8(g_room);
 		u32   x = room == 0x01 ? READU32(g_main_x) : READU32(g_world_x);
@@ -890,7 +890,7 @@ namespace CTRPluginFramework
     	}
     }
 
-    void 	deleteAll(MenuEntry *entry)
+    void 	RemoveAllItems(MenuEntry *entry)
 	{
 	    if (Controller::IsKeysDown(R + A))
 	    {
@@ -901,7 +901,7 @@ namespace CTRPluginFramework
 	    }
 	}
 
-	void 	weeder(MenuEntry *entry)
+	void 	RemoveAllWeeds(MenuEntry *entry)
 	{
 		u16 weeds[] = {0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8};
 
@@ -915,7 +915,7 @@ namespace CTRPluginFramework
 	    }
 	}
 
-  void    backup(MenuEntry *entry)
+  void    GardenDumper(MenuEntry *entry)
     {        
         Keyboard        keyboard("GardenRam Dumper\n\nName the dump you'd like to create.");
         std::string     input;
@@ -982,7 +982,7 @@ namespace CTRPluginFramework
         }
     }
 
-    void    restore(MenuEntry *entry)
+    void    GardenRestore(MenuEntry *entry)
     {
         File            file;
         Directory       dir;
@@ -1051,7 +1051,7 @@ namespace CTRPluginFramework
         }
 	}
 
-	void    timeTravel(MenuEntry *entry)
+	void    TimeTravel(MenuEntry *entry)
 	{
 		if (Controller::IsKeysDown(R + DPadRight))
 		{
@@ -1082,7 +1082,7 @@ namespace CTRPluginFramework
 	    }
 	}
 
-	void 	timeMachine(MenuEntry *entry)
+	void 	TimeMachine(MenuEntry *entry)
 	{
 		static u8 minutes, hours, days, months, years;
 		u64 time;
@@ -1179,7 +1179,7 @@ namespace CTRPluginFramework
 	    }
 	}
 
-	void 	quench(MenuEntry *entry)
+	void 	WaterAllFlowers(MenuEntry *entry)
 	{
 	    u32     address;
 	    u32     item;
@@ -1472,7 +1472,7 @@ namespace CTRPluginFramework
         return ((u64)enc << 0) | ((u64)adjust << 32) | ((u64)shift_val << 48) | ((u64)chk << 56);
     }
 
-	void 	CheckMoney(MenuEntry *entry)
+	void 	ShowBells(MenuEntry *entry)
 	{
 		u64 money;
 		u32 result;
@@ -1485,7 +1485,7 @@ namespace CTRPluginFramework
 		OSD::WriteLine(1, buffer, 0, 0);
 	}
 
-	void 	setMoney(MenuEntry *entry)
+	void 	SetBells(MenuEntry *entry)
 	{
 		u64		money;
 		u32		output;

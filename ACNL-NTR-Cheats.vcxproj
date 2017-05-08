@@ -110,7 +110,9 @@
     <ClInclude Include="Includes\types.h" />
     <ClInclude Include="Includes\Unicode.h" />
     <ClInclude Include="Sources\cheats.hpp" />
+    <ClInclude Include="Sources\Offsets.hpp" />
     <ClInclude Include="Sources\Player.hpp" />
+    <ClInclude Include="Sources\Values.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\callback.cpp" />

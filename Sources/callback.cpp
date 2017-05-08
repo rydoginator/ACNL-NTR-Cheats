@@ -32,11 +32,11 @@ namespace CTRPluginFramework
             switch(userChoice)
             {
                 case 0:
-                    quench(nullptr);
+                    WaterAllFlowers(nullptr);
                     g_command = false;
                     break;
                 case 1:
-                    weeder(nullptr);
+                    RemoveAllWeeds(nullptr);
                     g_command = false;
                     break;
                 case 2:
