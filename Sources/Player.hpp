@@ -16,9 +16,15 @@ namespace CTRPluginFramework
 
         // Write data relative to player's offset
         //template <typename T>
+        bool    Write64(u32 offset, u64 value) const;
+
         bool    Write(u32 offset, u32 value) const;
 
+        bool    WriteByte(u32 offset, u8 value) const;
+
         bool    Read(u32 offset, u32 &value) const;
+
+        bool    Read64(u32 offset, u64 &value) const;
 
         bool    ReadSlot(int slot, u32 &item) const;
 

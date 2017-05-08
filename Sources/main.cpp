@@ -82,6 +82,10 @@ namespace CTRPluginFramework
        folder->Append(new MenuEntry("Duplicate", duplication, "Press " FONT_R " to duplicate the item that is slot 01 to slot 02."));
        folder->Append(new MenuEntry("Show names of buried items", showBuried));
        folder->Append(new MenuEntry("Pick up buried items", pickBuried));
+       folder->Append(new MenuEntry("Show bells", CheckMoney));
+       MenuEntry *entry = new MenuEntry("Set bells");
+       folder->Append(entry);
+       entry->SetMenuFunc(setMoney);
        menu.Append(folder);
 
 

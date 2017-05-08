@@ -365,18 +365,18 @@ namespace CTRPluginFramework
 	{
 	    static u32 offset;
 
-	    offset = READU32(g_camstop_pointer);
+	    offset = READU32(g_coordinates_pointer);
 	    if (offset != 0)
 	    {
-	    	offset += 0x14;
+	    	offset += 0x24;
 		    if (Controller::IsKeysDown(A + DPadDown))
-		        ADDTOFLOAT(offset + 8, 0.01f);
+		        ADDTOFLOAT(offset + 8, 0.1f);
 		    if (Controller::IsKeysDown(A + DPadUp))
-		        SUBTOFLOAT(offset + 8, 0.01f);
+		        SUBTOFLOAT(offset + 8, 0.1f);
 		    if (Controller::IsKeysDown(A + DPadLeft))
-		        SUBTOFLOAT(offset, 0.01f);
+		        SUBTOFLOAT(offset, 0.1f);
 		    if (Controller::IsKeysDown(A + DPadRight))
-		        ADDTOFLOAT(offset, 0.01f);
+		        ADDTOFLOAT(offset, 0.1f);
 		}
 	}
 
@@ -479,10 +479,11 @@ namespace CTRPluginFramework
     	{
         	slot = 0;
     	}
-        offset = READU32(g_camstop_pointer);
+
+    	offset = READU32(g_coordinates_pointer);
 	    if (offset != 0)
 	    {
-	    	offset += 0x14;
+	    	offset += 0x24;
 		    if (Controller::IsKeysDown(B + DPadUp))
 		    {
 		    	X[slot] = READU32(offset);
@@ -549,7 +550,7 @@ namespace CTRPluginFramework
 		    {
 		    	offset += 0x24;
 		    	WRITEU16(g_out_grav, 0xFFFF);
-		    	ADDTOFLOAT(offset + 4, 0.005f);
+		    	ADDTOFLOAT(offset + 4, 0.05f);
 		    }
 		}
 		if (Controller::IsKeysDown(L + DPadDown))
@@ -557,7 +558,7 @@ namespace CTRPluginFramework
 		    if (offset != 0)
 		    {
 		    	offset += 0x24;
-		    	SUBTOFLOAT(offset + 4, 0.005f);
+		    	SUBTOFLOAT(offset + 4, 0.05f);
 		    }
 		}
 	}
@@ -891,7 +892,7 @@ namespace CTRPluginFramework
 
     void 	deleteAll(MenuEntry *entry)
 	{
-	    if (Controller::IsKeysPressed(R + A))
+	    if (Controller::IsKeysDown(R + A))
 	    {
 	        for (int i = 0; i < 0x1400; i++)
 	        {
@@ -1213,7 +1214,7 @@ namespace CTRPluginFramework
         u32   patch  = 0xEA000020;
         u32   original = 0x2A000020;
 
-	    if (!Controller::IsKeyPressed(B))
+	    if (Controller::IsKeyReleased(B))
 	    {
 	        Process::Patch(g_camera_asm, (u8 *)&original, 4);
 	    }
@@ -1232,22 +1233,22 @@ namespace CTRPluginFramework
 	        if (Controller::IsKeysDown(R + CPadDown))
 	        {
 	            offset += 0x12C;
-	            ADD16(offset, 0x1);
+	            ADD16(offset, 0x2);
 	        }
 	        if (Controller::IsKeysDown(R + CPadUp))
 	        {
 	            offset += 0x12C;  
-	            SUB16(offset, 0x1);
+	            SUB16(offset, 0x2);
 	        }
 	        if (Controller::IsKeysDown(R + CPadRight))
 	        {
 	            offset += 0x12E;
-	            ADD16(offset, 0x1);
+	            ADD16(offset, 0x2);
 	        }
 	        if (Controller::IsKeysDown(R + CPadLeft))
 	        {
 	            offset += 0x12E;
-	            SUB16(offset, 0x1);
+	            SUB16(offset, 0x2);
 	        }
 	        if (Controller::IsKeysDown(R + CPadDown))
 	        {
@@ -1320,13 +1321,64 @@ namespace CTRPluginFramework
 
         if (userChoice != -1)
         {
-            g_player->Write(0x55BA, userChoice);
+            g_player->WriteByte(0x55BA, userChoice);
             appearanceMod();
         }
         else
         {
             OSD::Notify("You must load your save to use this cheat!");
         }
+    }
+
+    void 	changeHair(void)
+    {
+        Keyboard  keyboard("Which hairstlye would you like?");
+        std::vector<std::string> list = 
+        {
+            "Male 01", 
+            "Male 02",
+            "Male 03", 
+            "Male 04",
+            "Male 05", 
+            "Male 06",
+            "Male 07", 
+            "Male 08", 
+            "Male 09",
+            "Male 10", 
+            "Male 11",
+            "Male 12", 
+            "Male 13",
+            "Male 14", 
+            "Male 15", 
+            "Male 16",
+            "Messy Hair", 
+            "Female 01", 
+            "Female 02",
+            "Female 03", 
+            "Female 04",
+            "Female 05", 
+            "Female 06",
+            "Female 07", 
+            "Female 08", 
+            "Female 09",
+            "Female 10", 
+            "Female 11",
+            "Female 12", 
+            "Female 13",
+            "Female 14", 
+            "Female 15", 
+            "Female 16"
+        };
+
+        keyboard.Populate(list);
+
+        u8 userChoice = keyboard.Open();
+
+        if (userChoice != -1)
+        {
+        	g_player->WriteByte(0x4, userChoice);
+        	appearanceMod();
+        }    	
     }
 
 
@@ -1350,6 +1402,9 @@ namespace CTRPluginFramework
 	    	case 0:
 	    		changeGender();
 				break;
+			case 1:
+				changeHair();
+				break;
 			default:
 				break;
 	    }
@@ -1367,6 +1422,87 @@ namespace CTRPluginFramework
 			Process::Write32(0x12B + offset, 0x45);
 			Process::Write8(0xAD7253, 0x01);
 		}
+	}
+
+	int    randomNum(int start, int end) 
+	{
+	    srand(svcGetSystemTick());
+	    int r[20];
+	    for (int i = 0; i < 20; i++) {
+	        r[i] = rand()%(end - start + 1) + start;
+	    }
+	    return r[rand()%20];
+	}
+
+
+	//Credit to SciresM for this code! :)
+	u32	 DecryptACNLMoney(u64 money)
+	{
+	    // Unpack 64-bit value into (u32, u16, u8, u8) values.
+	    u32 enc = (money & 0xFFFFFFFF);
+	    u16 adjust = ((money >> 32) & 0xFFFF);
+	    u8 shift_val = ((money >> 48) & 0xFF);
+	    u8 chk = ((money >> 56) & 0xFF);
+
+	     // Validate 8-bit checksum
+	    if ((((enc >> 0) + (enc >> 8) + (enc >> 16) + (enc >> 24) + 0xBA) & 0xFF) != chk) return 0;
+	    u8 left_shift = ((0x1C - shift_val) & 0xFF);
+	    u8 right_shift = 0x20 - left_shift;
+	    // Handle error case: Invalid shift value.
+	    if (left_shift >= 0x20)
+	    {
+	        return 0 + (enc << right_shift) - (adjust + 0x8F187432);
+	    }
+	    // This case should occur for all game-generated values.
+	    return (enc << left_shift) + (enc >> right_shift) - (adjust + 0x8F187432);
+	}
+
+    u64 EncryptACNLMoney(int dec)
+    {
+        // Make a new RNG
+        u16 adjust = randomNum(0, 0x10000);
+        u8 shift_val = randomNum(0, 0x1A); 
+
+        // Encipher value
+        u32 enc = dec + adjust + 0x8F187432;
+        enc = (enc >> (0x1C - shift_val)) + (enc << (shift_val + 4));
+        // Calculate Checksum
+        u8 chk = (((enc >> 0) + (enc >> 8) + (enc >> 16) + (enc >> 24) + 0xBA) & 0xFF);
+        // Pack result
+        return ((u64)enc << 0) | ((u64)adjust << 32) | ((u64)shift_val << 48) | ((u64)chk << 56);
+    }
+
+	void 	CheckMoney(MenuEntry *entry)
+	{
+		u64 money;
+		u32 result;
+		char buffer[0x100];
+
+		g_player->Read64(0x6f08, money);
+		result = DecryptACNLMoney(money);
+		
+		sprintf(buffer, "Bells %i", result);
+		OSD::WriteLine(1, buffer, 0, 0);
+	}
+
+	void 	setMoney(MenuEntry *entry)
+	{
+		u64		money;
+		u32		output;
+
+		Keyboard keyboard("How much money would you like?");
+
+         
+        keyboard.IsHexadecimal(false);
+
+            // If the function return -1, then the user canceled the keyboard, so do nothing 
+        if (keyboard.Open(output) != -1)
+        {
+        	money = EncryptACNLMoney(output);
+
+        	g_player->Write64(0x6f08, money);
+        }
+		
 	}
 
 

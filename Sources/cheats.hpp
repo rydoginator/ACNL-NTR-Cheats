@@ -254,6 +254,9 @@ namespace CTRPluginFramework
 	u32		getItem(u32 location);
 	void 	changeGender(void);
 	void 	SleepThread(void);
+	u32 	DecryptACNLMoney(u64 money);
+	u64		EncryptACNLMoney(int dec);
+	int     randomNum(int start, int end);
 
 
 
@@ -272,6 +275,8 @@ namespace CTRPluginFramework
 	void    cameraMod(MenuEntry *entry);
 	void    SetNameTo(MenuEntry *entry);
 	void 	KeyboardExtender(MenuEntry *entry);
+	void 	CheckMoney(MenuEntry *entry);
+	void 	setMoney(MenuEntry *entry);
 	
 	void 	ghostMode(MenuEntry *entry);
 	void 	customBuilding(MenuEntry *entry);
@@ -288,5 +293,6 @@ namespace CTRPluginFramework
 	void    InjectTCP(MenuEntry *entry);
 	void 	appearanceMod(void);
 	void 	duplicationAll(void);
+	void 	changeHair(void);
 }
 #endif

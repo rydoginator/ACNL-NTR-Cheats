@@ -51,6 +51,25 @@ namespace   CTRPluginFramework
         return (Process::Patch(address, (u8 *)&value, size));
     }
 
+    bool    Player::Write64(u32 offset, u64 value) const
+    {
+        u32     size = sizeof(value);
+        u32     address = offset + _offset;
+
+        // Check for the address to exists and be editable
+        if (!Process::CheckAddress(_offset))
+            return (false); 
+        return (Process::Write64(address, value));
+    }
+
+    bool    Player::WriteByte(u32 offset, u8 value) const
+    {
+        u32     address = offset + _offset;
+        if (!Process::CheckAddress(_offset))
+            return (false);
+        return (Process::Write8(address, value));
+    }
+
     bool    Player::Read(u32 offset, u32 &value) const
     {
         u32     address = offset + _offset;
@@ -58,6 +77,15 @@ namespace   CTRPluginFramework
         if (!Process::CheckAddress(_offset))
             return (false);
         return (Process::Read32(address, value));
+    }
+
+    bool    Player::Read64(u32 offset, u64 &value) const
+    {
+        u32     address = offset +_offset;
+
+        if (!Process::CheckAddress(_offset))
+            return(false);
+        return (Process::Read64(address, value));
     }
 
 
