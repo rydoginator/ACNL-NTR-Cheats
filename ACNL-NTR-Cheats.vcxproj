@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BEA98298-22A0-41B1-B613-32BDA098431B}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>make re</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>__STDC__;__cplusplus</NMakePreprocessorDefinitions>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/Includes</IncludePath>
+    <SourcePath>$(VC_SourcePath);$(ProjectDir)/Sources</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>make re</NMakeReBuildCommandLine>
+    <NMakePreprocessorDefinitions>__STDC__;__cplusplus;NDEBUG</NMakePreprocessorDefinitions>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/Includes</IncludePath>
+    <SourcePath>$(VC_SourcePath);$(ProjectDir)/Sources</SourcePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes\3ds.h" />
+    <ClInclude Include="Includes\CTRPluginFramework.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Graphics.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Graphics\Color.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Graphics\OSD.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Menu.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Menu\Keyboard.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Menu\MenuEntry.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Menu\MenuFolder.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Menu\PluginMenu.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Clock.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Controller.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Directory.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\File.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Process.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\System.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Time.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Touch.hpp" />
+    <ClInclude Include="Includes\ctrulib\allocator\linear.h" />
+    <ClInclude Include="Includes\ctrulib\allocator\mappable.h" />
+    <ClInclude Include="Includes\ctrulib\allocator\vram.h" />
+    <ClInclude Include="Includes\ctrulib\env.h" />
+    <ClInclude Include="Includes\ctrulib\font.h" />
+    <ClInclude Include="Includes\ctrulib\gfx.h" />
+    <ClInclude Include="Includes\ctrulib\gpu\enums.h" />
+    <ClInclude Include="Includes\ctrulib\gpu\gpu-old.h" />
+    <ClInclude Include="Includes\ctrulib\gpu\gpu.h" />
+    <ClInclude Include="Includes\ctrulib\gpu\gx.h" />
+    <ClInclude Include="Includes\ctrulib\gpu\registers.h" />
+    <ClInclude Include="Includes\ctrulib\gpu\shaderProgram.h" />
+    <ClInclude Include="Includes\ctrulib\gpu\shbin.h" />
+    <ClInclude Include="Includes\ctrulib\ipc.h" />
+    <ClInclude Include="Includes\ctrulib\os.h" />
+    <ClInclude Include="Includes\ctrulib\result.h" />
+    <ClInclude Include="Includes\ctrulib\sdmc.h" />
+    <ClInclude Include="Includes\ctrulib\services\apt.h" />
+    <ClInclude Include="Includes\ctrulib\services\cfgu.h" />
+    <ClInclude Include="Includes\ctrulib\services\fs.h" />
+    <ClInclude Include="Includes\ctrulib\services\gspgpu.h" />
+    <ClInclude Include="Includes\ctrulib\services\hid.h" />
+    <ClInclude Include="Includes\ctrulib\services\irrst.h" />
+    <ClInclude Include="Includes\ctrulib\srv.h" />
+    <ClInclude Include="Includes\ctrulib\svc.h" />
+    <ClInclude Include="Includes\ctrulib\synchronization.h" />
+    <ClInclude Include="Includes\ctrulib\thread.h" />
+    <ClInclude Include="Includes\ctrulib\util\rbtree.h" />
+    <ClInclude Include="Includes\ctrulib\util\utf.h" />
+    <ClInclude Include="Includes\types.h" />
+    <ClInclude Include="Includes\Unicode.h" />
+    <ClInclude Include="Sources\cheats.hpp" />
+    <ClInclude Include="Sources\Player.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Sources\callback.cpp" />
+    <ClCompile Include="Sources\cheats.cpp" />
+    <ClCompile Include="Sources\helpers.cpp" />
+    <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\Player.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

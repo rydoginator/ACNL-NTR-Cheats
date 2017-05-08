@@ -1,3 +1,8 @@
 /Build
 *.elf
 *.plg
+
+#VS
+*.db
+*.opendb
+/ARM
