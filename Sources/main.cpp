@@ -52,7 +52,7 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Coordinates Modifier", CoordinateModifier, "Press \uE000 and D Pad in the direction that you want to move."));
         folder->Append(new MenuEntry("Teleport", Teleporter, "Press \uE001 and \uE079 to save your location, \uE001 and \uE07A to teleport back to the location. Use \uE052 or \uE053 to use multiple locations!"));
         folder->Append(new MenuEntry("Walk Over Things", WalkOverThings, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."));
-        folder->Append(new MenuEntry("Speed Hack", SpeedHack));
+        folder->Append(new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor));
         folder->Append(new MenuEntry("Moon Jump v4", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."));
         
         menu.Append(folder);

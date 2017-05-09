@@ -96,6 +96,7 @@ namespace CTRPluginFramework
     void    Teleporter(MenuEntry *entry);
     void    WalkOverThings(MenuEntry *entry);
     void    SpeedHack(MenuEntry *entry);
+    void    SpeedHackEditor(MenuEntry *entry);
     void    MoonJump(MenuEntry *entry);
 
     /*
