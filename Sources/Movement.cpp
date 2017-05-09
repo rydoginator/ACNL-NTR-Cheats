@@ -9,7 +9,7 @@ namespace CTRPluginFramework
         if (Controller::IsKeysDown(A + DPadUp))
             Player::GetInstance()->AddToCoordinates(0.f, 0.f, -0.1f);
         if (Controller::IsKeysDown(A + DPadLeft))
-            Player::GetInstance()->AddToCoordinates(-1.f, 0.f, 0.f);
+            Player::GetInstance()->AddToCoordinates(-0.1f, 0.f, 0.f);
         if (Controller::IsKeysDown(A + DPadRight))
             Player::GetInstance()->AddToCoordinates(0.1f, 0.f, 0.f);
     }
