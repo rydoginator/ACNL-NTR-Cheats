@@ -2,6 +2,7 @@
 #define CHEATS_H
 
 #include "CTRPluginFramework.hpp"
+#include "Game.hpp"
 #include "Player.hpp"
 #include "Offsets.hpp"
 #include "RAddress.hpp"

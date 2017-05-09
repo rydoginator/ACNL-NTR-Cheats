@@ -1,6 +1,9 @@
 #ifndef OFFSETS_HPP
 #define OFFSETS_HPP
 
+#define     TO_EUR(x)   (x - EUR_DIFFERENCE)
+#define     TO_JAP(x)   (x + JAP_DIFFERENCE)
+
 #define     USA_LOCATION_ADDR                   0x33077504
 #define     USA_INDOOR_POS_X_ADDR               0x330774fc
 #define     USA_INDOOR_POS_Y_ADDR               0x33077500
@@ -144,7 +147,7 @@
 #define     USA_THOUGHT_TEXT_ADDR               0x33077D50
 #define     USA_CLUB_ADDR                       0x301b5aa0
 
-#define     USA_GARDENRAM_ADDR                  0x31F26F80
+#define     USA_GARDEN                  0x31F26F80
 #define     USA_NAME_ADDR                       0x31F2C5C8
 
 #endif

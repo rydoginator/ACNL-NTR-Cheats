@@ -10,7 +10,6 @@ namespace CTRPluginFramework
         Keyboard keyboard("Name Changer\n\nEnter the name you'd like to have:");
 
         std::string     input;
-        u16             output[0x100] = { 0 };
 
         if (keyboard.Open(input) != -1)
         {
@@ -43,6 +42,7 @@ namespace CTRPluginFramework
             // Add extension to the name if user didn't
             if (input.find(".bin") == std::string::npos)
                 input += ".bin";
+
             // Open dumps folder, create it if it doesn't exist
             if (Directory::Open(dir, "dumps", true) == 0)
             {
@@ -54,8 +54,7 @@ namespace CTRPluginFramework
                     // Successfully opened the file 
 
                     // Dump to the file
-                    extern u32 g_garden;
-                    if (file.Dump(g_garden, 0x89A80) == 0)
+                    if (file.Dump(Game::Garden, 0x89A80) == 0)
                     {
                         // Success
 
@@ -71,26 +70,19 @@ namespace CTRPluginFramework
                         message += path;
 
                         // Create MessageBox and open it
-                        MessageBox      msgBox(message);
-
-                        msgBox();
+                        (MessageBox(message))();
                     }
                     else
                     {
                         //  Failed
-
-                        MessageBox msgBox("Error\nDump failed.");
-
-                        msgBox();
+                        MessageBox("Error\nDump failed.")();
                     }
                 }
             }
             else
             {
                 // Failed to open the folder, notify the user
-                MessageBox msgBox("Error\nCouldn't open dumps folder.");
-
-                msgBox();
+                MessageBox("Error\nCouldn't open dumps folder.")();
             }
 
             // Close file and directory
@@ -104,69 +96,72 @@ namespace CTRPluginFramework
         File            file;
         Directory       dir;
         std::vector<std::string> list;
+
         if (Directory::Open(dir, "dumps", true) == 0)
         {
             dir.ListFiles(list, ".bin");
+
             if (!list.empty())
             {
                 Keyboard keyboard("Select which dump to restore.");
+
                 keyboard.Populate(list);
 
                 int userChoice = keyboard.Open();
 
                 if (userChoice != -1)
                 {
-                    if (dir.OpenFile(file, list[userChoice], File::READ) == 0)
+                    if (dir.OpenFile(file, list[userChoice], false) == 0)
                     {
-                        extern u32 g_garden;
-                        if (file.Inject(g_garden, 0x89A80) == 0)
+                        if (file.Inject(Game::Garden, 0x89A80) == 0)
                         {
-                            MessageBox      msgBox("Successfully restored your\nsave!");
-
-                            msgBox();
+                            MessageBox("Successfully restored your\nsave!")();
                         }
                         else
                         {
-                            MessageBox msgBox("Error\nError injecting dump!");
+                            MessageBox("Error\nError injecting dump!")();
                         }
                     }
                     else
                     {
-                        MessageBox msgBox("Error\nCouldn't open the dump!");
-
-                        msgBox();
+                        MessageBox("Error\nCouldn't open the dump!")();
                     }
                 }
             }
             else
             {
-                MessageBox msgBox("Error\nCouldn't find any dumps!");
-                msgBox();
+                MessageBox("Error\nCouldn't find any dumps!")();
             }
         }
         else
         {
             // Failed to open the folder, notify the user
-            MessageBox msgBox("Error\nCouldn't open dumps folder.");
-
-            msgBox();
+            MessageBox("Error\nCouldn't open dumps folder.")();
         }
         file.Close();
         dir.Close();
     }
 
     void    InjectTCP(MenuEntry *entry)
-    {
-        extern u32 g_garden;
-        File file;
+    {        
         if (!entry->IsActivated())
             return;
-        int ret = File::Open(file, "image.jpg", File::READ);
-        if (ret == 0)
+
+        File file;
+
+        if (File::Open(file, "image.jpg", File::READ) == 0)
         {
-            int res = file.Inject(g_garden + 0x5758, file.GetSize());
+            int res = file.Inject(Game::TCPImage, file.GetSize());
             file.Close();
-            entry->Disable();
+            
+            if (res == 0)
+                MessageBox("Injection done")();
+            else
+                MessageBox("Injection failed")();
         }
+        else
+            MessageBox("Error\nCouldn't open image.jpg")();
+
+        entry->Disable();
     }
 }

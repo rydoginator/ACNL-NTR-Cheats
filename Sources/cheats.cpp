@@ -168,7 +168,7 @@ namespace CTRPluginFramework
         g_thought = USA_THOUGHT_ADDR;
         g_club_items = USA_CLUB_ADDR;
         g_building_addr = USA_BUILDING_ADDR;
-        g_garden = USA_GARDENRAM_ADDR;
+        g_garden = USA_GARDEN;
         g_gender = USA_GENDER_ADDR;
         g_name = USA_NAME_ADDR;
         g_playerPointer = USA_PLAYER_POINTER;
@@ -482,13 +482,13 @@ namespace CTRPluginFramework
 
         for (int i = 0; i < 16; i++)
         {
-            g_player->ReadSlot(i, item[i]);
+            g_player->ReadInventorySlot(i, item[i]);
         }
 
         for (int i = 0; i < 16; i++)
         {
             if (item[i] == 0x00007FFE) //check to see if the current index of the inventory is blank
-                g_player->WriteSlot(i, item[0]); //duplicate all the items from slot 0
+                g_player->WriteInventorySlot(i, item[0]); //duplicate all the items from slot 0
         }
     }
     
