@@ -1,5 +1,4 @@
 #include "cheats.hpp"
-#include "ctrulib/util/utf.h"
 
 namespace CTRPluginFramework
 {
@@ -7,6 +6,7 @@ namespace CTRPluginFramework
     {
         if (!entry->IsActivated())
             return;
+
         Keyboard keyboard("Name Changer\n\nEnter the name you'd like to have:");
 
         std::string     input;
@@ -25,17 +25,10 @@ namespace CTRPluginFramework
                 input = secondLine;
             }
 
-            // Convert input to game's format
-            int res = utf8_to_utf16(output, reinterpret_cast<const u8*>(input.c_str()), 0x100);
-
-            if (res > 0)
-            {
-                Player::GetInstance()->CopyMemory(0x55a8, output);
-                entry->Disable();
-            }
+            Player::GetInstance()->SetName(input);
         }
-        else
-            entry->Disable();
+
+        entry->Disable();
     }
 
     void    GardenDumper(MenuEntry *entry)

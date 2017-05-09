@@ -4,6 +4,7 @@
 #include "CTRPluginFramework.hpp"
 #include "Player.hpp"
 #include "Offsets.hpp"
+#include "RAddress.hpp"
 #include "Unicode.h"
 #include "Values.hpp"
 
@@ -29,7 +30,7 @@
 #define ADDTOFLOAT(a, v)  *((float*)(a)) += (float)v
 #define SUBTOFLOAT(a, v)  *((float*)(a)) -= (float)v
 
-enum
+enum Region
 {
     USA = 0,
     EUR,

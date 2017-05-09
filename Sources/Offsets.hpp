@@ -47,6 +47,8 @@
 #define     USA_MINUTES_ADDR                    0x9515BA
 #define     USA_HOURS_ADDR                      0x9515BB
 #define     USA_PLAYER_POINTER                  0xAB014C
+#define     EUR_PLAYER_POINTER                  0xAB014C
+#define     JAP_PLAYER_POINTER                  0xAB014C
 
 #define     USA_KEYBOARD_ADDR                   0x32DC4A10
 #define     USA_KEYBOARD_ISLAND_ADDR            0x32DF7D14

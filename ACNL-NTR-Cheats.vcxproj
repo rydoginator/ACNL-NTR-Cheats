@@ -56,9 +56,6 @@
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Includes\3ds.h" />
     <ClInclude Include="Includes\CTRPluginFramework.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Graphics.hpp" />

@@ -16,7 +16,7 @@ namespace CTRPluginFramework
             // If the function return -1, then the user canceled the keyboard, so do nothing 
             if (keyboard.Open(output) != -1)
             {
-                Player::GetInstance()->WriteSlot(0, output);
+                Player::GetInstance()->WriteInventorySlot(0, output);
             }
         }
     }
@@ -26,8 +26,8 @@ namespace CTRPluginFramework
         u32 item;
         if (Controller::IsKeyDown(R))
         {
-            Player::GetInstance()->ReadSlot(0, item);
-            Player::GetInstance()->WriteSlot(1, item);
+            Player::GetInstance()->ReadInventorySlot(0, item);
+            Player::GetInstance()->WriteInventorySlot(1, item);
         }
     }
 

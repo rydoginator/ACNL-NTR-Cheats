@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Sources\cheats.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
