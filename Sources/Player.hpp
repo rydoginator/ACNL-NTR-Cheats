@@ -8,40 +8,39 @@ namespace CTRPluginFramework
         Player(void);
         ~Player(void){};
 
+        // Return current Player instance
+        static Player *GetInstance(void);
+
         // Return current player's offset
         u32     GetOffset(void) const;
 
         // Update current offset & ID
         void    Update(void);
 
-        // Write data relative to player's offset
-        //template <typename T>
+        // Read data relative to player's offset
+        bool    Read32(u32 offset, u32 &value) const;
+        bool    Read64(u32 offset, u64 &value) const;
+        bool    ReadByte(u32 offset, u8 &value) const;
+
+        // Write data relative to player's offset        
+        bool    Write32(u32 offset, u32 value) const;
         bool    Write64(u32 offset, u64 value) const;
-
-        bool    Write(u32 offset, u32 value) const;
-
         bool    WriteByte(u32 offset, u8 value) const;
 
-        bool    Read(u32 offset, u32 &value) const;
+        // Inventory
+        bool    ReadInventorySlot(int slot, u32 &item) const;
+        bool    WriteInventorySlot(int slot, u32 item) const;
 
-        bool    Read64(u32 offset, u64 &value) const;
-
-        bool    ReadSlot(int slot, u32 &item) const;
-
-
-
-
-        bool    WriteSlot(int slot, u32 item);
-
-        //Copy memory relative to player's offset. Really only needed to be used for the name function.
+        // Copy memory relative to player's offset.
+        // Really only needed to be used for the name function.
         bool    CopyMemory(u32 offset, u16 value[]) const;
 
-        // Return current Player instance
-        static Player *GetInstance(void);
+
     private:
         int     _playerID;
         u32     _offset;
 
         static Player  *_instance;
+        static u32     _playerPointer;
     };
 }

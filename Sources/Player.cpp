@@ -1,19 +1,26 @@
 #include "Player.hpp"
+#include "RAddress.hpp"
+#include "Offsets.hpp"
+
 namespace   CTRPluginFramework
 {
-
-
-    u32     g_playerPointer;
     Player      *Player::_instance = nullptr;
+    u32         Player::_playerPointer = 0;
 
     // Constructor
     Player::Player(void)
     {
+        // Set _playerPointer
+        AutoRegion address(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER);
+        
+        _playerPointer = address();
+
+        // Read _offset
         Update();
 
         if (_instance != nullptr)
             delete _instance;
-
+        // Init _instance for GetInstance()
         _instance = this;
     }
 
@@ -22,8 +29,6 @@ namespace   CTRPluginFramework
     {
         return (_instance);
     }
-
-    
 
     // Return current player's offset
     u32     Player::GetOffset(void) const
@@ -34,74 +39,58 @@ namespace   CTRPluginFramework
     // Update Player's infos
     void    Player::Update(void)
     {
-        Process::Read32(g_playerPointer, _offset);
+        Process::Read32(_playerPointer, _offset);
     }
 
+    /*
+     * Read
+     */
 
-    // Write data relative to player's offset
-    //template <typename T>
-    bool    Player::Write(u32 offset, u32 value) const
+    bool    Player::Read32(u32 offset, u32 &value) const
     {
-        u32     size = sizeof(value);
-        u32     address = offset + _offset;
-
-        // Check for the address to exists and be editable
-        if (!Process::CheckAddress(_offset))
-            return (false); 
-        return (Process::Patch(address, (u8 *)&value, size));
-    }
-
-    bool    Player::Write64(u32 offset, u64 value) const
-    {
-        u32     size = sizeof(value);
-        u32     address = offset + _offset;
-
-        // Check for the address to exists and be editable
-        if (!Process::CheckAddress(_offset))
-            return (false); 
-        return (Process::Write64(address, value));
-    }
-
-    bool    Player::WriteByte(u32 offset, u8 value) const
-    {
-        u32     address = offset + _offset;
-        if (!Process::CheckAddress(_offset))
-            return (false);
-        return (Process::Write8(address, value));
-    }
-
-    bool    Player::Read(u32 offset, u32 &value) const
-    {
-        u32     address = offset + _offset;
-
-        if (!Process::CheckAddress(_offset))
-            return (false);
-        return (Process::Read32(address, value));
+        return (Process::Read32(offset + _offset, value));
     }
 
     bool    Player::Read64(u32 offset, u64 &value) const
     {
-        u32     address = offset +_offset;
-
-        if (!Process::CheckAddress(_offset))
-            return(false);
-        return (Process::Read64(address, value));
+        return (Process::Read64(offset + _offset, value));
     }
 
-
-    bool    Player::WriteSlot(int slot, u32 item)
+    bool    Player::ReadByte(u32 offset, u8 &value) const
     {
-        if (!Process::CheckAddress(_offset))
-            return (false); 
-        return (Write(0x6BD0 + (slot * 4), item));
+        return (Process::Read8(offset + _offset, value));
     }
 
-    bool    Player::ReadSlot(int slot, u32 &item) const
-    {
-        if (!Process::CheckAddress(_offset))
-            return (false);
-        return (Read(0x6BD0 + (slot * 4), item));
+    /*
+     * Write
+     */
 
+    bool    Player::Write32(u32 offset, u32 value) const
+    {
+        return (Process::Write32(offset + _offset, value));
+    }
+
+    bool    Player::Write64(u32 offset, u64 value) const
+    {
+        return (Process::Write64(offset + _offset, value));
+    }
+
+    bool    Player::WriteByte(u32 offset, u8 value) const
+    {
+        return (Process::Write8(offset + _offset, value));
+    }
+
+    /*
+     * Inventory
+     */
+    bool    Player::ReadInventorySlot(int slot, u32 &item) const
+    {
+        return (Read32(0x6BD0 + (slot * 4), item));
+    }
+
+    bool    Player::WriteInventorySlot(int slot, u32 item) const
+    {
+        return (Write32(0x6BD0 + (slot * 4), item));
     }
 
     bool    Player::CopyMemory(u32 offset, u16 value[]) const
