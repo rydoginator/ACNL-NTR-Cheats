@@ -46,7 +46,6 @@ enum
 
 namespace CTRPluginFramework
 {
-
     extern bool g_command;
     //helpers
     void    Assign(void);
