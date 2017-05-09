@@ -16,6 +16,7 @@ namespace CTRPluginFramework
 
         static u32      Garden;         ///< Address of the garden
         static u32      TCPImage;       ///< Address of the TCP picture
+        static u32      Gravity;        ///< Address of 
 
     };
 }
