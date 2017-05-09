@@ -13,6 +13,7 @@ namespace   CTRPluginFramework
     {
         // Set pointers
         _coordinatePointer = reinterpret_cast<Coordinates **>(AutoRegion(USA_COORDINATES_POINTER, EUR_COORDINATES_POINTER, JAP_COORDINATES_POINTER)());
+        _thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR)());
         _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER)();
 
         // Read _offset
@@ -165,6 +166,31 @@ namespace   CTRPluginFramework
         coord->x += xDiff;
         coord->y += yDiff;
         coord->z += zDiff;
+    }
+
+    /*
+     * Thought
+     */
+
+    void    Player::ThinkTo(u16 item) const
+    {
+        u32     patch = 0xE1A00000;
+
+        *_thought = item;
+        Process::Patch(0x002160BC, reinterpret_cast<u8 *>(&patch), 4); // nop the instruction that overwrites external thought bubbles
+    }
+
+    void    Player::UnThink(void) const
+    {
+        u32     original = 0xA000049;
+        u32     value = 0;
+
+        Process::Read32(0x002160BC, value);
+        if (value == original)
+            return;
+
+        *_thought = 0x7FFE;
+        Process::Patch(0x002160BC, reinterpret_cast<u8 *>(&original), 4);
     }
 
     /*

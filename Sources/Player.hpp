@@ -55,6 +55,10 @@ namespace CTRPluginFramework
         // Change coordinates
         void    AddToCoordinates(float xDiff, float yDiff, float zDiff) const;
 
+        // Thought
+        void    ThinkTo(u16 item) const;  ///< Put item in a thought bubble.
+        void    UnThink(void) const;      ///< Revert patch done by ThinkTo
+        
         // Name
         // Return the player's name as a string with utf8 encoding
         std::string     GetName(void) const;
@@ -65,6 +69,7 @@ namespace CTRPluginFramework
         u32             _offset;
 
         Coordinates     **_coordinatePointer;
+        u16             *_thought;
 
         static Player   *_instance;
         static u32      _playerPointer;
