@@ -33,6 +33,8 @@ namespace CTRPluginFramework
         static Position *MainStreetPos; ///< Position of the player on MainStreet
         static u8       *Room;          ///< Address of the current room
         static u32      TCPImage;       ///< Address of the TCP picture
+        static u64      *TimeReal;      ///< Address of the real game's time
+        static u64      *TimeSave;      ///< Address of the save game's time
         static u32      *TownItem;      ///< Address of the first item in town
         static u32      Velocity;       ///< Address of velocity
         static Position *WorldPos;      ///< Position of the player in the world

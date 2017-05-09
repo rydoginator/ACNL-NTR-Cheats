@@ -108,6 +108,7 @@
     <ClInclude Include="Includes\types.h" />
     <ClInclude Include="Includes\Unicode.h" />
     <ClInclude Include="Sources\cheats.hpp" />
+    <ClInclude Include="Sources\FindReplacer.hpp" />
     <ClInclude Include="Sources\Game.hpp" />
     <ClInclude Include="Sources\Offsets.hpp" />
     <ClInclude Include="Sources\Player.hpp" />
@@ -118,6 +119,7 @@
     <ClCompile Include="Sources\callback.cpp" />
     <ClCompile Include="Sources\cheats.cpp" />
     <ClCompile Include="Sources\Environment.cpp" />
+    <ClCompile Include="Sources\FindReplacer.cpp" />
     <ClCompile Include="Sources\Game.cpp" />
     <ClCompile Include="Sources\Garden.cpp" />
     <ClCompile Include="Sources\helpers.cpp" />

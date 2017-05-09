@@ -47,24 +47,12 @@ enum
 namespace CTRPluginFramework
 {
     extern bool g_command;
+
     //helpers
     void    Assign(void);
     
-    void    find_and_replace_multiple(u32 start_addr, u32 length);
-    void    retrieve_input_string(char *output, int size);
-    void    get_input_id(int *first, int *second);
-    void    keyboardInput(void);
-    bool    match(const char *str, const char *pattern);
     void    assign_region(u32 region);
-    void    writeSlot(int slot, u32 item);
-    bool    CheckMinuteInput(const void *input, std::string &error);
-    bool    CheckHourInput(const void *input, std::string &error);
-    bool    CheckDayInput(const void *input, std::string &error);
-    bool    CheckMonthInput(const void *input, std::string &error);
-    bool    CheckYearInput(const void *input, std::string &error);
-    void    writeLocation(u32 location, u32 item);
-    u32     computeOffset(u32 x, u32 y);
-    u32     getItem(u32 location);
+
     void    changeGender(void);
 
     u32     DecryptACNLMoney(u64 money);

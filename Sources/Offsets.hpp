@@ -26,6 +26,8 @@
 #define     USA_ID_ADDR                         0x32CB0F60 
 #define     USA_SAVETIME_ADDR                   0x31F89120
 #define     USA_REALTIME_ADDR                   0x95D508 //955500, 95c500
+#define     EUR_REALTIME_ADDR                   0x95c500
+#define     JAP_REALTIME_ADDR                   0x956500
 #define     USA_WORLD_X_ADDR                    0x33077838
 #define     USA_WORLD_Y_ADDR                    0x3307783C
 #define     USA_INPUT_TEXT_ADDR                 0x32CB0F60
