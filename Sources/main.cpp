@@ -111,9 +111,9 @@ namespace CTRPluginFramework
 
         folder = new MenuFolder("Misc.");
 
-        folder->Append(new MenuEntry("Real Time Building Placer", customBuilding));
-        folder->Append(new MenuEntry("Ghost Mode", ghostMode));
-        folder->Append(new MenuEntry("Camera Mod", cameraMod));
+        folder->Append(new MenuEntry("Real Time Building Placer", BuildingPlacer));
+        folder->Append(new MenuEntry("Ghost Mode", GhostMode));
+        folder->Append(new MenuEntry("Camera Mod", CameraMod));
         folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters. Now you can type short stories into chat :)"));
         
         menu.Append(folder);

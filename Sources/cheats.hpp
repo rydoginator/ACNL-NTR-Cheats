@@ -19,47 +19,45 @@ enum
 
 enum
 {
-	KEYBOARDINPUT,
-	ISLANDFINDER
+    KEYBOARDINPUT,
+    ISLANDFINDER
 };
-
-
 
 namespace CTRPluginFramework
 {
 
-	extern bool g_command;
-	//helpers
-	void 	Assign(void);
-	
-	void    find_and_replace_multiple(u32 start_addr, u32 length);
-	void    retrieve_input_string(char *output, int size);
-	void    get_input_id(int *first, int *second);
-	void	keyboardInput(void);
-	bool    match(const char *str, const char *pattern);
-	void    assign_region(u32 region);
-	void 	writeSlot(int slot, u32 item);
-	bool    CheckItemInput(const void *input, std::string &error);
-	bool 	CheckMinuteInput(const void *input, std::string &error);
-	bool 	CheckHourInput(const void *input, std::string &error);
-	bool 	CheckDayInput(const void *input, std::string &error);
-	bool 	CheckMonthInput(const void *input, std::string &error);
-	bool 	CheckYearInput(const void *input, std::string &error);
-	void 	writeLocation(u32 location, u32 item);
-	u32		computeOffset(u32 x, u32 y);
-	u32		getItem(u32 location);
-	void 	changeGender(void);
+    extern bool g_command;
+    //helpers
+    void    Assign(void);
+    
+    void    find_and_replace_multiple(u32 start_addr, u32 length);
+    void    retrieve_input_string(char *output, int size);
+    void    get_input_id(int *first, int *second);
+    void    keyboardInput(void);
+    bool    match(const char *str, const char *pattern);
+    void    assign_region(u32 region);
+    void    writeSlot(int slot, u32 item);
+    bool    CheckItemInput(const void *input, std::string &error);
+    bool    CheckMinuteInput(const void *input, std::string &error);
+    bool    CheckHourInput(const void *input, std::string &error);
+    bool    CheckDayInput(const void *input, std::string &error);
+    bool    CheckMonthInput(const void *input, std::string &error);
+    bool    CheckYearInput(const void *input, std::string &error);
+    void    writeLocation(u32 location, u32 item);
+    u32     computeOffset(u32 x, u32 y);
+    u32     getItem(u32 location);
+    void    changeGender(void);
 
-	u32 	DecryptACNLMoney(u64 money);
-	u64		EncryptACNLMoney(int dec);
-	int     randomNum(int start, int end);
+    u32     DecryptACNLMoney(u64 money);
+    u64     EncryptACNLMoney(int dec);
+    int     randomNum(int start, int end);
 
     void    timePicker(void);
-    void 	setTimeTo(int hour);
+    void    setTimeTo(int hour);
 
-    void 	appearanceMod(void);
-    void 	duplicationAll(void);
-    void 	changeHair(void);
+    void    appearanceMod(void);
+    void    duplicationAll(void);
+    void    changeHair(void);
 
     // Cheats functions
 
@@ -74,48 +72,48 @@ namespace CTRPluginFramework
     /*
     ** Movement
     ********************/
-    void	CoordinateModifier(MenuEntry *entry);
-    void	Teleporter(MenuEntry *entry);
-    void	WalkOverThings(MenuEntry *entry);
-    void	SpeedHack(MenuEntry *entry);
-    void	MoonJump(MenuEntry *entry);
+    void    CoordinateModifier(MenuEntry *entry);
+    void    Teleporter(MenuEntry *entry);
+    void    WalkOverThings(MenuEntry *entry);
+    void    SpeedHack(MenuEntry *entry);
+    void    MoonJump(MenuEntry *entry);
 
     /*
     ** Inventory
     ********************/
-    void 	Text2Item(MenuEntry *entry);
-    void 	Duplication(MenuEntry *entry);
-    void	ShowBuriedItems(MenuEntry *entry);
-    void	PickBuriedItems(MenuEntry *entry);
-    void 	ShowBells(MenuEntry *entry);
-    void 	SetBells(MenuEntry *entry);
+    void    Text2Item(MenuEntry *entry);
+    void    Duplication(MenuEntry *entry);
+    void    ShowBuriedItems(MenuEntry *entry);
+    void    PickBuriedItems(MenuEntry *entry);
+    void    ShowBells(MenuEntry *entry);
+    void    SetBells(MenuEntry *entry);
 
     /*
     ** Environment
     ********************/
-    void 	RemoveAllItems(MenuEntry *entry);
-    void 	RemoveAllWeeds(MenuEntry *entry);
-    void 	WaterAllFlowers(MenuEntry *entry);
-    void 	WorldEdit(MenuEntry *entry);
+    void    RemoveAllItems(MenuEntry *entry);
+    void    RemoveAllWeeds(MenuEntry *entry);
+    void    WaterAllFlowers(MenuEntry *entry);
+    void    WorldEdit(MenuEntry *entry);
 
     /*
     ** Time Travel
     ********************/
-    void 	TimeTravel(MenuEntry *entry);
-    void 	TimeMachine(MenuEntry *entry);
+    void    TimeTravel(MenuEntry *entry);
+    void    TimeMachine(MenuEntry *entry);
 
     /*
     ** Misc.
     ********************/
-    void 	customBuilding(MenuEntry *entry);
-    void 	ghostMode(MenuEntry *entry);
-    void    cameraMod(MenuEntry *entry);
-    void 	KeyboardExtender(MenuEntry *entry);
+    void    BuildingPlacer(MenuEntry *entry);
+    void    GhostMode(MenuEntry *entry);
+    void    CameraMod(MenuEntry *entry);
+    void    KeyboardExtender(MenuEntry *entry);
 
     /*
     ** Callbacks
     ********************/
-    void 	SleepThread(void);
+    void    SleepThread(void);
     void    CheatsKeyboard(void);
     void    PlayerUpdateCallback(void);
 }
