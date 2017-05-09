@@ -57,7 +57,6 @@ namespace CTRPluginFramework
     bool    match(const char *str, const char *pattern);
     void    assign_region(u32 region);
     void    writeSlot(int slot, u32 item);
-    bool    CheckItemInput(const void *input, std::string &error);
     bool    CheckMinuteInput(const void *input, std::string &error);
     bool    CheckHourInput(const void *input, std::string &error);
     bool    CheckDayInput(const void *input, std::string &error);
@@ -106,8 +105,8 @@ namespace CTRPluginFramework
     void    Duplication(MenuEntry *entry);
     void    ShowBuriedItems(MenuEntry *entry);
     void    PickBuriedItems(MenuEntry *entry);
-    void    ShowBells(MenuEntry *entry);
-    void    SetBells(MenuEntry *entry);
+    void    ShowBells(MenuEntry *entry); ///< Need fix ?
+    void    SetBells(MenuEntry *entry);  ///< Need fix ?
 
     /*
     ** Environment
@@ -115,7 +114,7 @@ namespace CTRPluginFramework
     void    RemoveAllItems(MenuEntry *entry);
     void    RemoveAllWeeds(MenuEntry *entry);
     void    WaterAllFlowers(MenuEntry *entry);
-    void    WorldEdit(MenuEntry *entry);
+    void    WorldEdit(MenuEntry *entry); ///< Maybe add a check on input ?
 
     /*
     ** Time Travel

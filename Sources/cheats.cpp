@@ -339,26 +339,7 @@ namespace CTRPluginFramework
         // Create a new Player object
         g_player = new Player();
         //...
-    }
-
-    
-
-    bool    CheckItemInput(const void *input, std::string &error)
-    {
-        // Cast the input into the appropriate type (must match the type provided to Open)
-        u32  in = *static_cast<const u32 *>(input);
-
-        // Check the value
-        if (in < 0x1000)
-        {
-            error = "The value must be between 1000 - FFFF";
-            // Return that the value isn't valid
-            return (false);
-        }
-
-        // The value is valid
-        return (true);
-    }
+    }    
 
     bool    CheckMinuteInput(const void *input, std::string &error)
     {

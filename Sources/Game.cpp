@@ -11,6 +11,7 @@ namespace CTRPluginFramework
         ClubItem = reinterpret_cast<u32 *>(AutoRegion(USA_CLUB_ADDR, TO_EUR(USA_CLUB_ADDR), TO_JAP(USA_CLUB_ADDR))());
         Garden = AutoRegion(USA_GARDEN, TO_EUR(USA_GARDEN), TO_JAP(USA_GARDEN))();
         Gravity = AutoRegion(USA_GRAVITY_OUT_ADDR, TO_EUR(USA_GRAVITY_OUT_ADDR), TO_JAP(USA_GRAVITY_OUT_ADDR))();
+        IslandItem = reinterpret_cast<u32 *>(AutoRegion(USA_ISLAND_ITEMS_ADDR, TO_EUR(USA_ISLAND_ITEMS_ADDR), TO_JAP(USA_ISLAND_ITEMS_ADDR))());
         MainStreetPos = reinterpret_cast<Position *>(AutoRegion(USA_MAINSTREET_X, TO_EUR(USA_MAINSTREET_X), TO_JAP(USA_MAINSTREET_X))());
         Room = reinterpret_cast<u8 *>(AutoRegion(USA_ROOM_ID_ADDR, EUR_ROOM_ID_ADDR, JAP_ROOM_ID_ADDR)());
         TCPImage = Garden + 0x5758;
@@ -61,6 +62,7 @@ namespace CTRPluginFramework
         u32  *items;
 
         if (*Room == 0x0) items = TownItem;
+        else if (*Room == 0x68) items = IslandItem;
         else if (*Room == 0x6F) items = ClubItem;
         else return (nullptr);
         
@@ -70,6 +72,7 @@ namespace CTRPluginFramework
     u32         *Game::ClubItem = nullptr;
     u32         Game::Garden = 0;
     u32         Game::Gravity = 0;
+    u32         *Game::IslandItem = nullptr;
     Position    *Game::MainStreetPos = nullptr;
     u32         Game::TCPImage = 0;
     u32         *Game::TownItem = nullptr;

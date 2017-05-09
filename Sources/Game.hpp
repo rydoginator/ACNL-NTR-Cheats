@@ -29,6 +29,7 @@ namespace CTRPluginFramework
         static u32      *ClubItem;      ///< Address of the first item in club
         static u32      Garden;         ///< Address of the garden
         static u32      Gravity;        ///< Address of gravity
+        static u32      *IslandItem;    ///< Address of the first item in the Island
         static Position *MainStreetPos; ///< Position of the player on MainStreet
         static u8       *Room;          ///< Address of the current room
         static u32      TCPImage;       ///< Address of the TCP picture
