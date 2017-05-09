@@ -68,6 +68,7 @@
     <ClInclude Include="Includes\CTRPluginFramework\Menu\Keyboard.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Menu\MenuEntry.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Menu\MenuFolder.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Menu\MessageBox.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Menu\PluginMenu.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Clock.hpp" />
@@ -117,9 +118,15 @@
   <ItemGroup>
     <ClCompile Include="Sources\callback.cpp" />
     <ClCompile Include="Sources\cheats.cpp" />
+    <ClCompile Include="Sources\Environment.cpp" />
+    <ClCompile Include="Sources\Garden.cpp" />
     <ClCompile Include="Sources\helpers.cpp" />
+    <ClCompile Include="Sources\Inventory.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\Misc.cpp" />
+    <ClCompile Include="Sources\Movement.cpp" />
     <ClCompile Include="Sources\Player.cpp" />
+    <ClCompile Include="Sources\TimeTravel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
