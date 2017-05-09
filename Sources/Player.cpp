@@ -1,6 +1,7 @@
 #include "Player.hpp"
 #include "RAddress.hpp"
 #include "Offsets.hpp"
+#include "ctrulib/util/utf.h"
 
 namespace   CTRPluginFramework
 {
@@ -93,12 +94,39 @@ namespace   CTRPluginFramework
         return (Write32(0x6BD0 + (slot * 4), item));
     }
 
-    bool    Player::CopyMemory(u32 offset, u16 value[]) const
-    {
-        u32     address = offset + _offset;
+    /*
+     * Name
+     */
 
-        if (!Process::CheckAddress(_offset))
-            return (false);
-        return (Process::CopyMemory((void *) address, value, 0x14));
+    #define NAME_OFFSET 0x55A8
+    #define NAME_MAX 0x14
+
+    std::string     Player::GetName(void) const
+    {
+        u8           buf[NAME_MAX + 1] = { 0 };
+
+        // Convert game's name to utf8
+        utf16_to_utf8(buf, reinterpret_cast<u16 *>(_offset + NAME_OFFSET), NAME_MAX);
+
+        return (std::string(reinterpret_cast<char *>(buf)));
+    }
+
+    void    Player::SetName(std::string& name) const
+    {
+        u16           buf[NAME_MAX + 1] = { 0 };
+
+        // If name is empty, abort
+        if (name.empty())
+            return;
+
+        // Convert utf8 to utf16
+        int res = utf8_to_utf16(buf, reinterpret_cast<const u8 *>(name.c_str()), NAME_MAX);
+
+        // If conversion failed, abort
+        if (res == -1)
+            return;
+
+        // Copy name to game
+        Process::CopyMemory(reinterpret_cast<void *>(_offset + NAME_OFFSET), buf, NAME_MAX);
     }
 }

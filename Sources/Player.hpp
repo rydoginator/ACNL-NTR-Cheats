@@ -1,4 +1,8 @@
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
 #include "CTRPluginFramework.hpp"
+
 namespace CTRPluginFramework
 {
     class Player
@@ -31,10 +35,11 @@ namespace CTRPluginFramework
         bool    ReadInventorySlot(int slot, u32 &item) const;
         bool    WriteInventorySlot(int slot, u32 item) const;
 
-        // Copy memory relative to player's offset.
-        // Really only needed to be used for the name function.
-        bool    CopyMemory(u32 offset, u16 value[]) const;
-
+        // Name
+        // Return the player's name as a string with utf8 encoding
+        std::string     GetName(void) const;
+        // Set the player's name. name must be a string with utf8 encoding
+        void            SetName(std::string &name) const;
 
     private:
         int     _playerID;
@@ -44,3 +49,5 @@ namespace CTRPluginFramework
         static u32     _playerPointer;
     };
 }
+
+#endif
