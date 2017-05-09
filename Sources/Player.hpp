@@ -5,6 +5,13 @@
 
 namespace CTRPluginFramework
 {
+    struct Coordinates
+    {
+        float   x;
+        float   y;
+        float   z;
+    };
+
     class Player
     {
     public:
@@ -35,6 +42,19 @@ namespace CTRPluginFramework
         bool    ReadInventorySlot(int slot, u32 &item) const;
         bool    WriteInventorySlot(int slot, u32 item) const;
 
+        // Coordinates
+
+        // Return current coordinates
+        Coordinates     GetCoordinates(void) const;
+        // Set coordinates
+        void    SetCoordinates(Coordinates pos) const;
+        void    SetCoordinates(float x, float y, float z) const;
+        void    SetCoordinatesX(float x) const;
+        void    SetCoordinatesY(float y) const;
+        void    SetCoordinatesZ(float z) const;
+        // Change coordinates
+        void    AddToCoordinates(float xDiff, float yDiff, float zDiff) const;
+
         // Name
         // Return the player's name as a string with utf8 encoding
         std::string     GetName(void) const;
@@ -42,11 +62,12 @@ namespace CTRPluginFramework
         void            SetName(std::string &name) const;
 
     private:
-        int     _playerID;
-        u32     _offset;
+        u32             _offset;
 
-        static Player  *_instance;
-        static u32     _playerPointer;
+        Coordinates     **_coordinatePointer;
+
+        static Player   *_instance;
+        static u32      _playerPointer;
     };
 }
 

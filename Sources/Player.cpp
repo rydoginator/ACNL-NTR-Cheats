@@ -11,10 +11,9 @@ namespace   CTRPluginFramework
     // Constructor
     Player::Player(void)
     {
-        // Set _playerPointer
-        AutoRegion address(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER);
-        
-        _playerPointer = address();
+        // Set pointers
+        _coordinatePointer = reinterpret_cast<Coordinates **>(AutoRegion(USA_COORDINATES_POINTER, EUR_COORDINATES_POINTER, JAP_COORDINATES_POINTER)());
+        _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER)();
 
         // Read _offset
         Update();
@@ -92,6 +91,80 @@ namespace   CTRPluginFramework
     bool    Player::WriteInventorySlot(int slot, u32 item) const
     {
         return (Write32(0x6BD0 + (slot * 4), item));
+    }
+
+    /*
+     * Coordinates
+     */
+
+    #define COORDINATES_OFFSET 0x24
+
+    Coordinates Player::GetCoordinates(void) const
+    {
+        // If pointer isn't null
+        if (*_coordinatePointer)
+            return (*(*_coordinatePointer + COORDINATES_OFFSET));
+        // Else return a zero filled struct
+        Coordinates zero = { 0, 0 };
+        return (zero);
+    }
+
+    void Player::SetCoordinates(Coordinates pos) const
+    {
+        // If pointer isn't null
+        if (*_coordinatePointer)
+            *(*_coordinatePointer + COORDINATES_OFFSET) = pos;
+    }
+
+    void Player::SetCoordinates(float x, float y, float z) const
+    {
+        // If pointer is null
+        if (!*_coordinatePointer)
+            return;
+
+        (*_coordinatePointer + COORDINATES_OFFSET)->x = x;
+        (*_coordinatePointer + COORDINATES_OFFSET)->y = y;
+        (*_coordinatePointer + COORDINATES_OFFSET)->z = z;
+    }
+
+    void Player::SetCoordinatesX(float x) const
+    {
+        // If pointer is null
+        if (!*_coordinatePointer)
+            return;
+
+        (*_coordinatePointer + COORDINATES_OFFSET)->x = x;
+    }
+
+    void Player::SetCoordinatesY(float y) const
+    {
+        // If pointer is null
+        if (!*_coordinatePointer)
+            return;
+
+        (*_coordinatePointer + COORDINATES_OFFSET)->y = y;
+    }
+
+    void Player::SetCoordinatesZ(float z) const
+    {
+        // If pointer is null
+        if (!*_coordinatePointer)
+            return;
+
+        (*_coordinatePointer + COORDINATES_OFFSET)->z = z;
+    }
+
+    void Player::AddToCoordinates(float xDiff, float yDiff, float zDiff) const
+    {
+        // If pointer is null
+        if (!*_coordinatePointer)
+            return;
+
+        Coordinates *coord = (*_coordinatePointer + COORDINATES_OFFSET);
+        
+        coord->x += xDiff;
+        coord->y += yDiff;
+        coord->z += zDiff;
     }
 
     /*
