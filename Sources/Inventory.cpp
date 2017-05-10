@@ -56,8 +56,8 @@ namespace CTRPluginFramework
         if (item != nullptr)
         {
             // Check to see if you're on a buried spot
-            if (*item & 0xFFFF == 0x8000) 
-                Player::GetInstance()->ThinkTo(*item >> 16);
+            if (*item >> 16 == 0x8000) 
+                Player::GetInstance()->ThinkTo(*item & 0xFFFF);
             else
                 Player::GetInstance()->UnThink();
         }
@@ -73,8 +73,8 @@ namespace CTRPluginFramework
         if (item != nullptr)
         {
             // Check to see if you're on a buried spot
-            if (*item & 0xFFFF == 0x8000)
-                *item &= 0xFFFF0000;
+            if (*item >> 16 == 0x8000)
+                *item &= 0xFFFF;
         }
     }
 

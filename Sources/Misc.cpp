@@ -16,7 +16,7 @@ namespace CTRPluginFramework
                 return;
             
             u8      x = READU8(Game::WorldPos);
-            u8      y = READU8(Game::MainStreetPos + 8);
+            u8      y = READU8(reinterpret_cast<u32>(Game::MainStreetPos) + 4);
             u32     building = reinterpret_cast<u32>(Game::Building);
 
             while (READU8(building + offset) != 0xFC && offset < 0xE5)

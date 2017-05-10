@@ -13,6 +13,7 @@ namespace CTRPluginFramework
         Garden = AutoRegion(USA_GARDEN, TO_EUR(USA_GARDEN), TO_JAP(USA_GARDEN))();
         Gravity = AutoRegion(USA_GRAVITY_OUT_ADDR, TO_EUR(USA_GRAVITY_OUT_ADDR), TO_JAP(USA_GRAVITY_OUT_ADDR))();
         IslandItem = reinterpret_cast<u32 *>(AutoRegion(USA_ISLAND_ITEMS_ADDR, TO_EUR(USA_ISLAND_ITEMS_ADDR), TO_JAP(USA_ISLAND_ITEMS_ADDR))());
+        MainStreetItem = reinterpret_cast<u32 *>(AutoRegion(USA_MAINSTREET_ITEMS, TO_EUR(USA_MAINSTREET_ITEMS), TO_JAP(USA_MAINSTREET_ITEMS))());
         MainStreetPos = reinterpret_cast<Position *>(AutoRegion(USA_MAINSTREET_X, TO_EUR(USA_MAINSTREET_X), TO_JAP(USA_MAINSTREET_X))());
         Room = reinterpret_cast<u8 *>(AutoRegion(USA_ROOM_ID_ADDR, EUR_ROOM_ID_ADDR, JAP_ROOM_ID_ADDR)());
         TCPImage = Garden + 0x5758;
@@ -62,21 +63,23 @@ namespace CTRPluginFramework
 
     u32     *Game::GetItem(void)
     {
-        u32  *items;
+        u32   items;
 
-        if (*Room == 0x0) items = TownItem;
-        else if (*Room == 0x68) items = IslandItem;
-        else if (*Room == 0x6F) items = ClubItem;
+        if (*Room == 0x0) items = reinterpret_cast<u32>(TownItem);
+        else if (*Room == 0x01) items = reinterpret_cast<u32>(MainStreetItem);
+        else if (*Room == 0x68) items = reinterpret_cast<u32>(IslandItem);
+        else if (*Room == 0x6F) items = reinterpret_cast<u32>(ClubItem);
         else return (nullptr);
         
-        return (items + GetWorldOffset());
+        return (reinterpret_cast<u32 *>(items + GetWorldOffset()));
     }
-
+    
     u32         *Game::Building = nullptr;
     u32         *Game::ClubItem = nullptr;
     u32         Game::Garden = 0;
     u32         Game::Gravity = 0;
     u32         *Game::IslandItem = nullptr;
+    u32         *Game::MainStreetItem = nullptr;
     Position    *Game::MainStreetPos = nullptr;
     u8          *Game::Room = nullptr;
     u32         Game::TCPImage = 0;
