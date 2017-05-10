@@ -51,7 +51,7 @@ namespace CTRPluginFramework
     //helpers
     void    Assign(void);
     
-    void    assign_region(u32 region);
+    void    assign_region(Region region);
 
     void    changeGender(void);
 

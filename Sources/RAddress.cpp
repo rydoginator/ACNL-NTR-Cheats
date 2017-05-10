@@ -29,4 +29,6 @@ namespace CTRPluginFramework
             return (Jap);
         return (Usa);
     }
+
+    template class  RAddress<u32>;
 }

@@ -15,7 +15,7 @@ namespace CTRPluginFramework
     u32     g_town_items;
     u32     g_island_items;
     u32     g_playerId;
-    extern u32  g_playerPointer;
+    u32     g_playerPointer;
     u32     g_inv;
     u32     g_velocity;
     u32     g_grass_start;
@@ -93,8 +93,11 @@ namespace CTRPluginFramework
     bool g_command = false;
     // Function to assign our aesses
 
-    void    assign_region(u32 region)
+    void    assign_region(Region region)
     {
+        extern Region   g_region;
+        g_region = region;
+
         g_location = USA_LOCATION_ADDR;
         g_indoor_pos_x = USA_INDOOR_POS_X_ADDR;
         g_indoor_pos_y = USA_INDOOR_POS_Y_ADDR;

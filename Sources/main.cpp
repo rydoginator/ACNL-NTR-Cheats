@@ -126,6 +126,7 @@ namespace CTRPluginFramework
         menu.Callback(CheatsKeyboard);
         menu.Callback(PlayerUpdateCallback);
         Assign();
+        Game::Initialize();
 
         // Launch menu and mainloop
         menu.Run();

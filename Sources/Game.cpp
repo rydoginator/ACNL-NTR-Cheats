@@ -78,6 +78,7 @@ namespace CTRPluginFramework
     u32         Game::Gravity = 0;
     u32         *Game::IslandItem = nullptr;
     Position    *Game::MainStreetPos = nullptr;
+    u8          *Game::Room = nullptr;
     u32         Game::TCPImage = 0;
     u64         *Game::TimeReal = nullptr;
     u64         *Game::TimeSave = nullptr;

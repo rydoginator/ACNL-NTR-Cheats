@@ -45,7 +45,7 @@ namespace CTRPluginFramework
         u32     end = _startAddress + _length;
         T       *pointer = reinterpret_cast<T *>(_startAddress);
 
-        while (static_cast<u32>(pointer) < end)
+        while (reinterpret_cast<u32>(pointer) < end)
         {
             T   val = *pointer;
 
@@ -61,4 +61,7 @@ namespace CTRPluginFramework
             ++pointer;
         }
     }
+
+    template class  FindReplacer<u32>;
+    template class  FindReplacer<u16>;
 }
