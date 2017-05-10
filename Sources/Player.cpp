@@ -94,6 +94,11 @@ namespace   CTRPluginFramework
         return (Write32(0x6BD0 + (slot * 4), item));
     }
 
+    u32     Player::GetInventoryAddress(void) const
+    {
+        return (_offset + 0x6BD0);
+    }
+
     /*
      * Coordinates
      */

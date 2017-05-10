@@ -92,6 +92,7 @@ namespace CTRPluginFramework
     void    PickBuriedItems(MenuEntry *entry);
     void    ShowBells(MenuEntry *entry); ///< Need fix ?
     void    SetBells(MenuEntry *entry);  ///< Need fix ?
+    void    ExtendedInventoryBox(MenuEntry *entry);
 
     /*
     ** Environment

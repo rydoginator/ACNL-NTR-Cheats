@@ -69,6 +69,7 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Pick up buried items", PickBuriedItems));
         folder->Append(new MenuEntry("Show bells", ShowBells));
         folder->Append(new MenuEntry("Set bells", nullptr, SetBells));
+        folder->Append(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxs to store your items.\nHold Start 2 Seconds to choose which one to open."));
 
         menu.Append(folder);
 
