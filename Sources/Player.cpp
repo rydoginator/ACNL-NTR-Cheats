@@ -12,7 +12,7 @@ namespace   CTRPluginFramework
     Player::Player(void)
     {
         // Set pointers
-        _coordinatePointer = reinterpret_cast<Coordinates **>(AutoRegion(USA_COORDINATES_POINTER, EUR_COORDINATES_POINTER, JAP_COORDINATES_POINTER)());
+        _coordinatePointer = reinterpret_cast<u32 *>(AutoRegion(USA_COORDINATES_POINTER, EUR_COORDINATES_POINTER, JAP_COORDINATES_POINTER)());
         _thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR)());
         _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER)();
 
@@ -104,9 +104,9 @@ namespace   CTRPluginFramework
     {
         // If pointer isn't null
         if (*_coordinatePointer)
-            return (*(*_coordinatePointer + COORDINATES_OFFSET));
+            return (*(reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET)));
         // Else return a zero filled struct
-        Coordinates zero = { 0, 0 };
+        Coordinates zero = { 0.f, 0.f, 0.f};
         return (zero);
     }
 
@@ -114,7 +114,7 @@ namespace   CTRPluginFramework
     {
         // If pointer isn't null
         if (*_coordinatePointer)
-            *(*_coordinatePointer + COORDINATES_OFFSET) = pos;
+            *(reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET)) = pos;
     }
 
     void    Player::SetCoordinates(float x, float y, float z) const
@@ -123,9 +123,9 @@ namespace   CTRPluginFramework
         if (!*_coordinatePointer)
             return;
 
-        (*_coordinatePointer + COORDINATES_OFFSET)->x = x;
-        (*_coordinatePointer + COORDINATES_OFFSET)->y = y;
-        (*_coordinatePointer + COORDINATES_OFFSET)->z = z;
+        reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET)->x = x;
+        reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET)->y = y;
+        reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET)->z = z;
     }
 
     void    Player::SetCoordinatesX(float x) const
@@ -134,7 +134,7 @@ namespace   CTRPluginFramework
         if (!*_coordinatePointer)
             return;
 
-        (*_coordinatePointer + COORDINATES_OFFSET)->x = x;
+        reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET)->x = x;
     }
 
     void    Player::SetCoordinatesY(float y) const
@@ -143,7 +143,7 @@ namespace   CTRPluginFramework
         if (!*_coordinatePointer)
             return;
 
-        (*_coordinatePointer + COORDINATES_OFFSET)->y = y;
+        reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET)->y = y;
     }
 
     void    Player::SetCoordinatesZ(float z) const
@@ -152,7 +152,7 @@ namespace   CTRPluginFramework
         if (!*_coordinatePointer)
             return;
 
-        (*_coordinatePointer + COORDINATES_OFFSET)->z = z;
+        reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET)->z = z;
     }
 
     void    Player::AddToCoordinates(float xDiff, float yDiff, float zDiff) const
@@ -161,7 +161,7 @@ namespace   CTRPluginFramework
         if (!*_coordinatePointer)
             return;
 
-        Coordinates *coord = (*_coordinatePointer + COORDINATES_OFFSET);
+        Coordinates *coord = reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET);
         
         coord->x += xDiff;
         coord->y += yDiff;

@@ -5,7 +5,7 @@
 
 namespace CTRPluginFramework
 {
-    struct Coordinates
+    struct PACKED Coordinates
     {
         float   x;
         float   y;
@@ -68,7 +68,7 @@ namespace CTRPluginFramework
     private:
         u32             _offset;
 
-        Coordinates     **_coordinatePointer;
+        u32             *_coordinatePointer;
         u16             *_thought;
 
         static Player   *_instance;
