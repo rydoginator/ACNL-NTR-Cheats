@@ -359,10 +359,7 @@ namespace CTRPluginFramework
             if (item[i] == 0x00007FFE) //check to see if the current index of the inventory is blank
                 g_player->WriteInventorySlot(i, item[0]); //duplicate all the items from slot 0
         }
-    }
-    
-
-    
+    } 
 
     void    changeGender(void)
     {

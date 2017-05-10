@@ -15,8 +15,8 @@ namespace CTRPluginFramework
             if (keyboard.Open(input) == -1)
                 return;
             
-            u8      x = READU8(Game::WorldPos);
-            u8      y = READU8(reinterpret_cast<u32>(Game::MainStreetPos) + 4);
+            u8      x = static_cast<u8>(Game::WorldPos->x);
+            u8      y = static_cast<u8>(Game::MainStreetPos->y);
             u32     building = reinterpret_cast<u32>(Game::Building);
 
             while (READU8(building + offset) != 0xFC && offset < 0xE5)

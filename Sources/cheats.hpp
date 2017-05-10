@@ -9,25 +9,22 @@
 #include "Unicode.h"
 #include "Values.hpp"
 
-
-#define     add_search_replace(find, replace)   g_find[g_i] = find; g_replace[g_i] = replace; g_i++
-#define     reset_search()                      memset(g_find, 0, sizeof(g_find)); memset(g_replace, 0, sizeof(g_replace)); g_i = 0
-#define READU32(x) *(u32 *)(x)
-#define READU16(x) *(u16 *)(x)
-#define READU8(x) *(u8 *)(x)
-#define READFLOAT(x) *(float *)(x)
+#define READU32(x)      *(u32 *)(x)
+#define READU16(x)      *(u16 *)(x)
+#define READU8(x)       *(u8 *)(x)
+#define READFLOAT(x)    *(float *)(x)
 
 #define WRITEU8(a, v)   *(u8 *)(a) = (u8)v
 #define WRITEU16(a, v)  *(u16 *)(a) = (u16)v
 #define WRITEU32(a, v)  *(u32 *)(a) = (u32)v 
 #define WRITEU64(a, v)  *(u64 *)(a) = (u64)v
 
-#define ADD32(a, v)  *(u32 *)a += v
-#define SUB32(a, v)  *(u32 *)a -= v
-#define ADD64(a, v)  *(vs64 *)a += v
-#define SUB64(a, v)  *(vs64 *)a -= v
-#define ADD16(a, v)  *(u16 *)a += v
-#define SUB16(a, v)  *(u16 *)a -= v
+#define ADD32(a, v)     *(u32 *)a += v
+#define SUB32(a, v)     *(u32 *)a -= v
+#define ADD64(a, v)     *(vs64 *)a += v
+#define SUB64(a, v)     *(vs64 *)a -= v
+#define ADD16(a, v)     *(u16 *)a += v
+#define SUB16(a, v)     *(u16 *)a -= v
 #define ADDTOFLOAT(a, v)  *((float*)(a)) += (float)v
 #define SUBTOFLOAT(a, v)  *((float*)(a)) -= (float)v
 
@@ -48,7 +45,7 @@ namespace CTRPluginFramework
 {
     extern bool g_command;
 
-    //helpers
+    // Need to be cleaned:
     void    Assign(void);
     
     void    assign_region(Region region);
