@@ -110,14 +110,14 @@ namespace   CTRPluginFramework
         return (zero);
     }
 
-    void Player::SetCoordinates(Coordinates pos) const
+    void    Player::SetCoordinates(Coordinates pos) const
     {
         // If pointer isn't null
         if (*_coordinatePointer)
             *(*_coordinatePointer + COORDINATES_OFFSET) = pos;
     }
 
-    void Player::SetCoordinates(float x, float y, float z) const
+    void    Player::SetCoordinates(float x, float y, float z) const
     {
         // If pointer is null
         if (!*_coordinatePointer)
@@ -128,7 +128,7 @@ namespace   CTRPluginFramework
         (*_coordinatePointer + COORDINATES_OFFSET)->z = z;
     }
 
-    void Player::SetCoordinatesX(float x) const
+    void    Player::SetCoordinatesX(float x) const
     {
         // If pointer is null
         if (!*_coordinatePointer)
@@ -137,7 +137,7 @@ namespace   CTRPluginFramework
         (*_coordinatePointer + COORDINATES_OFFSET)->x = x;
     }
 
-    void Player::SetCoordinatesY(float y) const
+    void    Player::SetCoordinatesY(float y) const
     {
         // If pointer is null
         if (!*_coordinatePointer)
@@ -146,7 +146,7 @@ namespace   CTRPluginFramework
         (*_coordinatePointer + COORDINATES_OFFSET)->y = y;
     }
 
-    void Player::SetCoordinatesZ(float z) const
+    void    Player::SetCoordinatesZ(float z) const
     {
         // If pointer is null
         if (!*_coordinatePointer)
@@ -155,7 +155,7 @@ namespace   CTRPluginFramework
         (*_coordinatePointer + COORDINATES_OFFSET)->z = z;
     }
 
-    void Player::AddToCoordinates(float xDiff, float yDiff, float zDiff) const
+    void    Player::AddToCoordinates(float xDiff, float yDiff, float zDiff) const
     {
         // If pointer is null
         if (!*_coordinatePointer)

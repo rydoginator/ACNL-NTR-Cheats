@@ -26,6 +26,7 @@ namespace CTRPluginFramework
 
         // Properties
 
+        static u32      *Building;   ///<
         static u32      *ClubItem;      ///< Address of the first item in club
         static u32      Garden;         ///< Address of the garden
         static u32      Gravity;        ///< Address of gravity

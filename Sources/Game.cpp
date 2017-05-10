@@ -8,6 +8,7 @@ namespace CTRPluginFramework
     // Initialize properties
     void    Game::Initialize(void)
     {
+        Building = reinterpret_cast<u32 *>(AutoRegion(USA_BUILDING_ADDR, TO_EUR(USA_BUILDING_ADDR), TO_JAP(USA_BUILDING_ADDR))());
         ClubItem = reinterpret_cast<u32 *>(AutoRegion(USA_CLUB_ADDR, TO_EUR(USA_CLUB_ADDR), TO_JAP(USA_CLUB_ADDR))());
         Garden = AutoRegion(USA_GARDEN, TO_EUR(USA_GARDEN), TO_JAP(USA_GARDEN))();
         Gravity = AutoRegion(USA_GRAVITY_OUT_ADDR, TO_EUR(USA_GRAVITY_OUT_ADDR), TO_JAP(USA_GRAVITY_OUT_ADDR))();
@@ -71,6 +72,7 @@ namespace CTRPluginFramework
         return (items + GetWorldOffset());
     }
 
+    u32         *Game::Building = nullptr;
     u32         *Game::ClubItem = nullptr;
     u32         Game::Garden = 0;
     u32         Game::Gravity = 0;

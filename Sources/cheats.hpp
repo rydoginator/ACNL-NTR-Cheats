@@ -115,7 +115,7 @@ namespace CTRPluginFramework
     ********************/
     void    BuildingPlacer(MenuEntry *entry);
     void    GhostMode(MenuEntry *entry);
-    void    CameraMod(MenuEntry *entry);
+    void    CameraMod(MenuEntry *entry); ///< Probably need a rework
     void    KeyboardExtender(MenuEntry *entry);
 
     /*

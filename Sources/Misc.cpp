@@ -4,33 +4,37 @@ namespace CTRPluginFramework
 {
     void    BuildingPlacer(MenuEntry *entry)
     {
-        u32 offset = 0;
-        u8 input;
-        u8 x = READU8(g_world_x);
-        u8 y = READU8(g_main_y);
+        u32     offset = 0;
+        u8      input;
+
         if (Controller::IsKeysDown(R + DPadDown))
         {
             Keyboard keyboard("What building would you like to place?");
-
+            
             //Exit if the user cancel the keyboard
             if (keyboard.Open(input) == -1)
                 return;
+            
+            u8      x = READU8(Game::WorldPos);
+            u8      y = READU8(Game::MainStreetPos + 8);
+            u32     building = reinterpret_cast<u32>(Game::Building);
 
-            while (READU8(g_building_addr + offset) != 0xFC && offset < 0xE5)
+            while (READU8(building + offset) != 0xFC && offset < 0xE5)
             {
                 offset += 0x4;
             }
-            if (offset == 0xE5)
+            if (offset >= 0xE5)
             {
                 OSD::Notify("All building slots are filled!");
             }
             else
             {
-                WRITEU8(g_building_addr + offset, input);
-                WRITEU8(g_building_addr + offset + 0x2, x);
-                WRITEU8(g_building_addr + offset + 0x3, y);
+                WRITEU8(building + offset, input);
+                WRITEU8(building + offset + 0x2, x);
+                WRITEU8(building + offset + 0x3, y);
             }
         }
+
         if (Controller::IsKeysDown(R + DPadUp))
         {
             Keyboard keyboard("What building would you like to remove?");
@@ -39,7 +43,9 @@ namespace CTRPluginFramework
             if (keyboard.Open(input) == -1)
                 return;
 
-            while (READU8(g_building_addr + offset) != input && offset < 0xE5)
+            u32  building = reinterpret_cast<u32>(Game::Building);
+
+            while (READU8(building + offset) != input && offset < 0xE5)
             {
                 offset += 0x4;
             }
@@ -49,9 +55,9 @@ namespace CTRPluginFramework
             }
             else
             {
-                WRITEU8(g_building_addr + offset, 0xFC);
-                WRITEU8(g_building_addr + offset + 0x2, 0x00);
-                WRITEU8(g_building_addr + offset + 0x3, 0x00);
+                WRITEU8(building + offset, 0xFC);
+                WRITEU8(building + offset + 0x2, 0x00);
+                WRITEU8(building + offset + 0x3, 0x00);
             }
         }
     }
@@ -73,104 +79,117 @@ namespace CTRPluginFramework
 
     void    CameraMod(MenuEntry *entry)
     {
-        u32 offset;
-        static u32 pointer;
-        static u32 x;
-        static u32 z;
-        static u32 storage;
-        u32   patch = 0xEA000020;
-        u32   original = 0x2A000020;
+        // Pointers & addresses
+        static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR)();
+        static u32  * const cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER)());
+        static u32  * const cameraStop = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)());
+        static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR)());
+        
+        // Variables
+        static const u32    patch = 0xEA000020;
+        static const u32    original = 0x2A000020;
 
-        if (Controller::IsKeyReleased(B))
+        static Coordinates  coord; ///< Saved player's coordinates
+        static u32          storage;
+        static bool         isPatched = false;
+        
+
+
+        // Unpatch when B is released
+        if (isPatched && Controller::IsKeyReleased(B))
         {
-            Process::Patch(g_camera_asm, (u8 *)&original, 4);
+            Process::Patch(cameraAsm, (u8 *)&original, 4);
+            isPatched = false;
         }
-        if (READU32(g_camera_pointer) != 0)
+
+        if (*cameraPointer)
         {
+            // Fetch player's coordinates
             if (!Controller::IsKeyDown(CPad))
-            {
-                if (READU32(g_coordinates_pointer) != 0)
-                {
-                    pointer = READU32(g_coordinates_pointer);
-                    x = READU32(pointer + 0x24);
-                    z = READU32(pointer + 0x2C);
-                }
-            }
-            offset = READU32(g_camera_pointer);
+                coord = Player::GetInstance()->GetCoordinates();
+
+            // Restore player's coordinates
             if (Controller::IsKeysDown(R + CPadDown))
-            {
-                offset += 0x12C;
-                ADD16(offset, 0x2);
-            }
+                Player::GetInstance()->SetCoordinates(coord);
+
+            // Move camera
+            if (Controller::IsKeysDown(R + CPadDown))
+                ADD16((*cameraPointer + 0x12C), 0x2);
+
             if (Controller::IsKeysDown(R + CPadUp))
-            {
-                offset += 0x12C;
-                SUB16(offset, 0x2);
-            }
+                SUB16((*cameraPointer + 0x12C), 0x2);
+
             if (Controller::IsKeysDown(R + CPadRight))
-            {
-                offset += 0x12E;
-                ADD16(offset, 0x2);
-            }
+                ADD16((*cameraPointer + 0x12E), 0x2);
+
             if (Controller::IsKeysDown(R + CPadLeft))
-            {
-                offset += 0x12E;
-                SUB16(offset, 0x2);
-            }
-            if (Controller::IsKeysDown(R + CPadDown))
-            {
-                if (READU32(g_coordinates_pointer) != 0)
-                {
-                    pointer = READU32(g_coordinates_pointer);
-                    WRITEU32(pointer + 0x24, x);
-                    WRITEU32(pointer + 0x2C, z);
-                }
-            }
+                SUB16((*cameraPointer + 0x12E), 0x2);
+
+            // Fetch camera stop value
             if (Controller::IsKeysDown(R + X))
             {
-                if (READU32(g_camstop_pointer) != 0)
+                if (*cameraStop != 0)
                 {
-                    storage = READU32(g_camstop_pointer);
-                    WRITEU32(g_camstop_pointer, 0x00000000);
+                    storage = *cameraStop;
+                    *cameraStop = 0;
                 }
             }
+
+            // Restore camera stop value
             if (Controller::IsKeysDown(R + Y))
             {
                 if (storage != 0)
-                {
-                    WRITEU32(g_camstop_pointer, storage);
-                }
+                    *cameraStop = storage;
             }
         }
+
+        // Next codes require B to be pressed, exit if not
+        if (!Controller::IsKeyDown(B))
+            return;
+
         if (Controller::IsKeysDown(B + DPadLeft))
         {
-            Process::Patch(g_camera_asm, (u8 *)&patch, 4); //change the asm instruction to b, allows overwriting camera coordinates
-            SUBTOFLOAT(g_camera_x, 0.1f);
+            cameraCoordinates->x -= 0.1f;
+            goto patch;
         }
+
         if (Controller::IsKeysDown(B + DPadRight))
         {
-            Process::Patch(g_camera_asm, (u8 *)&patch, 4);
-            ADDTOFLOAT(g_camera_x, 0.1f);
+            cameraCoordinates->x += 0.1f;
+            goto patch;
         }
+
         if (Controller::IsKeysDown(B + DPadDown))
         {
-            Process::Patch(g_camera_asm, (u8 *)&patch, 4);
-            ADDTOFLOAT(g_camera_z, 0.1f);
+            cameraCoordinates->z += 0.1f;
+            goto patch;
         }
+
         if (Controller::IsKeysDown(B + DPadUp))
         {
-            Process::Patch(g_camera_asm, (u8 *)&patch, 4);
-            SUBTOFLOAT(g_camera_z, 0.1f);
+            cameraCoordinates->z -= 0.1f;
+            goto patch;
         }
+
         if (Controller::IsKeysDown(B + R))
         {
-            Process::Patch(g_camera_asm, (u8 *)&patch, 4);
-            ADDTOFLOAT(g_camera_y, 0.1f);
+            cameraCoordinates->y += 0.1f;
+            goto patch;
         }
+
         if (Controller::IsKeysDown(B + L))
         {
-            Process::Patch(g_camera_asm, (u8 *)&patch, 4);
-            SUBTOFLOAT(g_camera_y, 0.1f);
+            cameraCoordinates->y -= 0.1f;
+            goto patch;
+        }
+
+        return;
+    patch:
+        if (!isPatched)
+        {
+            // Change the asm instruction to b, allows overwriting camera coordinates
+            Process::Patch(cameraAsm, (u8 *)&patch, 4);
+            isPatched = true;
         }
     }
 
