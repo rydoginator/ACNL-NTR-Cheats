@@ -11,7 +11,8 @@ TARGET		:= 	$(notdir $(CURDIR))
 BUILD		:= 	Build
 INCLUDES	:= 	Includes
 LIBDIRS		:= 	$(TOPDIR)
-SOURCES 	:= 	Sources
+SOURCES 	:= 	Sources \
+				Sources/Helpers
 
 IP 			:=  99
 FTP_HOST 	:=	192.168.1.

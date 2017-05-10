@@ -124,8 +124,8 @@ namespace CTRPluginFramework
 
     void    OpenBox(MenuEntry *entry, int id)
     {
-        InventoryBox* box = static_cast<InventoryBox *>(entry->GetArg());
-        File& file = box->file;
+        InventoryBox    *box = static_cast<InventoryBox *>(entry->GetArg());
+        File            &file = box->file;
 
         // If file is not open, something's wrong
         if (!file.IsOpen())
@@ -136,8 +136,8 @@ namespace CTRPluginFramework
             return;
         }
 
-        u32 inventory = Player::GetInstance()->GetInventoryAddress();
-        char buffer[0x100] = {0};
+        u32     inventory = Player::GetInstance()->GetInventoryAddress();
+        char    buffer[0x100] = {0};
 
         // Save current box
         {

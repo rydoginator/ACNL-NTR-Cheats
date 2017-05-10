@@ -57,6 +57,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Includes\3ds.h" />
+    <ClInclude Include="Includes\cheats.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Graphics.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Graphics\Color.hpp" />
@@ -105,8 +106,14 @@
     <ClInclude Include="Includes\ctrulib\thread.h" />
     <ClInclude Include="Includes\ctrulib\util\rbtree.h" />
     <ClInclude Include="Includes\ctrulib\util\utf.h" />
+    <ClInclude Include="Includes\FindReplacer.hpp" />
+    <ClInclude Include="Includes\Game.hpp" />
+    <ClInclude Include="Includes\Offsets.hpp" />
+    <ClInclude Include="Includes\Player.hpp" />
+    <ClInclude Include="Includes\RAddress.hpp" />
     <ClInclude Include="Includes\types.h" />
     <ClInclude Include="Includes\Unicode.h" />
+    <ClInclude Include="Includes\Values.hpp" />
     <ClInclude Include="Sources\cheats.hpp" />
     <ClInclude Include="Sources\FindReplacer.hpp" />
     <ClInclude Include="Sources\Game.hpp" />
@@ -123,6 +130,9 @@
     <ClCompile Include="Sources\Game.cpp" />
     <ClCompile Include="Sources\Garden.cpp" />
     <ClCompile Include="Sources\helpers.cpp" />
+    <ClCompile Include="Sources\Helpers\FindReplacer.cpp" />
+    <ClCompile Include="Sources\Helpers\helpers.cpp" />
+    <ClCompile Include="Sources\Helpers\RAddress.cpp" />
     <ClCompile Include="Sources\Inventory.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\Misc.cpp" />
