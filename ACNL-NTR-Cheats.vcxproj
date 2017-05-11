@@ -108,6 +108,7 @@
     <ClInclude Include="Includes\ctrulib\util\utf.h" />
     <ClInclude Include="Includes\FindReplacer.hpp" />
     <ClInclude Include="Includes\Game.hpp" />
+    <ClInclude Include="Includes\HoldKey.hpp" />
     <ClInclude Include="Includes\Offsets.hpp" />
     <ClInclude Include="Includes\Player.hpp" />
     <ClInclude Include="Includes\RAddress.hpp" />
@@ -132,6 +133,7 @@
     <ClCompile Include="Sources\helpers.cpp" />
     <ClCompile Include="Sources\Helpers\FindReplacer.cpp" />
     <ClCompile Include="Sources\Helpers\helpers.cpp" />
+    <ClCompile Include="Sources\Helpers\HoldKey.cpp" />
     <ClCompile Include="Sources\Helpers\RAddress.cpp" />
     <ClCompile Include="Sources\Inventory.cpp" />
     <ClCompile Include="Sources\main.cpp" />

@@ -1,121 +1,58 @@
 #include "cheats.hpp"
-#include <cstring>
-#include <cstdlib>
 
 namespace CTRPluginFramework
 {
-    extern u32  g_find[100];
-    extern u32  g_replace[100];
-    extern int  g_i;
-    extern u32  g_input_text_buffer;
-
-    void    find_and_replace_multiple(u32 start_addr, u32 length)
+    int    RandomNum(int start, int end)
     {
-        u32 find_value;
-        u32 replace_value;
-        int i;
+        srand(svcGetSystemTick());
 
-        i = 0;
-        while (length-- > 0)
-        {
-            for (i = 0; i < g_i; i++)
-            {
-                find_value = g_find[i];
-                replace_value = g_replace[i];
-                if (*(u16 *)start_addr == find_value)
-                {
-                    *(u16 *)start_addr = replace_value;
-                    break;
-                }
-            }
-            start_addr += 4;
-        }
+        int r[20];
+
+        for (int i = 0; i < 20; i++)
+            r[i] = rand() % (end - start + 1) + start;
+
+        return (r[rand() % 20]);
     }
 
-    void    retrieve_input_string(char *output, int size)
+    //Credit to SciresM for this code! :)
+    u32     DecryptACNLMoney(u64 money)
     {
-        // TODO: properly managing wide char
-        char    buffer[0x100];
-        int     i;
+        // Unpack 64-bit value into (u32, u16, u8, u8) values.
+        u32 enc = (money & 0xFFFFFFFF);
+        u16 adjust = ((money >> 32) & 0xFFFF);
+        u8  shift_val = ((money >> 48) & 0xFF);
+        u8  chk = ((money >> 56) & 0xFF);
 
-        if (!output || size < 1)
-            goto error;
-        size *= 2;
-        memcpy(buffer, (void *)g_input_text_buffer, size > 0x100 ? 0x100 : size);
-        for (i = 0; i < size; i++)
-            *output++ = *(buffer + i++);
-        error:
-            return;
+        // Validate 8-bit checksum
+        if ((((enc >> 0) + (enc >> 8) + (enc >> 16) + (enc >> 24) + 0xBA) & 0xFF) != chk) return 0;
+        
+        u8  left_shift = ((0x1C - shift_val) & 0xFF);
+        u8  right_shift = 0x20 - left_shift;
+
+        // Handle error case: Invalid shift value.
+        if (left_shift >= 0x20)
+        {
+            return 0 + (enc << right_shift) - (adjust + 0x8F187432);
+        }
+
+        // This case should occur for all game-generated values.
+        return (enc << left_shift) + (enc >> right_shift) - (adjust + 0x8F187432);
     }
 
-    void    get_input_id(int *first, int *second)
+    u64     EncryptACNLMoney(int dec)
     {
-        char    buffer[13];
-        char    *pointer_id;
-        int     hex_pattern;
+        // Make a new RNG
+        u16 adjust = RandomNum(0, 0x10000);
+        u8  shift_val = RandomNum(0, 0x1A);
 
-        if (!first)
-            goto error;
-        memset(buffer, 0, 13);
-        retrieve_input_string(buffer, second ? 12 : 6);
-        // Checking for 0x or 0X pattern before ID
-        if (buffer[0] == '0' 
-        && (buffer[1] == 'x' || buffer[1] == 'X'))
-            hex_pattern = 1;
-        else
-            hex_pattern = 0;
-        // If we want to fetch two ids
-        if (second)
-        {
-            if (hex_pattern)
-            {
-                if (buffer[6] == '0' 
-                && (buffer[7] == 'x' || buffer[7] == 'X'))
-                    pointer_id = buffer + 8;
-                else
-                {
-                    pointer_id = buffer + 6;
-                    buffer[10] = 0;
-                }
-            }
-            else
-            {
-                if (buffer[4] == '0' 
-                && (buffer[5] == 'x' || buffer[5] == 'X'))
-                {
-                    pointer_id = buffer + 6;
-                    buffer[10] = 0;
-                }
-                else
-                {
-                    pointer_id = buffer + 4;
-                    buffer[8] = 0;
-                }
-            }
-            *second = (int)strtoul(pointer_id, NULL, 16);       
-        }
-        if (hex_pattern)
-        {
-            pointer_id = buffer + 2;
-            buffer[6] = 0;
-        }
-        else
-        {
-            pointer_id = buffer;
-            buffer[4] = 0;
-        }
-        *first = (int)strtoul(pointer_id, NULL, 16);
-    error:
-        return;
-    }
+        // Encipher value
+        u32 enc = dec + adjust + 0x8F187432;
+        enc = (enc >> (0x1C - shift_val)) + (enc << (shift_val + 4));
 
-    bool    match(const char *str, const char *pattern)
-    {
-        int     pattern_size;
+        // Calculate Checksum
+        u8  chk = (((enc >> 0) + (enc >> 8) + (enc >> 16) + (enc >> 24) + 0xBA) & 0xFF);
 
-        pattern_size = strlen(pattern);
-        if (strncmp(str, pattern, pattern_size) == 0)
-            return (true);
-        return (false);
+        // Pack result
+        return ((u64)enc << 0) | ((u64)adjust << 32) | ((u64)shift_val << 48) | ((u64)chk << 56);
     }
 }

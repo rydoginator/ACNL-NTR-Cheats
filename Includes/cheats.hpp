@@ -3,6 +3,7 @@
 
 #include "CTRPluginFramework.hpp"
 #include "Game.hpp"
+#include "HoldKey.hpp"
 #include "Player.hpp"
 #include "Offsets.hpp"
 #include "RAddress.hpp"
@@ -50,18 +51,20 @@ namespace CTRPluginFramework
     
     void    assign_region(Region region);
 
-    void    changeGender(void);
-
-    u32     DecryptACNLMoney(u64 money);
-    u64     EncryptACNLMoney(int dec);
-    int     randomNum(int start, int end);
-
+    void    changeGender(void);  
     void    timePicker(void);
     void    setTimeTo(int hour);
 
     void    appearanceMod(void);
     void    duplicationAll(void);
     void    changeHair(void);
+
+    /*
+    ** Helpers
+    ********************/
+    int     RandomNum(int start, int end);
+    u32     DecryptACNLMoney(u64 money);
+    u64     EncryptACNLMoney(int dec);
 
     // Cheats functions
 
