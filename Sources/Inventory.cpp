@@ -117,9 +117,9 @@ namespace CTRPluginFramework
 
     struct InventoryBox
     {
-        int currentBox;
-        int lastBox;
-        File file;
+        int     currentBox;
+        int     lastBox;
+        File    file;
     };
 
     void    OpenBox(MenuEntry *entry, int id)
@@ -239,34 +239,10 @@ namespace CTRPluginFramework
             }
         }
 
-        // When Start is held for 2 seconds, open the menu to change the box
-        static bool     startIsPressed = false;
-        static Clock    timer;
+        static HoldKey  start(Key::Start, Seconds(1.f));
 
-        // If it's been 2 seconds that start is pressed
-        if (startIsPressed && timer.HasTimePassed(Seconds(2.f)))
-            goto showMenu;
-
-        // When start is released reset our boolean
-        if (Controller::IsKeyReleased(Start))
-            startIsPressed = false;
-
-        // If start isn't pressed , no need to go further
-        if (!startIsPressed && !Controller::IsKeyPressed(Start))
+        if (!start())
             return;
-
-        // If start just got pressed, start the timer
-        if (!startIsPressed)
-        {
-            startIsPressed = true;
-            timer.Restart();
-        }
-
-        return;
-
-    showMenu:
-        // Reset start press state
-        startIsPressed = false;
 
         using StringVector = std::vector<std::string>;
 
