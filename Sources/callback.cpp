@@ -6,51 +6,57 @@ namespace CTRPluginFramework
     void    CheatsKeyboard(void) 
     {
         bool g_command;
-        if (Controller::IsKeysDown(R + X))
+        static HoldKey  buttons(R + X, Seconds(1.f));
+
+        if (!buttons())
+        	return;
+
+        g_command = true;
+        Keyboard  keyboard("Select which command \nyou'd like to execute.");
+
+        // Creating my entry list
+        std::vector<std::string> list = 
         {
-            g_command = true;
-            Keyboard  keyboard("Select which command \nyou'd like to execute.");
+            "Water Flowers",
+            "Pull All Weeds",
+            "Duplicate All Items",
+            "Set Time to...",
+            "Appearance Modifier...",
+            "Get set..."
+        };
 
-            // Creating my entry list
-            std::vector<std::string> list = 
-            {
-                "Water Flowers",
-                "Pull All Weeds",
-                "Duplicate All Items",
-                "Set Time to...",
-                "Appearance Modifier..."
-            };
+        // Populate the keyboard with the entries
+        keyboard.Populate(list);
 
-            // Populate the keyboard with the entries
-            keyboard.Populate(list);
-
-            // OPen the keyboard and wait for a user input
-            // be sure to use an int in case the function return -1
-            int  userChoice = keyboard.Open();
+        // OPen the keyboard and wait for a user input
+        // be sure to use an int in case the function return -1
+        int  userChoice = keyboard.Open();
 
             // If userChoice == -1, the user aborted the keybord or an error occurred
-            switch(userChoice)
-            {
-                case 0:
-                    WaterAllFlowers(nullptr);
-                    g_command = false;
-                    break;
-                case 1:
-                    RemoveAllWeeds(nullptr);
-                    g_command = false;
-                    break;
-                case 2:
-                    duplicationAll();
-                    break;
-                case 3:
-                    timePicker();
-                    break;
-                case 4:
-                    appearanceMod();
-                    break;
-                default:
-                    break;
-            }
+        switch(userChoice)
+        {
+            case 0:
+                WaterAllFlowers(nullptr);
+                g_command = false;
+                break;
+            case 1:
+                RemoveAllWeeds(nullptr);
+                g_command = false;
+                break;
+            case 2:
+                duplicationAll();
+                break;
+            case 3:
+                timePicker();
+                break;
+            case 4:
+                appearanceMod();
+                break;
+            case 5:
+             	FurnitureKeyboard();
+               	break;
+            default:
+                break;
         }
     }
 

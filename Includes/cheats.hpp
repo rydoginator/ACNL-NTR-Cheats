@@ -59,6 +59,9 @@ namespace CTRPluginFramework
     void    duplicationAll(void);
     void    changeHair(void);
 
+    void    GetSet(int set);
+    void    FurnitureKeyboard(void);
+
     /*
     ** Helpers
     ********************/

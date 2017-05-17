@@ -41,7 +41,9 @@ namespace CTRPluginFramework
         // Inventory
         bool    ReadInventorySlot(int slot, u32 &item) const;
         bool    WriteInventorySlot(int slot, u32 item) const;
+        int     * GetAvaibleSlots(int &length) const;
         u32     GetInventoryAddress(void) const;
+
 
         // Coordinates
 

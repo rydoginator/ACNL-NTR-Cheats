@@ -346,15 +346,15 @@ namespace CTRPluginFramework
 
     void    duplicationAll(void)
     {
-        u32 item[16]; //store the entire inventory into an array so that we can check the contents of the inventory
+        u32 item[15]; //store the entire inventory into an array so that we can check the contents of the inventory
 
 
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < 15; i++)
         {
             g_player->ReadInventorySlot(i, item[i]);
         }
 
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < 15; i++)
         {
             if (item[i] == 0x00007FFE) //check to see if the current index of the inventory is blank
                 g_player->WriteInventorySlot(i, item[0]); //duplicate all the items from slot 0
@@ -433,6 +433,79 @@ namespace CTRPluginFramework
             g_player->WriteByte(0x4, userChoice);
             appearanceMod();
         }       
+    }
+
+    void 	GetSet(int set)
+    {
+    	u16 wallpaper[] = {0x234C, 0x234F, 0x234E,
+    		0x2353, 0x2351, 0x2350, 0x2354,
+    		0x2355, 0x2352, 0x2356, 0x234D,
+    		0x2357, 0x23E9, 0x2358, 0x2359,
+    		0x235A, 0x235B, 0x235C, 0x235D,
+    		0x235E, 0x235F, 0x2360, 0x2361,
+    		0x2362, 0x23B8, 0x23A7}; 
+    	char buffer[0x100];
+    	int *slots;
+    	int length = 0;
+    	u16 item = (0x29df + (set * 11));
+    	slots = g_player->GetAvaibleSlots(length);
+    	sprintf(buffer, "length is %i", length);
+    	OSD::Notify(buffer);
+    	for (int i = 0; i < length; i++)
+    	{
+    		sprintf(buffer, "slot %i is free", slots[i]);
+    		OSD::Notify(buffer);
+    	}
+    	if (length >= 11)
+    	{
+    		for (int i = 0; i < 10; i++)
+    		{
+    			g_player->WriteInventorySlot(slots[i], item + i);
+    		}
+    		g_player->WriteInventorySlot(slots[10], wallpaper[set]);
+    		g_player->WriteInventorySlot(slots[11], wallpaper[set] + 0x9F);
+    	}
+    }
+
+    void 	FurnitureKeyboard(void)
+    {
+    	Keyboard keyboard("Which set would you like?");
+    	std::vector<std::string> list =
+    	{
+			"Exotic Set",
+			"Ranch Set",
+			"Classic Set",
+			"Regal Set",
+			"Blue Set",
+			"Cabana Set",
+			"Green Set",
+			"Cabin Set",
+			"Modern Set",
+			"Kiddie Set",
+			"Lovely Set",
+			"Robo Set",
+			"Polka-dot Set",
+			"Snowman Set",
+			"Mush Set",
+			"Pave Set",
+			"Egg Set",
+			"Spoopy Set",
+			"Harvest Set",
+			"Jingle Set",
+			"Princess Set",
+			"Gracie Set",
+			"Sweets Set",
+			"Gorgeous Set",
+			"Minimalist Set",
+			"Golden Set"
+    	};
+    	keyboard.Populate(list);
+    	int userChoice = keyboard.Open();
+
+    	if (userChoice != -1)
+    	{
+    		GetSet(userChoice);
+    	}
     }
 
 

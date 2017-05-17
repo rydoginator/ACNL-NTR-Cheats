@@ -249,7 +249,7 @@ namespace CTRPluginFramework
         char            buffer[0x100] = { 0 };
         InventoryBox    *box = static_cast<InventoryBox *>(entry->GetArg());
         StringVector    boxList;
-        std::string     keyboardHint = "Inventory Box\n\nWhich box to open ?\n";
+        std::string     keyboardHint = "Inventory Box\n\nWhich box do you want to open ?\n";
 
         sprintf(buffer, "Currently opened: [Box %d]", box->currentBox + 1);
         keyboardHint += buffer;
