@@ -73,6 +73,26 @@ namespace CTRPluginFramework
         ******************************/
         void    SetActionReplayButtonState(bool isEnabled) const;
 
+        /**
+         * \brief Check if the menu is currently open
+         * \return true if the menu is open, false otherwise
+         */
+        bool    IsOpen(void);
+
+        /**
+         * \brief Check if the menu was opened since last Func execution
+         * \return true if the menu was opened, false otherwise
+         */
+        bool    WasOpened(void);
+
+        /**
+         * \brief Get a reference to the PluginMenu currently running
+         * \return A reference to a PluginMenu that is currently running
+         */
+        static PluginMenu   &GetRunningInstance(void);
+
+        
+
     private:
         std::unique_ptr<PluginMenuImpl> _menu;
     };

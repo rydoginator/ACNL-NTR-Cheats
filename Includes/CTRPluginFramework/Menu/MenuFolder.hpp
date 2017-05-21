@@ -17,8 +17,10 @@ namespace CTRPluginFramework
 
         // Hide the folder from the menu. Will disable every sub entries
         void    Hide(void) const;
-        // Reinsert an entry previously hidden in the menu
+        // Reinsert a folder previously hidden in the menu
         void    Show(void) const;
+        // Return is the folder is visible in the menu
+        bool    IsVisible(void) const;
 
         void    Append(MenuEntry *item) const;
         void    Append(MenuFolder *item) const;

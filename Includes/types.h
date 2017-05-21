@@ -6,26 +6,6 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#if __INTELLISENSE__
-typedef unsigned int __SIZE_TYPE__;
-typedef unsigned long __PTRDIFF_TYPE__;
-#define __attribute__(q)
-#define __builtin_strcmp(a,b) 0
-#define __builtin_strlen(a) 0
-#define __builtin_memcpy(a,b) 0
-#define __builtin_va_list void*
-#define __builtin_va_start(a,b)
-#define __extension__
-#endif
-
-#if defined(_MSC_VER)
-#include <BaseTsd.h>
-typedef SSIZE_T ssize_t;
-#define __asm__  __asm
-#define __volatile__
-#define _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE 1
-#endif
-
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -67,15 +47,11 @@ typedef void (*voidfn)(void);
 /// Creates a bitmask from a bit number.
 #define BIT(n) (1U<<(n))
 
-#if defined(_MSC_VER)
-#define ALIGN(m)
-#define PACKED
-#else
 /// Aligns a struct (and other types?) to m, making sure that the size of the struct is a multiple of m.
 #define ALIGN(m)   __attribute__((aligned(m)))
 /// Packs a struct (and other types?) so it won't include padding bytes.
 #define PACKED     __attribute__((packed))
-#endif
+
 #ifndef LIBCTRU_NO_DEPRECATION
 /// Flags a function as deprecated.
 #define DEPRECATED __attribute__ ((deprecated))
