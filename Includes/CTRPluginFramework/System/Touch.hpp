@@ -1,11 +1,10 @@
 #ifndef CTRPLUGINFRAMEWORK_TOUCH_HPP
 #define CTRPLUGINFRAMEWORK_TOUCH_HPP
 
-#include "ctrulib/services/hid.h"
+#include "CTRPluginFramework/System/Vector.hpp"
 
 namespace CTRPluginFramework
 {
-    class UIntVector;
     class Touch
     {
     public:
