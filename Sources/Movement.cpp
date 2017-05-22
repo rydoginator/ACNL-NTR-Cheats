@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include "CTRPluginFramework/System/Rect.hpp"
 
 namespace CTRPluginFramework
 {
@@ -12,6 +13,23 @@ namespace CTRPluginFramework
             Player::GetInstance()->AddToCoordinates(-0.1f, 0.f, 0.f);
         if (Controller::IsKeysDown(A + DPadRight))
             Player::GetInstance()->AddToCoordinates(0.1f, 0.f, 0.f);
+    }
+
+    void    TouchCoordinates(MenuEntry *entry)
+    {
+        static UIntRect     mapArea(70, 50, 175, 155);
+
+        UIntVector  touchPos = Touch::GetPosition();
+        Coordinates position = Player::GetInstance()->GetCoordinates();
+
+        if (mapArea.Contains(touchPos))
+        {
+            FloatVector  fPos(touchPos);
+
+            position.x = (fPos.x - 77.f) * 14.94f + 526.f;
+            position.z = (fPos.y - 50.f) * 15.21f + 526.f;
+            Player::GetInstance()->SetCoordinates(position);
+        }
     }
 
     void    Teleporter(MenuEntry *entry)
