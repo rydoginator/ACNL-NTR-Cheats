@@ -443,19 +443,25 @@ namespace CTRPluginFramework
     		0x2357, 0x23E9, 0x2358, 0x2359,
     		0x235A, 0x235B, 0x235C, 0x235D,
     		0x235E, 0x235F, 0x2360, 0x2361,
-    		0x2362, 0x23B8, 0x23A7}; 
+    		0x2362, 0x23B8, 0x23A7}; //put the wallpaper in an array with its index that corresponds to the set id
     	char buffer[0x100];
     	int *slots;
     	int length = 0;
-    	u16 item = (0x29df + (set * 11));
-    	slots = g_player->GetAvaibleSlots(length);
-    	sprintf(buffer, "length is %i", length);
+    	u16 item = (0x29df + (set * 11)); //there are 11 furniture items in each set
+    	/*
+    	*get all the avaible slots and put them into an array. 
+    	*length is used so that it'll only continue if the user has enough free slots
+    	*/
+    	slots = g_player->GetAvaibleSlots(length); 
+    	#ifndef NDEBUG //doing some testing
+		sprintf(buffer, "length is %i", length);
     	OSD::Notify(buffer);
     	for (int i = 0; i < length; i++)
     	{
     		sprintf(buffer, "slot %i is free", slots[i]);
     		OSD::Notify(buffer);
     	}
+		#endif
     	if (length >= 11)
     	{
     		for (int i = 0; i < 10; i++)
@@ -636,5 +642,16 @@ namespace CTRPluginFramework
                     break;
             }
         }
+    }
+
+    void 	ADD(int &total, int first, int second)
+    {
+    	total = first + second;
+    }
+
+    void 	function(void)
+    {
+    	int R0,R1,R2,R3,R4;
+    	ADD(R0,1,3);
     }
 }

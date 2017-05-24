@@ -52,8 +52,8 @@
 #define     USA_MINUTES_ADDR                    0x9515BA
 #define     USA_HOURS_ADDR                      0x9515BB
 #define     USA_PLAYER_POINTER                  0xAB014C
-#define     EUR_PLAYER_POINTER                  0x0   // TODO
-#define     JAP_PLAYER_POINTER                  0x0   // TODO
+#define     EUR_PLAYER_POINTER                  0xAAF14C
+#define     JAP_PLAYER_POINTER                  0xAA914C
 
 #define     USA_KEYBOARD_ADDR                   0x32DC4A10
 #define     USA_KEYBOARD_ISLAND_ADDR            0x32DF7D14
@@ -146,12 +146,18 @@
 #define     JAP_COORDINATES_POINTER             0x32FF8248
 
 #define     USA_THOUGHT_ADDR                    0x94FD88
-#define     EUR_THOUGHT_ADDR                    0x0 // TODO
-#define     JAP_THOUGHT_ADDR                    0x0 // TODO
+#define     EUR_THOUGHT_ADDR                    0x94ED88
+#define     JAP_THOUGHT_ADDR                    0x948D88
+
+#define 	USA_THOUGHT_ASM						0x2160BC
+#define		EUR_THOUGHT_ASM						0x2160DC
+#define		JAP_THOUGHT_ASM						0x215FFC
+
+
 #define     USA_THOUGHT_TEXT_ADDR               0x33077D50
 #define     USA_CLUB_ADDR                       0x301b5aa0
 
-#define     USA_GARDEN                  0x31F26F80
+#define     USA_GARDEN                  		0x31F26F80
 #define     USA_NAME_ADDR                       0x31F2C5C8
 
 #endif
