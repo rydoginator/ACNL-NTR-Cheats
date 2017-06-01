@@ -1,8 +1,8 @@
 #ifndef CTRPLUGINFRAMEWORK_PROCESS_HPP
 #define CTRPLUGINFRAMEWORK_PROCESS_HPP
 
-#include "ctrulib/svc.h"
 #include <string>
+#include "ctrulib/svc.h"
 
 namespace CTRPluginFramework
 {
@@ -40,6 +40,18 @@ namespace CTRPluginFramework
          * \param output    string to output the process name
          */
         static void     GetName(std::string &output);
+
+        /**
+         * \brief Get the version of the current process
+         * \return The version of the current processs
+         */
+        static u16      GetVersion(void);
+
+        /**
+         * \brief Get the total size of the .text section
+         * \return The total size of the .text section
+         */
+        static u32      GetTextSize(void);
 
         /**
         * \brief Safely patch the current process (MemPerm check and Invalidate cache)

@@ -8,6 +8,19 @@
 
 namespace CTRPluginFramework
 {
+    class InputChangeEvent
+    {
+    public:
+        enum EventType
+        {
+            CharacterAdded,
+            CharacterRemoved
+        };
+
+        EventType   type;       ///< Type of the event
+        u32         codepoint;  ///< The codepoint of the character that thrown the event
+    };
+
     class KeyboardImpl;
     class Keyboard
     {
@@ -22,8 +35,9 @@ namespace CTRPluginFramework
         /**
          * \brief The signature of the callback called when the input change (user enter / delete a character)
          * \param keyboard  A reference to the Keyboard object that called the callback
+         * \event event     The event that caused the input to change
          */
-        using   OnInputChangeCallback = void(*)(Keyboard&);
+        using   OnInputChangeCallback = void(*)(Keyboard&, InputChangeEvent &event);
     public:
 
         /**
