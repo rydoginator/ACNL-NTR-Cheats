@@ -1,7 +1,7 @@
 #ifndef CTRPLUGINFRAMEWORK_TOUCH_HPP
 #define CTRPLUGINFRAMEWORK_TOUCH_HPP
 
-#include "CTRPluginFramework/System/Vector.hpp"
+#include "Vector.hpp"
 
 namespace CTRPluginFramework
 {

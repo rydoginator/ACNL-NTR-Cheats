@@ -1,8 +1,8 @@
 #ifndef CTRPLUGINFRAMEWORK_PROCESS_HPP
 #define CTRPLUGINFRAMEWORK_PROCESS_HPP
 
-#include <string>
 #include "ctrulib/svc.h"
+#include <string>
 
 namespace CTRPluginFramework
 {

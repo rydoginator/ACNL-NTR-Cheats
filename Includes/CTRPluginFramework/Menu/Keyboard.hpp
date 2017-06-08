@@ -51,7 +51,7 @@ namespace CTRPluginFramework
          * \brief Set if the user can abort the keybord by pressing B
          * \param canAbort  Whether the user can press B to close the keyboard and abort the current operation
          */
-        void    CanAbort(bool canAbort);
+        void    CanAbort(bool canAbort) const;
 
         /**
          * \brief Define if the input must be hexadecimal or not \n
@@ -66,7 +66,7 @@ namespace CTRPluginFramework
          * See CompareCallback's description for more infos
          * \param callback The callback that must be called
          */
-        void    SetCompareCallback(CompareCallback callback);
+        void    SetCompareCallback(CompareCallback callback) const;
 
         /**
          * \brief Define a callback that will be called when the user change the input \n
@@ -74,27 +74,27 @@ namespace CTRPluginFramework
          * See OnInputChangeCallback's description for more infos
          * \param callback 
          */
-        void    OnInputChange(OnInputChangeCallback callback);
+        void    OnInputChange(OnInputChangeCallback callback) const;
 
         /**
          * \brief Set the error flag and an error message \n
          * When the error flag is set, the user can't valid the input
          * \param error The error message that must be displayed
          */
-        void    SetError(std::string error);
+        void    SetError(std::string error) const;
 
         /**
          * \brief Populate a keyboard with the strings contained in an std::vector
          * \param input  A std::vector that contain a list of strings
          */
-        void    Populate(std::vector<std::string> &input);
+        void    Populate(const std::vector<std::string> &input);
 
         /**
          * \brief Open a keyboard which is populated with strings
          * \return -1 : user abort / not populated \n
          * >= 0 : index of the user choice in the vector
          */
-        int     Open(void);
+        int     Open(void) const;
 
         /**
          * \brief Open the keyboard and wait for user input
@@ -102,7 +102,7 @@ namespace CTRPluginFramework
          * \return -1 : user abort / error \n
          * 0 : Success
          */
-        int     Open(u8 &output);
+        int     Open(u8 &output) const;
 
         /**
          * \brief Open the keyboard and wait for user input
@@ -111,7 +111,7 @@ namespace CTRPluginFramework
          * \return -1 : user abort / error \n
          * 0 : Success
          */
-        int     Open(u8 &output, u8 start);
+        int     Open(u8 &output, u8 start) const;
 
         /**
         * \brief Open the keyboard and wait for user input
@@ -119,24 +119,7 @@ namespace CTRPluginFramework
         * \return -1 : user abort / error \n
         * 0 : Success
         */
-        int     Open(u16 &output);
-
-        /**
-        * \brief Open the keyboard and wait for user input
-        * \param output Where to place the user's input
-        * \param start The keyboard will start with this value as input
-        * \return -1 : user abort / error \n
-        * 0 : Success
-        */
-        int     Open(u16 &output, u16 start);
-
-        /**
-        * \brief Open the keyboard and wait for user input
-        * \param output Where to place the user's input
-        * \return -1 : user abort / error \n
-        * 0 : Success
-        */
-        int     Open(u32 &output);
+        int     Open(u16 &output) const;
 
         /**
         * \brief Open the keyboard and wait for user input
@@ -145,7 +128,7 @@ namespace CTRPluginFramework
         * \return -1 : user abort / error \n
         * 0 : Success
         */
-        int     Open(u32 &output, u32 start);
+        int     Open(u16 &output, u16 start) const;
 
         /**
         * \brief Open the keyboard and wait for user input
@@ -153,24 +136,7 @@ namespace CTRPluginFramework
         * \return -1 : user abort / error \n
         * 0 : Success
         */
-        int     Open(u64 &output);
-
-        /**
-        * \brief Open the keyboard and wait for user input
-        * \param output Where to place the user's input
-        * \param start The keyboard will start with this value as input
-        * \return -1 : user abort / error \n
-        * 0 : Success
-        */
-        int     Open(u64 &output, u64 start);
-
-        /**
-        * \brief Open the keyboard and wait for user input
-        * \param output Where to place the user's input
-        * \return -1 : user abort / error \n
-        * 0 : Success
-        */
-        int     Open(float &output);
+        int     Open(u32 &output) const;
 
         /**
         * \brief Open the keyboard and wait for user input
@@ -179,7 +145,7 @@ namespace CTRPluginFramework
         * \return -1 : user abort / error \n
         * 0 : Success
         */
-        int     Open(float &output, float start);
+        int     Open(u32 &output, u32 start) const;
 
         /**
         * \brief Open the keyboard and wait for user input
@@ -187,24 +153,7 @@ namespace CTRPluginFramework
         * \return -1 : user abort / error \n
         * 0 : Success
         */
-        int     Open(double &output);
-
-        /**
-        * \brief Open the keyboard and wait for user input
-        * \param output Where to place the user's input
-        * \param start The keyboard will start with this value as input
-        * \return -1 : user abort / error \n
-        * 0 : Success
-        */
-        int     Open(double &output, double start);
-
-        /**
-        * \brief Open the keyboard and wait for user input
-        * \param output Where to place the user's input
-        * \return -1 : user abort / error \n
-        * 0 : Success
-        */
-        int     Open(std::string &output);
+        int     Open(u64 &output) const;
 
         /**
         * \brief Open the keyboard and wait for user input
@@ -213,25 +162,76 @@ namespace CTRPluginFramework
         * \return -1 : user abort / error \n
         * 0 : Success
         */
-        int     Open(std::string &output, std::string start);
+        int     Open(u64 &output, u64 start) const;
+
+        /**
+        * \brief Open the keyboard and wait for user input
+        * \param output Where to place the user's input
+        * \return -1 : user abort / error \n
+        * 0 : Success
+        */
+        int     Open(float &output) const;
+
+        /**
+        * \brief Open the keyboard and wait for user input
+        * \param output Where to place the user's input
+        * \param start The keyboard will start with this value as input
+        * \return -1 : user abort / error \n
+        * 0 : Success
+        */
+        int     Open(float &output, float start) const;
+
+        /**
+        * \brief Open the keyboard and wait for user input
+        * \param output Where to place the user's input
+        * \return -1 : user abort / error \n
+        * 0 : Success
+        */
+        int     Open(double &output) const;
+
+        /**
+        * \brief Open the keyboard and wait for user input
+        * \param output Where to place the user's input
+        * \param start The keyboard will start with this value as input
+        * \return -1 : user abort / error \n
+        * 0 : Success
+        */
+        int     Open(double &output, double start) const;
+
+        /**
+        * \brief Open the keyboard and wait for user input
+        * \param output Where to place the user's input
+        * \return -1 : user abort / error \n
+        * 0 : Success
+        */
+        int     Open(std::string &output) const;
+
+        /**
+        * \brief Open the keyboard and wait for user input
+        * \param output Where to place the user's input
+        * \param start The keyboard will start with this value as input
+        * \return -1 : user abort / error \n
+        * 0 : Success
+        */
+        int     Open(std::string &output, const std::string &start) const;
 
         /**
          * \brief Forcefully close the keyboard without any regard to the error flag \n
          * (This can only be called from an OnInputChange callback)
          */
-        void    Close(void);
+        void    Close(void) const;
 
         /**
          * \brief Get a reference to the Keyboard's input string
          * \return A reference to the Keyboard's input string
          */
-        std::string     &GetInput(void);
+        std::string     &GetInput(void) const;
 
         /**
         * \brief Get a reference to the top screen's message string
         * \return A reference to the top screen's message string
         */
-        std::string     &GetMessage(void);        
+        std::string     &GetMessage(void) const;        
         
         /**
          * \brief This property define if the top screen must be displayed or not \n

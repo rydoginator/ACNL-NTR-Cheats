@@ -134,6 +134,12 @@ namespace CTRPluginFramework
         **
         *************************************************/
         void    Rewind(void);
+
+        /**
+         * \brief Flushes a file's content
+         * \return 0 if success, FS code error otherwise
+         */
+        int     Flush(void) const;
         /*
         ** Return the current size of the file
         ** return value:
