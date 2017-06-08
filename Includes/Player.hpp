@@ -29,14 +29,16 @@ namespace CTRPluginFramework
         void    Update(void);
 
         // Read data relative to player's offset
+        bool    ReadByte(u32 offset, u8 &value) const;
+        bool    Read16(u32 offset, u16 &value) const;
         bool    Read32(u32 offset, u32 &value) const;
         bool    Read64(u32 offset, u64 &value) const;
-        bool    ReadByte(u32 offset, u8 &value) const;
 
         // Write data relative to player's offset        
+        bool    WriteByte(u32 offset, u8 value) const;
+        bool    Write16(u32 offset, u16 value) const;
         bool    Write32(u32 offset, u32 value) const;
         bool    Write64(u32 offset, u64 value) const;
-        bool    WriteByte(u32 offset, u8 value) const;
 
         // Inventory
         bool    ReadInventorySlot(int slot, u32 &item) const;
