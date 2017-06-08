@@ -359,80 +359,6 @@ namespace CTRPluginFramework
             if (item[i] == 0x00007FFE) //check to see if the current index of the inventory is blank
                 g_player->WriteInventorySlot(i, item[0]); //duplicate all the items from slot 0
         }
-    } 
-
-    void    changeGender(void)
-    {
-        Keyboard  keyboard("Which gender would you like?");
-        std::vector<std::string> list = 
-        {
-            "Male", //there are only two genders, folks
-            "Female"
-        };
-        keyboard.Populate(list);
-
-        int userChoice = keyboard.Open();
-
-        if (userChoice != -1)
-        {
-            g_player->WriteByte(0x55BA, userChoice);
-            appearanceMod();
-        }
-        else
-        {
-            OSD::Notify("You must load your save to use this cheat!");
-        }
-    }
-
-    void    changeHair(void)
-    {
-        Keyboard  keyboard("Which hairstlye would you like?");
-        std::vector<std::string> list = 
-        {
-            "Male 01", 
-            "Male 02",
-            "Male 03", 
-            "Male 04",
-            "Male 05", 
-            "Male 06",
-            "Male 07", 
-            "Male 08", 
-            "Male 09",
-            "Male 10", 
-            "Male 11",
-            "Male 12", 
-            "Male 13",
-            "Male 14", 
-            "Male 15", 
-            "Male 16",
-            "Messy Hair", 
-            "Female 01", 
-            "Female 02",
-            "Female 03", 
-            "Female 04",
-            "Female 05", 
-            "Female 06",
-            "Female 07", 
-            "Female 08", 
-            "Female 09",
-            "Female 10", 
-            "Female 11",
-            "Female 12", 
-            "Female 13",
-            "Female 14", 
-            "Female 15", 
-            "Female 16"
-        };
-
-        keyboard.Populate(list);
-
-        u8 userChoice = keyboard.Open();
-
-        if (userChoice != -1)
-        {
-            g_player->WriteByte(0x4, userChoice);
-            appearanceMod();
-        }       
     }
 
     void 	GetSet(int set)
@@ -512,36 +438,6 @@ namespace CTRPluginFramework
     	{
     		GetSet(userChoice);
     	}
-    }
-
-
-    void    appearanceMod(void)
-    {
-        Keyboard  keyboard("Choose what to edit");
-        std::vector<std::string> list = 
-        {
-            "Gender",
-            "Hair",
-            "Face",
-            "Tan",
-            "Apparel",
-            "Return to main menu..."
-        };
-        keyboard.Populate(list);
-        int userChoice = keyboard.Open();
-
-        switch (userChoice)
-        {
-            case 0:
-                changeGender();
-                break;
-            case 1:
-                changeHair();
-                break;
-            default:
-                break;
-        }
-
     }
 
     void    setTimeTo(int hour)

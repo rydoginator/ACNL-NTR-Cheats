@@ -9,6 +9,7 @@
 #include "RAddress.hpp"
 #include "Unicode.h"
 #include "Values.hpp"
+#include "Strings.hpp"
 
 #define READU32(x)      *(u32 *)(x)
 #define READU16(x)      *(u16 *)(x)
@@ -51,13 +52,12 @@ namespace CTRPluginFramework
     
     void    assign_region(Region region);
 
-    void    changeGender(void);  
+  
     void    timePicker(void);
     void    setTimeTo(int hour);
 
     void    appearanceMod(void);
     void    duplicationAll(void);
-    void    changeHair(void);
 
     void    GetSet(int set);
     void    FurnitureKeyboard(void);
@@ -122,6 +122,24 @@ namespace CTRPluginFramework
     void    GhostMode(MenuEntry *entry);
     void    CameraMod(MenuEntry *entry); ///< Probably need a rework
     void    KeyboardExtender(MenuEntry *entry);
+	
+	/*
+    ** Appearance
+    ********************/
+    void    changeGender(void);
+    void    changeHair(void);
+	void    changeFace(void);
+    void    changeHairCol(void);
+	void    changeEyeCol(void);
+	void    changeTan(void);
+	void    changeHat(void);
+	void    changeAccessory(void);
+	void    changeTop(void);
+	void    changePants(void);
+	void    changeSocks(void);
+	void    changeShoes(void);
+	void    apparelMod(void);
+	void    appearanceMod(void);
 
     /*
     ** Callbacks
