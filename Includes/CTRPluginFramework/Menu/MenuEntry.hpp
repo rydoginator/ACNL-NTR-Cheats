@@ -24,7 +24,7 @@ namespace CTRPluginFramework
         ~MenuEntry();
 
         // Enable the entry
-        void    Enable(void);
+        void    Enable(void) const;
         // Disable the entry
         void    Disable(void) const;
         // Hide the entry from the menu. Will disable it too
