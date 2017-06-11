@@ -264,7 +264,7 @@ static inline void  smenu(void)
     exit_spoiler();
     new_spoiler_with_note("Time Travel Codes", time_note);
         new_entry_with_note("Time Travel", tt_note, timeTravel);
-        new_entry_with_note("Time Machine", tm_note, timeMachine);
+	new_entry_with_note("Time Machine", tm_note, timeMachine);
     exit_spoiler();
     new_spoiler("Misc. Codes");
         new_entry_with_note("Camera Mod", cam_note, cameraMod);
@@ -274,7 +274,6 @@ static inline void  smenu(void)
         new_entry("Nookling Items are Free", nookFree);
         new_entry_with_note("Turnip Price is 990", turn_note, turnip_990);
     exit_spoiler();
-
 
 }
 
@@ -298,17 +297,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1P USA", while_plugin_is_alive);
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 USA", while_plugin_is_alive);
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1P EUR", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 EUR", while_plugin_is_alive); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1P JAP", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 JAP", while_plugin_is_alive); 
     }
     else
    {	
