@@ -32,7 +32,7 @@ void    new_super_unselectable_entry(char *str, FuncPointer function)
     menu.fp[index] = function;
 }
 
-char    *builder_name = "RyDog and Paul";
+char    *builder_name = "RyDog";
 
     static const char * const t2i_note = "Type item ID and send it into chat,\n\nPress X+D Pad Right,\n\nTo write item to slot 1!";
     static const char * const dup_note = "Press R to duplicate the slot 1 item to slot 2!";
