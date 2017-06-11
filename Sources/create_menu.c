@@ -32,7 +32,7 @@ void    new_super_unselectable_entry(char *str, FuncPointer function)
     menu.fp[index] = function;
 }
 
-char    *builder_name = "RyDog";
+char    *builder_name = "RyDog and Paul";
 
     static const char * const t2i_note = "Type item ID and send it into chat,\n\nPress X+D Pad Right,\n\nTo write item to slot 1!";
     static const char * const dup_note = "Press R to duplicate the slot 1 item to slot 2!";
@@ -70,7 +70,13 @@ char    *builder_name = "RyDog";
 	static const char * const medun_note = "  WARNING!! Unstable!!\nMedals may become negative\nwhen Adding!! To fix: Decrease to a positive\nnumber & buy anything!\nTo Use: Press Up to increase medals by amount selected,Press Down to decrease by selected value.";
     static const char * const clear_note = "Press R + A to completely clear your town of everything. There is no going back, so don't save if you don't like it.";
     static const char * const pwp_note = "Unlock all PWPs. Only works when using Player 1. Don't save if you don't like it.";
-
+	static const char * const invi_note = "Press R + A to seed Illegal Items. USE INDOORS ONLY!";
+	static const char * const inf_drop_note = "Enable with R + DPad UP, Disable with R + DPad DOWN.";
+	//static const char * const coming_soon_note = "Not implemented yet! Coming Soon!";
+	//static const char * const careful_note = "Be careful with this Cheat!";
+	//static const char * const size_mod_note = "Use R + B to use the Cheat.";
+	//static const char * const hands_note = "Use R + A to loop through useable Items";
+	//static const char * const illegal_note = "This Cheat is not available in the Public Version of the Plugin!";
 void with_note_common(const char *name, const char *note, void (*cheatfunction)(void), int type)
 {
     int     index;
@@ -110,6 +116,60 @@ static inline void  smenu(void)
     update_tan_entry();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
     new_toggle_entry("Use keyboard on island", keyboardInput, KEYBOARDINPUT);
+    new_spoiler("Custom Codes - EUR");
+		new_entry_with_note("Infinite Drop", inf_drop_note, inf_drop);
+		new_entry_with_note("Illegal Items", invi_note, InvalidItms);
+		new_spoiler("Size Modifiers");
+			new_radio_entry("Invisible", size_invisible);
+			new_radio_entry("Tiny", size_tiny);
+			new_radio_entry("Normal", size_normal);
+			new_radio_entry("x2", size_x2);
+			new_radio_entry("x3", size_x3);
+			new_radio_entry("x4", size_x4);
+			new_radio_entry("x8", size_x8);
+		exit_spoiler();
+		new_spoiler("Shadow Size Modifier");
+			new_radio_entry("Invisible", ss_invisible);
+			new_radio_entry("Normal", ss_normal);
+			new_radio_entry("x2", ss_x2);
+			new_radio_entry("x3", ss_x3);
+			new_radio_entry("x4", ss_x4);
+			new_radio_entry("x8", ss_x8);
+		exit_spoiler();
+		new_spoiler("Map Mod");
+			new_radio_entry("ON", mp_ts_on);
+			new_radio_entry("OFF", mp_ts_off);
+		exit_spoiler();
+		new_spoiler("Player Mod");
+			new_radio_entry("ON", fall_on);
+			new_radio_entry("OFF", fall_off);
+		exit_spoiler();
+		new_spoiler("Size Fucker");
+			new_radio_entry("ON", size_fuck_on);
+			new_radio_entry("OFF", size_fuck_off);
+		exit_spoiler();
+		new_spoiler("Building Size");
+			new_radio_entry("Invisible", buildings_invisible);
+			new_radio_entry("Tiny", buildings_tiny);
+			new_radio_entry("Normal", buildings_normal);
+			new_radio_entry("x2", buildings_x2);
+			new_radio_entry("x3", buildings_x3);
+			new_radio_entry("x4", buildings_x4);
+			new_radio_entry("x8", buildings_x8);
+		exit_spoiler();
+		new_spoiler("Shiny Flowers");
+			new_radio_entry("ON", shiny_flowers);
+			new_radio_entry("OFF", shiny_flowers_off);
+		exit_spoiler();
+		new_spoiler("Wider Models");
+			new_radio_entry("ON", models_wider);
+			new_radio_entry("OFF", models_wider_off);
+		exit_spoiler();
+		new_spoiler("Head Mod");
+			new_radio_entry("ON", head_mod);
+			new_radio_entry("OFF", head_mod_off);
+		exit_spoiler();
+    exit_spoiler();
     new_spoiler("Inventory Codes");
         new_entry_with_note("Text to Item", t2i_note, text2item);
         new_entry_with_note("Duplication", dup_note, duplicate);
@@ -143,16 +203,16 @@ static inline void  smenu(void)
             new_radio_entry("Negative Bells", wallet_neg);
         exit_spoiler();
         new_spoiler("Medal Modifiers");
-            //new_entry_with_note("---Stable Modifier---", med_note, keep_it_off);
+            new_entry_with_note("---Stable Modifier---", med_note, keep_it_off);
             new_radio_entry("50K Medals", medal_50k);
             new_radio_entry("10K Medals", medal_10k);
             new_radio_entry("1K Medals", medal_1k);
             new_radio_entry("0 Medals", medal_0);
-            /*new_entry_with_note("---Unstable Modifier---", medun_note, keep_it_off);
+            new_entry_with_note("---Unstable Modifier---", medun_note, keep_it_off);
             new_radio_entry("Medal Mod 1", medals_1s);
             new_radio_entry("Medal Mod 10", medals_10s);
             new_radio_entry("Medal Mod 100", medals_100s);
-            new_radio_entry("Medal Mod 1000", medals_1000s);*/
+            new_radio_entry("Medal Mod 1000", medals_1000s);
         exit_spoiler(); 
         new_spoiler_with_note("Meow Coupon Codes", meow_note);
             new_radio_entry("Infinite Meow Coupons", meow_99k);
@@ -210,7 +270,7 @@ static inline void  smenu(void)
         new_entry_with_note("Camera Mod", cam_note, cameraMod);
         new_entry_with_note("Edible Items", eat_note,  edibleItems);
 		new_entry_with_note("Unlock All PWPS", pwp_note, PWP_all);
-        //new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
+        new_entry("Purchase 'Not for sale' Items From Catalog", canBuy);
         new_entry("Nookling Items are Free", nookFree);
         new_entry_with_note("Turnip Price is 990", turn_note, turnip_990);
     exit_spoiler();
@@ -238,17 +298,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 USA", while_plugin_is_alive);
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1P USA", while_plugin_is_alive);
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 EUR", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1P EUR", while_plugin_is_alive); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 JAP", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1P JAP", while_plugin_is_alive); 
     }
     else
    {	

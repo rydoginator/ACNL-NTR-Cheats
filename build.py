@@ -79,7 +79,7 @@ def error():
 
 cwd = os.getcwd()
 print("\n\n");
-printf("Hello RyDog !\n");
+printf("Hello Paul !\n");
 printf("How are you ?\n");
 printf("I'm preparing to compile your " + COPYTOPATH + " plugin.\n");
 printf("Please just wait a second...\n");
