@@ -2441,3 +2441,224 @@ void    GoldTools(void)
         writeSlot(i, 0x334f + (i * 4)); //put item ID of first furniture in series
     }
 }
+
+void	inf_drop(void)
+{
+	if(is_pressed(BUTTON_R + BUTTON_DU))
+	{
+		WRITEU8(0x19C4F0, 0x00);
+		WRITEU8(0x19C594, 0x00);
+	}
+		if(is_pressed(BUTTON_R + BUTTON_DD))
+	{
+		WRITEU8(0x19C4F0, 0x06);
+		WRITEU8(0x19C594, 0x06);
+	}
+}
+
+/*void	InvalidItms(void)
+{
+u32 offset = 0x31F520D8;
+u16 value = 0x2000;
+
+	if (is_pressed(BUTTON_R + BUTTON_A))
+	{
+		for (int i = 0; i < 5120; i++)
+		WRITEU32(offset + (i * 4), value + i);
+	}
+} */
+
+void	size_invisible(void)
+{	
+		WRITEU32(0x1ACE20, 0x00000000);
+}
+
+void	size_tiny(void)
+{   
+		WRITEU32(0x1ACE20, 0x3E800000);
+}
+
+void 	size_normal(void)
+{	
+		WRITEU32(0x1ACE20, 0x3F800000);
+}
+
+void	size_x2(void)
+{
+	WRITEU32(0x1ACE20, 0x40000000);
+}
+
+void	size_x3(void)
+{
+	WRITEU32(0x1ACE20, 0x40400000);
+}
+
+void	size_x4(void)
+{
+	WRITEU32(0x1ACE20, 0x40800000);
+}
+
+void	size_x8(void)
+{
+	WRITEU32(0x1ACE20, 0x41000000);
+}
+
+void	ss_invisible(void)
+{
+	WRITEU32(0x28F3A0, 0x00000000);
+}
+
+void	ss_tiny(void)
+{
+	WRITEU32(0x28F3A0, 0x3E800000);
+}
+
+void	ss_normal(void)
+{
+	WRITEU32(0x28F3A0, 0x3F800000);
+}
+
+void	ss_x2(void)
+{
+	WRITEU32(0x28F3A0, 0x40000000);
+}
+
+void	ss_x3(void)
+{
+	WRITEU32(0x28F3A0, 0x40400000);
+}
+
+void	ss_x4(void)
+{
+	WRITEU32(0x28F3A0, 0x40800000);
+}
+
+void	ss_x8(void)
+{
+	WRITEU32(0x28F3A0, 0x41000000);
+}
+
+void	mp_ts_on(void)
+{
+	WRITEU32(0x47D1C4, 0x40000000);
+}
+
+void	mp_ts_off(void)
+{
+	WRITEU32(0x47D1C4, 0x3F800000);
+}
+
+void	fall_on(void)
+{
+	WRITEU32(0x47D364, 0x40000000);
+}
+
+void	fall_off(void)
+{
+	WRITEU32(0x47D364, 0x3F800000);
+}
+
+void	size_fuck_on(void)
+{
+	WRITEU32(0x47D438, 0x40400000);
+}
+
+void	size_fuck_off(void)
+{
+	WRITEU32(0x47D438, 0x3F800000);
+}
+
+void	buildings_invisible(void)
+{
+	WRITEU32(0x52DA18, 0x00000000);
+}
+
+void	buildings_tiny(void)
+{
+	WRITEU32(0x52DA18, 0x3E800000);
+}
+
+void	buildings_normal(void)
+{
+	WRITEU32(0x52DA18, 0x3F800000);
+}
+
+void	buildings_x2(void)
+{
+	WRITEU32(0x52DA18, 0x40000000);
+}
+
+void	buildings_x3(void)
+{
+	WRITEU32(0x52DA18, 0x40400000);
+}
+
+void	buildings_x4(void)
+{
+	WRITEU32(0x52DA18, 0x40800000);
+}
+
+void	buildings_x8(void)
+{
+	WRITEU32(0x52DA18, 0x41000000);
+}
+
+void	shiny_flowers(void)
+{
+	WRITEU32(0x550C0C, 0x40400000);
+}
+
+void	shiny_flowers_off(void)
+{
+	WRITEU32(0x550C0C, 0x3F800000);
+}
+
+void	models_wider(void)
+{
+	WRITEU32(0x56703C, 0x40400000);
+}
+
+void	models_wider_off(void)
+{
+	WRITEU32(0x56703C, 0x3F800000);
+}
+
+void	head_mod(void)
+{
+	WRITEU32(0x5670AC, 0x40400000);
+}
+
+void	head_mod_off(void)
+{
+	WRITEU32(0x56703C, 0x3F800000);
+}
+
+void	slim_models(void)
+{
+	WRITEU32(0x567140, 0x40000000);
+}
+
+void	slim_models_off(void)
+{
+	WRITEU32(0x567140, 0x3F800000);
+}
+
+void	InvalidItms(void)
+{
+	u32 data;
+	u32 offset;
+	
+	data = 0;
+	offset = 0;
+	if (is_pressed(BUTTON_R + BUTTON_A))
+	{
+		offset = 0x31F520D8;
+		data = 0x00002000;
+		for (int i = 0; i < 0x00001400; i++)
+		{
+			WRITEU32(0x00000000 + offset, data);
+			offset +=4;
+			data += 0x00000001;
+		}
+	}
+} 
