@@ -6,21 +6,61 @@ namespace CTRPluginFramework
     void PatchProcess(void)
     {
     }
-
+	
     int main(void)
     {
         PluginMenu* m = new PluginMenu("Animal Crossing New Leaf Ver 4.0 Alpha");
         PluginMenu& menu = *m;
 
         u64 tid = Process::GetTitleID();
+		u16 ver = Process::GetVersion();
 
         // Assign globals according to the current game's region
         if (tid == 0x0004000000086300)
-            assign_region(USA);
+		{
+			if (ver == 6192)
+			{
+				assign_region(USA);
+			}
+			
+			else
+			{
+				MessageBox  msgBox("Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!");
+				msgBox();
+				return (0);
+			}
+		}
+			
         else if (tid == 0x0004000000086400)
-            assign_region(EUR);
+		{
+			if (ver == 6176)
+			{
+				assign_region(EUR);
+			}
+			
+			else
+			{
+				MessageBox  msgBox("Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!");
+				msgBox();
+				return (0);
+			}
+		}
+			
         else if (tid == 0x0004000000086200)
-            assign_region(JAP);
+		{
+			if (ver == 6272)
+			{
+				assign_region(JAP);
+			}
+			
+			else
+			{
+            MessageBox  msgBox("Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!");
+            msgBox();
+            return (0);
+			}
+		}
+			
         else
         {
             // Game not recognised

@@ -47,6 +47,16 @@ namespace   CTRPluginFramework
      * Read
      */
 
+    bool    Player::ReadByte(u32 offset, u8 &value) const
+    {
+        return (Process::Read8(offset + _offset, value));
+    }
+	
+	bool    Player::Read16(u32 offset, u16 &value) const
+    {
+        return (Process::Read16(offset + _offset, value));
+    }
+
     bool    Player::Read32(u32 offset, u32 &value) const
     {
         return (Process::Read32(offset + _offset, value));
@@ -57,15 +67,21 @@ namespace   CTRPluginFramework
         return (Process::Read64(offset + _offset, value));
     }
 
-    bool    Player::ReadByte(u32 offset, u8 &value) const
-    {
-        return (Process::Read8(offset + _offset, value));
-    }
 
     /*
      * Write
      */
 
+    bool    Player::WriteByte(u32 offset, u8 value) const
+    {
+        return (Process::Write8(offset + _offset, value));
+    }
+
+	bool    Player::Write16(u32 offset, u16 value) const
+    {
+        return (Process::Write16(offset + _offset, value));
+    }
+	
     bool    Player::Write32(u32 offset, u32 value) const
     {
         return (Process::Write32(offset + _offset, value));
@@ -74,11 +90,6 @@ namespace   CTRPluginFramework
     bool    Player::Write64(u32 offset, u64 value) const
     {
         return (Process::Write64(offset + _offset, value));
-    }
-
-    bool    Player::WriteByte(u32 offset, u8 value) const
-    {
-        return (Process::Write8(offset + _offset, value));
     }
 
     /*
