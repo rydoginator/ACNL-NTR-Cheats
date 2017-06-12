@@ -12,7 +12,8 @@ namespace   CTRPluginFramework
     Player::Player(void)
     {
         // Set pointers
-        _coordinatePointer = reinterpret_cast<u32 *>(AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)());
+        _coordinateIndex = reinterpret_cast<u8 *>(AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE)());
+        _coordinatePointerBase = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)();
         _thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR)());
         _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER)();
 
@@ -41,6 +42,10 @@ namespace   CTRPluginFramework
     void    Player::Update(void)
     {
         Process::Read32(_playerPointer, _offset);
+
+        //Update coordinates pointer
+        u8 index = *_coordinateIndex;
+        _coordinatePointer = (u32 *)(_coordinatePointerBase + index * 4);
     }
 
     /*

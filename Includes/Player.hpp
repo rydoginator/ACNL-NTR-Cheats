@@ -73,7 +73,9 @@ namespace CTRPluginFramework
     private:
         u32             _offset;
 
+        u32             _coordinatePointerBase;
         u32             *_coordinatePointer;
+        u8              *_coordinateIndex;
         u16             *_thought;
 
         static Player   *_instance;
