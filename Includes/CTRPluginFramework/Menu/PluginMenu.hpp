@@ -61,17 +61,23 @@ namespace CTRPluginFramework
         ******************************/
         int     Run(void) const;
 
-        /*
-        ** Allows to enable / disable the Search button in the main menu
-        ** isEnabled = whether the button must be enabled / disabled
-        ******************************/
+        /**
+         * \brief Enable / Disable the Search button in the main menu
+         * \param isEnabled If the button must be enabled or not
+         */
         void    SetSearchButtonState(bool isEnabled) const;
 
-        /*
-        ** Allows to enable / disable the ActionReplay button in the main menu
-        ** isEnabled = whether the button must be enabled / disabled
-        ******************************/
+        /**
+         * \brief Enable / Disable the ActionReplay button in the main menu
+         * \param isEnabled If the button must be enabled or not
+         */
         void    SetActionReplayButtonState(bool isEnabled) const;
+
+        /**
+         * \brief Enable / Disable the FreeCheats in Tools
+         * \param isEnabled If FreeCheats must be enabled or not
+         */
+        void    SetFreeCheatsState(bool isEnabled) const;
 
         /**
          * \brief Check if the menu is currently open

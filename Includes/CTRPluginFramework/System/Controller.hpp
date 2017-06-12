@@ -1,6 +1,8 @@
 #ifndef CTRPLUGINFRAMEWORK_CONTROLLER_HPP
 #define CTRPLUGINFRAMEWORK_CONTROLLER_HPP
 
+#include "types.h"
+
 namespace CTRPluginFramework
 {
     enum Key 

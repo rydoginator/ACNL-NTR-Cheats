@@ -158,6 +158,14 @@ namespace CTRPluginFramework
         static bool     WriteFloat(u32 address, float value);
 
         /**
+        * \brief Safely write a double value
+        * \param address   Address to write to
+        * \param value     The value to write
+        * \return True if success, false otherwise
+        */
+        static bool    WriteDouble(u32 address, double value);
+
+        /**
          * \brief Safely read 64 bits
          * \param address   The address to read
          * \param value     The variable to put the value in
@@ -196,6 +204,14 @@ namespace CTRPluginFramework
         * \return True if success, false otherwise
         */
         static bool     ReadFloat(u32 address, float &value);
+
+        /**
+        * \brief Safely read a double value
+        * \param address   The address to read
+        * \param value     The variable to put the value in
+        * \return True if success, false otherwise
+        */
+        static bool     ReadDouble(u32 address, double &value);
     };
 }
 
