@@ -50,7 +50,11 @@
 #define     USA_VISITOR2_INDOOR_Z_ADDR          0x3307B784
 
 #define     USA_MINUTES_ADDR                    0x9515BA
+#define		EUR_MINUTES_ADDR					0x9505B6
+#define		JAP_MINUTES_ADDR					0x9495B6
 #define     USA_HOURS_ADDR                      0x9515BB
+#define 	EUR_HOURS_ADDR						0x9505B7
+#define		JAP_HOURS_ADDR						0x9495B7
 #define     USA_PLAYER_POINTER                  0xAB014C
 #define     EUR_PLAYER_POINTER                  0xAAF14C
 #define     JAP_PLAYER_POINTER                  0xAA914C

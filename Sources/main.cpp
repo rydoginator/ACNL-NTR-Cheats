@@ -110,7 +110,8 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Pick up buried items", PickBuriedItems));
         folder->Append(new MenuEntry("Show bells", ShowBells));
         folder->Append(new MenuEntry("Set bells", nullptr, SetBells));
-        folder->Append(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxs to store your items.\nHold Start 1 second to choose which one to open."));
+        folder->Append(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nHold Start 1 second to choose which one to open."));
+        folder->Append(new MenuEntry("Fossil Inspector", GenerateFossils, "Press " FONT_X " and " FONT_A " to process all fossils\nas if you talked to Blathers"));
 
         menu.Append(folder);
 

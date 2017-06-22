@@ -2,34 +2,62 @@
 
 namespace CTRPluginFramework
 {
+    #define HOUR 0x34630B8A000
+
+    void    AddTime(u64 time)
+    {
+        ADD64(Game::TimeSave, time);
+        ADD64(Game::TimeReal, time);        
+    }
+
+    void    RewindTime(u64 time)
+    {
+        SUB64(Game::TimeSave, time);
+        SUB64(Game::TimeReal, time);         
+    }
+
+    void    AddTime(u8 hour, u8 minute)
+    {
+        u64 time = (hour * HOUR) - (minute * 0xDF8475800);
+        AddTime(time);
+    } 
+
+    void    RewindTime(u8 hour, u8 minute)
+    {
+        u64 time = (hour * HOUR) + (minute * 0xDF8475800);
+        RewindTime(time);
+    }
+
+    void    ResetTime(void)
+    {
+        WRITEU64(Game::TimeSave, 0x0000000000000000);
+        WRITEU64(Game::TimeReal, 0x0000000000000000);        
+    }
+
+
     void    TimeTravel(MenuEntry *entry)
     {
         if (Controller::IsKeysDown(R + DPadRight))
         {
-            ADD64(Game::TimeSave, 0x9EF21AA);
-            ADD64(Game::TimeReal, 0x9EF21AA);
+            AddTime(0x9EF21AA);
         }
         if (Controller::IsKeysDown(R + DPadLeft))
         {
-            SUB64(Game::TimeSave, 0x9EF21AA);
-            SUB64(Game::TimeReal, 0x9EF21AA);
+            RewindTime(0x9EF21AA);
         }
         if (!Controller::IsKeyDown(Key::B))
             return;
         if (Controller::IsKeyPressed(Key::DPadRight))
         {
-            ADD64(Game::TimeSave, 0x34630B8A000);
-            ADD64(Game::TimeReal, 0x34630B8A000);
+            AddTime(HOUR);
         }
         if (Controller::IsKeyPressed(Key::DPadLeft))
         {
-            SUB64(Game::TimeSave, 0x34630B8A000);
-            SUB64(Game::TimeReal, 0x34630B8A000);
+            RewindTime(HOUR);
         }
         if (Controller::IsKeyPressed(Key::DPadDown))
         {
-            WRITEU64(Game::TimeSave, 0x0000000000000000);
-            WRITEU64(Game::TimeReal, 0x0000000000000000);
+            ResetTime();
         }
     }
 
@@ -178,16 +206,85 @@ namespace CTRPluginFramework
             time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
             if (direction == true)
             {
-                ADD64(Game::TimeReal, time);
-                ADD64(Game::TimeSave, time);
+                AddTime(time);
                 OSD::Notify("Welcome to the future, time traveler.");
             }
             else
             {
-                SUB64(Game::TimeReal, time);
-                SUB64(Game::TimeSave, time);
+                RewindTime(time);
                 OSD::Notify("Welcome to the past, time traveler.");
             }
+        }
+    }
+
+    void    SetTimeTo(int hour)
+    {
+        u8  minutes, hours;
+        u64 time;
+        char buffer[0x100];
+
+        minutes = *Game::Minute;
+        hours = *Game::Hour;
+        //Process::Read8(Game::Minute, minutes);
+        //Process::Read8(Game::Hour, hours);
+        sprintf(buffer, "%i %i", hours, minutes);
+        OSD::Notify(buffer);
+        if (hour == 0)
+        {
+            if (hours < 6) //go backwards in time if the time is before 6AM to prevent saving.
+            {
+                RewindTime(hours, minutes);
+            }
+            else // go forwards in time
+            {
+                hours = 24 - hours; 
+                AddTime(hours, minutes);
+            }       
+        }
+        else if (hour < 6) //if the time we want to go to is before 6AM
+        {
+            if (hours <= (hour - 1)) //if the current time is at or before the time to set, go forward
+            {
+                hours = hour - hours;
+                AddTime(hours, minutes);
+            }
+            else if (hours < 6 && hours >= hour) // if the time is between 1AM and 5AM, we want to go backwards in time
+            {
+                hours -= hour;
+                RewindTime(hours, minutes);                  
+            }
+            else
+            {
+                hours = 24 + hour - hours;
+                AddTime(hours, minutes);
+            }
+        }
+        else if (hour == 6)
+        {
+            if (hours < 6)
+            {
+                hour -= hours;
+                AddTime(hours, minutes);          
+            }
+            else
+            {
+                hours - 6;
+                RewindTime(hours, minutes);           
+            }
+        }
+        else if (hour > 6)
+        {
+            if (hours < 6)
+            {
+                hours += 24 - hour;
+                RewindTime(hours, minutes);       
+            }
+            if (hours <= (hour - 1)) //if the current time is at or before the time to set, go forward
+            {
+                hours = hour - hours;
+                AddTime(hours, minutes);
+            }
+
         }
     }
 }

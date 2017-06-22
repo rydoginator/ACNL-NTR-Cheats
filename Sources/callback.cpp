@@ -6,7 +6,7 @@ namespace CTRPluginFramework
     void    CheatsKeyboard(void) 
     {
         bool g_command;
-        static HoldKey  buttons(R + X, Seconds(1.f));
+        static HoldKey  buttons(R + X, Seconds(0.5f));
 
         if (!buttons())
         	return;
@@ -99,7 +99,25 @@ namespace CTRPluginFramework
             "2 AM",
             "3 AM",
             "4 AM",
+            "5 AM",
+            "6 AM",
+            "7 AM",
+            "8 AM",
+            "9 AM",
+            "10 AM",
+            "11 AM",
             "12 PM",
+            "1 PM",
+            "2 PM",
+            "3 PM",
+            "4 PM",
+            "5 PM",
+            "6 PM",
+            "7 PM",
+            "8 PM",
+            "9 PM",
+            "10 PM",
+            "11 PM"
         };
         keyboard.Populate(list);
 
@@ -107,26 +125,7 @@ namespace CTRPluginFramework
 
         if (userChoice != -1)
         {
-            switch(userChoice)
-            {
-                case 0:
-                    setTimeTo(0);
-                    break;
-                case 1:
-                    setTimeTo(1);
-                    break;
-                case 2:
-                    setTimeTo(2);
-                    break;
-                case 3:
-                    setTimeTo(3);
-                    break;
-                case 5:
-                    setTimeTo(12);
-                    break;
-                default:
-                    break;
-            }
+            SetTimeTo(userChoice);
         }
     }
 }

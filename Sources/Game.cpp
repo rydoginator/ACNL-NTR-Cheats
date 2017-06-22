@@ -21,6 +21,8 @@ namespace CTRPluginFramework
         TimeSave = reinterpret_cast<u64 *>(AutoRegion(USA_SAVETIME_ADDR, TO_EUR(USA_SAVETIME_ADDR), TO_JAP(USA_SAVETIME_ADDR))());
         TownItem = reinterpret_cast<u32 *>(AutoRegion(USA_TOWN_ITEMS_ADDR, TO_EUR(USA_TOWN_ITEMS_ADDR), TO_JAP(USA_TOWN_ITEMS_ADDR))());
         Velocity = AutoRegion(USA_VELOCITY_ADDR, TO_EUR(USA_VELOCITY_ADDR), TO_JAP(USA_VELOCITY_ADDR))();
+        Hour = reinterpret_cast<u8 *>(AutoRegion(USA_HOURS_ADDR, EUR_HOURS_ADDR, JAP_HOURS_ADDR)());
+        Minute = reinterpret_cast<u8 *>(AutoRegion(USA_MINUTES_ADDR, EUR_MINUTES_ADDR, JAP_MINUTES_ADDR)());
         WorldPos = reinterpret_cast<Position *>(AutoRegion(USA_WORLD_X_ADDR, TO_EUR(USA_WORLD_X_ADDR), TO_JAP(USA_WORLD_X_ADDR))());
     }
 
@@ -87,5 +89,7 @@ namespace CTRPluginFramework
     u64         *Game::TimeSave = nullptr;
     u32         *Game::TownItem = nullptr;
     u32         Game::Velocity = 0;
+    u8          *Game::Hour = nullptr;
+    u8          *Game::Minute = nullptr;
     Position    *Game::WorldPos = nullptr;    
 }

@@ -54,7 +54,6 @@ namespace CTRPluginFramework
 
   
     void    timePicker(void);
-    void    setTimeTo(int hour);
 
     void    appearanceMod(void);
     void    duplicationAll(void);
@@ -100,6 +99,7 @@ namespace CTRPluginFramework
     void    ShowBells(MenuEntry *entry); ///< Need fix ?
     void    SetBells(MenuEntry *entry);  ///< Need fix ?
     void    ExtendedInventoryBox(MenuEntry *entry);
+    void    GenerateFossils(MenuEntry *entry);
 
     /*
     ** Environment
@@ -112,8 +112,14 @@ namespace CTRPluginFramework
     /*
     ** Time Travel
     ********************/
+    void    AddTime(u64 time);
+    void    RewindTime(u64 time);
+    void    AddTime(u8 hour, u8 minute);
+    void    RewindTime(u8 hour, u8 minute);
+    void    ResetTime(void);
     void    TimeTravel(MenuEntry *entry);
     void    TimeMachine(MenuEntry *entry);
+    void    SetTimeTo(int hour);
 
     /*
     ** Misc.

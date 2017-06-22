@@ -65,9 +65,17 @@ namespace CTRPluginFramework
     void     WorldEdit(MenuEntry *entry)
     {
         static u32  itemID;
-        static int  valid = -1;        
+        static int  valid = -1;
+        char buffer[0x100];       
 
         // Enter the item to place
+        if (Controller::IsKeyPressed(R))
+        {
+            u32 *i = Game::GetItem();
+            itemID = *i;
+            sprintf(buffer, "Offset: %08X \nValue: %08X", Game::GetItem(), itemID);
+            OSD::Notify(buffer);
+        }
         if (Controller::IsKeysDown(R + DPadLeft))
         {
             Keyboard    keyboard("What item would you like to use?");

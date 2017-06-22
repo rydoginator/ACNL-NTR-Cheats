@@ -283,4 +283,18 @@ namespace CTRPluginFramework
         else
             OpenBox(entry, id - 1);
     }
+
+    void    GenerateFossils(MenuEntry *entry)
+    {
+        int length;
+        if (Controller::IsKeysDown(X + A))
+        {
+            int *slots = Player::GetInstance()->FindItems(length, 0x202A);
+            for (int i = 0; i < length; i++)
+            {
+                u16 fossil = rand() % 0x57; //generate a new fossil for each iteration
+                Player::GetInstance()->WriteInventorySlot(slots[i], 0x3130 + fossil);
+            }
+        }
+    }
 }

@@ -132,6 +132,27 @@ namespace   CTRPluginFramework
     	return (slots);
     }
 
+    int     * Player::FindItems(int &length, u32 search) const
+    {
+        u32 item[16];
+        int slot = 0;
+        static int slots[16];
+        for (int i = 0; i < 16; i ++)
+        {
+            ReadInventorySlot(i, item[i]);
+        }
+        for (int i = 0; i < 16; i++)
+        {
+            if (item[i] == search)
+            {
+                slots[slot] = i;
+                slot++;
+            }
+        }
+        length = slot;
+        return (slots);
+    }
+
     u32     Player::GetInventoryAddress(void) const
     {
         return (_offset + 0x6BD0);
