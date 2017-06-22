@@ -142,8 +142,8 @@
 
 //the current index of the player to the pointer of their coordinates
 #define		USA_COORDINATES_BYTE				0x82E93EC
-#define		EUR_COORDINATES_BYTE				0x0 //todo
-#define		JAP_COORDINATES_BYTE				0x0 //todo
+#define		EUR_COORDINATES_BYTE				0x82E93EC //todo
+#define		JAP_COORDINATES_BYTE				0x82E93EC //todo
 
 #define     USA_CAMSTOP_POINTER                 0xAAE994 //the game's internal pointer for coordinates
 #define     EUR_CAMSTOP_POINTER                 0xAAD994
