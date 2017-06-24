@@ -27,6 +27,8 @@
 #define SUB64(a, v)     *(vs64 *)a -= v
 #define ADD16(a, v)     *(u16 *)a += v
 #define SUB16(a, v)     *(u16 *)a -= v
+#define ADD8(a, v)      *(u8 *)a += v
+#define SUB8(a, v)      *(u8 *)a -= v
 #define ADDTOFLOAT(a, v)  *((float*)(a)) += (float)v
 #define SUBTOFLOAT(a, v)  *((float*)(a)) -= (float)v
 

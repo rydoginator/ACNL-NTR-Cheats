@@ -42,6 +42,7 @@ namespace CTRPluginFramework
         static u8       *Hour;          ///< Current hour that is read in the ingame clock
         static u8       *Minute;        ///< Current minute that is read in the ingame clock
         static Position *WorldPos;      ///< Position of the player in the world
+        static u32       *BuildingSlots; ///<Address of how many building slots are being taken up
         
 
     };

@@ -221,14 +221,9 @@ namespace CTRPluginFramework
     {
         u8  minutes, hours;
         u64 time;
-        char buffer[0x100];
 
         minutes = *Game::Minute;
         hours = *Game::Hour;
-        //Process::Read8(Game::Minute, minutes);
-        //Process::Read8(Game::Hour, hours);
-        sprintf(buffer, "%i %i", hours, minutes);
-        OSD::Notify(buffer);
         if (hour == 0)
         {
             if (hours < 6) //go backwards in time if the time is before 6AM to prevent saving.
@@ -279,12 +274,16 @@ namespace CTRPluginFramework
                 hours += 24 - hour;
                 RewindTime(hours, minutes);       
             }
-            if (hours <= (hour - 1)) //if the current time is at or before the time to set, go forward
+            else if (hours <= (hour - 1)) //if the current time is at or before the time to set, go forward
             {
                 hours = hour - hours;
                 AddTime(hours, minutes);
             }
-
+            else
+            {
+                hours -= hour;
+                RewindTime(hours, minutes);
+            }
         }
     }
 }

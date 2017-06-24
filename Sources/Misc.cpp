@@ -17,6 +17,7 @@ namespace CTRPluginFramework
             
             u8      x = static_cast<u8>(Game::WorldPos->x);
             u8      y = static_cast<u8>(Game::MainStreetPos->y);
+            u32     slots = reinterpret_cast<u32>(Game::BuildingSlots); //address of byte that represents how many buildings are taken up
             u32     building = reinterpret_cast<u32>(Game::Building);
 
             while (READU8(building + offset) != 0xFC && offset < 0xE5)
@@ -32,6 +33,7 @@ namespace CTRPluginFramework
                 WRITEU8(building + offset, input);
                 WRITEU8(building + offset + 0x2, x);
                 WRITEU8(building + offset + 0x3, y);
+                ADD8(slots, 1);
             }
         }
 
@@ -44,6 +46,7 @@ namespace CTRPluginFramework
                 return;
 
             u32  building = reinterpret_cast<u32>(Game::Building);
+            u32      slots = reinterpret_cast<u32>(Game::BuildingSlots);
 
             while (READU8(building + offset) != input && offset < 0xE5)
             {
@@ -58,6 +61,7 @@ namespace CTRPluginFramework
                 WRITEU8(building + offset, 0xFC);
                 WRITEU8(building + offset + 0x2, 0x00);
                 WRITEU8(building + offset + 0x3, 0x00);
+                SUB8(slots, 1);
             }
         }
     }

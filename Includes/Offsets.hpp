@@ -120,6 +120,8 @@
 #define     USA_ONLINE5_MEDALS_ADDR             0xA967B0
 #define     USA_ONLINE6_MEDALS_ADDR             0xA9EC30
 
+#define		USA_BUILDING_BYTE					0x31F72E04
+
 #define     USA_CAMERA_ASM_ADDR                 0x764504
 #define     EUR_CAMERA_ASM_ADDR                 0x76350C
 #define     JAP_CAMERA_ASM_ADDR                 0x762CA4
@@ -142,8 +144,8 @@
 
 //the current index of the player to the pointer of their coordinates
 #define		USA_COORDINATES_BYTE				0x82E93EC
-#define		EUR_COORDINATES_BYTE				0x82E93EC //todo
-#define		JAP_COORDINATES_BYTE				0x82E93EC //todo
+#define		EUR_COORDINATES_BYTE				0x82E93EC 
+#define		JAP_COORDINATES_BYTE				0x82E93EC 
 
 #define     USA_CAMSTOP_POINTER                 0xAAE994 //the game's internal pointer for coordinates
 #define     EUR_CAMSTOP_POINTER                 0xAAD994

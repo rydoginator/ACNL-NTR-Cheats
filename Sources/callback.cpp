@@ -85,8 +85,8 @@ namespace CTRPluginFramework
 
     void    SleepThread(void)
     {
-        // Put the thread as sleep for 0.01 seconds. Prevents overloading the thread
-        svcSleepThread(100000);
+        // Put the thread as sleep for 0.1 seconds. Prevents overloading the thread
+        svcSleepThread(10000);
     }
     
     void    timePicker(void)
