@@ -23,6 +23,7 @@ namespace CTRPluginFramework
         TownItem = reinterpret_cast<u32 *>(AutoRegion(USA_TOWN_ITEMS_ADDR, TO_EUR(USA_TOWN_ITEMS_ADDR), TO_JAP(USA_TOWN_ITEMS_ADDR))());
         Velocity = AutoRegion(USA_VELOCITY_ADDR, TO_EUR(USA_VELOCITY_ADDR), TO_JAP(USA_VELOCITY_ADDR))();
         Hour = reinterpret_cast<u8 *>(AutoRegion(USA_HOURS_ADDR, EUR_HOURS_ADDR, JAP_HOURS_ADDR)());
+        CodeDifference = reinterpret_cast<u32 *>(AutoRegion(USA_CODE_DIFFERENCE, EUR_CODE_DIFFERENCE, JAP_CODE_DIFFERENCE)());
         Minute = reinterpret_cast<u8 *>(AutoRegion(USA_MINUTES_ADDR, EUR_MINUTES_ADDR, JAP_MINUTES_ADDR)());
         WorldPos = reinterpret_cast<Position *>(AutoRegion(USA_WORLD_X_ADDR, TO_EUR(USA_WORLD_X_ADDR), TO_JAP(USA_WORLD_X_ADDR))());
     }
@@ -77,6 +78,7 @@ namespace CTRPluginFramework
         return (reinterpret_cast<u32 *>(items + GetWorldOffset()));
     }
     
+
     u32         *Game::Building = nullptr;
     u32         *Game::ClubItem = nullptr;
     u32         Game::Garden = 0;
@@ -92,6 +94,7 @@ namespace CTRPluginFramework
     u32         Game::Velocity = 0;
     u8          *Game::Hour = nullptr;
     u8          *Game::Minute = nullptr;
-    u32          *Game::BuildingSlots = nullptr;
-    Position    *Game::WorldPos = nullptr;    
+    u32         *Game::BuildingSlots = nullptr;
+    Position    *Game::WorldPos = nullptr;
+    u32         *Game::CodeDifference = nullptr;    
 }

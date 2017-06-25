@@ -63,7 +63,7 @@ namespace CTRPluginFramework
         {
             for (int i = 0; i < 8; i++)
             {
-                Process::Patch(offsets[i], (u8 *)&patch[i], 4);
+                Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&patch[i], 4);
             }
         }
 

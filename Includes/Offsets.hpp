@@ -164,6 +164,10 @@
 #define		EUR_THOUGHT_ASM						0x2160DC
 #define		JAP_THOUGHT_ASM						0x215FFC
 
+//offset difference to be used in the walk over things code
+#define		USA_CODE_DIFFERENCE					0x0
+#define		EUR_CODE_DIFFERENCE				   -0xFC8
+#define		JAP_CODE_DIFFERENCE					0x0 //todo
 
 #define     USA_THOUGHT_TEXT_ADDR               0x33077D50
 #define     USA_CLUB_ADDR                       0x301b5aa0
