@@ -59,7 +59,7 @@ namespace CTRPluginFramework
 
     void    appearanceMod(void);
     void    duplicationAll(void);
-
+    void    TeleportKeyboard(void);
     void    GetSet(int set);
     void    FurnitureKeyboard(void);
 
@@ -90,6 +90,7 @@ namespace CTRPluginFramework
     void    SpeedHack(MenuEntry *entry);
     void    SpeedHackEditor(MenuEntry *entry);
     void    MoonJump(MenuEntry *entry);
+    void    TeleportTo(int person);
 
     /*
     ** Inventory
@@ -98,7 +99,6 @@ namespace CTRPluginFramework
     void    Duplication(MenuEntry *entry);
     void    ShowBuriedItems(MenuEntry *entry);
     void    PickBuriedItems(MenuEntry *entry);
-    void    ShowBells(MenuEntry *entry); ///< Need fix ?
     void    SetBells(MenuEntry *entry);  ///< Need fix ?
     void    ExtendedInventoryBox(MenuEntry *entry);
     void    GenerateFossils(MenuEntry *entry);
@@ -148,6 +148,12 @@ namespace CTRPluginFramework
 	void    changeShoes(void);
 	void    apparelMod(void);
 	void    appearanceMod(void);
+
+    /*
+    ** Main Street
+    ****************/
+    void    FillCatalog(MenuEntry *entry);
+    void    FillMainStreet(MenuEntry *entry);
 
     /*
     ** Callbacks

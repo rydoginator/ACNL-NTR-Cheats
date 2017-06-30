@@ -20,7 +20,6 @@ namespace CTRPluginFramework
     u32     g_velocity;
     u32     g_grass_start;
     u32     g_grass_end;
-    u32     g_nook;
     u32     g_leif;
     u32     g_tan;
     u32     g_edible;
@@ -112,7 +111,6 @@ namespace CTRPluginFramework
         g_velocity = USA_VELOCITY_ADDR;
         g_grass_start = USA_GRASS_START_ADDR;
         g_grass_end = USA_GRASS_END_ADDR;
-        g_nook = USA_NOOK_ADDR;
         g_leif = USA_LEIF_ADDR;
         g_tan = USA_TAN_ADDR;
         g_edible = USA_EDIBLE_ADDR;
@@ -196,7 +194,6 @@ namespace CTRPluginFramework
                 g_grass_start -= EUR_DIFFERENCE;
                 g_grass_end -= EUR_DIFFERENCE;
                 g_velocity -= EUR_DIFFERENCE;
-                g_nook -= EUR_DIFFERENCE;
                 g_leif -= EUR_DIFFERENCE;
                 g_tan -= EUR_DIFFERENCE;
                 g_edible -= EUR_DIFFERENCE;
@@ -271,7 +268,6 @@ namespace CTRPluginFramework
                 g_grass_end += JAP_DIFFERENCE;
                 g_inv += JAP_DIFFERENCE;
                 g_velocity += JAP_DIFFERENCE;
-                g_nook += JAP_DIFFERENCE;
                 g_leif += JAP_DIFFERENCE;
                 g_tan += JAP_DIFFERENCE;
                 g_id += JAP_DIFFERENCE;

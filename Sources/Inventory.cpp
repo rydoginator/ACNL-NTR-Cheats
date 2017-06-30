@@ -78,18 +78,6 @@ namespace CTRPluginFramework
         }
     }
 
-    void    ShowBells(MenuEntry *entry)
-    {
-        u64 money;
-        u32 result;
-        char buffer[0x100];
-
-        Player::GetInstance()->Read64(0x6f08, money);
-        result = DecryptACNLMoney(money);
-
-        sprintf(buffer, "Bells %i", result);
-        OSD::WriteLine(1, buffer, 0, 0);
-    }
 
     void    SetBells(MenuEntry *entry)
     {

@@ -9,7 +9,7 @@ namespace CTRPluginFramework
 	
     int main(void)
     {
-        PluginMenu* m = new PluginMenu("Animal Crossing New Leaf Ver 4.0 Alpha");
+        PluginMenu* m = new PluginMenu("Animal Crossing New Leaf NTR Cheats", "Ver 4.0_19 Alpha\nCheat Plugin by RyDog with help of Nanquitas, Slattz and others :)");
         PluginMenu& menu = *m;
 
         u64 tid = Process::GetTitleID();
@@ -74,7 +74,7 @@ namespace CTRPluginFramework
         ** Garden
         ********************/
 
-        MenuFolder* folder = new MenuFolder("Garden Codes");
+        MenuFolder* folder = new MenuFolder("Save File Codes");
 
         folder->Append(new MenuEntry("Set name to...", SetNameTo));
         folder->Append(new MenuEntry("Garden Dumper", nullptr, GardenDumper));
@@ -94,8 +94,16 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Teleport", Teleporter, "Press \uE001 and \uE079 to save your location, \uE001 and \uE07A to teleport back to the location. Use \uE052 or \uE053 to use multiple locations!"));
         folder->Append(new MenuEntry("Walk Over Things", WalkOverThings, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."));
         folder->Append(new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor));
-        folder->Append(new MenuEntry("Moon Jump v4", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."));
+        folder->Append(new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."));
         
+        menu.Append(folder);
+
+
+        folder = new MenuFolder("Main Street Codes");
+
+        //folder->Append(new MenuEntry("Nookling Upgrades", nullptr, ));
+        folder->Append(new MenuEntry("Fill out Catalog", FillCatalog));
+        folder->Append(new MenuEntry("Fill out Main Street", FillMainStreet, "Unlocks all the Main Street buildings except Leif + Nooklings"));
         menu.Append(folder);
 
         /*
@@ -108,7 +116,6 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Duplicate", Duplication, "Press " FONT_R " to duplicate the item that is slot 01 to slot 02."));
         folder->Append(new MenuEntry("Show names of buried items", ShowBuriedItems));
         folder->Append(new MenuEntry("Pick up buried items", PickBuriedItems));
-        folder->Append(new MenuEntry("Show bells", ShowBells));
         folder->Append(new MenuEntry("Set bells", nullptr, SetBells));
         folder->Append(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nHold Start 1 second to choose which one to open."));
         folder->Append(new MenuEntry("Fossil Inspector", GenerateFossils, "Press " FONT_X " and " FONT_A " to process all fossils\nas if you talked to Blathers"));

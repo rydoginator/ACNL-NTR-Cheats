@@ -53,6 +53,36 @@ namespace CTRPluginFramework
         }
     }
 
+    void    TeleportTo(int person)
+    {
+        u32     coordinatePointer = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)();
+        u8      coordinateIndex;
+        u32     pointers[4];
+        float   x, y, z;
+
+        Process::Read8(AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE)(), coordinateIndex);
+        for (int i = 0; i < 4; i++)
+        {
+            Process::Read32(coordinatePointer + i *4, pointers[i]);
+        }
+
+        if ((u8)coordinateIndex == 0 || person >= (u8)coordinateIndex)
+        {
+            Process::ReadFloat(pointers[person + 1] + 0x14, x);
+            Process::ReadFloat(pointers[person + 1] + 0x18, y);
+            Process::ReadFloat(pointers[person + 1] + 0x1C, z);
+            Player::GetInstance()->SetCoordinates(x, y, z);
+        }
+        else
+        {
+            Process::ReadFloat(pointers[person] + 0x14, x);
+            Process::ReadFloat(pointers[person] + 0x18, y);
+            Process::ReadFloat(pointers[person] + 0x1C, z);
+            Player::GetInstance()->SetCoordinates(x, y, z);
+        }
+
+    }
+
     void    WalkOverThings(MenuEntry *entry)
     {
         u32     offsets[] = { 0x6503FC, 0x650414, 0x650578, 0x6505F0, 0x6506A4, 0x6506BC, 0x6506C0, 0x6506ec };
@@ -71,7 +101,7 @@ namespace CTRPluginFramework
         {
             for (int i = 0; i < 8; i++)
             {
-                Process::Patch(offsets[i], (u8 *)&original[i], 4);
+                Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&original[i], 4);
             }
         }
     }

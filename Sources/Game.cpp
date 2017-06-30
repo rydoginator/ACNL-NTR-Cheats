@@ -26,6 +26,7 @@ namespace CTRPluginFramework
         CodeDifference = reinterpret_cast<u32 *>(AutoRegion(USA_CODE_DIFFERENCE, EUR_CODE_DIFFERENCE, JAP_CODE_DIFFERENCE)());
         Minute = reinterpret_cast<u8 *>(AutoRegion(USA_MINUTES_ADDR, EUR_MINUTES_ADDR, JAP_MINUTES_ADDR)());
         WorldPos = reinterpret_cast<Position *>(AutoRegion(USA_WORLD_X_ADDR, TO_EUR(USA_WORLD_X_ADDR), TO_JAP(USA_WORLD_X_ADDR))());
+        Nook = reinterpret_cast<u32 *>(AutoRegion(USA_NOOK_ADDR, TO_EUR(USA_NOOK_ADDR), TO_JAP(USA_NOOK_ADDR))());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -96,5 +97,6 @@ namespace CTRPluginFramework
     u8          *Game::Minute = nullptr;
     u32         *Game::BuildingSlots = nullptr;
     Position    *Game::WorldPos = nullptr;
-    u32         *Game::CodeDifference = nullptr;    
+    u32         *Game::CodeDifference = nullptr;
+    u32         *Game::Nook = nullptr;  
 }

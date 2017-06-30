@@ -167,7 +167,7 @@
 //offset difference to be used in the walk over things code
 #define		USA_CODE_DIFFERENCE					0x0
 #define		EUR_CODE_DIFFERENCE				   -0xFC8
-#define		JAP_CODE_DIFFERENCE					0x0 //todo
+#define		JAP_CODE_DIFFERENCE				   -0x1508
 
 #define     USA_THOUGHT_TEXT_ADDR               0x33077D50
 #define     USA_CLUB_ADDR                       0x301b5aa0

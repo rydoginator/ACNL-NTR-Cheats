@@ -22,6 +22,7 @@ namespace CTRPluginFramework
             "Duplicate All Items",
             "Set Time to...",
             "Appearance Modifier...",
+            "Teleport to...",
             "Get set..."
         };
 
@@ -53,6 +54,8 @@ namespace CTRPluginFramework
                 appearanceMod();
                 break;
             case 5:
+                TeleportKeyboard();
+            case 6:
              	FurnitureKeyboard();
                	break;
             default:
@@ -81,6 +84,24 @@ namespace CTRPluginFramework
             isLaunched = true;
             timer.Restart();
         }        
+    }
+
+    void    TeleportKeyboard(void)
+    {
+        Keyboard keyboard("Which player would you like to teleport to?");
+        std::vector<std::string> list =
+        {
+            "Player 1",
+            "Player 2",
+            "Player 3"
+        };
+        keyboard.Populate(list);
+
+        int userChoice = keyboard.Open();
+        if (userChoice != -1)
+        {
+            TeleportTo(userChoice);
+        }
     }
 
     void    SleepThread(void)
