@@ -20,4 +20,32 @@ namespace CTRPluginFramework
 			Player::GetInstance()->Write32(0x6C90 + (i * 4), 0xFFFFFFFF);
 		}
 	}
+
+	void 	NooklingKeyboard(MenuEntry *entry)
+	{
+		Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
+        std::vector<std::string> list =
+        {
+            "Nookling Cranny",
+            "T&T Mart",
+            "Super T&T",
+            "T.I.Y",
+            "T&T Emporium"
+        };
+        keyboard.Populate(list);
+
+        int  userChoice = keyboard.Open();
+
+        if (userChoice != -1)
+        {
+        	SetNook(userChoice);
+        }
+	}
+
+	void    SetNook(int value)
+	{
+		u32 nook = reinterpret_cast<u32>(Game::Nook);  
+	    Process::Write16(nook, 0x0101 * value);
+	    Process::Write8(nook+ 0x4490, value == 1 ? 2 : value);
+	}
 }

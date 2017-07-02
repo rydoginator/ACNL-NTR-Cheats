@@ -9,7 +9,7 @@ namespace CTRPluginFramework
 	
     int main(void)
     {
-        PluginMenu* m = new PluginMenu("Animal Crossing New Leaf NTR Cheats", "Ver 4.0_19 Alpha\nCheat Plugin by RyDog with help of Nanquitas, Slattz and others :)");
+        PluginMenu* m = new PluginMenu("Animal Crossing New Leaf NTR Cheats", "Ver 4.0_20 Alpha\n\nCheat Plugin by RyDog with the help of Nanquitas, Slattz and others :)");
         PluginMenu& menu = *m;
 
         u64 tid = Process::GetTitleID();
@@ -101,7 +101,7 @@ namespace CTRPluginFramework
 
         folder = new MenuFolder("Main Street Codes");
 
-        //folder->Append(new MenuEntry("Nookling Upgrades", nullptr, ));
+        folder->Append(new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard));
         folder->Append(new MenuEntry("Fill out Catalog", FillCatalog));
         folder->Append(new MenuEntry("Fill out Main Street", FillMainStreet, "Unlocks all the Main Street buildings except Leif + Nooklings"));
         menu.Append(folder);

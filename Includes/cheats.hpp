@@ -154,6 +154,8 @@ namespace CTRPluginFramework
     ****************/
     void    FillCatalog(MenuEntry *entry);
     void    FillMainStreet(MenuEntry *entry);
+    void    NooklingKeyboard(MenuEntry *entry);
+    void    SetNook(int value);
 
     /*
     ** Callbacks
