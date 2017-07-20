@@ -31,6 +31,16 @@ namespace CTRPluginFramework
         ******************************/
         PluginMenu(std::string name, void *about, DecipherPointer func);
 
+        /**
+         * \brief Create a new PluginMenu
+         * \param name The name of the menu / main folder
+         * \param major The major version number of the plugin version
+         * \param minor The minor version number of the plugin version
+         * \param revision The revision version number of the plugin version
+         * \param about Text to display in Tools About
+         */
+        PluginMenu(std::string name, u32 major, u32 minor, u32 revision, std::string about = "");
+
         /*
         ** Destructor
         ******************************/
@@ -78,6 +88,18 @@ namespace CTRPluginFramework
          * \param isEnabled If FreeCheats must be enabled or not
          */
         void    SetFreeCheatsState(bool isEnabled) const;
+
+        /**
+        * \brief Enable / Disable the HexEditor in Tools
+        * \param isEnabled If HexEditor must be enabled or not
+        */
+        void    SetHexEditorState(bool isEnabled) const;
+
+        /**
+        * \brief Choose to display or not the "plugin ready" message
+        * \param showMsg If the message must be displayed or not
+        */
+        void    ShowWelcomeMessage(bool showMsg) const;
 
         /**
          * \brief Check if the menu is currently open

@@ -15,9 +15,9 @@ SOURCES 	:= 	Sources \
 				Sources/Helpers
 
 IP 			:=  99
-FTP_HOST 	:=	192.168.1.
+FTP_HOST 	:=	192.168.1.13
 FTP_PORT	:=	"5000"
-FTP_PATH	:=	"plugin/0004000000086400/"
+FTP_PATH	:=	"plugin/0004000000086300/"
 
 #---------------------------------------------------------------------------------
 # options for code generation

@@ -45,6 +45,14 @@ namespace CTRPluginFramework
         static u32      *BuildingSlots; ///<Address of how many building slots are being taken up
         static u32      *CodeDifference;///<Differenc between walk through walls ASM addresses
         static u32      *Nook;          ///<Nookling Offset
+        static u32      *TownFruit;     ///< Offset of town fruit
+        static u32      *TownGrass;     ///< Offset Town Grass Type
+        static u32      *TownTree;      ///< Offset of Town Tree 1st offset
+        static u32      *PWP;            ///< Offset of Mayor's PWP
+        static u32      *Permit;         ///<Offset of Mayor Permit rating
+        static u32      *Grass;         ///<Offset of where grass starts
+        static u32      *GrassEnd;
+		static u32		*GameSpeed;		///<offset of game speed found by Scotline and Mega Mew
         
 
     };

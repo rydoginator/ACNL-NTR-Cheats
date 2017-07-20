@@ -9,7 +9,25 @@ namespace CTRPluginFramework
 	
     int main(void)
     {
-        PluginMenu* m = new PluginMenu("Animal Crossing New Leaf NTR Cheats", "Ver 4.0_20 Alpha\n\nCheat Plugin by RyDog with the help of Nanquitas, Slattz and others :)");
+        std::string gameName = "Animal Crossing New Leaf";
+
+        std::string pluginVer = "[4.0.0_22]";
+
+        std::string developer = "RyDog";
+
+        std::string credits =
+            "Plugin Version: " + pluginVer + "\n"
+            "Creator: " + developer + "\n"
+            "\n"
+            "Special thanks to:\n"
+            "Nanquitas\n"
+            "Slattz\n"
+            "Mega Mew\n"
+            "Scotline\n"
+            "and others :)";
+
+        static const char *about = credits.c_str();
+        PluginMenu *m = new PluginMenu(gameName, about);
         PluginMenu& menu = *m;
 
         u64 tid = Process::GetTitleID();
@@ -76,10 +94,13 @@ namespace CTRPluginFramework
 
         MenuFolder* folder = new MenuFolder("Save File Codes");
 
-        folder->Append(new MenuEntry("Set name to...", SetNameTo));
-        folder->Append(new MenuEntry("Garden Dumper", nullptr, GardenDumper));
-        folder->Append(new MenuEntry("Garden Restore", nullptr, GardenRestore));
+        folder->Append(new MenuEntry("Set name to...", nullptr, SetNameTo));
+        folder->Append(new MenuEntry("Save Dumper", nullptr, GardenDumper));
+        folder->Append(new MenuEntry("Save Restore", nullptr, GardenRestore));
         folder->Append(new MenuEntry("Inject TCP Picture", InjectTCP));
+        folder->Append(new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Mega Mew and Scotline"));
+        folder->Append(new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Mega Mew and Scotline"));
+        folder->Append(new MenuEntry("Real Time Building Placer", BuildingPlacer));
 
         menu.Append(folder);
 
@@ -137,6 +158,8 @@ namespace CTRPluginFramework
         ra->Append(new MenuEntry(1, "Remove All Items", RemoveAllItems, "Press " FONT_R " and " FONT_A " to execute... Beware as there is no going back if you save."));
         ra->Append(new MenuEntry(1, "Remove All Weeds", RemoveAllWeeds, "Press " FONT_R " and " FONT_A " to execute."));
         ra->Append(new MenuEntry(1, "Water All Flowers", WaterAllFlowers, "Press " FONT_R " and " FONT_A "to execute."));
+		ra->Append(new MenuEntry(1, "Fill Grass", FillGrass, "Press " FONT_R " and " FONT_A " to fill your town with grass.\nPlease note that bald spots will respawn on the next day."));
+		ra->Append(new MenuEntry(1, "Destroy Grass", DestroyGrass, "Press " FONT_R " and " FONT_A " to destroy all the grass in your town to make a desert wasteland."));
         
         folder->Append(ra);
         folder->Append(new MenuEntry("Real Time World Edit", WorldEdit, "Press " FONT_R " and " FONT_DL " to open the keyboard to store the item. " FONT_R " and " FONT_DU " to store the item that you're standing on. And " FONT_R " + " FONT_DD " to write the item to the place that you're standing on."));
@@ -154,16 +177,26 @@ namespace CTRPluginFramework
         
         menu.Append(folder);
 
+
+        folder = new MenuFolder("Unlock Codes");
+
+        folder->Append(new MenuEntry("100%% Mayor permit", Permit));
+        folder->Append(new MenuEntry("Unlock all PWPs", PWPUnlock, "Special thanks to Mega Mew and Scotline"));
+        menu.Append(folder);
+
+
+
+
         /*
         ** Misc.
         ********************/
 
         folder = new MenuFolder("Misc.");
 
-        folder->Append(new MenuEntry("Real Time Building Placer", BuildingPlacer));
         folder->Append(new MenuEntry("Ghost Mode", GhostMode));
         folder->Append(new MenuEntry("Camera Mod", CameraMod));
         folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters. Now you can type short stories into chat :)"));
+		folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
         
         menu.Append(folder);
 

@@ -54,14 +54,12 @@ namespace CTRPluginFramework
     
     void    assign_region(Region region);
 
-  
-    void    timePicker(void);
-
     void    appearanceMod(void);
     void    duplicationAll(void);
     void    TeleportKeyboard(void);
     void    GetSet(int set);
     void    FurnitureKeyboard(void);
+	void	GrassKeyboard(void);
 
     /*
     ** Helpers
@@ -69,6 +67,7 @@ namespace CTRPluginFramework
     int     RandomNum(int start, int end);
     u32     DecryptACNLMoney(u64 money);
     u64     EncryptACNLMoney(int dec);
+    bool    CheckValue(u32 address, u32 value);
 
     // Cheats functions
 
@@ -79,6 +78,11 @@ namespace CTRPluginFramework
     void    GardenDumper(MenuEntry *entry);
     void    GardenRestore(MenuEntry *entry);
     void    InjectTCP(MenuEntry *entry);
+    void    ChangeNativeFruit(MenuEntry *entry);
+    void    PWPUnlock(MenuEntry *entry);
+    void    ChangeGrass(MenuEntry *entry);
+    void    Permit(MenuEntry *entry);
+    void    BuildingPlacer(MenuEntry *entry);
 
     /*
     ** Movement
@@ -110,6 +114,8 @@ namespace CTRPluginFramework
     void    RemoveAllWeeds(MenuEntry *entry);
     void    WaterAllFlowers(MenuEntry *entry);
     void    WorldEdit(MenuEntry *entry); ///< Maybe add a check on input ?
+	void    DestroyGrass(MenuEntry *entry);
+	void    FillGrass(MenuEntry *entry);
 
     /*
     ** Time Travel
@@ -122,14 +128,15 @@ namespace CTRPluginFramework
     void    TimeTravel(MenuEntry *entry);
     void    TimeMachine(MenuEntry *entry);
     void    SetTimeTo(int hour);
+    void    timePicker(void);
 
     /*
     ** Misc.
     ********************/
-    void    BuildingPlacer(MenuEntry *entry);
     void    GhostMode(MenuEntry *entry);
     void    CameraMod(MenuEntry *entry); ///< Probably need a rework
     void    KeyboardExtender(MenuEntry *entry);
+	void	FastGameSpeed(MenuEntry *entry);
 	
 	/*
     ** Appearance

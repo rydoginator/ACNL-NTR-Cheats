@@ -118,6 +118,16 @@ namespace CTRPluginFramework
         static bool     CheckAddress(u32 address, u32 perm = MEMPERM_READ | MEMPERM_WRITE);
 
         /**
+        * \brief Check if the region which the address is from is available and have the specified permissions \n
+        * If the region exists but don't have the specified permissions, it tries to change the permissions
+        * \param address   The address to check
+        * \param size      A reference to get the region's size
+        * \param perm      The permissions that the region must have
+        * \return If the region is valid and have the specified permissions or not
+        */
+        static bool     CheckRegion(u32 address, u32& size, u32 perm = MEMPERM_READ | MEMPERM_WRITE);
+
+        /**
          * \brief Safely write 64 bits
          * \param address   Address to write to
          * \param value     The value to write

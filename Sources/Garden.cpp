@@ -4,8 +4,6 @@ namespace CTRPluginFramework
 {
     void    SetNameTo(MenuEntry *entry)
     {
-        if (!entry->IsActivated())
-            return;
 
         Keyboard keyboard("Name Changer\n\nEnter the name you'd like to have:");
 
@@ -26,8 +24,70 @@ namespace CTRPluginFramework
 
             Player::GetInstance()->SetName(input);
         }
+    }
 
-        entry->Disable();
+    void    BuildingPlacer(MenuEntry *entry)
+    {
+        u32     offset = 0;
+        u8      input;
+
+        if (Controller::IsKeysDown(R + DPadDown))
+        {
+            Keyboard keyboard("What building would you like to place?");
+            
+            //Exit if the user cancel the keyboard
+            if (keyboard.Open(input) == -1)
+                return;
+            
+            u8      x = static_cast<u8>(Game::WorldPos->x);
+            u8      y = static_cast<u8>(Game::MainStreetPos->y);
+            u32     slots = reinterpret_cast<u32>(Game::BuildingSlots); //address of byte that represents how many buildings are taken up
+            u32     building = reinterpret_cast<u32>(Game::Building);
+
+            while (READU8(building + offset) != 0xFC && offset < 0xE5)
+            {
+                offset += 0x4;
+            }
+            if (offset >= 0xE5)
+            {
+                OSD::Notify("All building slots are filled!");
+            }
+            else
+            {
+                WRITEU8(building + offset, input);
+                WRITEU8(building + offset + 0x2, x);
+                WRITEU8(building + offset + 0x3, y);
+                ADD8(slots, 1);
+            }
+        }
+
+        if (Controller::IsKeysDown(R + DPadUp))
+        {
+            Keyboard keyboard("What building would you like to remove?");
+
+            // Exit if the user cancel the keyboard
+            if (keyboard.Open(input) == -1)
+                return;
+
+            u32  building = reinterpret_cast<u32>(Game::Building);
+            u32      slots = reinterpret_cast<u32>(Game::BuildingSlots);
+
+            while (READU8(building + offset) != input && offset < 0xE5)
+            {
+                offset += 0x4;
+            }
+            if (offset == 0xE5)
+            {
+                OSD::Notify("Could not find your building");
+            }
+            else
+            {
+                WRITEU8(building + offset, 0xFC);
+                WRITEU8(building + offset + 0x2, 0x00);
+                WRITEU8(building + offset + 0x3, 0x00);
+                SUB8(slots, 1);
+            }
+        }
     }
 
     void    GardenDumper(MenuEntry *entry)
@@ -140,6 +200,76 @@ namespace CTRPluginFramework
         }
         file.Close();
         dir.Close();
+    }
+
+    void    ChangeNativeFruit(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32> (Game::TownFruit);
+        Keyboard keyboard("What fruit would you like?");
+        std::vector<std::string> list = 
+        {
+            "Apples",
+            "Oranges",
+            "Pears",
+            "Peaches",
+            "Cherries",
+            "Coconuts",
+            "Durians",
+            "Lemons",
+            "Lychee",
+            "Mango",
+            "Persimmon",
+            "Bananas"
+        };
+
+        keyboard.Populate(list);
+
+        u8 userChoice = keyboard.Open();
+
+        if (userChoice != -1)
+            Process::Write8(offset, userChoice + 1);
+    }
+
+    void    PWPUnlock(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32> (Game::PWP);
+        for (int i = 0; i < 3; i++)
+        {
+            Process::Write32(offset + (i * 4), 0xFFFFFFFF);
+        } 
+    }
+
+    void    Permit(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32> (Game::Permit);
+        Process::Write32(offset, 0xD7DFC900);
+    }
+
+    void    MaxTreeSize(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32> (Game::TownTree);
+        Process::Write8(offset, 0x7);
+        Process::Write32(offset + 0x1632A, 0x10000000);
+        Process::Write16(offset + 0x163B8, 0x686);
+    }
+
+    void    ChangeGrass(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32> (Game::TownGrass);
+        Keyboard keyboard("What grass type would you like?");
+        std::vector<std::string> list = 
+        {
+            "Triangle",
+            "Circle",
+            "Square"
+        };
+
+        keyboard.Populate(list);
+
+        u8 userChoice = keyboard.Open();
+
+        if (userChoice != -1)
+            Process::Write8(offset, userChoice);
     }
 
     void    InjectTCP(MenuEntry *entry)

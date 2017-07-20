@@ -5,14 +5,21 @@ namespace CTRPluginFramework
 {
     void    CoordinateModifier(MenuEntry *entry)
     {
+        static Clock time;
+
+        Time delta = time.Restart();
+
+        float value = 400.0f * delta.AsSeconds();
+        float NegValue = -400.0f * delta.AsSeconds();
+
         if (Controller::IsKeysDown(A + DPadDown))
-            Player::GetInstance()->AddToCoordinates(0.f, 0.f, 0.1f);
+            Player::GetInstance()->AddToCoordinates(0.f, 0.f, value);
         if (Controller::IsKeysDown(A + DPadUp))
-            Player::GetInstance()->AddToCoordinates(0.f, 0.f, -0.1f);
+            Player::GetInstance()->AddToCoordinates(0.f, 0.f, NegValue);
         if (Controller::IsKeysDown(A + DPadLeft))
-            Player::GetInstance()->AddToCoordinates(-0.1f, 0.f, 0.f);
+            Player::GetInstance()->AddToCoordinates(NegValue, 0.f, 0.f);
         if (Controller::IsKeysDown(A + DPadRight))
-            Player::GetInstance()->AddToCoordinates(0.1f, 0.f, 0.f);
+            Player::GetInstance()->AddToCoordinates(value, 0.f, 0.f);
     }
 
     void    TouchCoordinates(MenuEntry *entry)

@@ -55,4 +55,21 @@ namespace CTRPluginFramework
         // Pack result
         return ((u64)enc << 0) | ((u64)adjust << 32) | ((u64)shift_val << 48) | ((u64)chk << 56);
     }
+
+    bool    CheckValue(u32 address, u32 value)
+    {
+        u32 CheckValue;
+        if(Process::Read32(address, CheckValue))
+        {
+            if (CheckValue == value)
+                return true;
+            else
+                return false;
+
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

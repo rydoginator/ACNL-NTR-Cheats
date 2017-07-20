@@ -27,6 +27,14 @@ namespace CTRPluginFramework
         Minute = reinterpret_cast<u8 *>(AutoRegion(USA_MINUTES_ADDR, EUR_MINUTES_ADDR, JAP_MINUTES_ADDR)());
         WorldPos = reinterpret_cast<Position *>(AutoRegion(USA_WORLD_X_ADDR, TO_EUR(USA_WORLD_X_ADDR), TO_JAP(USA_WORLD_X_ADDR))());
         Nook = reinterpret_cast<u32 *>(AutoRegion(USA_NOOK_ADDR, TO_EUR(USA_NOOK_ADDR), TO_JAP(USA_NOOK_ADDR))());
+        TownFruit = reinterpret_cast<u32 *>(AutoRegion(USA_TOWN_FRUIT, TO_EUR(USA_TOWN_FRUIT), TO_JAP(USA_TOWN_FRUIT))());
+        TownGrass = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_TYPE, TO_EUR(USA_GRASS_TYPE), TO_JAP(USA_GRASS_TYPE))());
+        Permit = reinterpret_cast<u32 *>(AutoRegion(USA_PERMIT_ADDRESS, TO_EUR(USA_PERMIT_ADDRESS), TO_JAP(USA_PERMIT_ADDRESS))());
+        TownTree = reinterpret_cast<u32 *>(AutoRegion(USA_TREE_SIZE, TO_EUR(USA_TREE_SIZE), TO_JAP(USA_TREE_SIZE))());
+        PWP = reinterpret_cast<u32 *>(AutoRegion(USA_PWP_ADDRESS, TO_EUR(USA_PWP_ADDRESS), TO_JAP(USA_PWP_ADDRESS))());
+        Grass = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_START_ADDR, TO_EUR(USA_GRASS_START_ADDR), TO_JAP(USA_GRASS_START_ADDR))());
+        GrassEnd = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_END_ADDR, TO_EUR(USA_GRASS_END_ADDR), TO_JAP(USA_GRASS_END_ADDR))());
+		GameSpeed = reinterpret_cast<u32 *>(AutoRegion(USA_GAME_SPEED, TO_EUR(USA_GAME_SPEED), TO_JAP(USA_GAME_SPEED))());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -98,5 +106,13 @@ namespace CTRPluginFramework
     u32         *Game::BuildingSlots = nullptr;
     Position    *Game::WorldPos = nullptr;
     u32         *Game::CodeDifference = nullptr;
-    u32         *Game::Nook = nullptr;  
+    u32         *Game::Nook = nullptr;
+    u32         *Game::TownFruit = nullptr;
+    u32         *Game::TownGrass = nullptr;
+    u32         *Game::Permit = nullptr;
+    u32         *Game::TownTree = nullptr;
+    u32         *Game::PWP = nullptr;
+    u32         *Game::Grass = nullptr;
+    u32         *Game::GrassEnd = nullptr;
+	u32			*Game::GameSpeed = nullptr;
 }

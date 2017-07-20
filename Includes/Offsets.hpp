@@ -175,4 +175,11 @@
 #define     USA_GARDEN                  		0x31F26F80
 #define     USA_NAME_ADDR                       0x31F2C5C8
 
+#define		USA_TOWN_FRUIT						0x31F891BA
+#define		USA_GRASS_TYPE						0x31F7A401
+#define		USA_PWP_ADDRESS 					0x31F772B0
+#define		USA_PERMIT_ADDRESS 					0x31F2C738
+#define		USA_TREE_SIZE						0x31F72E06
+#define		USA_GAME_SPEED						0x32916E80
+
 #endif

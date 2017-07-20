@@ -23,7 +23,8 @@ namespace CTRPluginFramework
             "Set Time to...",
             "Appearance Modifier...",
             "Teleport to...",
-            "Get set..."
+            "Get set...",
+			"Change Grass to..."
         };
 
         // Populate the keyboard with the entries
@@ -58,6 +59,9 @@ namespace CTRPluginFramework
             case 6:
              	FurnitureKeyboard();
                	break;
+			case 7:
+				GrassKeyboard();
+				break;
             default:
                 break;
         }
@@ -149,4 +153,20 @@ namespace CTRPluginFramework
             SetTimeTo(userChoice);
         }
     }
+
+	void	GrassKeyboard(void)
+	{
+		Keyboard keyboard("Would you like to destroy or make grass?");
+		std::vector<std::string> list =
+		{
+			"Destroy!",
+			"Replenish"
+		};
+		int userChoice = keyboard.Open();
+
+		if (userChoice == 0)
+			DestroyGrass(nullptr);
+		else if (userChoice == 1)
+			ChangeGrass(nullptr);
+	}
 }

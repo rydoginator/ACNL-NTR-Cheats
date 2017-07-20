@@ -97,6 +97,12 @@ namespace CTRPluginFramework
         }
     }
 
+    void    HaveMaxBells(MenuEntry *entry)
+    {
+        u64 money = EncryptACNLMoney(99999);
+        Player::GetInstance()->Write64(0x6F08, money);
+    }
+
     // Inventory has 16 slots
     // File struct:
     // 0 - 3: current opened box

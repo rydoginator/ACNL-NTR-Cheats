@@ -2,69 +2,6 @@
 
 namespace CTRPluginFramework
 {
-    void    BuildingPlacer(MenuEntry *entry)
-    {
-        u32     offset = 0;
-        u8      input;
-
-        if (Controller::IsKeysDown(R + DPadDown))
-        {
-            Keyboard keyboard("What building would you like to place?");
-            
-            //Exit if the user cancel the keyboard
-            if (keyboard.Open(input) == -1)
-                return;
-            
-            u8      x = static_cast<u8>(Game::WorldPos->x);
-            u8      y = static_cast<u8>(Game::MainStreetPos->y);
-            u32     slots = reinterpret_cast<u32>(Game::BuildingSlots); //address of byte that represents how many buildings are taken up
-            u32     building = reinterpret_cast<u32>(Game::Building);
-
-            while (READU8(building + offset) != 0xFC && offset < 0xE5)
-            {
-                offset += 0x4;
-            }
-            if (offset >= 0xE5)
-            {
-                OSD::Notify("All building slots are filled!");
-            }
-            else
-            {
-                WRITEU8(building + offset, input);
-                WRITEU8(building + offset + 0x2, x);
-                WRITEU8(building + offset + 0x3, y);
-                ADD8(slots, 1);
-            }
-        }
-
-        if (Controller::IsKeysDown(R + DPadUp))
-        {
-            Keyboard keyboard("What building would you like to remove?");
-
-            // Exit if the user cancel the keyboard
-            if (keyboard.Open(input) == -1)
-                return;
-
-            u32  building = reinterpret_cast<u32>(Game::Building);
-            u32      slots = reinterpret_cast<u32>(Game::BuildingSlots);
-
-            while (READU8(building + offset) != input && offset < 0xE5)
-            {
-                offset += 0x4;
-            }
-            if (offset == 0xE5)
-            {
-                OSD::Notify("Could not find your building");
-            }
-            else
-            {
-                WRITEU8(building + offset, 0xFC);
-                WRITEU8(building + offset + 0x2, 0x00);
-                WRITEU8(building + offset + 0x3, 0x00);
-                SUB8(slots, 1);
-            }
-        }
-    }
 
     void    GhostMode(MenuEntry *entry)
     {
@@ -80,6 +17,12 @@ namespace CTRPluginFramework
             Process::Patch(0x00654594, (u8 *)&original, 4);
         }
     }
+
+	void	FastGameSpeed(MenuEntry *entry)
+	{
+		static u32 offset = reinterpret_cast<u32>(Game::GameSpeed);
+		Process::Write32(offset, 0x00FFFFFF);
+	}
 
     void    CameraMod(MenuEntry *entry)
     {

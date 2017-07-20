@@ -33,6 +33,28 @@ namespace CTRPluginFramework
         findReplacer();
     }
 
+    void    FillGrass(MenuEntry *entry)
+    {
+		static u32 offset = reinterpret_cast<u32> (Game::Grass);
+
+        if(!Controller::IsKeysDown(R + A) && !g_command)
+            return;
+
+		for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
+			Process::Write32(offset, 0xFFFFFFFF);
+    }
+
+	void    DestroyGrass(MenuEntry *entry)
+	{
+		static u32 offset = reinterpret_cast<u32> (Game::Grass);
+
+		if (!Controller::IsKeysDown(R + A) && !g_command)
+			return;
+
+		for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
+			Process::Write32(offset, 0x00000000);
+	}
+
     void    WaterAllFlowers(MenuEntry *entry)
     {
         if (!Controller::IsKeysDown(R + A) && !g_command)
