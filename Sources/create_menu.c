@@ -143,16 +143,10 @@ static inline void  smenu(void)
             new_radio_entry("Negative Bells", wallet_neg);
         exit_spoiler();
         new_spoiler("Medal Modifiers");
-            //new_entry_with_note("---Stable Modifier---", med_note, keep_it_off);
             new_radio_entry("50K Medals", medal_50k);
             new_radio_entry("10K Medals", medal_10k);
             new_radio_entry("1K Medals", medal_1k);
             new_radio_entry("0 Medals", medal_0);
-            /*new_entry_with_note("---Unstable Modifier---", medun_note, keep_it_off);
-            new_radio_entry("Medal Mod 1", medals_1s);
-            new_radio_entry("Medal Mod 10", medals_10s);
-            new_radio_entry("Medal Mod 100", medals_100s);
-            new_radio_entry("Medal Mod 1000", medals_1000s);*/
         exit_spoiler(); 
         new_spoiler_with_note("Meow Coupon Codes", meow_note);
             new_radio_entry("Infinite Meow Coupons", meow_99k);
