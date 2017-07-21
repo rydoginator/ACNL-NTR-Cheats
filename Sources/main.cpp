@@ -11,7 +11,7 @@ namespace CTRPluginFramework
     {
         std::string gameName = "Animal Crossing New Leaf";
 
-        std::string pluginVer = "[4.0.0_22]";
+        std::string pluginVer = "[4.0.0_23]";
 
         std::string developer = "RyDog";
 
@@ -114,7 +114,7 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."));
         folder->Append(new MenuEntry("Teleport", Teleporter, "Press \uE001 and \uE079 to save your location, \uE001 and \uE07A to teleport back to the location. Use \uE052 or \uE053 to use multiple locations!"));
         folder->Append(new MenuEntry("Walk Over Things", WalkOverThings, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."));
-        folder->Append(new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor));
+        folder->Append(new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Credits to Mega Mew for this cheat"));
         folder->Append(new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."));
         
         menu.Append(folder);
@@ -177,11 +177,20 @@ namespace CTRPluginFramework
         
         menu.Append(folder);
 
+		/*
+			void	Encyclopedia(MenuEntry *entry);
+	void	Emoticons(MenuEntry *entry);
+	void	Songs(MenuEntry *entry);*/
+
 
         folder = new MenuFolder("Unlock Codes");
 
-        folder->Append(new MenuEntry("100%% Mayor permit", Permit));
+        folder->Append(new MenuEntry("100% Mayor permit", Permit, "Special thanks to Slattz"));
         folder->Append(new MenuEntry("Unlock all PWPs", PWPUnlock, "Special thanks to Mega Mew and Scotline"));
+		folder->Append(new MenuEntry("Fill out encyclopedia", Encyclopedia, "Special thanks to Mega Mew and Scotline"));
+		folder->Append(new MenuEntry("Fill out emoticons", Emoticons, "Special thanks to Mega Mew and Scotline"));
+		folder->Append(new MenuEntry("Fill out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline"));
+
         menu.Append(folder);
 
 

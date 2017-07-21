@@ -106,6 +106,9 @@ namespace CTRPluginFramework
     void    SetBells(MenuEntry *entry);  ///< Need fix ?
     void    ExtendedInventoryBox(MenuEntry *entry);
     void    GenerateFossils(MenuEntry *entry);
+	void	Encyclopedia(MenuEntry *entry);
+	void	Emoticons(MenuEntry *entry);
+	void	Songs(MenuEntry *entry);
 
     /*
     ** Environment
