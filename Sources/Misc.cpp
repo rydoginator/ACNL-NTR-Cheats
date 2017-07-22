@@ -152,4 +152,39 @@ namespace CTRPluginFramework
             Process::Write8(0xAD7253, 0x01);
         }
     }
+
+	/*void    ItemFormChanger(MenuEntry *entry)
+	{
+		// Init - Set velocity if it's 0
+		if (!entry->GetArg())
+		{
+			entry->SetArg(new int);
+			int *arg = static_cast<int *>(entry->GetArg());
+			*arg = 0;
+		}
+		
+		if (entry->GetArg() )
+	}
+
+	void    SpeedHackEditor(MenuEntry *entry)
+	{
+		// Init - Set velocity if it's 0
+		if (!entry->GetArg())
+		{
+			entry->SetArg(new float);
+			float *arg = static_cast<float *>(entry->GetArg());
+			*arg = 0.1f;
+		}
+
+		Keyboard kb("Speed Hack Editor\n\nEnter the speed you want to use:");
+
+		int   *item = static_cast<float *>(entry->GetArg());
+		float   newSpeed;
+
+
+		if (kb.Open(newSpeed, *initialSpeed) != -1)
+		{
+			*initialSpeed = newSpeed;
+		}
+	}*/
 }

@@ -115,6 +115,7 @@
     <ClInclude Include="Includes\types.h" />
     <ClInclude Include="Includes\Unicode.h" />
     <ClInclude Include="Includes\Values.hpp" />
+    <ClInclude Include="KeySequence.h" />
     <ClInclude Include="Sources\cheats.hpp" />
     <ClInclude Include="Sources\FindReplacer.hpp" />
     <ClInclude Include="Sources\Game.hpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="Sources\Values.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="KeySequence.cpp" />
     <ClCompile Include="Sources\callback.cpp" />
     <ClCompile Include="Sources\cheats.cpp" />
     <ClCompile Include="Sources\Environment.cpp" />

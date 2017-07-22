@@ -1,6 +1,8 @@
 #ifndef CTRPLUGINFRAMEWORK_MENUENTRY_HPP
 #define CTRPLUGINFRAMEWORK_MENUENTRY_HPP
 
+#include "CTRPluginFramework/Menu/MenuEntryHotkeys.hpp"
+
 #include <string>
 #include <memory>
 
@@ -46,9 +48,12 @@ namespace CTRPluginFramework
 
         void    SetGameFunc(FuncPointer func) const;
         void    SetMenuFunc(FuncPointer func) const;
+        void    RefreshNote(void) const;
 
         std::string &Name(void) const;
         std::string &Note(void) const;
+
+        HotkeyManager   Hotkeys;
 
     private:
         friend class MenuFolder;
