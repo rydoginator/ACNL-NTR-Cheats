@@ -18,7 +18,7 @@ void    find_and_replace_multiple(void *start_addr, u32 length)
     int i;
 
     i = 0;
-    while (length-- > 0)
+    while (length > 0)
     {
         for (i = 0; i < g_i; i++)
         {
@@ -31,6 +31,7 @@ void    find_and_replace_multiple(void *start_addr, u32 length)
             }
         }
         start_addr += 4;
+        length -= 4;
     }
 }
 
