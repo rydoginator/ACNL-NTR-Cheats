@@ -319,6 +319,7 @@ void	changeKappa(void);
 void	changeResetti(void);
 void	changeRover(void);
 void	changeHarvey(void);
+void 	changeIsabelle(void);
 void    badge_gold(void);
 void    badge_silver(void);
 void    badge_bronze(void);

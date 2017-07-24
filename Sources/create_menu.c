@@ -116,6 +116,7 @@ static inline void  smenu(void)
         new_entry_with_note("Dynamic Slot 1 Modifier", dynamic_note, dynamicMod);
     exit_spoiler();
     new_spoiler("Special NPC Mod");
+		new_radio_entry("Isabelle", changeIsabelle);
         new_radio_entry("Owl", changeOwl);
         new_radio_entry("Brewster", changeBrewster);
         new_radio_entry("Nook", changeNook);

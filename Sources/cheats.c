@@ -1623,6 +1623,13 @@ void changeHarvey(void)
     changeAnimal(symbols, name);
 }
 
+void changeIsabelle(void)
+{
+    static u8 name[] = {0x63, 0x77, 0x61};
+    static u8 symbols[] = {0x63, 0x77, 0x61, 0x2e, 0x62, 0x63, 0x72, 0x65, 0x73};
+    changeAnimal(symbols, name);
+}
+
 void    badges_common(u8 bdge)
 {
     for (int i = 0; i < 24; i++)
