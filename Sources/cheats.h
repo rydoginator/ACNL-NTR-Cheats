@@ -32,6 +32,7 @@
 #define     USA_TOWN_ITEMS_ADDR                 0x31F7A458
 #define     USA_ISLAND_ITEMS_ADDR               0x31F96E58
 #define     USA_PLAYER_ADDR                     0xAAE990 //0xAAD990, 0xAA6990
+#define		USA_PLAYER_PTR_ADDR					0xAB014C
 #define		USA_PWP_ADDR						0x31F772A8
 #define     USA_INV_ADDR                        0x31F2DBF0
 #define     USA_VELOCITY_ADDR                   0x330773FC
@@ -139,7 +140,7 @@
 #define		USA_MAINSTREET_X					0x33077838
 #define		USA_MAINSTREET_Y					0x3307783C
 
-#define     USA_MEDALS_ADDR						0x31F2DBC0
+#define     USA_MEDALS_ADDR						0x31F2DBBC
 #define		USA_ONLINE0_MEDALS_ADDR				0xAAB0B0
 #define		USA_ONLINE1_MEDALS_ADDR				0xA8C330
 #define		USA_ONLINE2_MEDALS_ADDR				0xA967B0
@@ -251,6 +252,9 @@ void    retrieve_input_string(char *output, int size);
 void    get_input_id(int *first, int *second);
 void	keyboardInput(void);
 bool    match(const char *str, const char *pattern);
+u32     readSlot(int slot);
+void    writeSlot(int slot, u16 item);
+void    writePlayer(u32 offset, u32 data);
 //void	islandFinder(void);
 
 void    assign_region(u32 region);
@@ -315,6 +319,7 @@ void	changeKappa(void);
 void	changeResetti(void);
 void	changeRover(void);
 void	changeHarvey(void);
+void 	changeIsabelle(void);
 void    badge_gold(void);
 void    badge_silver(void);
 void    badge_bronze(void);
@@ -333,7 +338,6 @@ void	medals_1s(void);
 void	medals_10s(void);
 void	medals_100s(void);
 void	medals_1000s(void);
-void    writeSlot(int slot, u16 item);
 void	deleteAll(void);
 void	PWP_all(void);
 void	GoldTools(void);

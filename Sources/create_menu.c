@@ -109,13 +109,14 @@ static inline void  smenu(void)
 {
     update_tan_entry();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
-    new_toggle_entry("Use keyboard on island", keyboardInput, KEYBOARDINPUT);
+    new_toggle_entry("Keyboard on Club Tortimer", keyboardInput, KEYBOARDINPUT);
     new_spoiler("Inventory Codes");
         new_entry_with_note("Text to Item", t2i_note, text2item);
         new_entry_with_note("Duplication", dup_note, duplicate);
         new_entry_with_note("Dynamic Slot 1 Modifier", dynamic_note, dynamicMod);
     exit_spoiler();
     new_spoiler("Special NPC Mod");
+		new_radio_entry("Isabelle", changeIsabelle);
         new_radio_entry("Owl", changeOwl);
         new_radio_entry("Brewster", changeBrewster);
         new_radio_entry("Nook", changeNook);
@@ -143,16 +144,10 @@ static inline void  smenu(void)
             new_radio_entry("Negative Bells", wallet_neg);
         exit_spoiler();
         new_spoiler("Medal Modifiers");
-            //new_entry_with_note("---Stable Modifier---", med_note, keep_it_off);
             new_radio_entry("50K Medals", medal_50k);
             new_radio_entry("10K Medals", medal_10k);
             new_radio_entry("1K Medals", medal_1k);
             new_radio_entry("0 Medals", medal_0);
-            /*new_entry_with_note("---Unstable Modifier---", medun_note, keep_it_off);
-            new_radio_entry("Medal Mod 1", medals_1s);
-            new_radio_entry("Medal Mod 10", medals_10s);
-            new_radio_entry("Medal Mod 100", medals_100s);
-            new_radio_entry("Medal Mod 1000", medals_1000s);*/
         exit_spoiler(); 
         new_spoiler_with_note("Meow Coupon Codes", meow_note);
             new_radio_entry("Infinite Meow Coupons", meow_99k);
@@ -238,17 +233,17 @@ void    my_menus(void)
     if (tid == 0x86300)
     {
         assign_region(USA);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 USA", while_plugin_is_alive);
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.3 USA", while_plugin_is_alive);
     }
     else if (tid == 0x86400)
     {
         assign_region(EUR);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 EUR", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.3 EUR", while_plugin_is_alive); 
     }
     else if (tid == 0x86200)
     {
         assign_region(JAP);
-        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.2.1 JAP", while_plugin_is_alive); 
+        new_super_unselectable_entry("ACNL NTR Cheats Ver 3.3 JAP", while_plugin_is_alive); 
     }
     else
    {	

@@ -8,6 +8,7 @@ extern u32  g_find[100];
 extern u32  g_replace[100];
 extern int  g_i;
 extern u32  g_input_text_buffer;
+extern u32	g_player_ptr;
 t_entry_data    g_entry_data[MAX_STORAGE];
 int             g_current_data_count = 0;
 
@@ -18,7 +19,7 @@ void    find_and_replace_multiple(void *start_addr, u32 length)
     int i;
 
     i = 0;
-    while (length-- > 0)
+    while (length > 0)
     {
         for (i = 0; i < g_i; i++)
         {
@@ -31,6 +32,7 @@ void    find_and_replace_multiple(void *start_addr, u32 length)
             }
         }
         start_addr += 4;
+        length -= 4;
     }
 }
 
@@ -127,6 +129,33 @@ bool    match(const char *str, const char *pattern)
     return (false);
 }
 
+u32     readSlot(int slot)
+{
+    u32     offset;
+
+    offset = READU32(g_player_ptr);
+    if (offset != 0)
+        return (READU32(offset + 0x6BD0 + (slot * 4)));
+}
+
+void    writeSlot(int slot, u32 item)
+{
+    u32     offset;
+    
+    offset = READU32(g_player_ptr);
+    if (offset != 0 && item > 0x1000 && (item < 0x4000 || item == 0x7FFE))
+    {
+        WRITEU32(offset + 0x6BD0 + (slot * 4), item);
+    }  
+}
+
+void    writePlayer(u32 offset, u32 data)
+{
+    u32     address;
+    
+    address = READU32(g_player_ptr);
+    WRITEU32(address + offset, data);  
+}
 
 void    disable_entry(int identifier)
 {

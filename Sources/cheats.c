@@ -13,6 +13,7 @@ u32     g_town_items;
 u32     g_island_items;
 u32		g_pwp;
 u32     g_player;
+u32		g_player_ptr;
 u32     g_inv;
 u32     g_velocity;
 u32     g_grass_start;
@@ -133,6 +134,7 @@ void    assign_region(u32 region)
     g_island_items = USA_ISLAND_ITEMS_ADDR;
 	g_pwp = USA_PWP_ADDR;
     g_player = USA_PLAYER_ADDR;
+    g_player_ptr = USA_PLAYER_PTR_ADDR;
     g_inv = USA_INV_ADDR;
     g_velocity = USA_VELOCITY_ADDR;
     g_grass_start = USA_GRASS_START_ADDR;
@@ -266,6 +268,7 @@ void    assign_region(u32 region)
             g_realtime = 0x95c500;
             g_seed = 0x9B4268;
             g_player = 0xAAD990;
+			g_player_ptr = 0xAAF14C;
             g_visitor_indoor_x -= EUR_DIFFERENCE;
             g_visitor_indoor_z -= EUR_DIFFERENCE;
             g_visitor_outdoor_x -= EUR_DIFFERENCE;
@@ -376,6 +379,7 @@ void    assign_region(u32 region)
             g_realtime = 0x956500;
             g_seed = 0x9AD248;
             g_player = 0xAA7990;
+			g_player_ptr = 0xAA914C;
             g_visitor_indoor_x += JAP_DIFFERENCE;
             g_visitor_indoor_z += JAP_DIFFERENCE;
             g_visitor_outdoor_x += JAP_DIFFERENCE;
@@ -655,37 +659,15 @@ void    search(void)
 void    text2item(void) 
 {
     int     input;
-    u8      player;
-    u32     offset;
     
     //islandFinder();
     if (!is_pressed(BUTTON_X + BUTTON_DR))
         return;
-    player = READU8(g_player);
     get_input_id(&input, NULL);
-    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-    {
-        offset = player * 0xa480;
-        WRITEU16(g_inv + offset, input);
-        if (READU16(g_online4_inv) != 0)
-            WRITEU16(g_online4_inv, input); 
-        if (READU16(g_online5_inv) != 0)
-            WRITEU16(g_online5_inv, input); 
-        if (READU16(g_online6_inv) != 0)
-            WRITEU16(g_online6_inv, input);
-    }
-    if (player >= 0x3)
-    {
-        if (READU16(g_online0_inv) != 0)
-            WRITEU16(g_online0_inv, input);
-        if (READU16(g_online1_inv) != 0)
-            WRITEU16(g_online1_inv, input); 
-        if (READU16(g_online2_inv) != 0)
-            WRITEU16(g_online2_inv, input); 
-        if (READU16(g_online3_inv) != 0)
-            WRITEU16(g_online3_inv, input);
-    }  
-   wait_all_released();
+	if (input != 0x0000) //If unbreakable flower
+    writeSlot(0, input);
+	
+	wait_all_released();
 }
 
 void    teleport(void)
@@ -859,128 +841,22 @@ void    tree(void)
 
 void    duplicate(void)
 {
-    u32     offset;
-    u8      player;
     u32     dupe;
 
     if (is_pressed(BUTTON_R))
     {
-        player = READU8(g_player);
-        // Player 4 should be the highest value stored here. 
-        // It goes to 0x7 when visiting a dream and someone's town I think?
-        if (player <= 0x3)
-        {
-            offset = player * 0xA480;
-            dupe = READU32(g_inv + offset);
-            WRITEU32(g_inv + offset + 0x4, dupe);
-            if (READU16(g_online4_inv) != 0)
-                dupe = READU32(g_online4_inv);
-                WRITEU32(g_online4_inv + 0x4, dupe);
-            if (READU16(g_online5_inv) != 0)
-                dupe = READU32(g_online5_inv);
-                WRITEU32(g_online5_inv + 0x4, dupe); 
-            if (READU16(g_online6_inv) != 0)
-                dupe = READU32(g_online6_inv);
-                WRITEU32(g_online6_inv, dupe); 
-        }
-        if (player >= 0x3)
-        {
-            if (READU16(g_online0_inv) != 0)
-                dupe = READU32(g_online0_inv);
-                WRITEU32(g_online0_inv + 0x4, dupe);
-            if (READU16(g_online1_inv) != 0)
-                dupe = READU32(g_online1_inv);
-                WRITEU32(g_online1_inv + 0x4, dupe);
-            if (READU16(g_online2_inv) != 0)
-                dupe = READU32(g_online2_inv);
-                WRITEU32(g_online2_inv + 0x4, dupe);
-            if (READU16(g_online3_inv) != 0)
-                dupe = READU32(g_online3_inv);
-                WRITEU32(g_online3_inv + 0x4, dupe);
-        }  
-    }
+		dupe = readSlot(0);
+		writeSlot(1, dupe);
+	}
+
     if (is_pressed(BUTTON_R + BUTTON_X))
     {
-        player = READU8(g_player);
-        // Player 4 should be the highest value stored here. 
-        // It goes to 0x7 when visiting a dream and someone's town I think?
-        if (player <= 0x3)
-        {
-            offset = player * 0xA480;
-            dupe = READU32(g_inv + offset);
-            for (int i = 0; i < 15; i++)
-            {
-                if (READU16(g_inv + 0x4 + (i * 4) + offset) == 0x7FFE)
-                    WRITEU32(g_inv + offset + 0x4 + (i * 4), dupe);
-            }
-            if (READU16(g_online4_inv) != 0)
-            {
-                dupe = READU32(g_online4_inv);
-                for (int i = 0; i < 15; i++)
-                {
-                    if (READU16(g_online4_inv + 0x4 + (i * 4)) == 0x7FFE)
-                        WRITEU32(g_online4_inv + 0x4 + (i * 4), dupe);
-                }
-            }
-            if (READU16(g_online5_inv) != 0)
-            {
-                dupe = READU32(g_online5_inv);
-                for (int i = 0; i < 15; i++)
-                {
-                    if (READU16(g_online5_inv + 0x4 + (i * 4)) == 0x7FFE)
-                        WRITEU32(g_online5_inv + 0x4 + (i * 4), dupe);
-                }
-            } 
-            if (READU16(g_online6_inv) != 0)
-            {
-                dupe = READU32(g_online6_inv);
-                for (int i = 0; i < 15; i++)
-                {
-                    if (READU16(g_online6_inv + 0x4 + (i * 4)) == 0x7FFE)
-                        WRITEU32(g_online6_inv + 0x4 + (i * 4), dupe);
-                }
-            } 
-        }
-        if (player >= 0x3)
-        {
-            if (READU16(g_online0_inv) != 0)
-            {
-                dupe = READU32(g_online0_inv);
-                for (int i = 0; i < 15; i++)
-                {
-                    if (READU16(g_online0_inv + 0x4 + (i * 4)) == 0x7FFE)
-                        WRITEU32(g_online0_inv + 0x4 + (i * 4), dupe);
-                }
-            }
-            if (READU16(g_online1_inv) != 0)
-            {
-                dupe = READU32(g_online1_inv);
-                for (int i = 0; i < 15; i++)
-                {
-                    if (READU16(g_online1_inv + 0x4 + (i * 4)) == 0x7FFE)
-                        WRITEU32(g_online1_inv + 0x4 + (i * 4), dupe);
-                }
-            }
-            if (READU16(g_online2_inv) != 0)
-            {
-                dupe = READU32(g_online2_inv);
-                for (int i = 0; i < 15; i++)
-                {
-                    if (READU16(g_online2_inv + 0x4 + (i * 4)) == 0x7FFE)
-                        WRITEU32(g_online2_inv + 0x4 + (i * 4), dupe);
-                }
-            }
-            if (READU16(g_online3_inv) != 0)
-            {
-                dupe = READU32(g_online3_inv);
-                for (int i = 0; i < 15; i++)
-                {
-                    if (READU16(g_online3_inv + 0x4 + (i * 4)) == 0x7FFE)
-                        WRITEU32(g_online3_inv + 0x4 + (i * 4), dupe);
-                }
-            } 
-        }       
-    }
+	    for (int i = 0; i < 15; i++)
+		{
+			if (readSlot(i + 1) == 0x7FFE)
+				writeSlot(i + 1, dupe);
+		}
+	}
 }
 
 void    grass(void)
@@ -1190,11 +1066,11 @@ void    seeder(void)
     if (!is_pressed(BUTTON_R))
         return;
     get_input_id(&input, NULL);
-    if (is_pressed(BUTTON_R + A))
+    if (is_pressed(BUTTON_R + A) && input != 0x0000)
     {
         WRITEU32(g_seed, 0x80000000 + input);
     }
-    else
+    else if (input != 0x0000)
     {        
         WRITEU16(g_seed, input);
     }
@@ -1340,6 +1216,7 @@ void    real(void)
             y *= 0x1400;
             offset = reg0 + reg1 + x + y;           
             get_input_id(&input, NULL);
+			if (input != 0x0000) //If unbreakable flower
             WRITEU16(g_main_items + offset, input);
         }
         else if (READU8(g_room) == 0x00)
@@ -1360,6 +1237,7 @@ void    real(void)
                 y *= 0x1400;
                 offset = reg0 + reg1 + x + y;           
                 get_input_id(&input, NULL);
+				if (input != 0x0000) //If unbreakable flower
                 WRITEU16(g_town_items + offset, input);
             }
         }
@@ -1381,6 +1259,7 @@ void    real(void)
                 y *= 0x1400;
                 offset = reg0 + reg1 + x + y;           
                 get_input_id(&input, NULL);
+				if (input != 0x0000) //If unbreakable flower
                 WRITEU16(g_island_items + offset, input);
             }
         }
@@ -1421,7 +1300,8 @@ void    real(void)
             reg1 *= 0x40;
             x *= 0x400;
             y *= 0x1400;
-            offset = reg0 + reg1 + x + y;           
+            offset = reg0 + reg1 + x + y;  
+			if (item != 0x0000) //If unbreakable flower
             WRITEU32(g_town_items + offset, item);
         }
     }
@@ -1430,36 +1310,12 @@ void    real(void)
 
 void    dynamicMod(void)
 {
-    u32     offset;
-    u8      player;
     u16     data;
 
     if (is_pressed(BUTTON_Y + BUTTON_DR))
     {
         data = READU16(g_abd);
-        player = READU8(g_player);
-        if (player <= 0x3)
-        {
-            offset = player * 0xA480;
-            WRITEU16(g_inv + offset, data);
-            if (READU16(g_online4_inv) != 0)
-                WRITEU16(g_online4_inv, data);
-            if (READU16(g_online5_inv) != 0)
-                WRITEU16(g_online5_inv, data); 
-            if (READU16(g_online6_inv) != 0)
-                WRITEU16(g_online6_inv, data); 
-        }
-        if (player >= 0x3)
-        {
-            if (READU16(g_online0_inv) != 0)
-                WRITEU16(g_online0_inv, data);
-            if (READU16(g_online1_inv) != 0)
-                WRITEU16(g_online1_inv, data);
-            if (READU16(g_online2_inv) != 0)
-                WRITEU16(g_online2_inv, data);
-            if (READU16(g_online3_inv) != 0)
-                WRITEU16(g_online3_inv, data);
-        }  
+		writeSlot(0, data);
     }   
 }
 
@@ -1473,38 +1329,6 @@ void    walkOver(void)
     {
         WRITEU8(g_walkOver, 0x00);
     }
-}
-
-// Text to cheat functions
-
-void    writeSlot(int slot, u16 item)
-{
-    u8      player;
-    u32     offset;
-    
-    player = READU8(g_player);
-    if (player <= 0x3) //player 4 should be the highest value stored here. It goes to 0x7 when visiting a dream and someone's town I think?
-    {
-        offset = player * 0xa480;
-        WRITEU16(g_inv + offset + (slot * 4), item);
-        if (READU16(g_online4_inv) != 0)
-            WRITEU16(g_online4_inv + (slot * 4), item); 
-        if (READU16(g_online5_inv) != 0)
-            WRITEU16(g_online5_inv + (slot * 4), item); 
-        if (READU16(g_online6_inv) != 0)
-            WRITEU16(g_online6_inv + (slot * 4), item);
-    }
-    if (player >= 0x3)
-    {
-        if (READU16(g_online0_inv) != 0)
-            WRITEU16(g_online0_inv + (slot * 4), item);
-        if (READU16(g_online1_inv) != 0)
-            WRITEU16(g_online1_inv + (slot * 4), item); 
-        if (READU16(g_online2_inv) != 0)
-            WRITEU16(g_online2_inv + (slot * 4), item);
-        if (READU16(g_online3_inv) != 0)
-            WRITEU16(g_online3_inv + (slot * 4), item);
-    }      
 }
 
 void    midnight(void)
@@ -1623,121 +1447,48 @@ void    clear_inv(void)
     }
 }
 
-void    bank_common(u32 enc1, u32 enc2)
-{
-    u32     offset;
-    u8      player;
-
-    {   
-        player = READU8(g_player);
-        if (player <= 0x3)
-        {
-            offset = player * 0xA480;
-            WRITEU32(g_bank + offset, enc1);
-            WRITEU32(g_bank + offset + 0x4, enc2);
-            if (READU32(g_online4_bank) != 0)
-                WRITEU32(g_online4_bank, enc1);
-                WRITEU32(g_online4_bank + 0x4, enc2);
-            if (READU32(g_online5_bank) != 0)
-                WRITEU32(g_online5_bank, enc1);
-                WRITEU32(g_online5_bank + 0x4, enc2);
-            if (READU32(g_online5_bank) != 0);
-                WRITEU32(g_online6_bank, enc1);
-                WRITEU32(g_online6_bank + 0x4, enc2);
-        }
-  
-        if (player >= 0x3)
-        {
-            if (READU32(g_online0_bank) != 0);
-                WRITEU32(g_online0_bank, enc1);
-                WRITEU32(g_online0_bank + 0x4, enc2);
-            if (READU32(g_online1_bank) != 0);
-                WRITEU32(g_online1_bank, enc1);
-                WRITEU32(g_online1_bank + 0x4, enc2);
-            if (READU32(g_online2_bank) != 0);
-                WRITEU32(g_online2_bank, enc1);
-                WRITEU32(g_online2_bank + 0x4, enc2);
-            if (READU32(g_online3_bank) != 0);
-                WRITEU32(g_online3_bank, enc1);
-                WRITEU32(g_online3_bank + 0x4, enc2);
-        }
-    }
-}
-
+//Bank
 void    bank_999m(void)
 {
-    bank_common(bell999M1, bell999M2);
+	writePlayer(0x6b8c, bell999M1);
+	writePlayer(0x6b90, bell999M2);
 }
 
 void   bank_1m(void)
 {
-    bank_common(bell1M1, bell1M2);
+	writePlayer(0x6b8c, bell1M1);
+	writePlayer(0x6b90, bell1M2);
 }
 
 void    bank_0m(void)
 {
-    bank_common(bell0k1, bell0k2);
+	writePlayer(0x6b8c, bell0k1);
+	writePlayer(0x6b90, bell0k2);
 }
 
-void    wallet_common(u32 enc1, u32 enc2)
-{
-    u32     offset;
-    u8      player;
-
-    {   
-        player = READU8(g_player);
-        if (player <= 0x3)
-        {
-            offset = player * 0xA480;
-            WRITEU32(g_wallet + offset, enc1);
-            WRITEU32(g_wallet + offset + 0x4, enc2);
-            if (READU32(g_online4_wallet) != 0)
-                WRITEU32(g_online4_wallet, enc1);
-                WRITEU32(g_online4_wallet + 0x4, enc2);
-            if (READU32(g_online5_wallet) != 0)
-                WRITEU32(g_online5_wallet, enc1);
-                WRITEU32(g_online5_wallet + 0x4, enc2);
-            if (READU32(g_online5_wallet) != 0);
-                WRITEU32(g_online6_wallet, enc1);
-                WRITEU32(g_online6_wallet + 0x4, enc2);
-        }
-  
-        if (player >= 0x3)
-        {
-            if (READU32(g_online0_wallet) != 0);
-                WRITEU32(g_online0_wallet, enc1);
-                WRITEU32(g_online0_wallet + 0x4, enc2);
-            if (READU32(g_online1_wallet) != 0);
-                WRITEU32(g_online1_wallet, enc1);
-                WRITEU32(g_online1_wallet + 0x4, enc2);
-            if (READU32(g_online2_wallet) != 0);
-                WRITEU32(g_online2_wallet, enc1);
-                WRITEU32(g_online2_wallet + 0x4, enc2);
-            if (READU32(g_online3_wallet) != 0);
-                WRITEU32(g_online3_wallet, enc1);
-                WRITEU32(g_online3_wallet + 0x4, enc2);
-        }
-    }
-}
-
+//Wallet
 void    wallet_99k(void)
 {
-    wallet_common(bell99k1, bell99k2);
+	writePlayer(0x6f08, bell99k1);
+	writePlayer(0x6f0c, bell99k2);
 }
 
 void   wallet_0k(void)
 {
-    wallet_common(bell0k1, bell0k2);
+	writePlayer(0x6f08, bell0k1);
+	writePlayer(0x6f0c, bell0k2);
 }
 
 void    wallet_out(void)
 {
-    wallet_common(bellBound1, bellBound2);
+	writePlayer(0x6f08, bellBound1);
+	writePlayer(0x6f0c, bellBound2);
 }
 
 void    wallet_neg(void)
 {
-    wallet_common(bellNeg1, bellNeg2);
+	writePlayer(0x6f08, bellNeg1);
+	writePlayer(0x6f0c, bellNeg2);
 }
 
 
@@ -1872,20 +1623,18 @@ void changeHarvey(void)
     changeAnimal(symbols, name);
 }
 
+void changeIsabelle(void)
+{
+    static u8 name[] = {0x63, 0x77, 0x61};
+    static u8 symbols[] = {0x63, 0x77, 0x61, 0x2e, 0x62, 0x63, 0x72, 0x65, 0x73};
+    changeAnimal(symbols, name);
+}
+
 void    badges_common(u8 bdge)
 {
-    u32     offset;
-    u8      player;
-    int     i;
-
-    player = READU8(g_player);
-    if (player <= 0x3)
+    for (int i = 0; i < 24; i++)
     {
-        offset = player * 0xA480;
-        for (int i = 0; i < 24; i++)
-        {
-            WRITEU8(g_badge + offset + (0x1 * i), bdge);
-        }
+		writePlayer(0x569c + (i * 1), bdge);
     }
 }
 
@@ -1969,88 +1718,13 @@ void   antiGravity(void)
 
 void    dupeAll(void)
 {
-    u8 player;
-    u32 dupe;
-    u32 offset;
+	u32 item;
 
-    player = READU8(g_player);
-    // Player 4 should be the highest value stored here. 
-    // It goes to 0x7 when visiting a dream and someone's town I think?
-    if (player <= 0x3)
+	item = readSlot(0);
+    for (int i = 0; i < 15; i++)
     {
-        offset = player * 0xA480;
-        dupe = READU32(g_inv + offset);
-        for (int i = 0; i < 15; i++)
-        {
-            if (READU16(g_inv + 0x4 + (i * 4) + offset) == 0x7FFE)
-                WRITEU32(g_inv + offset + 0x4 + (i * 4), dupe);
-        }
-        if (READU16(g_online4_inv) != 0)
-        {
-            dupe = READU32(g_online4_inv);
-            for (int i = 0; i < 15; i++)
-            {
-                if (READU16(g_online4_inv + 0x4 + (i * 4)) == 0x7FFE)
-                    WRITEU32(g_online4_inv + 0x4 + (i * 4), dupe);
-            }
-        }
-        if (READU16(g_online5_inv) != 0)
-        {
-            dupe = READU32(g_online5_inv);
-            for (int i = 0; i < 15; i++)
-            {
-                if (READU16(g_online5_inv + 0x4 + (i * 4)) == 0x7FFE)
-                    WRITEU32(g_online5_inv + 0x4 + (i * 4), dupe);
-            }
-        } 
-        if (READU16(g_online6_inv) != 0)
-        {
-            dupe = READU32(g_online6_inv);
-            for (int i = 0; i < 15; i++)
-            {
-                if (READU16(g_online6_inv + 0x4 + (i * 4)) == 0x7FFE)
-                    WRITEU32(g_online6_inv + 0x4 + (i * 4), dupe);
-            }
-        } 
-    }
-    if (player >= 0x3)
-    {
-        if (READU16(g_online0_inv) != 0)
-        {
-            dupe = READU32(g_online0_inv);
-            for (int i = 0; i < 15; i++)
-            {
-                if (READU16(g_online0_inv + 0x4 + (i * 4)) == 0x7FFE)
-                    WRITEU32(g_online0_inv + 0x4 + (i * 4), dupe);
-            }
-        }
-        if (READU16(g_online1_inv) != 0)
-        {
-            dupe = READU32(g_online1_inv);
-            for (int i = 0; i < 15; i++)
-            {
-                if (READU16(g_online1_inv + 0x4 + (i * 4)) == 0x7FFE)
-                    WRITEU32(g_online1_inv + 0x4 + (i * 4), dupe);
-            }
-        }
-        if (READU16(g_online2_inv) != 0)
-        {
-            dupe = READU32(g_online2_inv);
-            for (int i = 0; i < 15; i++)
-            {
-                if (READU16(g_online2_inv + 0x4 + (i * 4)) == 0x7FFE)
-                    WRITEU32(g_online2_inv + 0x4 + (i * 4), dupe);
-            }
-        }
-        if (READU16(g_online3_inv) != 0)
-        {
-            dupe = READU32(g_online3_inv);
-            for (int i = 0; i < 15; i++)
-            {
-                if (READU16(g_online3_inv + 0x4 + (i * 4)) == 0x7FFE)
-                    WRITEU32(g_online3_inv + 0x4 + (i * 4), dupe);
-            }
-        } 
+        if (readSlot(i + 1) == 0x7FFE)
+            writeSlot(i + 1, item);
     }           
 }
 
@@ -2156,205 +1830,48 @@ void    cameraMod(void)
     }
 }
 
-void    meow_common(u32 enc1, u32 enc2)
-{
-    u32     offset;
-    u8      player;
-
-    {   
-        player = READU8(g_player);
-        if (player <= 0x3)
-        {
-            offset = player * 0xA480;
-            WRITEU32(g_meow + offset, enc1);
-            WRITEU32(g_meow + offset + 0x4, enc2);
-            if (READU32(g_online4_meow) != 0)
-                WRITEU32(g_online4_meow, enc1);
-                WRITEU32(g_online4_meow + 0x4, enc2);
-            if (READU32(g_online5_meow) != 0)
-                WRITEU32(g_online5_meow, enc1);
-                WRITEU32(g_online5_meow + 0x4, enc2);
-            if (READU32(g_online5_meow) != 0);
-                WRITEU32(g_online6_meow, enc1);
-                WRITEU32(g_online6_meow + 0x4, enc2);
-        }
-  
-        if (player >= 0x3)
-        {
-            if (READU32(g_online0_meow) != 0);
-                WRITEU32(g_online0_meow, enc1);
-                WRITEU32(g_online0_meow + 0x4, enc2);
-            if (READU32(g_online1_meow) != 0);
-                WRITEU32(g_online1_meow, enc1);
-                WRITEU32(g_online1_meow + 0x4, enc2);
-            if (READU32(g_online2_meow) != 0);
-                WRITEU32(g_online2_meow, enc1);
-                WRITEU32(g_online2_meow + 0x4, enc2);
-            if (READU32(g_online3_meow) != 0);
-                WRITEU32(g_online3_meow, enc1);
-                WRITEU32(g_online3_meow + 0x4, enc2);
-        }
-    }
-}
-
+//Meow Coupons
 void    meow_99k(void)
 {
-    meow_common(bell99k1, bell99k2);
+	writePlayer(0x8d1c, bell99k1);
+	writePlayer(0x8d20, bell99k2);
 }
 
 void   meow_0k(void)
 {
-    meow_common(bell0k1, bell0k2);
+	writePlayer(0x8d1c, bell0k1);
+	writePlayer(0x8d20, bell0k2);
 }
 
 void    meow_neg(void)
 {
-    meow_common(bellNeg1, bellNeg2);
+	writePlayer(0x8d1c, bellNeg1);
+	writePlayer(0x8d20, bellNeg2);
 }
 
-void    medal_common(u32 enc1, u32 enc2)
-{
-    u32     offset;
-    u8      player;
-
-    {   
-        player = READU8(g_player);
-        if (player <= 0x3)
-        {
-            offset = player * 0xA480;
-            WRITEU32(g_medals + offset, enc1);
-            WRITEU32(g_medals + offset + 0x4, enc2);
-            if (READU32(g_online4_medals) != 0)
-                WRITEU32(g_online4_medals, enc1);
-                WRITEU32(g_online4_medals + 0x4, enc2);
-            if (READU32(g_online5_medals) != 0)
-                WRITEU32(g_online5_medals, enc1);
-                WRITEU32(g_online5_medals + 0x4, enc2);
-            if (READU32(g_online5_medals) != 0);
-                WRITEU32(g_online6_medals, enc1);
-                WRITEU32(g_online6_medals + 0x4, enc2);
-        }
-  
-        if (player >= 0x3)
-        {
-            if (READU32(g_online0_medals) != 0);
-                WRITEU32(g_online0_medals, enc1);
-                WRITEU32(g_online0_medals + 0x4, enc2);
-            if (READU32(g_online1_medals) != 0);
-                WRITEU32(g_online1_medals, enc1);
-                WRITEU32(g_online1_medals + 0x4, enc2);
-            if (READU32(g_online2_medals) != 0);
-                WRITEU32(g_online2_medals, enc1);
-                WRITEU32(g_online2_medals + 0x4, enc2);
-            if (READU32(g_online3_medals) != 0);
-                WRITEU32(g_online3_medals, enc1);
-                WRITEU32(g_online3_medals + 0x4, enc2);
-        }
-    }
-}
-
+//Medals
 void    medal_50k(void)
 {
-    medal_common(medal50k_1, medal50k_2);
+	writePlayer(0x6b9c, medal50k_1);
+	writePlayer(0x6bA0, medal50k_2);
 }
 
 void   medal_10k(void)
 {
-    medal_common(medal10k_1, medal10k_2);
+	writePlayer(0x6b9c, medal10k_1);
+	writePlayer(0x6bA0, medal10k_2);
 }
 
 void   medal_1k(void)
 {
-    medal_common(medal1k_1, medal1k_2);
+	writePlayer(0x6b9c, medal1k_1);
+	writePlayer(0x6bA0, medal1k_2);
 }
 
 void   medal_0(void)
 {
-    medal_common(medal0_1, medal0_2);
-}
-
-void	medals_all(u16 val)
-{
-    u32     offset;
-    u8      player;
-	
-	if (is_pressed(BUTTON_DU))
-	{
-		player = READU8(g_player);
-		if (player <= 0x3)
-		{
-			offset = player * 0xA480;
-			SUB32((g_medals + offset), val); //Subtracting adds to medal amount
-			if (READU32(g_online4_medals) != 0)
-			SUB32(g_online4_medals, val);
-			if (READU32(g_online5_medals) != 0)
-			SUB32(g_online5_medals, val);
-			if (READU32(g_online6_medals) != 0)
-			SUB32(g_online6_medals, val);
-		}
-		
-        if (player >= 0x3)
-        {
-            if (READU32(g_online0_medals) != 0);
-			SUB32(g_online0_medals, val);
-            if (READU32(g_online1_medals) != 0);
-			SUB32(g_online1_medals, val);
-            if (READU32(g_online2_medals) != 0);
-			SUB32(g_online2_medals, val);
-            if (READU32(g_online3_medals) != 0);
-			SUB32(g_online3_medals, val);
-        }
-		wait_keys_released(DU);
-	}
-	
-	if (is_pressed(BUTTON_DD))
-	{
-		player = READU8(g_player);
-		if (player <= 0x3)
-		{
-			offset = player * 0xA480;
-			ADD32((g_medals + offset), val); //Adding subtracts from medal amount
-			if (READU32(g_online4_medals) != 0)
-			ADD32(g_online4_medals, val);
-			if (READU32(g_online5_medals) != 0)
-			ADD32(g_online5_medals, val);
-			if (READU32(g_online6_medals) != 0)
-			ADD32(g_online6_medals, val);
-		}
-		
-        if (player >= 0x3)
-        {
-            if (READU32(g_online0_medals) != 0);
-			ADD32(g_online0_medals, val);
-            if (READU32(g_online1_medals) != 0);
-			ADD32(g_online1_medals, val);
-            if (READU32(g_online2_medals) != 0);
-			ADD32(g_online2_medals, val);
-            if (READU32(g_online3_medals) != 0);
-			ADD32(g_online3_medals, val);
-        }
-		wait_keys_released(DD);
-	}
-}
-
-void	medals_1s(void)
-{
-	medals_all(0x1);
-}
-
-void	medals_10s(void)
-{
-	medals_all(0xA);
-}
-
-void	medals_100s(void)
-{
-	medals_all(0x64);
-}
-
-void	medals_1000s(void)
-{
-	medals_all(0x3E8);
+	writePlayer(0x6b9c, medal0_1);
+	writePlayer(0x6bA0, medal0_2);
 }
 
 void deleteAll(void)
