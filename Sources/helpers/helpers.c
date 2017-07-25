@@ -138,14 +138,14 @@ u32     readSlot(int slot)
         return (READU32(offset + 0x6BD0 + (slot * 4)));
 }
 
-void    writeSlot(int slot, u16 item)
+void    writeSlot(int slot, u32 item)
 {
     u32     offset;
     
     offset = READU32(g_player_ptr);
     if (offset != 0 && item > 0x1000 && (item < 0x4000 || item == 0x7FFE))
     {
-        WRITEU16(offset + 0x6BD0 + (slot * 4), item);
+        WRITEU32(offset + 0x6BD0 + (slot * 4), item);
     }  
 }
 
