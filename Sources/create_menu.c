@@ -109,7 +109,7 @@ static inline void  smenu(void)
 {
     update_tan_entry();
     new_entry_with_note("Warning ! Read the notes !", warning_note, keep_it_off);
-    new_toggle_entry("Use keyboard on island", keyboardInput, KEYBOARDINPUT);
+    new_toggle_entry("Keyboard on Club Tortimer", keyboardInput, KEYBOARDINPUT);
     new_spoiler("Inventory Codes");
         new_entry_with_note("Text to Item", t2i_note, text2item);
         new_entry_with_note("Duplication", dup_note, duplicate);
