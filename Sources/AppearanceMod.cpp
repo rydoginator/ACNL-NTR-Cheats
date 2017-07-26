@@ -3,10 +3,10 @@
 namespace CTRPluginFramework
 {
 	//Appearance
-    void    changeGender(void)
+    void    ChangeGender(void)
     {
         Keyboard  keyboard("Which gender would you like?");
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Male", //there are only two genders, folks
             "Female"
@@ -18,7 +18,7 @@ namespace CTRPluginFramework
         if (userChoice != -1)
         {
             Player::GetInstance()->WriteByte(0x55BA, userChoice);
-            appearanceMod();
+            AppearanceMod();
         }
         else
         {
@@ -26,10 +26,10 @@ namespace CTRPluginFramework
         }
     }
 
-    void    changeHair(void)
+    void    ChangeHair(void)
     {
         Keyboard  keyboard("Which hairstlye would you like?");
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Male 01", 
             "Male 02",
@@ -73,14 +73,14 @@ namespace CTRPluginFramework
         if (userChoice != -1)
         {
             Player::GetInstance()->WriteByte(0x4, userChoice);
-            appearanceMod();
+            AppearanceMod();
         }       
     }
 	
-	void    changeFace(void) //Faces don't have seperate IDs for genders
+	void    ChangeFace(void) //Faces don't have seperate IDs for genders
     {
         Keyboard  keyboard("Which face would you like?");
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Face 01", 
             "Face 02",
@@ -102,14 +102,14 @@ namespace CTRPluginFramework
         if (userChoice != -1)
         {
             Player::GetInstance()->WriteByte(0x6, userChoice);
-            appearanceMod();
+            AppearanceMod();
         }       
     }
 	
-    void    changeHairCol(void)
+    void    ChangeHairCol(void)
     {
         Keyboard  keyboard("Which hair colour would you like?");
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Dark brown",
             "Light brown",
@@ -136,14 +136,14 @@ namespace CTRPluginFramework
         if (userChoice != -1)
         {
             Player::GetInstance()->WriteByte(0x5, userChoice);
-            appearanceMod();
+            AppearanceMod();
         }       
     }
 	
-	void    changeEyeCol(void) 
+	void    ChangeEyeCol(void) 
     {
         Keyboard  keyboard("Which eye colour would you like?");
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Black", //00
             "Orange", //01
@@ -160,14 +160,14 @@ namespace CTRPluginFramework
         if (userChoice != -1)
         {
             Player::GetInstance()->WriteByte(0x7, userChoice);
-            appearanceMod();
+            AppearanceMod();
         }       
     }
 
-	void    changeTan(void)
+	void    ChangeTan(void)
     {
         Keyboard  keyboard("Which tan level would you like?");
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Level 01 (Pale)", 
             "Level 02",
@@ -193,17 +193,15 @@ namespace CTRPluginFramework
         if (userChoice != -1)
         {
             Player::GetInstance()->WriteByte(0x8, userChoice);
-            appearanceMod();
+            AppearanceMod();
         }       
     }
 	
 	//Apparel
-	void    changeTop(void)
+	void    ChangeTop(void)
     {
         u32 output;
 		u16 underwet;
-    	char buffer[0x100];
-		char buffer1[0x100];
         // New keyboard, hint being:
         Keyboard  keyboard("Which top would you like ?");
         // Add the function to check the input entered by the user
@@ -237,11 +235,11 @@ namespace CTRPluginFramework
 			}
 			
             Player::GetInstance()->Write16(0x12, output);
-			apparelMod();
+			ApparelMod();
         }     
     }
 	
-	void    changeHat(void)
+	void    ChangeHat(void)
     {
         u32 output;
         Keyboard  keyboard("Which hat would you like ?");
@@ -260,11 +258,11 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0xA, output);
-			apparelMod();
+			ApparelMod();
         }     
     }
 	
-	void    changeAccessory(void)
+	void    ChangeAccessory(void)
     {
         u32 output;
         Keyboard  keyboard("Which accessory would you like ?");
@@ -283,12 +281,12 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0xE, output);
-			apparelMod();
+			ApparelMod();
         }     
     }
 	
 	
-	void    changePants(void)
+	void    ChangePants(void)
     {
         u32 output;
         Keyboard  keyboard("Which pants would you like ?");
@@ -307,11 +305,11 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0x1A, output);
-			apparelMod();
+			ApparelMod();
         }     
     }
 	
-	void    changeSocks(void)
+	void    ChangeSocks(void)
     {
         u32 output;
         Keyboard  keyboard("Which socks would you like ?");
@@ -330,11 +328,11 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0x1E, output);
-			apparelMod();
+			ApparelMod();
         }     
     }
 	
-	void    changeShoes(void)
+	void    ChangeShoes(void)
     {
         u32 output;
         Keyboard  keyboard("Which shoes would you like ?");
@@ -353,15 +351,15 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0x1E, output);
-			apparelMod();
+			ApparelMod();
         }  
     }
 	
 	//ApparelMod Function
-	void    apparelMod(void)
+	void    ApparelMod(void)
     {
         Keyboard  keyboard("Choose what to edit");
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Hat",
             "Accessory",
@@ -377,25 +375,25 @@ namespace CTRPluginFramework
         switch (userChoice)
         {
             case 0:
-                changeHat();
+                ChangeHat();
                 break;
             case 1:
-                changeAccessory();
+                ChangeAccessory();
                 break;
             case 2:
-                changeTop();
+                ChangeTop();
                 break;
             case 3:
-                changePants();
+                ChangePants();
                 break;
             case 4:
-                changeSocks();
+                ChangeSocks();
                 break;
             case 5:
-                changeShoes();
+                ChangeShoes();
                 break;
             case 6:
-                appearanceMod();
+                AppearanceMod();
                 break;
             default:
                 break;
@@ -404,10 +402,10 @@ namespace CTRPluginFramework
     }
 	
 	//Main appearance mod function
-	    void    appearanceMod(void)
+	    void    AppearanceMod(void)
     {
         Keyboard  keyboard("Choose what to edit");
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Gender",
             "Hair",
@@ -417,35 +415,35 @@ namespace CTRPluginFramework
             "Tan",
             "Apparel"
         };
+
         keyboard.Populate(list);
         int userChoice = keyboard.Open();
 
         switch (userChoice)
         {
             case 0:
-                changeGender();
+                ChangeGender();
                 break;
             case 1:
-                changeHair();
+                ChangeHair();
                 break;
             case 2:
-                changeHairCol();
+                ChangeHairCol();
                 break;
             case 3:
-                changeFace();
+                ChangeFace();
                 break;
             case 4:
-                changeEyeCol();
+                ChangeEyeCol();
                 break;
             case 5:
-                changeTan();
+                ChangeTan();
                 break;
             case 6:
-                apparelMod();
+                ApparelMod();
                 break;
             default:
                 break;
         }
-
     }
 }

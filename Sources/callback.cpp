@@ -39,9 +39,9 @@ namespace CTRPluginFramework
 
             if (userChoice == 0) WaterAllFlowers(nullptr);
             else if (userChoice == 1) RemoveAllWeeds(nullptr);
-            else if (userChoice == 2) duplicationAll();
-            else if (userChoice == 3) timePicker();
-            else if (userChoice == 4) appearanceMod();
+            else if (userChoice == 2) DuplicationAll();
+            else if (userChoice == 3) TimePicker();
+            else if (userChoice == 4) AppearanceMod();
             else if (userChoice == 5) TeleportKeyboard();
             else if (userChoice == 6) FurnitureKeyboard();
             else if (userChoice == 7) GrassKeyboard();
@@ -90,7 +90,7 @@ namespace CTRPluginFramework
         }
     }
     
-    void    timePicker(void)
+    void    TimePicker(void)
     {
         Keyboard  keyboard("Select which time you'd like to travel\nto");
         std::vector<std::string> list = 

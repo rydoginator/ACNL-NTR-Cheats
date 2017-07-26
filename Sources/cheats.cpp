@@ -8,7 +8,7 @@ namespace CTRPluginFramework
     u32     g_replace[100];
     int     g_i = 0;
 
-    void    duplicationAll(void)
+    void    DuplicationAll(void)
     {
         u32     item[15]; //store the entire inventory into an array so that we can check the contents of the inventory
         Player  *player = Player::GetInstance();

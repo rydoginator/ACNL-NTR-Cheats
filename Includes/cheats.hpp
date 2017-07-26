@@ -47,8 +47,8 @@ enum
 
 namespace CTRPluginFramework
 {
-    void    appearanceMod(void);
-    void    duplicationAll(void);
+    void    AppearanceMod(void);
+    void    DuplicationAll(void);
     void    TeleportKeyboard(void);
     void    GetSet(int set);
     void    FurnitureKeyboard(void);
@@ -124,7 +124,7 @@ namespace CTRPluginFramework
     void    TimeTravel(MenuEntry *entry);
     void    TimeMachine(MenuEntry *entry);
     void    SetTimeTo(int hour);
-    void    timePicker(void);
+    void    TimePicker(void);
 
     /*
     ** Misc.
@@ -137,20 +137,20 @@ namespace CTRPluginFramework
 	/*
     ** Appearance
     ********************/
-    void    changeGender(void);
-    void    changeHair(void);
-	void    changeFace(void);
-    void    changeHairCol(void);
-	void    changeEyeCol(void);
-	void    changeTan(void);
-	void    changeHat(void);
-	void    changeAccessory(void);
-	void    changeTop(void);
-	void    changePants(void);
-	void    changeSocks(void);
-	void    changeShoes(void);
-	void    apparelMod(void);
-	void    appearanceMod(void);
+    void    ChangeGender(void);
+    void    ChangeHair(void);
+	void    ChangeFace(void);
+    void    ChangeHairCol(void);
+	void    ChangeEyeCol(void);
+	void    ChangeTan(void);
+	void    ChangeHat(void);
+	void    ChangeAccessory(void);
+	void    ChangeTop(void);
+	void    ChangePants(void);
+	void    ChangeSocks(void);
+	void    ChangeShoes(void);
+	void    ApparelMod(void);
+	void    AppearanceMod(void);
 
     /*
     ** Main Street
