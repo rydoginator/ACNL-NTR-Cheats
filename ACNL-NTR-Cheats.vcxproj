@@ -65,6 +65,7 @@
     <ClInclude Include="Includes\CTRPluginFramework\Menu.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Menu\Keyboard.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Menu\MenuEntry.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Menu\MenuEntryHotkeys.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Menu\MenuFolder.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Menu\MessageBox.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Menu\PluginMenu.hpp" />
@@ -74,9 +75,12 @@
     <ClInclude Include="Includes\CTRPluginFramework\System\Directory.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\File.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Process.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Rect.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Sleep.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\System.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Time.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Touch.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Vector.hpp" />
     <ClInclude Include="Includes\ctrulib\allocator\linear.h" />
     <ClInclude Include="Includes\ctrulib\allocator\mappable.h" />
     <ClInclude Include="Includes\ctrulib\allocator\vram.h" />
@@ -108,14 +112,16 @@
     <ClInclude Include="Includes\ctrulib\util\utf.h" />
     <ClInclude Include="Includes\FindReplacer.hpp" />
     <ClInclude Include="Includes\Game.hpp" />
+    <ClInclude Include="Includes\Helpers.hpp" />
     <ClInclude Include="Includes\HoldKey.hpp" />
+    <ClInclude Include="Includes\NTR.hpp" />
     <ClInclude Include="Includes\Offsets.hpp" />
     <ClInclude Include="Includes\Player.hpp" />
     <ClInclude Include="Includes\RAddress.hpp" />
+    <ClInclude Include="Includes\Strings.hpp" />
     <ClInclude Include="Includes\types.h" />
     <ClInclude Include="Includes\Unicode.h" />
     <ClInclude Include="Includes\Values.hpp" />
-    <ClInclude Include="KeySequence.h" />
     <ClInclude Include="Sources\cheats.hpp" />
     <ClInclude Include="Sources\FindReplacer.hpp" />
     <ClInclude Include="Sources\Game.hpp" />
@@ -125,7 +131,7 @@
     <ClInclude Include="Sources\Values.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="KeySequence.cpp" />
+    <ClCompile Include="Sources\AppearanceMod.cpp" />
     <ClCompile Include="Sources\callback.cpp" />
     <ClCompile Include="Sources\cheats.cpp" />
     <ClCompile Include="Sources\Environment.cpp" />
@@ -136,9 +142,12 @@
     <ClCompile Include="Sources\Helpers\FindReplacer.cpp" />
     <ClCompile Include="Sources\Helpers\helpers.cpp" />
     <ClCompile Include="Sources\Helpers\HoldKey.cpp" />
+    <ClCompile Include="Sources\Helpers\KeySequence.cpp" />
     <ClCompile Include="Sources\Helpers\RAddress.cpp" />
+    <ClCompile Include="Sources\Helpers\Strings.cpp" />
     <ClCompile Include="Sources\Inventory.cpp" />
     <ClCompile Include="Sources\main.cpp" />
+    <ClCompile Include="Sources\MainStreet.cpp" />
     <ClCompile Include="Sources\Misc.cpp" />
     <ClCompile Include="Sources\Movement.cpp" />
     <ClCompile Include="Sources\Player.cpp" />

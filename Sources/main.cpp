@@ -3,90 +3,60 @@
 namespace CTRPluginFramework
 {
     // This function is called on the plugin starts, before main
-    void PatchProcess(void)
+    void    PatchProcess(void)
     {
     }
 	
-    int main(void)
+    #define MAJOR_VERSION       4
+    #define MINOR_VERSION       0
+    #define REVISION_VERSION    23
+    #define TOSTRING(x)         #x
+    #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) "]"
+
+    static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
+    static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
+    static const std::string    gameName = "Animal Crossing New Leaf";
+    static const std::string    developer = "RyDog";
+    static const std::string    credits =
+        "Plugin Version: " STRING_VERSION  "\n"
+        "Creator: " + developer + "\n"
+        "\n"
+        "Special thanks to:\n"
+        "Nanquitas\n"
+        "Slattz\n"
+        "Mega Mew\n"
+        "Scotline\n"
+        "and others :)";    
+
+    int     main(void)
     {
-        std::string gameName = "Animal Crossing New Leaf";
-
-        std::string pluginVer = "[4.0.0_23]";
-
-        std::string developer = "RyDog";
-
-        std::string credits =
-            "Plugin Version: " + pluginVer + "\n"
-            "Creator: " + developer + "\n"
-            "\n"
-            "Special thanks to:\n"
-            "Nanquitas\n"
-            "Slattz\n"
-            "Mega Mew\n"
-            "Scotline\n"
-            "and others :)";
-
-        static const char *about = credits.c_str();
-        PluginMenu *m = new PluginMenu(gameName, about);
-        PluginMenu& menu = *m;
-
-        u64 tid = Process::GetTitleID();
-		u16 ver = Process::GetVersion();
+        PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
+        PluginMenu  &menu = *m;
+        u64         tid = Process::GetTitleID();
+		u16         ver = Process::GetVersion();
 
         // Assign globals according to the current game's region
         if (tid == 0x0004000000086300)
 		{
-			if (ver == 6192)
-			{
-				assign_region(USA);
-			}
-			
-			else
-			{
-				MessageBox  msgBox("Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!");
-				msgBox();
-				return (0);
-			}
-		}
-			
+            if (ver != 6192)
+                return (MessageBox(unsupportedVersion)());
+            assign_region(USA);
+		}			
         else if (tid == 0x0004000000086400)
 		{
-			if (ver == 6176)
-			{
-				assign_region(EUR);
-			}
-			
-			else
-			{
-				MessageBox  msgBox("Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!");
-				msgBox();
-				return (0);
-			}
+            if (ver != 6176)
+                return (MessageBox(unsupportedVersion)());
+            assign_region(EUR);
 		}
 			
         else if (tid == 0x0004000000086200)
 		{
-			if (ver == 6272)
-			{
-				assign_region(JAP);
-			}
-			
-			else
-			{
-            MessageBox  msgBox("Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!");
-            msgBox();
-            return (0);
-			}
-		}
-			
+            if (ver != 6272)
+                return (MessageBox(unsupportedVersion)());
+            assign_region(JAP);
+		}			
         else
-        {
-            // Game not recognised
-            MessageBox  msgBox("Error\nGame not supported !\nVisit discord for support.");
-
-            msgBox();
-            return (0);
-        }
+            return (MessageBox(unsupportedGame)());
 
         /*
         ** Garden
@@ -118,7 +88,6 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."));
         
         menu.Append(folder);
-
 
         folder = new MenuFolder("Main Street Codes");
 
@@ -177,8 +146,6 @@ namespace CTRPluginFramework
         
         menu.Append(folder);
 
-
-
         folder = new MenuFolder("Unlock Codes");
 
         folder->Append(new MenuEntry("100% Mayor permit", Permit, "Special thanks to Slattz"));
@@ -188,9 +155,6 @@ namespace CTRPluginFramework
 		folder->Append(new MenuEntry("Fill out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline"));
 
         menu.Append(folder);
-
-
-
 
         /*
         ** Misc.
@@ -203,7 +167,6 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters. Now you can type short stories into chat :)"));
 		folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
 		
-        
         menu.Append(folder);
 
         /*
@@ -211,7 +174,7 @@ namespace CTRPluginFramework
         ********************/
 
         // Add Text2Cheat to plugin's main loop
-        menu.Callback(SleepThread);
+        menu.Callback([] { Sleep(Milliseconds(1)); });
         menu.Callback(CheatsKeyboard);
         menu.Callback(PlayerUpdateCallback);
 		menu.Callback(Secret);

@@ -1,6 +1,7 @@
 /Build
 *.elf
 *.plg
+*.ipch
 
 #VS
 *.db
