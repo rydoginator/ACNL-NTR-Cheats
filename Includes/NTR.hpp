@@ -37,8 +37,6 @@ namespace CTRPluginFramework
         // Return posY + newline
         static int      String(int posX, int posY, const Color &foreground, const u8 *str);
         static int      String(int posX, int posY, const Color &foreground, const Color &background, const u8 *str);
-        static int      String(int posX, int posY, const Color &foreground, const std::string &str);
-        static int      String(int posX, int posY, const Color &foreground, const Color &background, const std::string &str);
     };
 }
 

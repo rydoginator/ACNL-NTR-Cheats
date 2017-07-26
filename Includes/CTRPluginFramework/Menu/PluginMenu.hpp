@@ -117,7 +117,7 @@ namespace CTRPluginFramework
          * \brief Get a reference to the PluginMenu currently running
          * \return A reference to a PluginMenu that is currently running
          */
-        static PluginMenu   &GetRunningInstance(void);
+        static PluginMenu   *GetRunningInstance(void);
 
         
 
