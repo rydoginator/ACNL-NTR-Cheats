@@ -16,7 +16,6 @@ namespace CTRPluginFramework
     {
     public:
 
-        Player(void);
         ~Player(void){};
 
         // Return current Player instance
@@ -72,6 +71,8 @@ namespace CTRPluginFramework
         void            SetName(std::string &name) const;
 
     private:
+        Player(void);
+
         u32             _offset;
 
         u32             _coordinatePointerBase;

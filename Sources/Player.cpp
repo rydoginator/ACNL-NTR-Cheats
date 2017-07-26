@@ -29,6 +29,9 @@ namespace   CTRPluginFramework
     // Return current Player's instance
     Player  *Player::GetInstance(void)
     {
+        if (_instance == nullptr)
+            _instance = new Player();
+
         return (_instance);
     }
 

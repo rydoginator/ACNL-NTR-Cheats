@@ -37,7 +37,7 @@ namespace CTRPluginFramework
         u64         tid = Process::GetTitleID();
 		u16         ver = Process::GetVersion();
 
-        // Assign globals according to the current game's region
+        // Get current game's region
         if (tid == 0x0004000000086300)
 		{
             if (ver != 6192)
@@ -59,6 +59,11 @@ namespace CTRPluginFramework
 		}			
         else
             return (MessageBox(unsupportedGame)());
+
+        // Initialize game's addresses based on region
+        Game::Initialize();
+        // Initialize player
+        Player::GetInstance();
 
         /*
         ** Garden
@@ -180,8 +185,6 @@ namespace CTRPluginFramework
         menu.Callback(CheatsKeyboard);
         menu.Callback(PlayerUpdateCallback);
 		menu.Callback(MiniGame);
-        Assign();
-        Game::Initialize();
 
         // Launch menu and mainloop
         menu.Run();
