@@ -181,5 +181,6 @@
 #define     USA_PERMIT_ADDRESS                  0x31F2C738
 #define     USA_TREE_SIZE                       0x31F72E06
 #define     USA_GAME_SPEED                      0x32916E80
+#define		USA_ITEM_FORM						0x3307778C
 
 #endif

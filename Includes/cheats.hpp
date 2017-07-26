@@ -133,6 +133,11 @@ namespace CTRPluginFramework
     void    CameraMod(MenuEntry *entry); ///< Probably need a rework
     void    KeyboardExtender(MenuEntry *entry);
     void    FastGameSpeed(MenuEntry *entry);
+	void    ItemFormChanger(MenuEntry *entry);
+	void    ItemFormEditor(MenuEntry *entry);
+	void    ItemEffectChanger(MenuEntry *entry);
+	void    ItemEffectEditor(MenuEntry *entry);
+	int		ItemChangerKeyboard(void);
     
     /*
     ** Appearance

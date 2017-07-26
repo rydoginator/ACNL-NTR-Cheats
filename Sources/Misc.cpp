@@ -153,38 +153,115 @@ namespace CTRPluginFramework
         }
     }
 
-    /*void    ItemFormChanger(MenuEntry *entry)
-    {
-        // Init - Set velocity if it's 0
-        if (!entry->GetArg())
-        {
-            entry->SetArg(new int);
-            int *arg = static_cast<int *>(entry->GetArg());
-            *arg = 0;
-        }
-        
-        if (entry->GetArg() )
-    }
+	void    ItemFormChanger(MenuEntry *entry)
+	{
+		static u32 offset = reinterpret_cast<u32> (Game::ItemForm);
+		// Init - Set item to 0 if it doesn't exist
+		if (!entry->GetArg())
+		{
+			entry->SetArg(new u16);
+			u16 *arg = static_cast<u16 *>(entry->GetArg());
+			*arg = 0;
+		}
+		u16 item = *static_cast<u16 *>(entry->GetArg());
+		if (*Game::Location == -1)
+			Process::Write16(offset, 0x334F + item);
+	}
 
-    void    SpeedHackEditor(MenuEntry *entry)
-    {
-        // Init - Set velocity if it's 0
-        if (!entry->GetArg())
-        {
-            entry->SetArg(new float);
-            float *arg = static_cast<float *>(entry->GetArg());
-            *arg = 0.1f;
-        }
+	void    ItemFormEditor(MenuEntry *entry)
+	{
+		// Init - Set item to 0 if it doesn't exist
+		if (!entry->GetArg())
+		{
+			entry->SetArg(new u16);
+			u16 *arg = static_cast<u16 *>(entry->GetArg());
+			*arg = 0;
+		}
 
-        Keyboard kb("Speed Hack Editor\n\nEnter the speed you want to use:");
+		u16 *item = static_cast<u16 *>(entry->GetArg());
 
-        int   *item = static_cast<float *>(entry->GetArg());
-        float   newSpeed;
+		*item = ItemChangerKeyboard();
+	}
 
+	void    ItemEffectChanger(MenuEntry *entry)
+	{
+		static u32 offset = reinterpret_cast<u32> (Game::ItemForm);
+		// Init - Set item to 0 if it doesn't exist
+		if (!entry->GetArg())
+		{
+			entry->SetArg(new u16);
+			u16 *arg = static_cast<u16 *>(entry->GetArg());
+			*arg = 0;
+		}
+		u16 item = *static_cast<u16 *>(entry->GetArg());
+		if (*Game::Location == -1)
+			Process::Write16(offset - 0x3AD8, 0x334F + item);
+	}
 
-        if (kb.Open(newSpeed, *initialSpeed) != -1)
-        {
-            *initialSpeed = newSpeed;
-        }
-    }*/
+	void    ItemEffectEditor(MenuEntry *entry)
+	{
+		// Init - Set item to 0 if it doesn't exist
+		if (!entry->GetArg())
+		{
+			entry->SetArg(new u16);
+			u16 *arg = static_cast<u16 *>(entry->GetArg());
+			*arg = 0;
+		}
+
+		u16 *item = static_cast<u16 *>(entry->GetArg());
+
+		*item = ItemChangerKeyboard();
+	}
+
+	int		ItemChangerKeyboard(void)
+	{
+		Keyboard keyboard("Item Effect Changer\nWhat form would you like?");
+		std::vector<std::string> list =
+		{
+			"Axe",
+			"Net",
+			"Rod",
+			"Shovel",
+			"Watering Can",
+			"Slingshot",
+			"Hammer",
+			"MegaPhone",
+			"Sparkler",
+			"Roman Candle",
+			"Party Popper",
+			"Bubble Wand",
+			"Balloon",
+			"Pinwheel",
+			"Drink",
+			"Beans",
+			"Good Luck Roll",
+			"Ice Cream",
+			"Wand",
+			"Tweeter",
+			"Frying Pan"
+		};
+
+		keyboard.Populate(list);
+
+		int userChoice = keyboard.Open();
+
+		if (userChoice < 5)
+			return (userChoice * 4);
+		else if (userChoice == 5)
+			return (20);
+		else if (userChoice > 5 && userChoice < 8)
+			return (16 + userChoice);
+		else if (userChoice >= 8 && userChoice < 13)
+			return (17 + userChoice);
+		else if (userChoice == 13)
+			return (53);
+		else if (userChoice > 13 && userChoice < 18)
+			return (48 + userChoice);
+		else if (userChoice == 18)
+			return (73);
+		else if (userChoice == 19)
+			return (79);
+		else if (userChoice == 20)
+			return (986);
+	}	
 }
