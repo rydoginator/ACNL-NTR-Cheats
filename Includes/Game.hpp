@@ -5,7 +5,7 @@
 
 namespace CTRPluginFramework
 {
-    struct PACKED Position
+    struct Position
     {
         u32     x;
         u32     y;
@@ -33,7 +33,7 @@ namespace CTRPluginFramework
         static u32      *IslandItem;    ///< Address of the first item in the Island
         static u32      *MainStreetItem; ///< Address of the first item in MainStreet
         static Position *MainStreetPos; ///< Position of the player on MainStreet
-        static u32       *Room;          ///< Address of the current room
+        static u8       *Room;          ///< Address of the current room
         static u32      TCPImage;       ///< Address of the TCP picture
         static u64      *TimeReal;      ///< Address of the real game's time
         static u64      *TimeSave;      ///< Address of the save game's time
