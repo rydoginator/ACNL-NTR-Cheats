@@ -415,8 +415,7 @@ namespace CTRPluginFramework
             "Face",
             "Eye Colour",
             "Tan",
-            "Apparel",
-            "Return to main menu..."
+            "Apparel"
         };
         keyboard.Populate(list);
         int userChoice = keyboard.Open();
@@ -443,9 +442,6 @@ namespace CTRPluginFramework
                 break;
             case 6:
                 apparelMod();
-                break;
-            case 7:
-                CheatsKeyboard();
                 break;
             default:
                 break;

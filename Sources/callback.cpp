@@ -31,38 +31,22 @@ namespace CTRPluginFramework
 
         // OPen the keyboard and wait for a user input
         // be sure to use an int in case the function return -1
-        int  userChoice = keyboard.Open();
-
-        // If userChoice == -1, the user aborted the keybord or an error occurred
-        switch(userChoice)
+        int  userChoice;
+        
+        do
         {
-            case 0:
-                WaterAllFlowers(nullptr);
-                break;
-            case 1:
-                RemoveAllWeeds(nullptr);
-                break;
-            case 2:
-                duplicationAll();
-                break;
-            case 3:
-                timePicker();
-                break;
-            case 4:
-                appearanceMod();
-                break;
-            case 5:
-                TeleportKeyboard();
-                break;
-            case 6:
-             	FurnitureKeyboard();
-               	break;
-			case 7:
-				GrassKeyboard();
-				break;
-            default:
-                break;
-        }
+            userChoice = keyboard.Open();
+
+            if (userChoice == 0) WaterAllFlowers(nullptr);
+            else if (userChoice == 1) RemoveAllWeeds(nullptr);
+            else if (userChoice == 2) duplicationAll();
+            else if (userChoice == 3) timePicker();
+            else if (userChoice == 4) appearanceMod();
+            else if (userChoice == 5) TeleportKeyboard();
+            else if (userChoice == 6) FurnitureKeyboard();
+            else if (userChoice == 7) GrassKeyboard();
+
+        } while (userChoice != -1);
     }
 
    void    PlayerUpdateCallback(void)
