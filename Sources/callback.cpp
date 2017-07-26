@@ -9,7 +9,7 @@ namespace CTRPluginFramework
         static HoldKey  buttons(R + X, Seconds(0.5f));
 
         if (!buttons())
-        	return;
+            return;
 
         Keyboard  keyboard("Select which command \nyou'd like to execute.");
 
@@ -23,7 +23,7 @@ namespace CTRPluginFramework
             "Appearance Modifier...",
             "Teleport to...",
             "Get set...",
-			"Change Grass to..."
+            "Change Grass to..."
         };
 
         // Populate the keyboard with the entries
@@ -130,21 +130,21 @@ namespace CTRPluginFramework
         }
     }
 
-	void	GrassKeyboard(void)
-	{
-		Keyboard keyboard("Would you like to destroy or make grass?");
-		std::vector<std::string> list =
-		{
-			"Destroy!",
-			"Replenish"
-		};
-		int userChoice = keyboard.Open();
+    void    GrassKeyboard(void)
+    {
+        Keyboard keyboard("Would you like to destroy or make grass?");
+        std::vector<std::string> list =
+        {
+            "Destroy!",
+            "Replenish"
+        };
+        int userChoice = keyboard.Open();
 
-		if (userChoice == 0)
-			DestroyGrass(nullptr);
-		else if (userChoice == 1)
-			ChangeGrass(nullptr);
-	}
+        if (userChoice == 0)
+            DestroyGrass(nullptr);
+        else if (userChoice == 1)
+            ChangeGrass(nullptr);
+    }
 
     class Korok
     {
@@ -233,8 +233,8 @@ namespace CTRPluginFramework
 
     bool    KorokMiniGame::InGame = false;
 
-	void	MiniGame(void)
-	{
+    void    MiniGame(void)
+    {
         static KorokMiniGame *game = nullptr;
         static KeySequence keySequence({ Key::DPadUp, Key::DPadUp, Key::DPadDown, Key::DPadDown, Key::DPadLeft, Key::DPadRight, Key::DPadLeft, Key::DPadRight, Key::B, Key::A });
 
@@ -278,6 +278,6 @@ namespace CTRPluginFramework
                 MessageBox("Congratulation for finding all Koroks !!\nWe hope you enjoyed the easter egg !\n Don't tell anyone, and enjoy 4.0 :)")();
             }
         }
-		
-	}
+        
+    }
 }

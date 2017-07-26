@@ -2,7 +2,7 @@
 
 namespace CTRPluginFramework
 {
-	//Appearance
+    //Appearance
     void    ChangeGender(void)
     {
         Keyboard  keyboard("Which gender would you like?");
@@ -28,7 +28,7 @@ namespace CTRPluginFramework
 
     void    ChangeHair(void)
     {
-        Keyboard  keyboard("Which hairstlye would you like?");
+        Keyboard  keyboard("Which hairstyle would you like?");
         static std::vector<std::string> list = 
         {
             "Male 01", 
@@ -76,8 +76,8 @@ namespace CTRPluginFramework
             AppearanceMod();
         }       
     }
-	
-	void    ChangeFace(void) //Faces don't have seperate IDs for genders
+    
+    void    ChangeFace(void) //Faces don't have seperate IDs for genders
     {
         Keyboard  keyboard("Which face would you like?");
         static std::vector<std::string> list = 
@@ -105,7 +105,7 @@ namespace CTRPluginFramework
             AppearanceMod();
         }       
     }
-	
+    
     void    ChangeHairCol(void)
     {
         Keyboard  keyboard("Which hair colour would you like?");
@@ -139,8 +139,8 @@ namespace CTRPluginFramework
             AppearanceMod();
         }       
     }
-	
-	void    ChangeEyeCol(void) 
+    
+    void    ChangeEyeCol(void) 
     {
         Keyboard  keyboard("Which eye colour would you like?");
         static std::vector<std::string> list = 
@@ -164,7 +164,7 @@ namespace CTRPluginFramework
         }       
     }
 
-	void    ChangeTan(void)
+    void    ChangeTan(void)
     {
         Keyboard  keyboard("Which tan level would you like?");
         static std::vector<std::string> list = 
@@ -196,12 +196,12 @@ namespace CTRPluginFramework
             AppearanceMod();
         }       
     }
-	
-	//Apparel
-	void    ChangeTop(void)
+    
+    //Apparel
+    void    ChangeTop(void)
     {
         u32 output;
-		u16 underwet;
+        u16 underwet;
         // New keyboard, hint being:
         Keyboard  keyboard("Which top would you like ?");
         // Add the function to check the input entered by the user
@@ -225,21 +225,21 @@ namespace CTRPluginFramework
         // If the function return -1, then the user canceled the keyboard, so do nothing 
         if (keyboard.Open(output) != -1)
         {
-			if (output >= 0x26ED && output <= 0x26F5) //Check if ID is a Wetsuit
-			{
-				Player::GetInstance()->Read16(0x12, underwet); //Get current top
-				if (underwet < 0x26ED) //If the current top isn't a wetsuit
-				{
-				Player::GetInstance()->Write16(0x16, underwet); //Put top 'under' the wetsuit so it'll appear if user manually takes off wetsuit
-				}
-			}
-			
+            if (output >= 0x26ED && output <= 0x26F5) //Check if ID is a Wetsuit
+            {
+                Player::GetInstance()->Read16(0x12, underwet); //Get current top
+                if (underwet < 0x26ED) //If the current top isn't a wetsuit
+                {
+                Player::GetInstance()->Write16(0x16, underwet); //Put top 'under' the wetsuit so it'll appear if user manually takes off wetsuit
+                }
+            }
+            
             Player::GetInstance()->Write16(0x12, output);
-			ApparelMod();
+            ApparelMod();
         }     
     }
-	
-	void    ChangeHat(void)
+    
+    void    ChangeHat(void)
     {
         u32 output;
         Keyboard  keyboard("Which hat would you like ?");
@@ -258,11 +258,11 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0xA, output);
-			ApparelMod();
+            ApparelMod();
         }     
     }
-	
-	void    ChangeAccessory(void)
+    
+    void    ChangeAccessory(void)
     {
         u32 output;
         Keyboard  keyboard("Which accessory would you like ?");
@@ -281,12 +281,12 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0xE, output);
-			ApparelMod();
+            ApparelMod();
         }     
     }
-	
-	
-	void    ChangePants(void)
+    
+    
+    void    ChangePants(void)
     {
         u32 output;
         Keyboard  keyboard("Which pants would you like ?");
@@ -305,11 +305,11 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0x1A, output);
-			ApparelMod();
+            ApparelMod();
         }     
     }
-	
-	void    ChangeSocks(void)
+    
+    void    ChangeSocks(void)
     {
         u32 output;
         Keyboard  keyboard("Which socks would you like ?");
@@ -328,11 +328,11 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0x1E, output);
-			ApparelMod();
+            ApparelMod();
         }     
     }
-	
-	void    ChangeShoes(void)
+    
+    void    ChangeShoes(void)
     {
         u32 output;
         Keyboard  keyboard("Which shoes would you like ?");
@@ -351,19 +351,19 @@ namespace CTRPluginFramework
         if (keyboard.Open(output) != -1)
         {
             Player::GetInstance()->Write16(0x1E, output);
-			ApparelMod();
+            ApparelMod();
         }  
     }
-	
-	//ApparelMod Function
-	void    ApparelMod(void)
+    
+    //ApparelMod Function
+    void    ApparelMod(void)
     {
         Keyboard  keyboard("Choose what to edit");
         static std::vector<std::string> list = 
         {
             "Hat",
             "Accessory",
-			"Top/Dress/Wetsuit",
+            "Top/Dress/Wetsuit",
             "Pants/Skirt",
             "Socks",
             "Shoes",
@@ -400,16 +400,16 @@ namespace CTRPluginFramework
         }
 
     }
-	
-	//Main appearance mod function
-	    void    AppearanceMod(void)
+    
+    //Main appearance mod function
+        void    AppearanceMod(void)
     {
         Keyboard  keyboard("Choose what to edit");
         static std::vector<std::string> list = 
         {
             "Gender",
             "Hair",
-			"Hair Colour",
+            "Hair Colour",
             "Face",
             "Eye Colour",
             "Tan",

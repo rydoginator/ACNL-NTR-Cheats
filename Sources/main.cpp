@@ -6,7 +6,7 @@ namespace CTRPluginFramework
     void    PatchProcess(void)
     {
     }
-	
+    
     #define MAJOR_VERSION       4
     #define MINOR_VERSION       0
     #define REVISION_VERSION    23
@@ -36,28 +36,28 @@ namespace CTRPluginFramework
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
         PluginMenu  &menu = *m;
         u64         tid = Process::GetTitleID();
-		u16         ver = Process::GetVersion();
+        u16         ver = Process::GetVersion();
 
         // Get current game's region
         if (tid == 0x0004000000086300)
-		{
+        {
             if (ver != 6192)
                 return (MessageBox(unsupportedVersion)());
             g_region = USA;
-		}			
+        }           
         else if (tid == 0x0004000000086400)
-		{
+        {
             if (ver != 6176)
                 return (MessageBox(unsupportedVersion)());
             g_region = EUR;
-		}
-			
+        }
+            
         else if (tid == 0x0004000000086200)
-		{
+        {
             if (ver != 6272)
                 return (MessageBox(unsupportedVersion)());
             g_region = JAP;
-		}			
+        }           
         else
             return (MessageBox(unsupportedGame)());
 
@@ -135,8 +135,8 @@ namespace CTRPluginFramework
         ra->Append(new MenuEntry(1, "Remove All Items", RemoveAllItems, "Press " FONT_R " and " FONT_A " to execute... Beware as there is no going back if you save."));
         ra->Append(new MenuEntry(1, "Remove All Weeds", RemoveAllWeeds, "Press " FONT_R " and " FONT_A " to execute."));
         ra->Append(new MenuEntry(1, "Water All Flowers", WaterAllFlowers, "Press " FONT_R " and " FONT_A "to execute."));
-		ra->Append(new MenuEntry(1, "Fill Grass", FillGrass, "Press " FONT_R " and " FONT_A " to fill your town with grass.\nPlease note that bald spots will respawn on the next day."));
-		ra->Append(new MenuEntry(1, "Destroy Grass", DestroyGrass, "Press " FONT_R " and " FONT_A " to destroy all the grass in your town to make a desert wasteland."));
+        ra->Append(new MenuEntry(1, "Fill Grass", FillGrass, "Press " FONT_R " and " FONT_A " to fill your town with grass.\nPlease note that bald spots will respawn on the next day."));
+        ra->Append(new MenuEntry(1, "Destroy Grass", DestroyGrass, "Press " FONT_R " and " FONT_A " to destroy all the grass in your town to make a desert wasteland."));
         
         folder->Append(ra);
         folder->Append(new MenuEntry("Real Time World Edit", WorldEdit, "Press " FONT_R " and " FONT_DL " to open the keyboard to store the item. " FONT_R " and " FONT_DU " to store the item that you're standing on. And " FONT_R " + " FONT_DD " to write the item to the place that you're standing on."));
@@ -158,9 +158,9 @@ namespace CTRPluginFramework
 
         folder->Append(new MenuEntry("100% Mayor permit", Permit, "Special thanks to Slattz"));
         folder->Append(new MenuEntry("Unlock all PWPs", PWPUnlock, "Special thanks to Mega Mew and Scotline"));
-		folder->Append(new MenuEntry("Fill out encyclopedia", Encyclopedia, "Special thanks to Mega Mew and Scotline"));
-		folder->Append(new MenuEntry("Fill out emoticons", Emoticons, "Special thanks to Mega Mew and Scotline"));
-		folder->Append(new MenuEntry("Fill out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline"));
+        folder->Append(new MenuEntry("Fill out encyclopedia", Encyclopedia, "Special thanks to Mega Mew and Scotline"));
+        folder->Append(new MenuEntry("Fill out emoticons", Emoticons, "Special thanks to Mega Mew and Scotline"));
+        folder->Append(new MenuEntry("Fill out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline"));
 
         menu.Append(folder);
 
@@ -173,8 +173,8 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Ghost Mode", GhostMode));
         folder->Append(new MenuEntry("Camera Mod", CameraMod));
         folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters. Now you can type short stories into chat :)"));
-		folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
-		
+        folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
+        
         menu.Append(folder);
 
         /*
@@ -185,7 +185,7 @@ namespace CTRPluginFramework
         menu.Callback([] { Sleep(Milliseconds(1)); });
         menu.Callback(CheatsKeyboard);
         menu.Callback(PlayerUpdateCallback);
-		menu.Callback(MiniGame);
+        menu.Callback(MiniGame);
 
         // Launch menu and mainloop
         menu.Run();

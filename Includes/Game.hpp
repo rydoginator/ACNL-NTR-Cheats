@@ -52,7 +52,7 @@ namespace CTRPluginFramework
         static u32      *Permit;         ///<Offset of Mayor Permit rating
         static u32      *Grass;         ///<Offset of where grass starts
         static u32      *GrassEnd;
-		static u32		*GameSpeed;		///<offset of game speed found by Scotline and Mega Mew
+        static u32      *GameSpeed;     ///<offset of game speed found by Scotline and Mega Mew
         
 
     };

@@ -34,7 +34,7 @@ namespace CTRPluginFramework
         PWP = reinterpret_cast<u32 *>(AutoRegion(USA_PWP_ADDRESS, TO_EUR(USA_PWP_ADDRESS), TO_JAP(USA_PWP_ADDRESS))());
         Grass = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_START_ADDR, TO_EUR(USA_GRASS_START_ADDR), TO_JAP(USA_GRASS_START_ADDR))());
         GrassEnd = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_END_ADDR, TO_EUR(USA_GRASS_END_ADDR), TO_JAP(USA_GRASS_END_ADDR))());
-		GameSpeed = reinterpret_cast<u32 *>(AutoRegion(USA_GAME_SPEED, 0x328EEAC0, 0x32939920)());
+        GameSpeed = reinterpret_cast<u32 *>(AutoRegion(USA_GAME_SPEED, 0x328EEAC0, 0x32939920)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -114,5 +114,5 @@ namespace CTRPluginFramework
     u32         *Game::PWP = nullptr;
     u32         *Game::Grass = nullptr;
     u32         *Game::GrassEnd = nullptr;
-	u32			*Game::GameSpeed = nullptr;
+    u32         *Game::GameSpeed = nullptr;
 }

@@ -35,25 +35,25 @@ namespace CTRPluginFramework
 
     void    FillGrass(MenuEntry *entry)
     {
-		static u32 offset = reinterpret_cast<u32> (Game::Grass);
+        static u32 offset = reinterpret_cast<u32> (Game::Grass);
 
         if(!Controller::IsKeysDown(R + A) && entry != nullptr)
             return;
 
-		for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
-			Process::Write32(offset, 0xFFFFFFFF);
+        for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
+            Process::Write32(offset, 0xFFFFFFFF);
     }
 
-	void    DestroyGrass(MenuEntry *entry)
-	{
-		static u32 offset = reinterpret_cast<u32> (Game::Grass);
+    void    DestroyGrass(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32> (Game::Grass);
 
-		if (!Controller::IsKeysDown(R + A) && entry != nullptr)
-			return;
+        if (!Controller::IsKeysDown(R + A) && entry != nullptr)
+            return;
 
-		for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
-			Process::Write32(offset, 0x00000000);
-	}
+        for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
+            Process::Write32(offset, 0x00000000);
+    }
 
     void    WaterAllFlowers(MenuEntry *entry)
     {

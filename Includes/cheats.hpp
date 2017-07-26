@@ -52,7 +52,7 @@ namespace CTRPluginFramework
     void    TeleportKeyboard(void);
     void    GetSet(int set);
     void    FurnitureKeyboard(void);
-	void	GrassKeyboard(void);
+    void    GrassKeyboard(void);
 
     /*
     ** Helpers
@@ -99,9 +99,9 @@ namespace CTRPluginFramework
     void    SetBells(MenuEntry *entry);  ///< Need fix ?
     void    ExtendedInventoryBox(MenuEntry *entry);
     void    GenerateFossils(MenuEntry *entry);
-	void	Encyclopedia(MenuEntry *entry);
-	void	Emoticons(MenuEntry *entry);
-	void	Songs(MenuEntry *entry);
+    void    Encyclopedia(MenuEntry *entry);
+    void    Emoticons(MenuEntry *entry);
+    void    Songs(MenuEntry *entry);
 
     /*
     ** Environment
@@ -110,8 +110,8 @@ namespace CTRPluginFramework
     void    RemoveAllWeeds(MenuEntry *entry);
     void    WaterAllFlowers(MenuEntry *entry);
     void    WorldEdit(MenuEntry *entry); ///< Maybe add a check on input ?
-	void    DestroyGrass(MenuEntry *entry);
-	void    FillGrass(MenuEntry *entry);
+    void    DestroyGrass(MenuEntry *entry);
+    void    FillGrass(MenuEntry *entry);
 
     /*
     ** Time Travel
@@ -132,25 +132,25 @@ namespace CTRPluginFramework
     void    GhostMode(MenuEntry *entry);
     void    CameraMod(MenuEntry *entry); ///< Probably need a rework
     void    KeyboardExtender(MenuEntry *entry);
-	void	FastGameSpeed(MenuEntry *entry);
-	
-	/*
+    void    FastGameSpeed(MenuEntry *entry);
+    
+    /*
     ** Appearance
     ********************/
     void    ChangeGender(void);
     void    ChangeHair(void);
-	void    ChangeFace(void);
+    void    ChangeFace(void);
     void    ChangeHairCol(void);
-	void    ChangeEyeCol(void);
-	void    ChangeTan(void);
-	void    ChangeHat(void);
-	void    ChangeAccessory(void);
-	void    ChangeTop(void);
-	void    ChangePants(void);
-	void    ChangeSocks(void);
-	void    ChangeShoes(void);
-	void    ApparelMod(void);
-	void    AppearanceMod(void);
+    void    ChangeEyeCol(void);
+    void    ChangeTan(void);
+    void    ChangeHat(void);
+    void    ChangeAccessory(void);
+    void    ChangeTop(void);
+    void    ChangePants(void);
+    void    ChangeSocks(void);
+    void    ChangeShoes(void);
+    void    ApparelMod(void);
+    void    AppearanceMod(void);
 
     /*
     ** Main Street
@@ -165,6 +165,6 @@ namespace CTRPluginFramework
     ********************/
     void    CheatsKeyboard(void);
     void    PlayerUpdateCallback(void);
-    void	MiniGame(void);
+    void    MiniGame(void);
 }
 #endif

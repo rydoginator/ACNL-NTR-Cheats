@@ -59,8 +59,8 @@ namespace   CTRPluginFramework
     {
         return (Process::Read8(offset + _offset, value));
     }
-	
-	bool    Player::Read16(u32 offset, u16 &value) const
+    
+    bool    Player::Read16(u32 offset, u16 &value) const
     {
         return (Process::Read16(offset + _offset, value));
     }
@@ -85,11 +85,11 @@ namespace   CTRPluginFramework
         return (Process::Write8(offset + _offset, value));
     }
 
-	bool    Player::Write16(u32 offset, u16 value) const
+    bool    Player::Write16(u32 offset, u16 value) const
     {
         return (Process::Write16(offset + _offset, value));
     }
-	
+    
     bool    Player::Write32(u32 offset, u32 value) const
     {
         return (Process::Write32(offset + _offset, value));
@@ -114,25 +114,25 @@ namespace   CTRPluginFramework
     }
 
     //Get all the occurances of 0x7FFE inside someone's inventory and return which slots it's in (as an array) and how long the array is
-    int 	* Player::GetAvaibleSlots(int &length) const
+    int     * Player::GetAvaibleSlots(int &length) const
     {
-    	u32 item[16];
-    	int slot = 0;
-    	static int slots[16];
-    	for (int i = 0; i < 16; i ++)
-    	{
-    		ReadInventorySlot(i, item[i]);
-    	}
-    	for (int i = 0; i < 16; i++)
-    	{
-    		if (item[i] == 0x7FFE)
-    		{
-    			slots[slot] = i;
-    			slot++;
-    		}
-    	}
-    	length = slot;
-    	return (slots);
+        u32 item[16];
+        int slot = 0;
+        static int slots[16];
+        for (int i = 0; i < 16; i ++)
+        {
+            ReadInventorySlot(i, item[i]);
+        }
+        for (int i = 0; i < 16; i++)
+        {
+            if (item[i] == 0x7FFE)
+            {
+                slots[slot] = i;
+                slot++;
+            }
+        }
+        length = slot;
+        return (slots);
     }
 
     int     * Player::FindItems(int &length, u32 search) const

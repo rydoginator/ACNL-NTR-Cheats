@@ -50,11 +50,11 @@
 #define     USA_VISITOR2_INDOOR_Z_ADDR          0x3307B784
 
 #define     USA_MINUTES_ADDR                    0x9515BA
-#define		EUR_MINUTES_ADDR					0x9505B6
-#define		JAP_MINUTES_ADDR					0x9495B6
+#define     EUR_MINUTES_ADDR                    0x9505B6
+#define     JAP_MINUTES_ADDR                    0x9495B6
 #define     USA_HOURS_ADDR                      0x9515BB
-#define 	EUR_HOURS_ADDR						0x9505B7
-#define		JAP_HOURS_ADDR						0x9495B7
+#define     EUR_HOURS_ADDR                      0x9505B7
+#define     JAP_HOURS_ADDR                      0x9495B7
 #define     USA_PLAYER_POINTER                  0xAB014C
 #define     EUR_PLAYER_POINTER                  0xAAF14C
 #define     JAP_PLAYER_POINTER                  0xAA914C
@@ -120,7 +120,7 @@
 #define     USA_ONLINE5_MEDALS_ADDR             0xA967B0
 #define     USA_ONLINE6_MEDALS_ADDR             0xA9EC30
 
-#define		USA_BUILDING_BYTE					0x31F72E04
+#define     USA_BUILDING_BYTE                   0x31F72E04
 
 #define     USA_CAMERA_ASM_ADDR                 0x764504
 #define     EUR_CAMERA_ASM_ADDR                 0x76350C
@@ -143,9 +143,9 @@
 #define     JAP_CAMERA_POINTER                  0x94A880
 
 //the current index of the player to the pointer of their coordinates
-#define		USA_COORDINATES_BYTE				0x82E93EC
-#define		EUR_COORDINATES_BYTE				0x82E93EC 
-#define		JAP_COORDINATES_BYTE				0x82E93EC 
+#define     USA_COORDINATES_BYTE                0x82E93EC
+#define     EUR_COORDINATES_BYTE                0x82E93EC 
+#define     JAP_COORDINATES_BYTE                0x82E93EC 
 
 #define     USA_CAMSTOP_POINTER                 0xAAE994 //the game's internal pointer for coordinates
 #define     EUR_CAMSTOP_POINTER                 0xAAD994
@@ -160,26 +160,26 @@
 #define     EUR_THOUGHT_ADDR                    0x94ED88
 #define     JAP_THOUGHT_ADDR                    0x948D88
 
-#define 	USA_THOUGHT_ASM						0x2160BC
-#define		EUR_THOUGHT_ASM						0x2160DC
-#define		JAP_THOUGHT_ASM						0x215FFC
+#define     USA_THOUGHT_ASM                     0x2160BC
+#define     EUR_THOUGHT_ASM                     0x2160DC
+#define     JAP_THOUGHT_ASM                     0x215FFC
 
 //offset difference to be used in the walk over things code
-#define		USA_CODE_DIFFERENCE					0x0
-#define		EUR_CODE_DIFFERENCE				   -0xFC8
-#define		JAP_CODE_DIFFERENCE				   -0x1508
+#define     USA_CODE_DIFFERENCE                 0x0
+#define     EUR_CODE_DIFFERENCE                -0xFC8
+#define     JAP_CODE_DIFFERENCE                -0x1508
 
 #define     USA_THOUGHT_TEXT_ADDR               0x33077D50
 #define     USA_CLUB_ADDR                       0x301b5aa0
 
-#define     USA_GARDEN                  		0x31F26F80
+#define     USA_GARDEN                          0x31F26F80
 #define     USA_NAME_ADDR                       0x31F2C5C8
 
-#define		USA_TOWN_FRUIT						0x31F891BA
-#define		USA_GRASS_TYPE						0x31F7A401
-#define		USA_PWP_ADDRESS 					0x31F772B0
-#define		USA_PERMIT_ADDRESS 					0x31F2C738
-#define		USA_TREE_SIZE						0x31F72E06
-#define		USA_GAME_SPEED						0x32916E80
+#define     USA_TOWN_FRUIT                      0x31F891BA
+#define     USA_GRASS_TYPE                      0x31F7A401
+#define     USA_PWP_ADDRESS                     0x31F772B0
+#define     USA_PERMIT_ADDRESS                  0x31F2C738
+#define     USA_TREE_SIZE                       0x31F72E06
+#define     USA_GAME_SPEED                      0x32916E80
 
 #endif

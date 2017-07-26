@@ -18,11 +18,11 @@ namespace CTRPluginFramework
         }
     }
 
-	void	FastGameSpeed(MenuEntry *entry)
-	{
-		static u32 offset = reinterpret_cast<u32>(Game::GameSpeed);
-		Process::Write32(offset, 0x00FFFFFF);
-	}
+    void    FastGameSpeed(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32>(Game::GameSpeed);
+        Process::Write32(offset, 0x00FFFFFF);
+    }
 
     void    CameraMod(MenuEntry *entry)
     {
@@ -153,38 +153,38 @@ namespace CTRPluginFramework
         }
     }
 
-	/*void    ItemFormChanger(MenuEntry *entry)
-	{
-		// Init - Set velocity if it's 0
-		if (!entry->GetArg())
-		{
-			entry->SetArg(new int);
-			int *arg = static_cast<int *>(entry->GetArg());
-			*arg = 0;
-		}
-		
-		if (entry->GetArg() )
-	}
+    /*void    ItemFormChanger(MenuEntry *entry)
+    {
+        // Init - Set velocity if it's 0
+        if (!entry->GetArg())
+        {
+            entry->SetArg(new int);
+            int *arg = static_cast<int *>(entry->GetArg());
+            *arg = 0;
+        }
+        
+        if (entry->GetArg() )
+    }
 
-	void    SpeedHackEditor(MenuEntry *entry)
-	{
-		// Init - Set velocity if it's 0
-		if (!entry->GetArg())
-		{
-			entry->SetArg(new float);
-			float *arg = static_cast<float *>(entry->GetArg());
-			*arg = 0.1f;
-		}
+    void    SpeedHackEditor(MenuEntry *entry)
+    {
+        // Init - Set velocity if it's 0
+        if (!entry->GetArg())
+        {
+            entry->SetArg(new float);
+            float *arg = static_cast<float *>(entry->GetArg());
+            *arg = 0.1f;
+        }
 
-		Keyboard kb("Speed Hack Editor\n\nEnter the speed you want to use:");
+        Keyboard kb("Speed Hack Editor\n\nEnter the speed you want to use:");
 
-		int   *item = static_cast<float *>(entry->GetArg());
-		float   newSpeed;
+        int   *item = static_cast<float *>(entry->GetArg());
+        float   newSpeed;
 
 
-		if (kb.Open(newSpeed, *initialSpeed) != -1)
-		{
-			*initialSpeed = newSpeed;
-		}
-	}*/
+        if (kb.Open(newSpeed, *initialSpeed) != -1)
+        {
+            *initialSpeed = newSpeed;
+        }
+    }*/
 }
