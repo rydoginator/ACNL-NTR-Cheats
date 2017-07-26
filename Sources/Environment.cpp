@@ -20,7 +20,7 @@ namespace CTRPluginFramework
     {
         static u16 weeds[] = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8 };
 
-        if (!Controller::IsKeysDown(R + A) && !g_command)
+        if (!Controller::IsKeysDown(R + A) && entry != nullptr)
             return;
 
         FindReplacer<u16>  findReplacer(reinterpret_cast<u32>(Game::TownItem), 0x5000);
@@ -37,7 +37,7 @@ namespace CTRPluginFramework
     {
 		static u32 offset = reinterpret_cast<u32> (Game::Grass);
 
-        if(!Controller::IsKeysDown(R + A) && !g_command)
+        if(!Controller::IsKeysDown(R + A) && entry != nullptr)
             return;
 
 		for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
@@ -48,7 +48,7 @@ namespace CTRPluginFramework
 	{
 		static u32 offset = reinterpret_cast<u32> (Game::Grass);
 
-		if (!Controller::IsKeysDown(R + A) && !g_command)
+		if (!Controller::IsKeysDown(R + A) && entry != nullptr)
 			return;
 
 		for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
@@ -57,7 +57,7 @@ namespace CTRPluginFramework
 
     void    WaterAllFlowers(MenuEntry *entry)
     {
-        if (!Controller::IsKeysDown(R + A) && !g_command)
+        if (!Controller::IsKeysDown(R + A) && entry != nullptr)
             return;
 
         u32     address = reinterpret_cast<u32>(Game::TownItem);

@@ -1,22 +1,20 @@
 #include "cheats.hpp"
 #include "Player.hpp"
-#include "Helpers\KeySequence.hpp"
+#include "Helpers/KeySequence.hpp"
 
 namespace CTRPluginFramework
 {
     void    CheatsKeyboard(void) 
     {
-        bool g_command;
         static HoldKey  buttons(R + X, Seconds(0.5f));
 
         if (!buttons())
         	return;
 
-        g_command = true;
         Keyboard  keyboard("Select which command \nyou'd like to execute.");
 
         // Creating my entry list
-        std::vector<std::string> list = 
+        static std::vector<std::string> list = 
         {
             "Water Flowers",
             "Pull All Weeds",
@@ -35,16 +33,14 @@ namespace CTRPluginFramework
         // be sure to use an int in case the function return -1
         int  userChoice = keyboard.Open();
 
-            // If userChoice == -1, the user aborted the keybord or an error occurred
+        // If userChoice == -1, the user aborted the keybord or an error occurred
         switch(userChoice)
         {
             case 0:
                 WaterAllFlowers(nullptr);
-                g_command = false;
                 break;
             case 1:
                 RemoveAllWeeds(nullptr);
-                g_command = false;
                 break;
             case 2:
                 duplicationAll();
@@ -57,6 +53,7 @@ namespace CTRPluginFramework
                 break;
             case 5:
                 TeleportKeyboard();
+                break;
             case 6:
              	FurnitureKeyboard();
                	break;

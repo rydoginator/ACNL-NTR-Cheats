@@ -47,13 +47,6 @@ enum
 
 namespace CTRPluginFramework
 {
-    extern bool g_command;
-
-    // Need to be cleaned:
-    void    Assign(void);
-    
-    void    assign_region(Region region);
-
     void    appearanceMod(void);
     void    duplicationAll(void);
     void    TeleportKeyboard(void);
