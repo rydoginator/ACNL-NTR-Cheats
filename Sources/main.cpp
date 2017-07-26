@@ -12,7 +12,8 @@ namespace CTRPluginFramework
     #define REVISION_VERSION    23
     #define TOSTRING(x)         #x
     #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) "]"
-
+    
+    extern Region               g_region;
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
     static const std::string    gameName = "Animal Crossing New Leaf";
@@ -28,6 +29,7 @@ namespace CTRPluginFramework
         "Scotline\n"
         "and others :)";    
 
+    
     int     main(void)
     {
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
@@ -40,20 +42,20 @@ namespace CTRPluginFramework
 		{
             if (ver != 6192)
                 return (MessageBox(unsupportedVersion)());
-            assign_region(USA);
+            g_region = USA;
 		}			
         else if (tid == 0x0004000000086400)
 		{
             if (ver != 6176)
                 return (MessageBox(unsupportedVersion)());
-            assign_region(EUR);
+            g_region = EUR;
 		}
 			
         else if (tid == 0x0004000000086200)
 		{
             if (ver != 6272)
                 return (MessageBox(unsupportedVersion)());
-            assign_region(JAP);
+            g_region = JAP;
 		}			
         else
             return (MessageBox(unsupportedGame)());

@@ -14,10 +14,10 @@ LIBDIRS		:= 	$(TOPDIR)
 SOURCES 	:= 	Sources \
 				Sources/Helpers
 
-IP 			:=  161
+IP 			:=  198
 FTP_HOST 	:=	192.168.137.
 FTP_PORT	:=	"5000"
-FTP_PATH	:=	"plugin/0004000000033600/"
+FTP_PATH	:=	"plugin/0004000000086400/"
 
 #---------------------------------------------------------------------------------
 # options for code generation
