@@ -25,7 +25,9 @@ namespace CTRPluginFramework
         **********************************************************/
 
         static int      Notify(std::string str, Color foreground = Color(255, 255, 255), Color background = Color());
-
+        static void     Lock(void);
+        static bool     TryLock(void); //false success, true failure
+        static void     Unlock(void);
         /*
         ** OSD::WriteLine
         ** Allows you to write a line of text on the screen while the game's running
