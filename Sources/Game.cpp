@@ -15,7 +15,7 @@ namespace CTRPluginFramework
         IslandItem = reinterpret_cast<u32 *>(AutoRegion(USA_ISLAND_ITEMS_ADDR, TO_EUR(USA_ISLAND_ITEMS_ADDR), TO_JAP(USA_ISLAND_ITEMS_ADDR))());
         MainStreetItem = reinterpret_cast<u32 *>(AutoRegion(USA_MAINSTREET_ITEMS, TO_EUR(USA_MAINSTREET_ITEMS), TO_JAP(USA_MAINSTREET_ITEMS))());
         MainStreetPos = reinterpret_cast<Position *>(AutoRegion(USA_MAINSTREET_X, TO_EUR(USA_MAINSTREET_X), TO_JAP(USA_MAINSTREET_X))());
-        Room = reinterpret_cast<u8 *>(AutoRegion(USA_ROOM_ID_ADDR, EUR_ROOM_ID_ADDR, JAP_ROOM_ID_ADDR)());
+        Room = reinterpret_cast<u32 *>(AutoRegion(USA_ROOM_ID_ADDR, EUR_ROOM_ID_ADDR, JAP_ROOM_ID_ADDR)());
         BuildingSlots = reinterpret_cast <u32 *>(AutoRegion(USA_BUILDING_BYTE, TO_EUR(USA_BUILDING_BYTE), TO_JAP(USA_BUILDING_BYTE))());
         TCPImage = Garden + 0x5758;
         TimeReal = reinterpret_cast<u64 *>(AutoRegion(USA_REALTIME_ADDR, EUR_REALTIME_ADDR, JAP_REALTIME_ADDR)());
@@ -95,7 +95,7 @@ namespace CTRPluginFramework
     u32         *Game::IslandItem = nullptr;
     u32         *Game::MainStreetItem = nullptr;
     Position    *Game::MainStreetPos = nullptr;
-    u8          *Game::Room = nullptr;
+    u32         *Game::Room = nullptr;
     u32         Game::TCPImage = 0;
     u64         *Game::TimeReal = nullptr;
     u64         *Game::TimeSave = nullptr;

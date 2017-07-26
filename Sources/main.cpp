@@ -214,6 +214,7 @@ namespace CTRPluginFramework
         menu.Callback(SleepThread);
         menu.Callback(CheatsKeyboard);
         menu.Callback(PlayerUpdateCallback);
+		menu.Callback(Secret);
         Assign();
         Game::Initialize();
 

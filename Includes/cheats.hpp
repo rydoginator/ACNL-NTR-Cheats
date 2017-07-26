@@ -173,5 +173,7 @@ namespace CTRPluginFramework
     void    SleepThread(void);
     void    CheatsKeyboard(void);
     void    PlayerUpdateCallback(void);
+	void	Secret(void);
+	void	YaHa(void);
 }
 #endif
