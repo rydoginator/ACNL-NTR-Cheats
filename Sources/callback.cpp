@@ -1,7 +1,6 @@
 #include "cheats.hpp"
 #include "Player.hpp"
 #include "Helpers\KeySequence.hpp"
-#include <stdarg.h> 
 
 namespace CTRPluginFramework
 {
@@ -165,18 +164,6 @@ namespace CTRPluginFramework
 		else if (userChoice == 1)
 			ChangeGrass(nullptr);
 	}
-
-    std::string     Format(const char *fmt, ...)
-    {
-        char        buffer[0x100] = { 0 };
-        va_list     argList;
-        
-        va_start(argList, fmt);
-        vsnprintf(buffer, sizeof(buffer), fmt, argList);
-        va_end(argList);
-        
-        return (std::string(buffer));
-    }
 
     class Korok
     {

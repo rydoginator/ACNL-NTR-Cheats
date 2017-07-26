@@ -10,7 +10,8 @@ namespace CTRPluginFramework
     std::string     Hex(u32 x);
     std::string     Hex(u64 x);
     std::string     Hex(float x);
-    std::string     Hex(double x);    
+    std::string     Hex(double x); 
+    std::string     Format(const char *fmt, ...);
 }
 
 #endif
