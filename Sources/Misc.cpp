@@ -153,115 +153,115 @@ namespace CTRPluginFramework
         }
     }
 
-	void    ItemFormChanger(MenuEntry *entry)
-	{
-		static u32 offset = reinterpret_cast<u32> (Game::ItemForm);
-		// Init - Set item to 0 if it doesn't exist
-		if (!entry->GetArg())
-		{
-			entry->SetArg(new u16);
-			u16 *arg = static_cast<u16 *>(entry->GetArg());
-			*arg = 0;
-		}
-		u16 item = *static_cast<u16 *>(entry->GetArg());
-		if (*Game::Location == -1)
-			Process::Write16(offset, 0x334F + item);
-	}
+    void    ItemFormChanger(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32> (Game::ItemForm);
+        // Init - Set item to 0 if it doesn't exist
+        if (!entry->GetArg())
+        {
+            entry->SetArg(new u16);
+            u16 *arg = static_cast<u16 *>(entry->GetArg());
+            *arg = 0;
+        }
+        u16 item = *static_cast<u16 *>(entry->GetArg());
+        if (*Game::Location == -1)
+            Process::Write16(offset, 0x334F + item);
+    }
 
-	void    ItemFormEditor(MenuEntry *entry)
-	{
-		// Init - Set item to 0 if it doesn't exist
-		if (!entry->GetArg())
-		{
-			entry->SetArg(new u16);
-			u16 *arg = static_cast<u16 *>(entry->GetArg());
-			*arg = 0;
-		}
+    void    ItemFormEditor(MenuEntry *entry)
+    {
+        // Init - Set item to 0 if it doesn't exist
+        if (!entry->GetArg())
+        {
+            entry->SetArg(new u16);
+            u16 *arg = static_cast<u16 *>(entry->GetArg());
+            *arg = 0;
+        }
 
-		u16 *item = static_cast<u16 *>(entry->GetArg());
+        u16 *item = static_cast<u16 *>(entry->GetArg());
 
-		*item = ItemChangerKeyboard();
-	}
+        *item = ItemChangerKeyboard();
+    }
 
-	void    ItemEffectChanger(MenuEntry *entry)
-	{
-		static u32 offset = reinterpret_cast<u32> (Game::ItemForm);
-		// Init - Set item to 0 if it doesn't exist
-		if (!entry->GetArg())
-		{
-			entry->SetArg(new u16);
-			u16 *arg = static_cast<u16 *>(entry->GetArg());
-			*arg = 0;
-		}
-		u16 item = *static_cast<u16 *>(entry->GetArg());
-		if (*Game::Location == -1)
-			Process::Write16(offset - 0x3AD8, 0x334F + item);
-	}
+    void    ItemEffectChanger(MenuEntry *entry)
+    {
+        static u32 offset = reinterpret_cast<u32> (Game::ItemForm);
+        // Init - Set item to 0 if it doesn't exist
+        if (!entry->GetArg())
+        {
+            entry->SetArg(new u16);
+            u16 *arg = static_cast<u16 *>(entry->GetArg());
+            *arg = 0;
+        }
+        u16 item = *static_cast<u16 *>(entry->GetArg());
+        if (*Game::Location == -1)
+            Process::Write16(offset - 0x3AD8, 0x334F + item);
+    }
 
-	void    ItemEffectEditor(MenuEntry *entry)
-	{
-		// Init - Set item to 0 if it doesn't exist
-		if (!entry->GetArg())
-		{
-			entry->SetArg(new u16);
-			u16 *arg = static_cast<u16 *>(entry->GetArg());
-			*arg = 0;
-		}
+    void    ItemEffectEditor(MenuEntry *entry)
+    {
+        // Init - Set item to 0 if it doesn't exist
+        if (!entry->GetArg())
+        {
+            entry->SetArg(new u16);
+            u16 *arg = static_cast<u16 *>(entry->GetArg());
+            *arg = 0;
+        }
 
-		u16 *item = static_cast<u16 *>(entry->GetArg());
+        u16 *item = static_cast<u16 *>(entry->GetArg());
 
-		*item = ItemChangerKeyboard();
-	}
+        *item = ItemChangerKeyboard();
+    }
 
-	int		ItemChangerKeyboard(void)
-	{
-		Keyboard keyboard("Item Effect Changer\nWhat form would you like?");
-		std::vector<std::string> list =
-		{
-			"Axe",
-			"Net",
-			"Rod",
-			"Shovel",
-			"Watering Can",
-			"Slingshot",
-			"Hammer",
-			"MegaPhone",
-			"Sparkler",
-			"Roman Candle",
-			"Party Popper",
-			"Bubble Wand",
-			"Balloon",
-			"Pinwheel",
-			"Drink",
-			"Beans",
-			"Good Luck Roll",
-			"Ice Cream",
-			"Wand",
-			"Tweeter",
-			"Frying Pan"
-		};
+    int     ItemChangerKeyboard(void)
+    {
+        Keyboard keyboard("Item Effect Changer\nWhat form would you like?");
+        std::vector<std::string> list =
+        {
+            "Axe",
+            "Net",
+            "Rod",
+            "Shovel",
+            "Watering Can",
+            "Slingshot",
+            "Hammer",
+            "MegaPhone",
+            "Sparkler",
+            "Roman Candle",
+            "Party Popper",
+            "Bubble Wand",
+            "Balloon",
+            "Pinwheel",
+            "Drink",
+            "Beans",
+            "Good Luck Roll",
+            "Ice Cream",
+            "Wand",
+            "Tweeter",
+            "Frying Pan"
+        };
 
-		keyboard.Populate(list);
+        keyboard.Populate(list);
 
-		int userChoice = keyboard.Open();
+        int userChoice = keyboard.Open();
 
-		if (userChoice < 5)
-			return (userChoice * 4);
-		else if (userChoice == 5)
-			return (20);
-		else if (userChoice > 5 && userChoice < 8)
-			return (16 + userChoice);
-		else if (userChoice >= 8 && userChoice < 13)
-			return (17 + userChoice);
-		else if (userChoice == 13)
-			return (53);
-		else if (userChoice > 13 && userChoice < 18)
-			return (48 + userChoice);
-		else if (userChoice == 18)
-			return (73);
-		else if (userChoice == 19)
-			return (79);
-		else if (userChoice == 20)
-			return (986);
-	}	
+        if (userChoice < 5)
+            return (userChoice * 4);
+        else if (userChoice == 5)
+            return (20);
+        else if (userChoice > 5 && userChoice < 8)
+            return (16 + userChoice);
+        else if (userChoice >= 8 && userChoice < 13)
+            return (17 + userChoice);
+        else if (userChoice == 13)
+            return (53);
+        else if (userChoice > 13 && userChoice < 18)
+            return (48 + userChoice);
+        else if (userChoice == 18)
+            return (73);
+        else if (userChoice == 19)
+            return (79);
+        else if (userChoice == 20)
+            return (986);
+    }   
 }

@@ -174,8 +174,8 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Camera Mod", CameraMod));
         folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters. Now you can type short stories into chat :)"));
         folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
-		folder->Append(new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"));
-		folder->Append(new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."));
+        folder->Append(new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"));
+        folder->Append(new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."));
         
         menu.Append(folder);
 
