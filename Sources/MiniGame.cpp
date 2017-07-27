@@ -12,7 +12,8 @@ namespace CTRPluginFramework
     Korok::Korok(void) :
         posX(RandomNum(16, 95)), ///< Random posX
         posY(RandomNum(16, 79)), ///< Random posY
-        isFound(false)             ///< Not found
+        isFound(false),             ///< Not found
+        hitbox(posX - 5, posY - 5, 10, 10)
     {
     }
 
@@ -25,7 +26,7 @@ namespace CTRPluginFramework
         if (!position || isFound)
             return (false);
 
-        if (position->x == posX && position->y == posY)
+        if (hitbox.Contains(position->x, position->y))
             isFound = true;
 
         return isFound;
@@ -34,8 +35,11 @@ namespace CTRPluginFramework
     bool    KorokMiniGame::InGame = false;
     bool    KorokMiniGame::_OSDAlreadyCreated = false;
     KorokMiniGame   *KorokMiniGame::_instance = nullptr;
+    std::string g_DebugLine;
+    bool        g_osdLock = false; ///< Hacky way
 
     int     OSDMiniGameCallback(u32 isBottom, u32 addr, u32 addrB, u32 stride, u32 format);
+    
     KorokMiniGame::KorokMiniGame(void)
     {
         // Generate 10 Koroks at random location
@@ -71,14 +75,25 @@ namespace CTRPluginFramework
             {
                 // Fetch position
                 Position    *position = Game::WorldPos;
+                UIntVector  touchPos = Touch::GetPosition();
+                bool        osd = false;
 
                 // Check our position with the position of the Koroks
                 for (Korok &korok : _koroks)
                 {
+                    if (!osd && !korok.isFound)
+                    {
+                        osd = true;
+                        g_osdLock = true;
+                        g_DebugLine = Format("Player[%d, %d] Korok[%d, %d] Touch[%d, %d]", position->x, position->y, korok.posX, korok.posY, touchPos.x, touchPos.y);
+                        g_osdLock = false;
+                    }
                     if (korok.CheckPosition(position))
                     {
                         LeftToFound--;
+                        g_osdLock = true;
                         MessageBox(Format("Yahaha! You found me!\nThere are %d korok seed(s) left!", LeftToFound))();
+                        g_osdLock = false;
                     }
                 }
             }
@@ -106,6 +121,7 @@ namespace CTRPluginFramework
 
         if (keySequence())
         {
+            g_osdLock = true;
             // If a game is already running
             if (KorokMiniGame::InGame)
             {
@@ -130,6 +146,8 @@ namespace CTRPluginFramework
                 Player::GetInstance()->Write16(0x1A, 0x26FF);
                 Player::GetInstance()->Write16(0x22, 0x27A5);
             }
+
+            g_osdLock = false;
         }
 
         if (game != nullptr)
@@ -141,7 +159,9 @@ namespace CTRPluginFramework
                 // Clean game resources
                 delete game;
                 game = nullptr;
+                g_osdLock = true;
                 MessageBox("Congratulation for finding all Koroks !!\nWe hope you enjoyed the easter egg !\n Don't tell anyone, and enjoy 4.0 :)")();
+                g_osdLock = false;
             }
         }
     }
@@ -165,7 +185,7 @@ namespace CTRPluginFramework
     {
         static u32 lastAddress = 0;
 
-        if (addr == lastAddress || !isBottom || !KorokMiniGame::InGame)
+        if (addr == lastAddress || !isBottom || g_osdLock || !KorokMiniGame::InGame)
             return (1);
 
         lastAddress = addr;
@@ -180,9 +200,10 @@ namespace CTRPluginFramework
             {
                 if (!korok.isFound)
                 {
-                    DrawRect(korok.posX - 16 + 70, korok.posY - 16 + 50);
+                    DrawRect(korok.posX * 2 + 48, korok.posY * 2.14f + 16);
                 }
             }
+            Draw::String(0, 0, Color::Blank, Color::Black, (u8 *)g_DebugLine.c_str());
             return (0);
         }
 

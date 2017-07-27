@@ -2,9 +2,11 @@
 #define MINIGAME_HPP
 
 #include "types.h"
+#include "Game.hpp"
+#include "CTRPluginFramework/System/Rect.hpp"
+
 #include <vector>
 
-#include "Game.hpp"
 
 namespace CTRPluginFramework
 {
@@ -19,6 +21,7 @@ namespace CTRPluginFramework
         u8      posX;
         u8      posY;
         bool    isFound;
+        UIntRect hitbox;
     };
 
     using KorokVector = std::vector<Korok>;
