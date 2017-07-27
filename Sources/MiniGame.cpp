@@ -3,6 +3,7 @@
 #include "CTRPluginFramework/Menu/MessageBox.hpp"
 #include "Player.hpp"
 #include "Helpers.hpp"
+#include "NTR.hpp"
 
 namespace CTRPluginFramework
 {
@@ -31,7 +32,10 @@ namespace CTRPluginFramework
     }
 
     bool    KorokMiniGame::InGame = false;
+    bool    KorokMiniGame::_OSDAlreadyCreated = false;
+    KorokMiniGame   *KorokMiniGame::_instance = nullptr;
 
+    int     OSDMiniGameCallback(u32 isBottom, u32 addr, u32 addrB, u32 stride, u32 format);
     KorokMiniGame::KorokMiniGame(void)
     {
         // Generate 10 Koroks at random location
@@ -42,11 +46,20 @@ namespace CTRPluginFramework
 
         // Game started
         InGame = true;
+        _instance = this;
+
+        // Check that the osd is already added
+        if (!_OSDAlreadyCreated)
+        {
+            NTR::NewCallback((NTR::OverlayCallback)OSDMiniGameCallback);
+            _OSDAlreadyCreated = true;
+        }
     }
 
     KorokMiniGame::~KorokMiniGame(void)
     {
         InGame = false; ///< Reset game status
+        _instance = nullptr;
     }
 
     bool    KorokMiniGame::Update(void)
@@ -74,6 +87,16 @@ namespace CTRPluginFramework
 
         InGame = false;
         return (true);
+    }
+
+    KorokMiniGame *KorokMiniGame::GetInstance(void)
+    {
+        return (_instance);
+    }
+
+    KorokVector  &KorokMiniGame::GetKoroks(void)
+    {
+        return (_koroks);
     }
 
     void    MiniGame(void)
@@ -121,5 +144,48 @@ namespace CTRPluginFramework
                 MessageBox("Congratulation for finding all Koroks !!\nWe hope you enjoyed the easter egg !\n Don't tell anyone, and enjoy 4.0 :)")();
             }
         }
+    }
+
+    static void    DrawRect(u32 posX, u32 posY)
+    {        
+        u16     color = 0xF800; ///< Red
+
+        for (int i = 0; i < 2; i++)
+        {
+            u16     *framebuf = (u16 *)NTR::GetLeftFramebuffer(posX + i, posY);
+
+            for (int j = 0; j < 2; j++)
+            {
+                *framebuf++ = color;
+            }
+        }
+    }
+
+    int     OSDMiniGameCallback(u32 isBottom, u32 addr, u32 addrB, u32 stride, u32 format)
+    {
+        static u32 lastAddress = 0;
+
+        if (addr == lastAddress || !isBottom || !KorokMiniGame::InGame)
+            return (1);
+
+        lastAddress = addr;
+
+        KorokMiniGame *kMiniGame = KorokMiniGame::GetInstance();
+
+        if (kMiniGame != nullptr)
+        {
+            KorokVector &koroks = kMiniGame->GetKoroks();
+
+            for (Korok &korok : koroks)
+            {
+                if (!korok.isFound)
+                {
+                    DrawRect(korok.posX - 16 + 70, korok.posY - 16 + 50);
+                }
+            }
+            return (0);
+        }
+
+        return (1);
     }
 }

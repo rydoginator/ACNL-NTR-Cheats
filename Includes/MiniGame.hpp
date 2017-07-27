@@ -21,6 +21,8 @@ namespace CTRPluginFramework
         bool    isFound;
     };
 
+    using KorokVector = std::vector<Korok>;
+
     class KorokMiniGame
     {
     public:
@@ -30,10 +32,16 @@ namespace CTRPluginFramework
         // Return true if the game is finished
         bool    Update(void);
 
+        static KorokMiniGame *GetInstance(void);
+        KorokVector &GetKoroks(void);
+
         static bool     InGame;
+        
         int             LeftToFound;
 
     private:
+        static bool     _OSDAlreadyCreated;
+        static KorokMiniGame *_instance;
 
         std::vector<Korok> _koroks;
     };
