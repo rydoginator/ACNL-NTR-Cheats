@@ -41,7 +41,7 @@
     <NMakeBuildCommandLine>make</NMakeBuildCommandLine>
     <NMakeCleanCommandLine>make clean</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>make re</NMakeReBuildCommandLine>
-    <NMakePreprocessorDefinitions>__STDC__;__cplusplus</NMakePreprocessorDefinitions>
+    <NMakePreprocessorDefinitions>__STDC__;__cplusplus;DDEBUG</NMakePreprocessorDefinitions>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/Includes</IncludePath>
     <SourcePath>$(VC_SourcePath);$(ProjectDir)/Sources</SourcePath>
   </PropertyGroup>

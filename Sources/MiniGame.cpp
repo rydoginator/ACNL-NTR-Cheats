@@ -32,14 +32,17 @@ namespace CTRPluginFramework
         return isFound;
     }
 
-    bool    KorokMiniGame::InGame = false;
-    bool    KorokMiniGame::_OSDAlreadyCreated = false;
+    bool            KorokMiniGame::InGame = false;
     KorokMiniGame   *KorokMiniGame::_instance = nullptr;
-    std::string g_DebugLine;
-    bool        g_osdLock = false; ///< Hacky way
+#if DEBUG_MINIGAME
+    bool            KorokMiniGame::_OSDAlreadyCreated = false;
+    std::string     g_DebugLine;
 
-    int     OSDMiniGameCallback(u32 isBottom, u32 addr, u32 addrB, u32 stride, u32 format);
-    
+    int             OSDMiniGameCallback(u32 isBottom, u32 addr, u32 addrB, u32 stride, u32 format);
+#endif
+    bool            g_osdLock = false; ///< Hacky way until Process::IsPaused is available
+
+ 
     KorokMiniGame::KorokMiniGame(void)
     {
         // Generate 10 Koroks at random location
@@ -52,12 +55,14 @@ namespace CTRPluginFramework
         InGame = true;
         _instance = this;
 
+#if DEBUG_MINIGAME
         // Check that the osd is already added
         if (!_OSDAlreadyCreated)
         {
             NTR::NewCallback((NTR::OverlayCallback)OSDMiniGameCallback);
             _OSDAlreadyCreated = true;
         }
+#endif
     }
 
     KorokMiniGame::~KorokMiniGame(void)
@@ -75,12 +80,15 @@ namespace CTRPluginFramework
             {
                 // Fetch position
                 Position    *position = Game::WorldPos;
+#if DEBUG_MINIGAME
                 UIntVector  touchPos = Touch::GetPosition();
                 bool        osd = false;
+#endif
 
                 // Check our position with the position of the Koroks
                 for (Korok &korok : _koroks)
                 {
+#if DEBUG_MINIGAME
                     if (!osd && !korok.isFound)
                     {
                         osd = true;
@@ -88,6 +96,7 @@ namespace CTRPluginFramework
                         g_DebugLine = Format("Player[%d, %d] Korok[%d, %d] Touch[%d, %d]", position->x, position->y, korok.posX, korok.posY, touchPos.x, touchPos.y);
                         g_osdLock = false;
                     }
+#endif
                     if (korok.CheckPosition(position))
                     {
                         LeftToFound--;
@@ -166,6 +175,8 @@ namespace CTRPluginFramework
         }
     }
 
+#if DEBUG_MINIGAME
+    
     static void    DrawRect(u32 posX, u32 posY)
     {        
         u16     color = 0xF800; ///< Red
@@ -209,4 +220,5 @@ namespace CTRPluginFramework
 
         return (1);
     }
+#endif
 }

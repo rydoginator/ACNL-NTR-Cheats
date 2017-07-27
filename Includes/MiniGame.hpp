@@ -10,6 +10,8 @@
 
 namespace CTRPluginFramework
 {
+    #define DEBUG_MINIGAME 1 ///< Change 0-1 to display the debugs infos
+
     class Korok
     {
     public:
@@ -18,10 +20,10 @@ namespace CTRPluginFramework
 
         bool    CheckPosition(Position *position);
 
-        u8      posX;
-        u8      posY;
-        bool    isFound;
-        UIntRect hitbox;
+        u8          posX;
+        u8          posY;
+        bool        isFound;
+        UIntRect    hitbox;
     };
 
     using KorokVector = std::vector<Korok>;
@@ -29,24 +31,25 @@ namespace CTRPluginFramework
     class KorokMiniGame
     {
     public:
+        static KorokMiniGame *GetInstance(void);
+
         KorokMiniGame(void);
         ~KorokMiniGame(void);
 
         // Return true if the game is finished
-        bool    Update(void);
+        bool            Update(void);        
+        KorokVector     &GetKoroks(void);
 
-        static KorokMiniGame *GetInstance(void);
-        KorokVector &GetKoroks(void);
-
-        static bool     InGame;
-        
+        static bool     InGame;        
         int             LeftToFound;
 
     private:
-        static bool     _OSDAlreadyCreated;
-        static KorokMiniGame *_instance;
+#if DEBUG_MINIGAME
+        static bool             _OSDAlreadyCreated;
+#endif
+        static KorokMiniGame    *_instance;
 
-        std::vector<Korok> _koroks;
+        std::vector<Korok>      _koroks;
     };
 }
 
