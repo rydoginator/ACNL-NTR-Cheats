@@ -116,6 +116,7 @@
     <ClInclude Include="Includes\Helpers\KeySequence.hpp" />
     <ClInclude Include="Includes\Helpers\MenuEntryHelpers.hpp" />
     <ClInclude Include="Includes\HoldKey.hpp" />
+    <ClInclude Include="Includes\MiniGame.hpp" />
     <ClInclude Include="Includes\NTR.hpp" />
     <ClInclude Include="Includes\Offsets.hpp" />
     <ClInclude Include="Includes\Player.hpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="Sources\Inventory.cpp" />
     <ClCompile Include="Sources\main.cpp" />
     <ClCompile Include="Sources\MainStreet.cpp" />
+    <ClCompile Include="Sources\MiniGame.cpp" />
     <ClCompile Include="Sources\Misc.cpp" />
     <ClCompile Include="Sources\Movement.cpp" />
     <ClCompile Include="Sources\Player.cpp" />
