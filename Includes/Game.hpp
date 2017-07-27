@@ -53,7 +53,7 @@ namespace CTRPluginFramework
         static u32      *Grass;         ///<Offset of where grass starts
         static u32      *GrassEnd;
         static u32      *GameSpeed;     ///<offset of game speed found by Scotline and Mega Mew
-        static u32      *ItemForm;
+        static u32      ItemForm;
         static u32      *Location;      //<Return -1 if you're outdoors
         
 

@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include "Helpers.hpp"
 
 namespace CTRPluginFramework
 {
@@ -155,68 +156,38 @@ namespace CTRPluginFramework
 
     void    ItemFormChanger(MenuEntry *entry)
     {
-        static u32 offset = reinterpret_cast<u32> (Game::ItemForm);
-        // Init - Set item to 0 if it doesn't exist
-        if (!entry->GetArg())
-        {
-            entry->SetArg(new u16);
-            u16 *arg = static_cast<u16 *>(entry->GetArg());
-            *arg = 0;
-        }
-        u16 item = *static_cast<u16 *>(entry->GetArg());
+        u16     item = *GetArg<u16>(entry);
+
         if (*Game::Location == -1)
-            Process::Write16(offset, 0x334F + item);
+            Process::Write16(Game::ItemForm, 0x334F + item);
     }
 
     void    ItemFormEditor(MenuEntry *entry)
     {
-        // Init - Set item to 0 if it doesn't exist
-        if (!entry->GetArg())
-        {
-            entry->SetArg(new u16);
-            u16 *arg = static_cast<u16 *>(entry->GetArg());
-            *arg = 0;
-        }
-
-        u16 *item = static_cast<u16 *>(entry->GetArg());
+        u16   *item = GetArg<u16>(entry);
 
         *item = ItemChangerKeyboard();
     }
 
     void    ItemEffectChanger(MenuEntry *entry)
     {
-        static u32 offset = reinterpret_cast<u32> (Game::ItemForm);
-        // Init - Set item to 0 if it doesn't exist
-        if (!entry->GetArg())
-        {
-            entry->SetArg(new u16);
-            u16 *arg = static_cast<u16 *>(entry->GetArg());
-            *arg = 0;
-        }
-        u16 item = *static_cast<u16 *>(entry->GetArg());
+        u16     item = *GetArg<u16>(entry);
+
         if (*Game::Location == -1)
-            Process::Write16(offset - 0x3AD8, 0x334F + item);
+            Process::Write16(Game::ItemForm - 0x3AD8, 0x334F + item);
     }
 
     void    ItemEffectEditor(MenuEntry *entry)
     {
-        // Init - Set item to 0 if it doesn't exist
-        if (!entry->GetArg())
-        {
-            entry->SetArg(new u16);
-            u16 *arg = static_cast<u16 *>(entry->GetArg());
-            *arg = 0;
-        }
-
-        u16 *item = static_cast<u16 *>(entry->GetArg());
+        u16     *item = GetArg<u16>(entry);
 
         *item = ItemChangerKeyboard();
     }
 
     int     ItemChangerKeyboard(void)
     {
-        Keyboard keyboard("Item Effect Changer\nWhat form would you like?");
-        std::vector<std::string> list =
+        Keyboard keyboard("Item Effect Changer\nWhat form would you like ?");
+        static std::vector<std::string> list =
         {
             "Axe",
             "Net",
@@ -242,6 +213,7 @@ namespace CTRPluginFramework
         };
 
         keyboard.Populate(list);
+        keyboard.CanAbort(false);
 
         int userChoice = keyboard.Open();
 
@@ -261,7 +233,7 @@ namespace CTRPluginFramework
             return (73);
         else if (userChoice == 19)
             return (79);
-        else if (userChoice == 20)
-            return (986);
+
+        return (986); //userChoice == 20
     }   
 }

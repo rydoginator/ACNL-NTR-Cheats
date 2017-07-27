@@ -113,6 +113,8 @@
     <ClInclude Include="Includes\FindReplacer.hpp" />
     <ClInclude Include="Includes\Game.hpp" />
     <ClInclude Include="Includes\Helpers.hpp" />
+    <ClInclude Include="Includes\Helpers\KeySequence.hpp" />
+    <ClInclude Include="Includes\Helpers\MenuEntryHelpers.hpp" />
     <ClInclude Include="Includes\HoldKey.hpp" />
     <ClInclude Include="Includes\NTR.hpp" />
     <ClInclude Include="Includes\Offsets.hpp" />
