@@ -60,7 +60,9 @@ namespace CTRPluginFramework
     int     RandomNum(int start, int end);
     u32     DecryptACNLMoney(u64 money);
     u64     EncryptACNLMoney(int dec);
-    bool    CheckValue(u32 address, u32 value);
+    bool    Check32Value(u32 address, u32 value);
+    bool    Check16Value(u32 address, u16 value);
+    bool    Check8Value(u32 address, u8 value);
 
     // Cheats functions
 
@@ -131,6 +133,7 @@ namespace CTRPluginFramework
     ********************/
     void    GhostMode(MenuEntry *entry);
     void    CameraMod(MenuEntry *entry); ///< Probably need a rework
+    void	CustomKB(MenuEntry *entry);
     void    KeyboardExtender(MenuEntry *entry);
     void    FastGameSpeed(MenuEntry *entry);
     void    ItemFormChanger(MenuEntry *entry);

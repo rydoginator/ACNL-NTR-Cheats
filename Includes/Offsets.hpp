@@ -183,4 +183,8 @@
 #define     USA_GAME_SPEED                      0x32916E80
 #define     USA_ITEM_FORM                       0x3307778C
 
+#define     USA_KEYBOARD                        0xAD7630
+#define     EUR_KEYBOARD                        0xAD6630
+#define     JAP_KEYBOARD                        0xAD0630
+
 #endif

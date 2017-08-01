@@ -37,6 +37,7 @@ namespace CTRPluginFramework
         GameSpeed = reinterpret_cast<u32 *>(AutoRegion(USA_GAME_SPEED, 0x328EEAC0, 0x32939920)());
 		ItemForm = AutoRegion(USA_ITEM_FORM, TO_EUR(USA_ITEM_FORM), TO_JAP(USA_ITEM_FORM))();
 		Location = reinterpret_cast<u32 *>(AutoRegion(USA_LOCATION_ADDR, TO_EUR(USA_LOCATION_ADDR), TO_JAP(USA_LOCATION_ADDR))());
+        Keyboard = reinterpret_cast<u32 *>(AutoRegion(USA_KEYBOARD, EUR_KEYBOARD, JAP_KEYBOARD)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -119,4 +120,5 @@ namespace CTRPluginFramework
     u32         *Game::GameSpeed = nullptr;
 	u32			Game::ItemForm = 0;
 	u32			*Game::Location = nullptr;
+    u32			*Game::Keyboard = nullptr;
 }
