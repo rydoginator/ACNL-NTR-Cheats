@@ -85,17 +85,17 @@ void with_note_common(const char *name, const char *note, void (*cheatfunction)(
     set_note(note, index);
 }
 
-inline void new_entry_with_note(const char *name, const char *note, void (*cheatfunction)(void))
+void new_entry_with_note(const char *name, const char *note, void (*cheatfunction)(void))
 {
     with_note_common(name, note, cheatfunction, 0);
 }
 
-inline void new_radio_entry_with_note(const char *name, const char *note, void (*cheatfunction)(void))
+void new_radio_entry_with_note(const char *name, const char *note, void (*cheatfunction)(void))
 {
     with_note_common(name, note, cheatfunction, 1);
 }
 
-inline void new_spoiler_with_note(const char *name, const char *note)
+void new_spoiler_with_note(const char *name, const char *note)
 {
     with_note_common(name, note, NULL, 2);
 }

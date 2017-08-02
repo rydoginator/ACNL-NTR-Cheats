@@ -500,13 +500,13 @@ void    keyboardInput(void)
 bool    g_text_activated = false;
 bool    g_teleport_save = true;
 
-inline void save_teleport(void)
+void save_teleport(void)
 {
     g_teleport_save = true;
     teleport();
 }
 
-inline void restore_teleport(void)
+void restore_teleport(void)
 {
     g_teleport_save = false;
     teleport();
