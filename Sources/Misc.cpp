@@ -4,6 +4,79 @@
 namespace CTRPluginFramework
 {
 
+    struct NPC
+    {
+        const char *File;
+        std::string Name;
+    };
+
+    const std::vector<NPC> villagers =
+    {
+        { "alp.bcres", "Cyrus" },
+        { "alw.bcres", "Reese" },
+        { "bev.bcres", "Chip" },
+        { "bln.bcres", "Phineas" },
+        { "boa.bcres", "Joan" },
+        { "bpt.bcres", "Katrina" },
+        { "chm.bcres", "Nat" },
+        { "cml.bcres", "Sahara" },
+        { "end.bcres", "Totakeke" },
+        { "enj.bcres", "Totakeke" },
+        { "fob.bcres", "Redd" },
+        { "fox.bcres", "Red" },
+        { "grf.bcres", "Grace" },
+        { "hgc.bcres", "Labelle" },
+        { "hgh.bcres", "Mable" },
+        { "hgs.bcres", "Sable" },
+        { "kpg.bcres", "Grams" },
+        { "kpm.bcres", "Leilani" },
+        { "kpp.bcres", "Kapp'n" },
+        { "kps.bcres", "Leila" },
+        { "liz.bcres", "Isabelle" },
+        { "lom.bcres", "Katie" },
+        { "lrc.bcres", "Timmy/Tommy" },
+        { "lrd.bcres", "Timmy/Tommy" },
+        { "lrh.bcres", "Timmy/Tommy" },
+        { "lrn.bcres", "Timmy/Tommy" },
+        { "lrs.bcres", "Timmy/Tommy" },
+        { "mka.bcres", "Blanca?" },
+        { "mnk.bcres", "Porter" },
+        { "moc.bcres", "Don" },
+        { "mod.bcres", "Don (No hat)" },
+        { "mof.bcres", "Resetti (No Hat)" },
+        { "moo.bcres", "Resetti" },
+        { "ott.bcres", "Lyle" },
+        { "owl.bcres", "Blathers" },
+        { "ows.bcres", "Celeste" },
+        { "pck.bcres", "Pave" },
+        { "pga.bcres", "Pelly" },
+        { "pgb.bcres", "Phyllis" },
+        { "pge.bcres", "Brewster" },
+        { "pkn.bcres", "Jack" },
+        { "pla.bcres", "Booker" },
+        { "plb.bcres", "Pete" },
+        { "plc.bcres", "Copper" },
+        { "poo.bcres", "Shampoodle" },
+        { "pyn.bcres", "Zipper T." },
+        { "rci.bcres", "Tom Nook" },
+        { "rcn.bcres", "Isabelle" },
+        { "rco.bcres", "Tom Nook" },
+        { "seg.bcres", "Gulliver" },
+        { "seo.bcres", "Pascal" },
+        { "skk.bcres", "Kicks" },
+        { "slo.bcres", "Lief" },
+        { "snt.bcres", "Jingle" },
+        { "sza.bcres", "Isabelle" },
+        { "szo.bcres", "Digby" },
+        { "szr.bcres", "Digby (Rain Jacket)" },
+        { "tap.bcres", "Luna" },
+        { "ttl.bcres", "Tortimer" },
+        { "tuk.bcres", "Franklin" },
+        { "upa.bcres", "Shrunk" },
+        { "wrl.bcres", "Wendell" },
+        { "xct.bcres", "Rover" },
+    };
+
     void    GhostMode(MenuEntry *entry)
     {
         u32   patch = 0xE38110FF;
@@ -236,4 +309,63 @@ namespace CTRPluginFramework
 
         return (986); //userChoice == 20
     }   
+
+
+    void ChangeAnimal(const char* name)
+    {
+        static u32 isabelle = Game::DynamicNPC;
+        static u32 offset = Game::StaticNPC;
+        const char * original = "%s.bcres";
+        if (name != "")
+        {
+            if (*Game::Room != 0x27)
+            {
+                if (*Game::Room == 0x63)
+                {
+                    Process::CopyMemory(reinterpret_cast<void *>(offset), (void*)original, 9);
+                    Process::CopyMemory(reinterpret_cast<void *>(isabelle), (void*)name, 3);
+                }
+                else if (*Game::Room == 0)
+                {
+                    Process::CopyMemory(reinterpret_cast<void *>(offset), (void*)original, 9);
+                    Process::CopyMemory(reinterpret_cast<void *>(isabelle + 0x1180), (void*)name, 3);
+                }
+                else
+                {
+                    Process::CopyMemory(reinterpret_cast<void *>(offset), (void*)name, 9);
+                }
+            }
+            else
+            {
+                svcSleepThread(6000000000);
+            }
+        }
+    }
+
+    using StringVector = std::vector<std::string>;
+
+    void    AnimalChangerKeyboard(MenuEntry *entry)
+    {
+        int *index = GetArg<int>(entry);
+        Keyboard    keyboard("What would you like to change all Special NPCS to?");
+        StringVector    entryNames;
+
+        for (const NPC &entryName : villagers)
+            entryNames.push_back(entryName.Name);
+
+        keyboard.Populate(entryNames);
+
+        int userChoice = keyboard.Open();
+
+
+        *index = userChoice;
+
+    }
+
+    void    AnimalChanger(MenuEntry *entry)
+    {
+        int index = *GetArg<int>(entry);
+        const NPC &NPCPicked = villagers[index];
+        ChangeAnimal(NPCPicked.File);
+    }
 }

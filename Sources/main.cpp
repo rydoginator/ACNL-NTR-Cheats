@@ -9,7 +9,7 @@ namespace CTRPluginFramework
     
     #define MAJOR_VERSION       4
     #define MINOR_VERSION       0
-    #define REVISION_VERSION    24
+    #define REVISION_VERSION    25
     #define STRINGIFY(x)        #x
     #define TOSTRING(x)         STRINGIFY(x)
     #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) "]"
@@ -177,6 +177,7 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
         folder->Append(new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"));
         folder->Append(new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."));
+        folder->Append(new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."));
         
         menu.Append(folder);
 

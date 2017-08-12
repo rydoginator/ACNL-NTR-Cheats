@@ -35,9 +35,13 @@ namespace CTRPluginFramework
         Grass = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_START_ADDR, TO_EUR(USA_GRASS_START_ADDR), TO_JAP(USA_GRASS_START_ADDR))());
         GrassEnd = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_END_ADDR, TO_EUR(USA_GRASS_END_ADDR), TO_JAP(USA_GRASS_END_ADDR))());
         GameSpeed = reinterpret_cast<u32 *>(AutoRegion(USA_GAME_SPEED, 0x328EEAC0, 0x32939920)());
-		ItemForm = AutoRegion(USA_ITEM_FORM, TO_EUR(USA_ITEM_FORM), TO_JAP(USA_ITEM_FORM))();
-		Location = reinterpret_cast<u32 *>(AutoRegion(USA_LOCATION_ADDR, TO_EUR(USA_LOCATION_ADDR), TO_JAP(USA_LOCATION_ADDR))());
+        ItemForm = AutoRegion(USA_ITEM_FORM, TO_EUR(USA_ITEM_FORM), TO_JAP(USA_ITEM_FORM))();
+        Location = reinterpret_cast<u32 *>(AutoRegion(USA_LOCATION_ADDR, TO_EUR(USA_LOCATION_ADDR), TO_JAP(USA_LOCATION_ADDR))());
         Keyboard = reinterpret_cast<u32 *>(AutoRegion(USA_KEYBOARD, EUR_KEYBOARD, JAP_KEYBOARD)());
+        WispSpoof = reinterpret_cast<u32 *>(AutoRegion(USA_AMIIBO_WISP, TO_EUR(USA_AMIIBO_WISP), TO_JAP(USA_AMIIBO_WISP))());
+        DIESpoof = reinterpret_cast<u32 *>(AutoRegion(USA_AMIIBO_DIE, TO_EUR(USA_AMIIBO_DIE), TO_JAP(USA_AMIIBO_DIE))());
+        StaticNPC = reinterpret_cast<u32 >(AutoRegion(USA_NPC_ADDR, EUR_NPC_ADDR, JAP_NPC_ADDR)());
+        DynamicNPC = reinterpret_cast<u32 >(AutoRegion(USA_ISABELLE_ADDR, TO_EUR(USA_ISABELLE_ADDR), TO_JAP(USA_ISABELLE_ADDR))());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -86,10 +90,10 @@ namespace CTRPluginFramework
         else if (*Room == 0x68) items = reinterpret_cast<u32>(IslandItem);
         else if (*Room == 0x6F) items = reinterpret_cast<u32>(ClubItem);
         else return (nullptr);
-        
+
         return (reinterpret_cast<u32 *>(items + GetWorldOffset()));
     }
-    
+
 
     u32         *Game::Building = nullptr;
     u32         *Game::ClubItem = nullptr;
@@ -118,7 +122,11 @@ namespace CTRPluginFramework
     u32         *Game::Grass = nullptr;
     u32         *Game::GrassEnd = nullptr;
     u32         *Game::GameSpeed = nullptr;
-	u32			Game::ItemForm = 0;
-	u32			*Game::Location = nullptr;
+    u32			Game::ItemForm = 0;
+    u32			*Game::Location = nullptr;
     u32			*Game::Keyboard = nullptr;
+    u32			*Game::WispSpoof = nullptr;
+    u32			*Game::DIESpoof = nullptr;
+    u32         Game::StaticNPC = 0;
+    u32         Game::DynamicNPC = 0;
 }

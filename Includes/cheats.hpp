@@ -141,6 +141,9 @@ namespace CTRPluginFramework
     void    ItemEffectChanger(MenuEntry *entry);
     void    ItemEffectEditor(MenuEntry *entry);
     int     ItemChangerKeyboard(void);
+    void    AnimalChangerKeyboard(MenuEntry *entry);
+    void    AnimalChanger(MenuEntry *entry);
+    void    ChangeAnimal(const char* name);
     
     /*
     ** Appearance

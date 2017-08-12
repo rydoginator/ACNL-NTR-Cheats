@@ -187,4 +187,7 @@
 #define     EUR_KEYBOARD                        0xAD6630
 #define     JAP_KEYBOARD                        0xAD0630
 
+#define     USA_AMIIBO_WISP                     0x330B68A4
+#define     USA_AMIIBO_DIE                      0x3308E8CC
+
 #endif

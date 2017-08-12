@@ -56,7 +56,11 @@ namespace CTRPluginFramework
         static u32      ItemForm;
         static u32      *Location;      //<Return -1 if you're outdoors
         static u32      *Keyboard;      ///<Offset of Keyboard Symbols
-        
+        static u32      *WispSpoof;   ///<Offset for Wisp Amiibo Spoof
+        static u32      *DIESpoof;   ///<Offset for Desert Island Escape Minigame Amiibo Spoof
+        static u32      StaticNPC; ///<Offset of code.bin NPC loader address
+        static u32      DynamicNPC; ///<Offset used by isabelle's file loading address in the 0x30000000 region since the game soft locks if code.bin is patched for some reason
+
 
     };
 }
