@@ -42,6 +42,8 @@ namespace CTRPluginFramework
         DIESpoof = reinterpret_cast<u32 *>(AutoRegion(USA_AMIIBO_DIE, TO_EUR(USA_AMIIBO_DIE), TO_JAP(USA_AMIIBO_DIE))());
         StaticNPC = reinterpret_cast<u32 >(AutoRegion(USA_NPC_ADDR, EUR_NPC_ADDR, JAP_NPC_ADDR)());
         DynamicNPC = reinterpret_cast<u32 >(AutoRegion(USA_ISABELLE_ADDR, TO_EUR(USA_ISABELLE_ADDR), TO_JAP(USA_ISABELLE_ADDR))());
+        BottomScreen = reinterpret_cast<u8 *>(AutoRegion(USA_BOTTOM_ADDR, EUR_BOTTOM_ADDR, JAP_BOTTOM_ADDR)());
+        Consciousness = reinterpret_cast<u16 *>(AutoRegion(USA_FAINT_ADDR, TO_EUR(USA_FAINT_ADDR), TO_JAP(USA_FAINT_ADDR))());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -129,4 +131,6 @@ namespace CTRPluginFramework
     u32			*Game::DIESpoof = nullptr;
     u32         Game::StaticNPC = 0;
     u32         Game::DynamicNPC = 0;
+    u8          *Game::BottomScreen = nullptr;
+    u16         *Game::Consciousness = nullptr;
 }

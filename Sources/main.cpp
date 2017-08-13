@@ -178,6 +178,8 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"));
         folder->Append(new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."));
         folder->Append(new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."));
+        folder->Append(new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, "Press L or R to access your storage, and press L+R to access the catalog while switching emoticon tabs\nSpecial thanks Mega Mew and Scotline for this cheat :)"));
+        folder->Append(new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!"));
         
         menu.Append(folder);
 

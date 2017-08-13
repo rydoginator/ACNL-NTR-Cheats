@@ -60,6 +60,8 @@ namespace CTRPluginFramework
         static u32      *DIESpoof;   ///<Offset for Desert Island Escape Minigame Amiibo Spoof
         static u32      StaticNPC; ///<Offset of code.bin NPC loader address
         static u32      DynamicNPC; ///<Offset used by isabelle's file loading address in the 0x30000000 region since the game soft locks if code.bin is patched for some reason
+        static u8       *BottomScreen; ///<Offset of what screen the bottom screen is
+        static u16      *Consciousness; ///<Offset that makes your character faint
 
 
     };

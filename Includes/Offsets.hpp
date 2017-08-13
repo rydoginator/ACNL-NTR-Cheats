@@ -190,4 +190,10 @@
 #define     USA_AMIIBO_WISP                     0x330B68A4
 #define     USA_AMIIBO_DIE                      0x3308E8CC
 
+#define     USA_BOTTOM_ADDR                     0x950D1F
+#define     EUR_BOTTOM_ADDR                     0x94FD1F
+#define     JAP_BOTTOM_ADDR                     0x949D1F
+
+#define     USA_FAINT_ADDR                      0x33077533
+
 #endif

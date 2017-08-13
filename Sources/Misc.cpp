@@ -368,4 +368,24 @@ namespace CTRPluginFramework
         const NPC &NPCPicked = villagers[index];
         ChangeAnimal(NPCPicked.File);
     }
+
+    void    StorageEverywhere(MenuEntry *entry)
+    {
+        if (Controller::IsKeyDown(L))
+            *Game::BottomScreen = 0x3D;
+        if (Controller::IsKeysDown(R))
+            *Game::BottomScreen = 0x89;
+        if (Controller::IsKeysDown(L + R))
+            *Game::BottomScreen = 0x7C;
+    }
+
+    void    Faint(MenuEntry *entry)
+    {
+        if (Controller::IsKeysDown(R + A))
+        {
+            if (*Game::Location == -1)
+                *Game::Consciousness = 0x0001;
+        }
+            
+    }
 }

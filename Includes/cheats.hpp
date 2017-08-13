@@ -144,6 +144,8 @@ namespace CTRPluginFramework
     void    AnimalChangerKeyboard(MenuEntry *entry);
     void    AnimalChanger(MenuEntry *entry);
     void    ChangeAnimal(const char* name);
+    void    StorageEverywhere(MenuEntry *entry);
+    void    Faint(MenuEntry *entry);
     
     /*
     ** Appearance
