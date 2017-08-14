@@ -92,7 +92,7 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."));
         folder->Append(new MenuEntry("Teleport", Teleporter, "Press \uE001 and \uE079 to save your location, \uE001 and \uE07A to teleport back to the location. Use \uE052 or \uE053 to use multiple locations!"));
         folder->Append(new MenuEntry("Walk Over Things", WalkOverThings, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."));
-        folder->Append(new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Credits to Mega Mew for this cheat"));
+        folder->Append(new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to Mega Mew for this cheat"));
         folder->Append(new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."));
         
         menu.Append(folder);
@@ -102,6 +102,7 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard));
         folder->Append(new MenuEntry("Fill out Catalog", FillCatalog));
         folder->Append(new MenuEntry("Fill out Main Street", FillMainStreet, "Unlocks all the Main Street buildings except Leif + Nooklings"));
+        folder->Append(new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press " FONT_L " and " FONT_A " while in the catalog to send the item directly to your pockets!"));
         menu.Append(folder);
 
         /*
@@ -114,9 +115,13 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Duplicate", Duplication, "Press " FONT_R " to duplicate the item that is slot 01 to slot 02."));
         folder->Append(new MenuEntry("Show names of buried items", ShowBuriedItems));
         folder->Append(new MenuEntry("Pick up buried items", PickBuriedItems));
-        folder->Append(new MenuEntry("Set bells", nullptr, SetBells));
+        folder->Append(new MenuEntry("Set bank amount to...", nullptr, SetBells));
         folder->Append(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nHold Start 1 second to choose which one to open."));
         folder->Append(new MenuEntry("Fossil Inspector", GenerateFossils, "Press " FONT_X " and " FONT_A " to process all fossils\nas if you talked to Blathers"));
+        folder->Append(new MenuEntry("Max Bank", MaxMoneyBank));
+        folder->Append(new MenuEntry("Infinite/Max Coupons", InfiniteCoupons));
+        folder->Append(new MenuEntry("Infinite/Max Island Medals", InfiniteWallet));
+        folder->Append(new MenuEntry("Infinite/Max Bells in Wallet", InfiniteMedals));
 
         menu.Append(folder);
 
@@ -140,7 +145,7 @@ namespace CTRPluginFramework
         
         folder->Append(ra);
         folder->Append(new MenuEntry("Real Time World Edit", WorldEdit, "Press " FONT_R " and " FONT_DL " to open the keyboard to store the item. " FONT_R " and " FONT_DU " to store the item that you're standing on. And " FONT_R " + " FONT_DD " to write the item to the place that you're standing on."));
-
+        folder->Append(new MenuEntry("Search and Replace", nullptr, SearchReplace, "Press the keyboard icon to enter in what you want to search and replace"));
         menu.Append(folder);
 
         /*

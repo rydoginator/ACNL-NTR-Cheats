@@ -62,8 +62,10 @@ namespace CTRPluginFramework
         static u32      DynamicNPC; ///<Offset used by isabelle's file loading address in the 0x30000000 region since the game soft locks if code.bin is patched for some reason
         static u8       *BottomScreen; ///<Offset of what screen the bottom screen is
         static u16      *Consciousness; ///<Offset that makes your character faint
-
-
+        static u32      *KeyboardText;  ///<Pointer to text config of text that represents how big the text can be and how much text can be put in
+        static u8       *EnterBool;     ///<Allows the user to press enter in their keyboard
+        static u32      Visibility;     ///<ASM address that makes your character invisible
+        static u16      *CatalogItem;   ///<The item that you're on inside of your catalog
     };
 }
 

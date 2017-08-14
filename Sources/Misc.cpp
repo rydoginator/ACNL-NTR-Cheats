@@ -84,11 +84,11 @@ namespace CTRPluginFramework
 
         if (Controller::IsKeysDown(Y + DPadUp))
         {
-            Process::Patch(0x00654594, (u8 *)&patch, 4);
+            Process::Patch(Game::Visibility, (u8 *)&patch, 4);
         }
         if (Controller::IsKeysDown(Y + DPadDown))
         {
-            Process::Patch(0x00654594, (u8 *)&original, 4);
+            Process::Patch(Game::Visibility, (u8 *)&original, 4);
         }
     }
 
@@ -218,12 +218,12 @@ namespace CTRPluginFramework
     {
         u32 offset = 0;
 
-        Process::Read32(0x95F11C, offset);
+        offset = *Game::KeyboardText;
         if (offset != 0)
         {
             Process::Write32(0xC + offset, 0x36);
             Process::Write32(0x12B + offset, 0x45);
-            Process::Write8(0xAD7253, 0x01);
+            *Game::EnterBool = 1;
         }
     }
 
@@ -384,7 +384,7 @@ namespace CTRPluginFramework
         if (Controller::IsKeysDown(R + A))
         {
             if (*Game::Location == -1)
-                *Game::Consciousness = 0x0001;
+                *Game::Consciousness = 0x0100;
         }
             
     }

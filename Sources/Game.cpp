@@ -44,6 +44,10 @@ namespace CTRPluginFramework
         DynamicNPC = reinterpret_cast<u32 >(AutoRegion(USA_ISABELLE_ADDR, TO_EUR(USA_ISABELLE_ADDR), TO_JAP(USA_ISABELLE_ADDR))());
         BottomScreen = reinterpret_cast<u8 *>(AutoRegion(USA_BOTTOM_ADDR, EUR_BOTTOM_ADDR, JAP_BOTTOM_ADDR)());
         Consciousness = reinterpret_cast<u16 *>(AutoRegion(USA_FAINT_ADDR, TO_EUR(USA_FAINT_ADDR), TO_JAP(USA_FAINT_ADDR))());
+        KeyboardText = reinterpret_cast<u32 *>(AutoRegion(USA_TEXT_KEYBOARD, EUR_TEXT_KEYBOARD, JAP_TEXT_KEYBOARD)());
+        EnterBool = reinterpret_cast<u8 *>(AutoRegion(USA_ENTER_BOOL, EUR_ENTER_BOOL, JAP_ENTER_BOOL)());
+        Visibility = reinterpret_cast<u32>(AutoRegion(USA_VISIBILITY_ADDR, EUR_VISIBILITY_ADDR, JAP_VISIBILITY_ADDR)());
+        CatalogItem = reinterpret_cast<u16 *>(AutoRegion(USA_CATALOG_ITEM, TO_EUR(USA_CATALOG_ITEM), TO_JAP(USA_CATALOG_ITEM))());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -133,4 +137,9 @@ namespace CTRPluginFramework
     u32         Game::DynamicNPC = 0;
     u8          *Game::BottomScreen = nullptr;
     u16         *Game::Consciousness = nullptr;
+    u32         *Game::KeyboardText = nullptr;
+    u8          *Game::EnterBool = nullptr;
+    u32         Game::Visibility = 0;
+    u16         *Game::CatalogItem = nullptr;
+
 }

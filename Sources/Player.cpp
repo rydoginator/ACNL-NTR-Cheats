@@ -277,16 +277,45 @@ namespace   CTRPluginFramework
         return (std::string(reinterpret_cast<char *>(buf)));
     }
 
+    std::vector<std::string>     Player::GetPatternNames(void) const
+    {
+        std::vector<std::string> names;
+
+        u8      buf[NAME_MAX + 1] = { 0 };
+
+        for (int i = 0; i < 10; i++)
+        {
+            utf16_to_utf8(buf, reinterpret_cast<u16 *>(_offset + 0x58 + (0x870 * i)), NAME_MAX);
+            names.push_back(std::string(reinterpret_cast<char *>(buf)));
+        }
+        return names;
+    }
+
     void    Player::SetName(std::string& name) const
     {
         u16           buf[NAME_MAX + 1] = { 0 };
+        std::vector<int> matchIndex;
 
         // If name is empty, abort
         if (name.empty())
             return;
-
+        std::string originalName = GetName();
+        std::vector<std::string> names = GetPatternNames();
+        for (int i = 0; i < 10; i++)
+        {
+            if (names[i].compare(originalName) == 0)
+            {
+                matchIndex.push_back(i);
+            }
+        }
         // Convert utf8 to utf16
         int res = utf8_to_utf16(buf, reinterpret_cast<const u8 *>(name.c_str()), NAME_MAX);
+
+
+        for (int i : matchIndex)
+        {
+            Process::CopyMemory(reinterpret_cast<void *>(_offset + 0x58 + (0x870 * matchIndex[i])), buf, NAME_MAX);
+        }
 
         // If conversion failed, abort
         if (res == -1)

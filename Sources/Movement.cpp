@@ -120,68 +120,46 @@ namespace CTRPluginFramework
         {
             entry->SetArg(new float);
             float *arg = static_cast<float *>(entry->GetArg());
-            *arg = 0.1f;
+            *arg = 1.0f;
         }
 
         if (Controller::IsKeysDown(B))
         {
-            u32     velocity = READU32(Game::Velocity);
+            float     velocity;
+            Process::ReadFloat(Game::Velocity, velocity);
             float   speed = *static_cast<float *>(entry->GetArg());
  
-            if (velocity >= 0x41A79DB3)
+            if (velocity >= speed)
             {
-                WRITEU32(Game::Velocity, 0x41A79DB3);
+                Process::WriteFloat(Game::Velocity, speed);
             }
             else if (velocity > 0)
             {
-                ADDTOFLOAT(Game::Velocity, speed);
+                ADDTOFLOAT(Game::Velocity, 0.1f);
             }
         }
     }
 
-    bool    CheckSpeedInput(const void *in, std::string &error)
-    {
-        float  input = *reinterpret_cast<const float *>(in);
 
-        // If input >= 1.f => ERROR
-        if (input >= 1.f)
-        {
-            error = "Error !\n\nThe speed can't be superior to 0.9";
-            return (false);
-        }
-
-        // If input <= 0.f => ERROR
-        if (input <= 0.f)
-        {
-            error = "Error !\n\nThe speed must be superior to 0 and can't be negative";
-            return (false);
-        }
-
-        // Else we're good
-        return (true);
-    }
 
     void    SpeedHackEditor(MenuEntry *entry)
     {
-        // Init - Set velocity if it's 0
-        if (!entry->GetArg())
+        Keyboard keyboard("Which speed would you like to use?");
+        static std::vector<std::string> list =
         {
-            entry->SetArg(new float);
-            float *arg = static_cast<float *>(entry->GetArg());
-            *arg = 0.1f;
-        }
+            "Regular",
+            "Fast",
+            "Faster",
+            "Sanic",
+            "Sonic Boom!",
+            "Warp Speed WARNING!"
+        };
+        keyboard.Populate(list);
+        int userChoice = keyboard.Open();
+        entry->SetArg(new float);
+        float *speed = static_cast<float *>(entry->GetArg());
+        *speed = 5.238f * (userChoice + 1);
 
-        Keyboard kb("Speed Hack Editor\n\nEnter the speed you want to use:");
-
-        float   *initialSpeed = static_cast<float *>(entry->GetArg());
-        float   newSpeed;
-
-        kb.SetCompareCallback(CheckSpeedInput);
-
-        if (kb.Open(newSpeed, *initialSpeed) != -1)
-        {
-            *initialSpeed = newSpeed;
-        }
     }
 
     void    MoonJump(MenuEntry *entry)

@@ -196,4 +196,18 @@
 
 #define     USA_FAINT_ADDR                      0x33077533
 
+#define     USA_TEXT_KEYBOARD                   0x95F11C
+#define     EUR_TEXT_KEYBOARD                   0x95E114
+#define     JAP_TEXT_KEYBOARD                   0x958114
+
+#define     USA_ENTER_BOOL                      0xAD7253
+#define     EUR_ENTER_BOOL                      0xAD6253
+#define     JAP_ENTER_BOOL                      0xAD0253
+
+#define     USA_VISIBILITY_ADDR                 0x654594
+#define     EUR_VISIBILITY_ADDR                 0x6535CC
+#define     JAP_VISIBILITY_ADDR                 0x65308C
+
+#define     USA_CATALOG_ITEM                    0x32DC6998
+
 #endif

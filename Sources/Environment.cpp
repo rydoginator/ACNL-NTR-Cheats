@@ -33,6 +33,23 @@ namespace CTRPluginFramework
         findReplacer();
     }
 
+    void    SearchReplace(MenuEntry *entry)
+    {
+        static u32 search, replace;
+        FindReplacer<u32> findReplacer(reinterpret_cast<u32>(Game::TownItem), 0x5000);
+        Keyboard keyboard("What item would you like to search?");
+
+        if (keyboard.Open(search) != -1)
+        {
+            Keyboard keyboard("What item would you like to replace it with?");
+            if (keyboard.Open(replace) != -1)
+            {
+                findReplacer.AddPair(search, replace);
+                findReplacer();
+            }
+        }
+    }
+
     void    FillGrass(MenuEntry *entry)
     {
         static u32 offset = reinterpret_cast<u32> (Game::Grass);
@@ -95,7 +112,7 @@ namespace CTRPluginFramework
         {
             u32 *i = Game::GetItem();
             itemID = *i;
-            sprintf(buffer, "Offset: %08X \nValue: %08X", Game::GetItem(), itemID);
+            //sprintf(buffer, "Offset: %08X \nValue: %08X", Game::GetItem(), itemID);
             OSD::Notify(buffer);
         }
         if (Controller::IsKeysDown(R + DPadLeft))

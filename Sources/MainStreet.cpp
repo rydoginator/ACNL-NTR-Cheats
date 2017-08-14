@@ -48,4 +48,21 @@ namespace CTRPluginFramework
         Process::Write16(nook, 0x0101 * value);
         Process::Write8(nook+ 0x4490, value == 1 ? 2 : value);
     }
+
+    void    CatalogToPockets(MenuEntry *entry)
+    {
+        int length;
+        if (!Controller::IsKeyDown(L))
+            return;
+        if (Controller::IsKeyPressed(A))
+        {
+            if (*Game::CatalogItem != 0)
+            {
+                u16 item = *Game::CatalogItem;
+                int *slots = Player::GetInstance()->GetAvaibleSlots(length);
+                if (length != 0)
+                    Player::GetInstance()->WriteInventorySlot(slots[0], item);
+            }
+        }
+    }
 }

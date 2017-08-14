@@ -10,7 +10,7 @@
 
 namespace CTRPluginFramework
 {
-    #define DEBUG_MINIGAME 1 ///< Change 0-1 to display the debugs infos
+    #define DEBUG_MINIGAME 0 ///< Change 0-1 to display the debugs infos
 
     class Korok
     {

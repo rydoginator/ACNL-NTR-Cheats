@@ -104,6 +104,10 @@ namespace CTRPluginFramework
     void    Encyclopedia(MenuEntry *entry);
     void    Emoticons(MenuEntry *entry);
     void    Songs(MenuEntry *entry);
+    void    MaxMoneyBank(MenuEntry *entry);
+    void    InfiniteCoupons(MenuEntry *entry);
+    void    InfiniteMedals(MenuEntry *entry);
+    void    InfiniteWallet(MenuEntry * entry);
 
     /*
     ** Environment
@@ -114,6 +118,7 @@ namespace CTRPluginFramework
     void    WorldEdit(MenuEntry *entry); ///< Maybe add a check on input ?
     void    DestroyGrass(MenuEntry *entry);
     void    FillGrass(MenuEntry *entry);
+    void    SearchReplace(MenuEntry *entry);
 
     /*
     ** Time Travel
@@ -172,6 +177,7 @@ namespace CTRPluginFramework
     void    FillMainStreet(MenuEntry *entry);
     void    NooklingKeyboard(MenuEntry *entry);
     void    SetNook(int value);
+    void    CatalogToPockets(MenuEntry *entry);
 
     /*
     ** Callbacks

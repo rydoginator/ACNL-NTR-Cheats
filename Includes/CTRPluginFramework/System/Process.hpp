@@ -53,6 +53,8 @@ namespace CTRPluginFramework
          */
         static u32      GetTextSize(void);
 
+        static bool     IsPaused(void);
+
         /**
         * \brief Safely patch the current process (MemPerm check and Invalidate cache)
         * \param addr      The address to start the patch

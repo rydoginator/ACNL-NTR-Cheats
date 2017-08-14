@@ -67,6 +67,8 @@ namespace CTRPluginFramework
         // Name
         // Return the player's name as a string with utf8 encoding
         std::string     GetName(void) const;
+        // Return the username of the 10 patterns with utf8 encoding
+        std::vector<std::string>     GetPatternNames(void) const;
         // Set the player's name. name must be a string with utf8 encoding
         void            SetName(std::string &name) const;
 

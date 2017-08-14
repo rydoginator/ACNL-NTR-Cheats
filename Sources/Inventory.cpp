@@ -84,7 +84,7 @@ namespace CTRPluginFramework
         u64 money;
         u32 output;
 
-        Keyboard keyboard("How much money would you like?");
+        Keyboard keyboard("Bank editor\nHow much money would you like?");
 
         keyboard.IsHexadecimal(false);
 
@@ -93,7 +93,7 @@ namespace CTRPluginFramework
         {
             money = EncryptACNLMoney(output);
 
-            Player::GetInstance()->Write64(0x6f08, money);
+            Player::GetInstance()->Write64(0x6b8c, money);
         }
     }
 
@@ -320,9 +320,29 @@ namespace CTRPluginFramework
             int *slots = Player::GetInstance()->FindItems(length, 0x202A);
             for (int i = 0; i < length; i++)
             {
-                u16 fossil = rand() % 0x57; //generate a new fossil for each iteration
+                u16 fossil = rand() % 66; //generate a new fossil for each iteration
                 Player::GetInstance()->WriteInventorySlot(slots[i], 0x3130 + fossil);
             }
         }
+    }
+
+    void    MaxMoneyBank(MenuEntry *entry)
+    {
+        Player::GetInstance()->Write64(0x6B6C, EncryptACNLMoney(999999999));
+    }
+
+    void    InfiniteCoupons(MenuEntry *entry)
+    {
+        Player::GetInstance()->Write64(0x8D1C, EncryptACNLMoney(9999));
+    }
+
+    void    InfiniteMedals(MenuEntry *entry)
+    {
+        Player::GetInstance()->Write64(0x6B7C, EncryptACNLMoney(9999));
+    }
+
+    void    InfiniteWallet(MenuEntry * entry)
+    {
+        Player::GetInstance()->Write64(0x6F08, EncryptACNLMoney(99999));
     }
 }
