@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include "ctrulib\services\cfgu.h"
 
 namespace CTRPluginFramework
 {
@@ -28,8 +29,7 @@ namespace CTRPluginFramework
         "Slattz\n"
         "Mega Mew\n"
         "Scotline\n"
-        "and others :)";    
-
+        "and others :)";   
     
     int     main(void)
     {
@@ -176,7 +176,7 @@ namespace CTRPluginFramework
         folder = new MenuFolder("Misc.");
 
         folder->Append(new MenuEntry("Ghost Mode", GhostMode));
-        folder->Append(new MenuEntry("Camera Mod", CameraMod));
+        folder->Append(new MenuEntry("Camera Mod", CameraMod, "R + Circle pad = rotation \n\n R + A stop player from moving or Y lock camera, X unlock camera(needed) \n\n B + D pad move camera, L / R up and down"));
         folder->Append(new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"));
         folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters. Now you can type short stories into chat :)"));
         folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
