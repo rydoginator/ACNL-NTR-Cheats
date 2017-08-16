@@ -63,6 +63,7 @@ namespace CTRPluginFramework
     bool    Check32Value(u32 address, u32 value);
     bool    Check16Value(u32 address, u16 value);
     bool    Check8Value(u32 address, u8 value);
+    void    StartMsg(void);
 
     // Cheats functions
 

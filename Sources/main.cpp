@@ -65,6 +65,7 @@ namespace CTRPluginFramework
         Game::Initialize();
         // Initialize player
         Player::GetInstance();
+        StartMsg(); //T&C Message & Save Backup Message
 
         /*
         ** Garden
