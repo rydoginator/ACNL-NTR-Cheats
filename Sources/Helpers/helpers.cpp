@@ -118,7 +118,7 @@ namespace CTRPluginFramework
         
             if ((MessageBox(TC, DialogType::DialogYesNo))()) //If Yes is picked in T&C MessageBox
             {
-                Sleep(Seconds(1.f)); //Let the first MessageBox disappear to avoid a glitchy screen
+                Sleep(Seconds(1.5f)); //Let the first MessageBox disappear to avoid a glitchy screen
                 if ((MessageBox(TCskip, DialogType::DialogYesNo))())
                 {
                     std::string filename = "T&C";
@@ -183,7 +183,7 @@ namespace CTRPluginFramework
         
                 file.Close();
             }
-            Sleep(Seconds(1.f)); //Let the first MessageBox disappear to avoid a glitchy screen
+            Sleep(Seconds(1.5f)); //Let the first MessageBox disappear to avoid a glitchy screen
             if ((MessageBox(bkupmsgskip, DialogType::DialogYesNo))())
             {
                 std::string filename = "skipsavemsg";
