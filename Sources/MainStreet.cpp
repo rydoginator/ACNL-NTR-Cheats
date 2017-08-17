@@ -56,7 +56,7 @@ namespace CTRPluginFramework
             return;
         if (Controller::IsKeyPressed(A))
         {
-            if (*Game::CatalogItem != 0)
+            if (*Game::CatalogItem != 0 && *Game::BottomScreen == 0x7C)
             {
                 u16 item = *Game::CatalogItem;
                 int *slots = Player::GetInstance()->GetAvaibleSlots(length);
