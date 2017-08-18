@@ -186,8 +186,8 @@ namespace CTRPluginFramework
         folder->Append(new MenuEntry("Fossil Inspector", GenerateFossils, "Press " FONT_X " and " FONT_A " to process all fossils\nas if you talked to Blathers"));
         folder->Append(new MenuEntry("Max Bank", MaxMoneyBank));
         folder->Append(new MenuEntry("Infinite/Max Coupons", InfiniteCoupons));
-        folder->Append(new MenuEntry("Infinite/Max Island Medals", InfiniteWallet));
-        folder->Append(new MenuEntry("Infinite/Max Bells in Wallet", InfiniteMedals));
+        folder->Append(new MenuEntry("Infinite/Max Island Medals", InfiniteMedals));
+        folder->Append(new MenuEntry("Infinite/Max Bells in Wallet", InfiniteWallet));
 
         menu.Append(folder);
 
