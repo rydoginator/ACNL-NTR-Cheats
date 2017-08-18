@@ -1,5 +1,6 @@
 #include "cheats.hpp"
 #include "CTRPluginFramework/System/Rect.hpp"
+#include "Helpers/MenuEntryHelpers.hpp"
 
 namespace CTRPluginFramework
 {
@@ -115,32 +116,20 @@ namespace CTRPluginFramework
 
     void    SpeedHack(MenuEntry *entry)
     {
-        // Init - Set velocity if it's 0
-        if (!entry->GetArg())
-        {
-            entry->SetArg(new float);
-            float *arg = static_cast<float *>(entry->GetArg());
-            *arg = 1.0f;
-        }
-
         if (Controller::IsKeysDown(B))
         {
-            float     velocity;
-            Process::ReadFloat(Game::Velocity, velocity);
-            float   speed = *static_cast<float *>(entry->GetArg());
- 
+            float       velocity;
+            float       speed = *GetArg<float>(entry, 5.238f);
+
+            if (!Process::ReadFloat(Game::Velocity, velocity)) //#TODO: check if we're on a loading screen or no
+                return;
+
             if (velocity >= speed)
-            {
                 Process::WriteFloat(Game::Velocity, speed);
-            }
             else if (velocity > 0)
-            {
-                ADDTOFLOAT(Game::Velocity, 0.1f);
-            }
+                Process::WriteFloat(Game::Velocity, velocity + 0.1f);
         }
     }
-
-
 
     void    SpeedHackEditor(MenuEntry *entry)
     {
@@ -155,11 +144,12 @@ namespace CTRPluginFramework
             "Warp Speed WARNING!"
         };
         keyboard.Populate(list);
-        int userChoice = keyboard.Open();
-        entry->SetArg(new float);
-        float *speed = static_cast<float *>(entry->GetArg());
-        *speed = 5.238f * (userChoice + 1);
+        keyboard.CanAbort(false);
 
+        int     userChoice = keyboard.Open();
+        float   *speed = GetArg<float>(entry);
+
+        *speed = 5.238f * (userChoice + 1);
     }
 
     void    MoonJump(MenuEntry *entry)
