@@ -1,5 +1,11 @@
 #include "cheats.hpp"
 #include "ctrulib\services\cfgu.h"
+#include "Helpers/Hook.hpp"
+#include <cstring>
+
+extern "C" void APT_Hook(void);
+volatile u32    g_homeBtnWasPressed = 0;
+volatile u32    g_aptHookReturnAddress = 0;
 
 namespace CTRPluginFramework
 {
@@ -10,11 +16,11 @@ namespace CTRPluginFramework
     
     #define MAJOR_VERSION       4
     #define MINOR_VERSION       0
-    #define REVISION_VERSION    25
+    #define REVISION_VERSION    0
     #define STRINGIFY(x)        #x
     #define TOSTRING(x)         STRINGIFY(x)
     #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) "]"
-    
+    static Hook                 g_aptHook;
     extern Region               g_region;
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
@@ -29,10 +35,69 @@ namespace CTRPluginFramework
         "Slattz\n"
         "Mega Mew\n"
         "Scotline\n"
-        "and others :)";   
+        "and others :)";
+
+    u8  *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize)
+    {
+        const u8 *patternc = (const u8 *)pattern;
+        u32 table[256];
+
+        //Preprocessing
+        for (u32 i = 0; i < 256; i++)
+            table[i] = patternSize;
+        for (u32 i = 0; i < patternSize - 1; i++)
+            table[patternc[i]] = patternSize - i - 1;
+
+        //Searching
+        u32 j = 0;
+        while (j <= size - patternSize)
+        {
+            u8 c = startPos[j + patternSize - 1];
+            if (patternc[patternSize - 1] == c && memcmp(pattern, startPos + j, patternSize - 1) == 0)
+                return startPos + j;
+            j += table[c];
+        }
+
+        return nullptr;
+    }
+
+    void    InstallAPTHook(void)
+    {
+        static const u8     aptHomeButtonPattern[] =
+        {
+            0x00, 0xF0, 0x20, 0xE3, // NOP
+            0xA1, 0x1A, 0x00, 0xEB, // BL   #0x6A8C
+            0x00, 0x00, 0x50, 0xE3, // CMP  R0, #0
+            0x00, 0xF0, 0x20, 0xE3, // NOP
+            0x03, 0x00, 0x00, 0x1A, // BNE  #0x14
+            0x00, 0x00, 0xDD, 0xE5, // LDRB R0, [SP]
+            0x01, 0x00, 0x50, 0xE3, // CMP  R0, #1
+            0x02, 0x00, 0xA0, 0x13, // MOVNE R0, #2
+            0x9E, 0x1A, 0x00, 0xEB, // BL   #0x6A80
+            0x04, 0x10, 0x94, 0xE5, // LDR  R1, [R4, #4]
+            0x00, 0x00, 0x51, 0xE3, // CMP  R1, #0
+            0x03, 0x00, 0x00, 0x0A  // BEQ  #0x14
+        };
+
+        u8 *targetAddr = memsearch((u8 *)0x00100000, aptHomeButtonPattern, Process::GetTextSize(), sizeof(aptHomeButtonPattern));
+
+        if (targetAddr)
+        {
+            u32 address = (u32)targetAddr + 4;
+
+            g_aptHookReturnAddress = address + 0x170;
+            g_aptHook.Initialize(address, (u32)APT_Hook);
+            g_aptHook.Enable();
+        }
+        else
+            OSD::Notify("Error: APT Hook couldn't be made !");
+    }
     
     int     main(void)
     {
+        // Install APT Hook to block home button
+        InstallAPTHook();
+
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
         PluginMenu  &menu = *m;
         u64         tid = Process::GetTitleID();
@@ -194,7 +259,15 @@ namespace CTRPluginFramework
         ********************/
 
         // Add Text2Cheat to plugin's main loop
-        menu.Callback([] { Sleep(Milliseconds(1)); });
+        menu.Callback([]
+        {
+            Sleep(Milliseconds(1));
+            if (g_homeBtnWasPressed)
+            {
+                g_homeBtnWasPressed = 0;
+                OSD::Notify("The homebutton is disabled because of memory issue", Color::Red, Color::Blank);
+            }
+        });
         menu.Callback(CheatsKeyboard);
         menu.Callback(PlayerUpdateCallback);
         menu.Callback(MiniGame);
