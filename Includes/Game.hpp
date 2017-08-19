@@ -66,6 +66,7 @@ namespace CTRPluginFramework
         static u8       *EnterBool;     ///<Allows the user to press enter in their keyboard
         static u32      Visibility;     ///<ASM address that makes your character invisible
         static u16      *CatalogItem;   ///<The item that you're on inside of your catalog
+        static u8       *MapBool;       ///<Address of boolean that tells if you're showing your map or not
     };
 }
 

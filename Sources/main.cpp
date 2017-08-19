@@ -19,7 +19,7 @@ namespace CTRPluginFramework
     #define REVISION_VERSION    0
     #define STRINGIFY(x)        #x
     #define TOSTRING(x)         STRINGIFY(x)
-    #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) "]"
+    #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta 2" "]"
     static Hook                 g_aptHook;
     extern Region               g_region;
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
@@ -139,12 +139,11 @@ namespace CTRPluginFramework
         MenuFolder* folder = new MenuFolder("Save File Codes");
 
         folder->Append(new MenuEntry("Set name to...", nullptr, SetNameTo));
-        folder->Append(new MenuEntry("Save Dumper", nullptr, GardenDumper));
-        folder->Append(new MenuEntry("Save Restore", nullptr, GardenRestore));
-        folder->Append(new MenuEntry("Inject TCP Picture", InjectTCP));
+        folder->Append(new MenuEntry("Save Dumper", nullptr, GardenDumper, "Select the keyboard icon to start dumping your save file."));
+        folder->Append(new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"));
         folder->Append(new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Mega Mew and Scotline"));
         folder->Append(new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Mega Mew and Scotline"));
-        folder->Append(new MenuEntry("Real Time Building Placer", BuildingPlacer));
+        folder->Append(new MenuEntry("Real Time Building Placer", BuildingPlacer, "Press R + D Pad down to place a building by ID directly where you are standing\nPress R + D pad up to place a building where you are standing."));
 
         menu.Append(folder);
 
@@ -165,8 +164,8 @@ namespace CTRPluginFramework
 
         folder = new MenuFolder("Main Street Codes");
 
-        folder->Append(new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard));
-        folder->Append(new MenuEntry("Fill out Catalog", FillCatalog));
+        folder->Append(new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard, "Press the keyboard icon to change which upgrade the Nooklings have"));
+        folder->Append(new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop"));
         folder->Append(new MenuEntry("Fill out Main Street", FillMainStreet, "Unlocks all the Main Street buildings except Leif + Nooklings"));
         folder->Append(new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press " FONT_L " and " FONT_A " while in the catalog to send the item directly to your pockets!"));
         menu.Append(folder);
@@ -179,15 +178,16 @@ namespace CTRPluginFramework
 
         folder->Append(new MenuEntry("Text to Item", Text2Item, "Press " FONT_X " and " FONT_DR " to open the keyboard to enter in the ID you want to recieve."));
         folder->Append(new MenuEntry("Duplicate", Duplication, "Press " FONT_R " to duplicate the item that is slot 01 to slot 02."));
-        folder->Append(new MenuEntry("Show names of buried items", ShowBuriedItems));
-        folder->Append(new MenuEntry("Pick up buried items", PickBuriedItems));
-        folder->Append(new MenuEntry("Set bank amount to...", nullptr, SetBells));
+        folder->Append(new MenuEntry("Show names of buried items", ShowBuriedItems, "This allows you to view what is buried underground in the little thought bubble above your head\nWarning: this is a heavy cheat, so it might cause slowdown."));
+        folder->Append(new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown."));
         folder->Append(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nHold Start 1 second to choose which one to open."));
         folder->Append(new MenuEntry("Fossil Inspector", GenerateFossils, "Press " FONT_X " and " FONT_A " to process all fossils\nas if you talked to Blathers"));
         folder->Append(new MenuEntry("Max Bank", MaxMoneyBank));
+        folder->Append(new MenuEntry("Infinite Wallet", InfiniteWallet));
         folder->Append(new MenuEntry("Infinite/Max Coupons", InfiniteCoupons));
         folder->Append(new MenuEntry("Infinite/Max Island Medals", InfiniteMedals));
-        folder->Append(new MenuEntry("Infinite/Max Bells in Wallet", InfiniteWallet));
+        folder->Append(new MenuEntry("Wallet editor (0)", WalletEditor, WalletEditorSetter, "Touch the keyboard icon on the bottom screen to change the desired value"));
+        folder->Append(new MenuEntry("Bank editor...", nullptr, SetBells, "Press the keyboard icon on the bottom screen to enter in the desired amount of bells to your bank.")); //todo: add entry name changer and value checker
 
         menu.Append(folder);
 
@@ -241,16 +241,16 @@ namespace CTRPluginFramework
 
         folder = new MenuFolder("Misc.");
 
-        folder->Append(new MenuEntry("Ghost Mode", GhostMode));
+        folder->Append(new MenuEntry("Ghost Mode", GhostMode, "Press Y + D pad up to enable, Y + D pad down to disable"));
         folder->Append(new MenuEntry("Camera Mod", CameraMod, "R + Circle pad = rotation \n\n R + A stop player from moving or Y lock camera, X unlock camera(needed) \n\n B + D pad move camera, L / R up and down"));
         folder->Append(new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"));
-        folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters. Now you can type short stories into chat :)"));
+        folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Wii8461 for this cheat"));
         folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
         folder->Append(new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"));
         folder->Append(new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."));
         folder->Append(new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."));
         folder->Append(new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, "Press L or R to access your storage, and press L+R to access the catalog while switching emoticon tabs\nSpecial thanks Mega Mew and Scotline for this cheat :)"));
-        folder->Append(new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!"));
+        folder->Append(new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!\nCredits to Hikaru"));
         
         menu.Append(folder);
 

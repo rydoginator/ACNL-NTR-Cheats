@@ -21,8 +21,10 @@ namespace CTRPluginFramework
                 secondLine += input;
                 input = secondLine;
             }
-
-            Player::GetInstance()->SetName(input);
+            if (input.length() < 9)
+                Player::GetInstance()->SetName(input);
+            else
+                MessageBox msgBox("Choose a shorter name.\nYour name needs to be 8 characters or less.", DialogType::DialogOk);
         }
     }
 
@@ -270,28 +272,5 @@ namespace CTRPluginFramework
 
         if (userChoice != -1)
             Process::Write8(offset, userChoice);
-    }
-
-    void    InjectTCP(MenuEntry *entry)
-    {        
-        if (!entry->IsActivated())
-            return;
-
-        File file;
-
-        if (File::Open(file, "image.jpg", File::READ) == 0)
-        {
-            int res = file.Inject(Game::TCPImage, file.GetSize());
-            file.Close();
-            
-            if (res == 0)
-                MessageBox("Injection done")();
-            else
-                MessageBox("Injection failed")();
-        }
-        else
-            MessageBox("Error\nCouldn't open image.jpg")();
-
-        entry->Disable();
     }
 }

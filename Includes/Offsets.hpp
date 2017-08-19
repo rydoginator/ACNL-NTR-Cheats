@@ -51,10 +51,10 @@
 
 #define     USA_MINUTES_ADDR                    0x9515BA
 #define     EUR_MINUTES_ADDR                    0x9505B6
-#define     JAP_MINUTES_ADDR                    0x9495B6
+#define     JAP_MINUTES_ADDR                    0x9840FB
 #define     USA_HOURS_ADDR                      0x9515BB
 #define     EUR_HOURS_ADDR                      0x9505B7
-#define     JAP_HOURS_ADDR                      0x9495B7
+#define     JAP_HOURS_ADDR                      0x9840FC
 #define     USA_PLAYER_POINTER                  0xAB014C
 #define     EUR_PLAYER_POINTER                  0xAAF14C
 #define     JAP_PLAYER_POINTER                  0xAA914C
@@ -208,6 +208,12 @@
 #define     EUR_VISIBILITY_ADDR                 0x6535CC
 #define     JAP_VISIBILITY_ADDR                 0x65308C
 
-#define     USA_CATALOG_ITEM                    0x32DC6998
+#define     USA_CATALOG_ITEM                    0x950D1F
+#define     EUR_CATALOG_ITEM                    0x94FD1F
+#define     JAP_CATALOG_ITEM                    0x949D1F
+
+#define     USA_MAP_BOOL                        0x950C30
+#define     EUR_MAP_BOOL                        0x94FC30
+#define     JAP_MAP_BOOL                        0x949C30           
 
 #endif

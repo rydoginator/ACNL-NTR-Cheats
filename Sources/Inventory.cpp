@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include "Helpers.hpp"
 
 namespace CTRPluginFramework
 {
@@ -8,9 +9,9 @@ namespace CTRPluginFramework
         u32 in = *static_cast<const u32 *>(input);
 
         // Check the value
-        if (in < 0x1000 || in > 0xFFFF)
+        if ((in << 8) < 0x10000)
         {
-            error = "The value must be between 1000 - FFFF";
+            error = "The value must be greater than 1000";
             // Return that the value isn't valid
             return (false);
         }
@@ -345,4 +346,46 @@ namespace CTRPluginFramework
     {
         Player::GetInstance()->Write64(0x6F08, EncryptACNLMoney(99999));
     }
+
+    void    WalletEditorSetter(MenuEntry *entry)
+    {
+        u32 *value = GetArg<u32>(entry);
+        Keyboard    keyboard("Wallet Editor\n\nEnter the desired amount of bells");
+
+        keyboard.IsHexadecimal(false);
+        keyboard.SetCompareCallback([](const void *in, std::string &error)
+        {
+            u32 input = *static_cast<const u32 *>(in);
+
+            if (input <= 99999) return (true);
+
+            error = "The value must be between 0 - 99999";
+            return (false);
+        });
+
+        if (keyboard.Open(*value) != -1)
+        {
+            std::string &name = entry->Name();
+            int pos = name.find("(");
+
+            if (pos != std::string::npos)
+            {
+                name = name.substr(pos);
+                name += Format("(%d)", *value);
+            }
+        }
+    }
+
+    void    WalletEditor(MenuEntry *entry)
+    {
+        if (entry->IsActivated())
+        {
+            u64 money = EncryptACNLMoney(*GetArg<u32>(entry));
+
+            Player::GetInstance()->Write64(0x6F08, money);
+        }
+
+        entry->Disable();
+    }
+
 }

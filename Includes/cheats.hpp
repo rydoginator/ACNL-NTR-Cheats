@@ -73,7 +73,6 @@ namespace CTRPluginFramework
     void    SetNameTo(MenuEntry *entry);
     void    GardenDumper(MenuEntry *entry);
     void    GardenRestore(MenuEntry *entry);
-    void    InjectTCP(MenuEntry *entry);
     void    ChangeNativeFruit(MenuEntry *entry);
     void    PWPUnlock(MenuEntry *entry);
     void    ChangeGrass(MenuEntry *entry);
@@ -109,6 +108,9 @@ namespace CTRPluginFramework
     void    InfiniteCoupons(MenuEntry *entry);
     void    InfiniteMedals(MenuEntry *entry);
     void    InfiniteWallet(MenuEntry * entry);
+    void    WalletEditorSetter(MenuEntry *entry);
+    void    WalletEditor(MenuEntry *entry);
+
 
     /*
     ** Environment

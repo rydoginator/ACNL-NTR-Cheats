@@ -32,11 +32,28 @@ namespace CTRPluginFramework
 
         if (mapArea.Contains(touchPos))
         {
-            FloatVector  fPos(touchPos);
+            if (*Game::MapBool == 1)
+            {
+                switch (*Game::Room)
+                { //todo:add more room ids
+                    case 0:
+                        goto MainLand;
+                        break;
+                    case 0x69:
+                        goto MainLand;
+                        break;
+                    default:
+                        break;
 
-            position.x = (fPos.x - 77.f) * 14.94f + 526.f;
-            position.z = (fPos.y - 50.f) * 15.21f + 526.f;
-            Player::GetInstance()->SetCoordinates(position);
+                }//todo: find data for island and main street
+                return;
+            MainLand:
+                FloatVector  fPos(touchPos);
+
+                position.x = (fPos.x - 77.f) * 14.94f + 526.f;
+                position.z = (fPos.y - 50.f) * 15.21f + 526.f;
+                Player::GetInstance()->SetCoordinates(position);
+            }
         }
     }
 

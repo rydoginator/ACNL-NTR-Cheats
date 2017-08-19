@@ -47,7 +47,8 @@ namespace CTRPluginFramework
         KeyboardText = reinterpret_cast<u32 *>(AutoRegion(USA_TEXT_KEYBOARD, EUR_TEXT_KEYBOARD, JAP_TEXT_KEYBOARD)());
         EnterBool = reinterpret_cast<u8 *>(AutoRegion(USA_ENTER_BOOL, EUR_ENTER_BOOL, JAP_ENTER_BOOL)());
         Visibility = reinterpret_cast<u32>(AutoRegion(USA_VISIBILITY_ADDR, EUR_VISIBILITY_ADDR, JAP_VISIBILITY_ADDR)());
-        CatalogItem = reinterpret_cast<u16 *>(AutoRegion(USA_CATALOG_ITEM, TO_EUR(USA_CATALOG_ITEM), TO_JAP(USA_CATALOG_ITEM))());
+        CatalogItem = reinterpret_cast<u16 *>(AutoRegion(USA_CATALOG_ITEM, EUR_CATALOG_ITEM, JAP_CATALOG_ITEM)());
+        MapBool = reinterpret_cast<u8 *>(AutoRegion(USA_MAP_BOOL, EUR_MAP_BOOL, JAP_MAP_BOOL)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -141,5 +142,6 @@ namespace CTRPluginFramework
     u8          *Game::EnterBool = nullptr;
     u32         Game::Visibility = 0;
     u16         *Game::CatalogItem = nullptr;
+    u8          *Game::MapBool = nullptr;
 
 }
