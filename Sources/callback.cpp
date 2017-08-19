@@ -6,15 +6,8 @@ namespace CTRPluginFramework
 {
     void    CheatsKeyboard(void) 
     {
-        static HoldKey  buttons(R + X, Seconds(0.5f));
-
-        if (!buttons())
-            return;
-
-        Keyboard  keyboard("Select which command \nyou'd like to execute.");
-
-        // Creating my entry list
-        static std::vector<std::string> list = 
+        static HoldKey              buttons(R + X, Seconds(0.5f));
+        static const StringVector   list = 
         {
             "Water Flowers",
             "Pull All Weeds",
@@ -25,6 +18,11 @@ namespace CTRPluginFramework
             "Get set...",
             "Change Grass to..."
         };
+
+        if (!buttons())
+            return;
+
+        Keyboard  keyboard("Select which command \nyou'd like to execute.");
 
         // Populate the keyboard with the entries
         keyboard.Populate(list);
@@ -74,13 +72,15 @@ namespace CTRPluginFramework
 
     void    TeleportKeyboard(void)
     {
-        Keyboard keyboard("Which player would you like to teleport to?");
-        std::vector<std::string> list =
+        static const StringVector list =
         {
             "Player 1",
             "Player 2",
             "Player 3"
         };
+
+        Keyboard    keyboard("Which player would you like to teleport to?");
+
         keyboard.Populate(list);
 
         int userChoice = keyboard.Open();
@@ -92,8 +92,7 @@ namespace CTRPluginFramework
     
     void    TimePicker(void)
     {
-        Keyboard  keyboard("Select which time you'd like to travel\nto");
-        std::vector<std::string> list = 
+        static const StringVector list = 
         {
             "12 AM",
             "1 AM",
@@ -120,24 +119,29 @@ namespace CTRPluginFramework
             "10 PM",
             "11 PM"
         };
+
+        Keyboard  keyboard("Select which time you'd like to travel\nto");
+
         keyboard.Populate(list);
 
         int  userChoice = keyboard.Open();
 
         if (userChoice != -1)
-        {
             SetTimeTo(userChoice);
-        }
     }
 
     void    GrassKeyboard(void)
     {
-        Keyboard keyboard("Would you like to destroy or make grass?");
-        std::vector<std::string> list =
+        static const StringVector list =
         {
-            "Destroy!",
+            "Destroy !",
             "Replenish"
         };
+
+        Keyboard keyboard("Would you like to destroy or make grass ?");
+
+        keyboard.Populate(list);
+
         int userChoice = keyboard.Open();
 
         if (userChoice == 0)
