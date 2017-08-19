@@ -349,7 +349,7 @@ namespace CTRPluginFramework
 
     void    WalletEditorSetter(MenuEntry *entry)
     {
-        u32 *value = GetArg<u32>(entry);
+        u32         *value = GetArg<u32>(entry);
         Keyboard    keyboard("Wallet Editor\n\nEnter the desired amount of bells");
 
         keyboard.IsHexadecimal(false);
@@ -370,7 +370,7 @@ namespace CTRPluginFramework
 
             if (pos != std::string::npos)
             {
-                name = name.substr(pos);
+                name.erase(pos);
                 name += Format("(%d)", *value);
             }
         }

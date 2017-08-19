@@ -1,5 +1,7 @@
 #include "cheats.hpp"
 #include <time.h>
+#include "ctrulib/util/utf.h"
+#include <cstring>
 
 namespace CTRPluginFramework
 {
@@ -202,5 +204,59 @@ namespace CTRPluginFramework
                 file.Close();
             }
         }
+    }
+
+    u32     GetSize(const std::string &str)
+    {
+        u32     size = str.length();
+        u8      buffer[0x100] = { 0 };
+        u8      *s = buffer;
+
+        if (!size) return (0);
+
+        std::memcpy(buffer, str.data(), size);
+
+        size = 0;
+        while (*s)
+        {
+            u32 code;
+            int units = decode_utf8(&code, s);
+
+            if (units == -1)
+                break;
+
+            s += units;
+            size++;
+        }
+        return (size);
+    }
+
+    u32     RemoveLastChar(std::string &str)
+    {
+        u32     size = str.length();
+        u8      buffer[0x100] = { 0 };
+        u8      *s = buffer;
+
+        if (!size) return (0);
+
+        std::memcpy(buffer, str.data(), size);
+
+        while (*s)
+        {
+            u32 code;
+            int units = decode_utf8(&code, s);
+
+            if (units == -1)
+                break;
+            if (*(s + units))
+                s += units;
+            else
+            {
+                *s = 0;
+                str = reinterpret_cast<char *>(buffer);
+                return (code);
+            }
+        }
+        return (0);
     }
 }

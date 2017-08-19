@@ -2,13 +2,25 @@
 
 namespace CTRPluginFramework
 {
+
+    void    NameChanger_OnInputChange(Keyboard &keyboard, InputChangeEvent &event)
+    {
+        std::string &input = keyboard.GetInput();
+
+        if (event.type == InputChangeEvent::CharacterAdded
+            && GetSize(input) >= 9)
+        {
+            RemoveLastChar(input);
+        }
+    }
+
     void    SetNameTo(MenuEntry *entry)
     {
-
         Keyboard keyboard("Name Changer\n\nEnter the name you'd like to have:");
 
         std::string     input;
 
+        keyboard.OnInputChange(NameChanger_OnInputChange);
         if (keyboard.Open(input) != -1)
         {
             // Ask for a second line name
@@ -21,12 +33,11 @@ namespace CTRPluginFramework
                 secondLine += input;
                 input = secondLine;
             }
-            if (input.length() < 9)
-                Player::GetInstance()->SetName(input);
-            else
-                MessageBox msgBox("Choose a shorter name.\nYour name needs to be 8 characters or less.", DialogType::DialogOk);
+
+            Player::GetInstance()->SetName(input);
         }
     }
+
 
     void    BuildingPlacer(MenuEntry *entry)
     {

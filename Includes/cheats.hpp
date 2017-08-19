@@ -64,12 +64,15 @@ namespace CTRPluginFramework
     bool    Check16Value(u32 address, u16 value);
     bool    Check8Value(u32 address, u8 value);
     void    StartMsg(void);
+    u32     GetSize(const std::string &str);
+    u32     RemoveLastChar(std::string &str);
 
     // Cheats functions
 
     /*
     ** Garden
     ********************/
+    void    NameChanger_OnInputChange(Keyboard &keyboard, InputChangeEvent &event);
     void    SetNameTo(MenuEntry *entry);
     void    GardenDumper(MenuEntry *entry);
     void    GardenRestore(MenuEntry *entry);
