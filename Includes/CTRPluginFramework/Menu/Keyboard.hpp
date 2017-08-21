@@ -14,7 +14,8 @@ namespace CTRPluginFramework
         enum EventType
         {
             CharacterAdded,
-            CharacterRemoved
+            CharacterRemoved,
+            InputWasCleared
         };
 
         EventType   type;       ///< Type of the event
@@ -44,7 +45,9 @@ namespace CTRPluginFramework
          * \brief Keyboard constructor
          * \param text  The message to display on the top screen if displayed
          */
-        Keyboard(std::string text = "");
+        Keyboard(const std::string &text = "");
+        Keyboard(const std::string &text, const std::vector<std::string> &options);
+        Keyboard(const std::vector<std::string> &options);
         ~Keyboard(void);
 
         /**
@@ -59,6 +62,12 @@ namespace CTRPluginFramework
          * \param isHex  If the input must be hexadecimal
          */
         void    IsHexadecimal(bool isHex);
+
+        /**
+         * \brief Define a maximum input length for qwerty keyboard
+         * \param maxValue The maximum count of characters that the user can type
+         */
+        void    SetMaxLength(u32 maxValue) const;
 
         /**
          * \brief Define a callback to check the input \n

@@ -25,6 +25,8 @@ namespace CTRPluginFramework
         void    Append(MenuEntry *item) const;
         void    Append(MenuFolder *item) const;
         u32     ItemsCount(void) const;
+        MenuFolder    *operator += (const MenuEntry *entry);
+        MenuFolder    *operator += (const MenuFolder *folder);
 
     private:
         friend class PluginMenu;

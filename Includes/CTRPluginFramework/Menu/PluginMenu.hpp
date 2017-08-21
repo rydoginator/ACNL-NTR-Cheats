@@ -58,6 +58,11 @@ namespace CTRPluginFramework
         ******************************/
         void    Append(MenuFolder *item) const;
 
+        void    operator += (const MenuEntry *entry) const;
+        void    operator += (const MenuFolder *folder) const;
+        void    operator += (CallbackPointer callback) const;
+        void    operator -= (CallbackPointer callback) const;
+
         /*
         ** Add a callback to the menu
         ** A callback is a function which is always executed in the menu's main loop

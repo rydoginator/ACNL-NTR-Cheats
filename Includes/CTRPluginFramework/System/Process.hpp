@@ -53,6 +53,11 @@ namespace CTRPluginFramework
          */
         static u32      GetTextSize(void);
 
+        /**
+         * \brief Check if the process is currently paused by the framework\n
+         * (Like when a Keyboard, MessageBox or the menu is open)
+         * \return true if the process is paused
+         */
         static bool     IsPaused(void);
 
         /**

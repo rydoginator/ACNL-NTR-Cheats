@@ -15,119 +15,119 @@ namespace CTRPluginFramework
     {
     public:
 
-        /*
-        ** Change the working directory
-        ** path = the path to set as working directory
-        ** return value:
-        ** -1 : Invalid Path
-        ** Other : result value by FS
-        ** 0 : Success
-        *************************************************/
-        static  int     ChangeWorkingDirectory(std::string path);
+        enum OPResult
+        {
+            SUCCESS = 0,        ///< Operation succeeded
+            INVALID_PATH = -1,  ///< The path is invalid
+            NOT_OPEN = -2,      ///< The File instance is not opened
+            INVALID_ARG = -3,   ///< One of the args passed to the operation is invalid (nullptr, address unreachable, etc)
+            UNEXPECTED_ERROR = -4 ///< An error occured
+        };
+
+        /**
+         * \brief Change the working directory
+         * \param path The new path to set as working directory
+         * \return An \ref OPResult code
+         */
+        static  int     ChangeWorkingDirectory(const std::string &path);
         
-        /*
-        ** Create a folder
-        ** path = the path and name of the folder to create
-        ** return value:
-        ** -1 : Invalid path
-        ** 0 : Success
-        ** 1 : Already exists
-        ** Other: Result value by FS
-        *************************************************/
-        static  int     Create(std::string path);
-        /*
-        ** Remove a directory
-        ** path = path of the folder to remove
-        ** return value:
-        ** -1 : Invalid path
-        ** 0 : Success
-        ** Other: Result value by FS
-        ************************************************/
-        static  int     Remove(std::string path);
-        /*
-        ** Rename a folder
-        ** path = path of the folder to remove
-        ** return value:
-        ** -1 : Invalid path
-        ** 0 : Sucess
-        ** Other : Result value by FS
-        ***********************************************/
-        static  int     Rename(std::string oldPath, std::string newPath);
-        /*
-        ** Check if a folder exists
-        ** path = path of the folder to check
-        ** return value:
-        ** -1 : Invalid Path
-        ** 0 : Doesn't Exist
-        ** 1 : Exist
-        ***********************************************/
-        static  int     IsExists(std::string path);
+        /**
+         * \brief Create a directory
+         * \param path Path of the directory to create
+         * \return Either a value from \ref OPResult or a FS return value
+         */
+        static  int     Create(const std::string &path);
 
-        /*
-        ** Open a folder
-        ** &output = refernce to output the Folder object
-        ** path = path of the folder to open
-        ** create = if the folder must be created
-        ** return value:
-        ** -1 : Invalid Path
-        ** 0 : Success
-        ** Other : Result value by FS
-        **********************************************/
-        static int     Open(Directory &output, std::string path, bool create = false);
-        Directory() : _path(""), _handle(0), _isListed(false), _isInit(false){}
-        ~Directory() { Close(); }
+        /**
+         * \brief Remove the specified directoy
+         * \param path The directory to remove
+         * \return Either a value from \ref OPResult or a FS return value
+         */
+        static  int     Remove(const std::string &path);
 
-        int     Close(void);
+        /**
+         * \brief Rename the specified directory
+         * \param oldPath The directory to rename
+         * \param newPath The new name of the directory
+         * \return Either a value from \ref OPResult or a FS return value
+         */
+        static  int     Rename(const std::string &oldPath, const std::string &newPath);
 
-        /*
-        ** Open a file in the current directory
-        **  &output = reference to output the File object
-        ** path = path of the file to open (from the current folder)
-        ** Return value:
-        ** -1 : Invalid Path
-        ** 0 : Success
-        ** Other Result value by FS
-        *********************************************/
-        int     OpenFile(File &output, std::string path, bool create = true);
+        /**
+         * \brief Check if the specified directory exists
+         * \param path The directory to check
+         * \return
+         * 1: Exists
+         * 0: Doesn't exists
+         */
+        static  int     IsExists(const std::string &path);
 
-        /*
-        ** List the files in the current directory
-        ** &files = reference to a std::vector to output the filenames
-        ** pattern = if specified, the function will only return the files 
-        ** which contain the pattern in their name (extension included)
-        ** Return value:
-        ** -1: the current Directory isn't properly opened
-        ** >=0 : the total of files found (that matched the pattern if specified)
-        *********************************************/
-        int     ListFiles(std::vector<std::string> &files, std::string pattern = "");
+        /**
+         * \brief Open a directory
+         * \param output Reference to the Directory object
+         * \param path The directory to open
+         * \param create If the directory must be created
+         * \return Either a value from \ref OPResult or a FS return value
+         */
+        static int     Open(Directory &output, const std::string &path, bool create = false);
 
-        /*
-        ** List the folders in the current directory
-        ** &folders = reference to a std::vector to output the foldernames
-        ** pattern = if specified, the function will only return the folders
-        ** which contain the pattern in their name
-        ** Return value:
-        ** -1: the current Directory isn't properly opened
-        ** >=0 : the total of folders found (that matched the pattern if specified)
-        *********************************************/
-        int     ListFolders(std::vector<std::string> &folders, std::string pattern = "");
+        /**
+         * \brief Close a Directory
+         * \return Either a value from \ref OPResult or a FS return value
+         */
+        int     Close(void) const;
 
-        std::string &GetPath(void);
+        /**
+         * \brief Open a file within the current Directory
+         * \param output The File object
+         * \param path The file to open
+         * \param mode The mode to open the file with
+         * \return Either a value from \ref OPResult or a FS return value
+         */
+        int     OpenFile(File &output, const std::string &path, int mode = File::RW) const;
+
+        /**
+         * \brief List all the files within the current Directory
+         * \param files The list of files that will be returned \n
+         * Beware that the container is not emptied and results files are appended
+         * \param pattern If specified, only the files that contain the pattern will be returned
+         * \return The count of files found, OPResult::NOT_OPEN if the Directory is not opened
+         */
+        int     ListFiles(std::vector<std::string> &files, const std::string &pattern = "") const;
+
+        /**
+        * \brief List all the directories within the current Directory
+        * \param directories The list of directories that will be returned \n
+        * Beware that the container is not emptied and results directories are appended
+        * \param pattern If specified, only the directories that contain the pattern will be returned
+        * \return The count of directories found, OPResult::NOT_OPEN if the Directory is not opened
+        */
+        int     ListDirectories(std::vector<std::string> &directories, const std::string &pattern = "") const;
+
+        /**
+         * \brief Get the name of the current Directory
+         * \return An std::string with the name of the current Directory
+         */
+        std::string     GetName(void) const;
+
+        /**
+         * \brief Get the full path of the current Directory
+         * \return An std::string with the full path of the current Directory
+         */
+        std::string     GetFullName(void) const;
+        
+        Directory(void);
+        Directory(const std::string &path, bool create = false);
+        ~Directory();
+
     private:
 
-        friend class File;
-        static  std::string     _workingDirectory;
-        static  int             _SdmcFixPath(std::string &path);
-        static  FS_Path         _SdmcUtf16Path(std::string path);
-        int                     _List(void);
-
-        Directory  (std::string &path, Handle &handle);
+        int             _List(void) const;
 
         std::string     _path;
         Handle          _handle;
-        std::vector<FS_DirectoryEntry>    _list;
-        bool                              _isListed;
-        bool                              _isInit;
+        mutable bool    _isOpen;
+        mutable std::vector<FS_DirectoryEntry>    _list;
     };
 }
 
