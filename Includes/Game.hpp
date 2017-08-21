@@ -26,7 +26,7 @@ namespace CTRPluginFramework
 
         // Properties
 
-        static u32      *Building;   ///<
+        static u32      Building;   ///<
         static u32      *ClubItem;      ///< Address of the first item in club
         static u32      Garden;         ///< Address of the garden
         static u32      Gravity;        ///< Address of gravity
@@ -42,20 +42,20 @@ namespace CTRPluginFramework
         static u8       *Hour;          ///< Current hour that is read in the ingame clock
         static u8       *Minute;        ///< Current minute that is read in the ingame clock
         static Position *WorldPos;      ///< Position of the player in the world
-        static u32      *BuildingSlots; ///<Address of how many building slots are being taken up
+        static u32      BuildingSlots; ///<Address of how many building slots are being taken up
         static u32      *CodeDifference;///<Differenc between walk through walls ASM addresses
         static u32      *Nook;          ///<Nookling Offset
-        static u32      *TownFruit;     ///< Offset of town fruit
-        static u32      *TownGrass;     ///< Offset Town Grass Type
-        static u32      *TownTree;      ///< Offset of Town Tree 1st offset
-        static u32      *PWP;            ///< Offset of Mayor's PWP
-        static u32      *Permit;         ///<Offset of Mayor Permit rating
+        static u32      TownFruit;     ///< Offset of town fruit
+        static u32      TownGrass;     ///< Offset Town Grass Type
+        static u32      TownTree;      ///< Offset of Town Tree 1st offset
+        static u32      PWP;            ///< Offset of Mayor's PWP
+        static u32      Permit;         ///<Offset of Mayor Permit rating
         static u32      *Grass;         ///<Offset of where grass starts
         static u32      *GrassEnd;
         static u32      *GameSpeed;     ///<offset of game speed found by Scotline and Mega Mew
         static u32      ItemForm;
         static u32      *Location;      //<Return -1 if you're outdoors
-        static u32      *Keyboard;      ///<Offset of Keyboard Symbols
+        static u32      Keyboard;      ///<Offset of Keyboard Symbols
         static u32      *WispSpoof;   ///<Offset for Wisp Amiibo Spoof
         static u32      *DIESpoof;   ///<Offset for Desert Island Escape Minigame Amiibo Spoof
         static u32      StaticNPC; ///<Offset of code.bin NPC loader address

@@ -1,6 +1,7 @@
 #include "MiniGame.hpp"
 #include "Strings.hpp"
 #include "CTRPluginFramework/Menu/MessageBox.hpp"
+#include "CTRPluginFramework/Utils/Utils.hpp"
 #include "Player.hpp"
 #include "Helpers.hpp"
 #include "NTR.hpp"
@@ -10,8 +11,8 @@ namespace CTRPluginFramework
     int     RandomNum(int start, int end);
 
     Korok::Korok(void) :
-        posX(RandomNum(16, 95)), ///< Random posX
-        posY(RandomNum(16, 79)), ///< Random posY
+        posX(Utils::Random(16, 95)), ///< Random posX
+        posY(Utils::Random(16, 79)), ///< Random posY
         isFound(false),             ///< Not found
         hitbox(posX - 5, posY - 5, 10, 10)
     {

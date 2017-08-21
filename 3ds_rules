@@ -37,9 +37,9 @@ endif
 #---------------------------------------------------------------------------------
 %.elf:
 	@echo linking $(notdir $@)
-	$(CXX) $(LDFLAGS) $(OFILES) $(LIBPATHS) $(LIBS) -o $@
-	$(NM) -CSn $@ > $(notdir $*.lst)
+	@$(CXX) $(LDFLAGS) $(OFILES) $(LIBPATHS) $(LIBS) -o $@
+	@$(NM) -CSn $@ > $(notdir $*.lst)
 #---------------------------------------------------------------------------------
 %.plg: %.elf
 	@echo creating $(notdir $@)
-	$(OBJCOPY) -O binary $(OUTPUT).elf $(TOPDIR)/$(notdir $@) -S
+	@$(OBJCOPY) -O binary $(OUTPUT).elf $(TOPDIR)/$(notdir $@) -S

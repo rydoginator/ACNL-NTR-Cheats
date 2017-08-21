@@ -8,7 +8,7 @@ namespace CTRPluginFramework
     // Initialize properties
     void    Game::Initialize(void)
     {
-        Building = reinterpret_cast<u32 *>(AutoRegion(USA_BUILDING_ADDR, TO_EUR(USA_BUILDING_ADDR), TO_JAP(USA_BUILDING_ADDR))());
+        Building = AutoRegion(USA_BUILDING_ADDR, TO_EUR(USA_BUILDING_ADDR), TO_JAP(USA_BUILDING_ADDR))();
         ClubItem = reinterpret_cast<u32 *>(AutoRegion(USA_CLUB_ADDR, TO_EUR(USA_CLUB_ADDR), TO_JAP(USA_CLUB_ADDR))());
         Garden = AutoRegion(USA_GARDEN, TO_EUR(USA_GARDEN), TO_JAP(USA_GARDEN))();
         Gravity = AutoRegion(USA_GRAVITY_OUT_ADDR, TO_EUR(USA_GRAVITY_OUT_ADDR), TO_JAP(USA_GRAVITY_OUT_ADDR))();
@@ -16,7 +16,7 @@ namespace CTRPluginFramework
         MainStreetItem = reinterpret_cast<u32 *>(AutoRegion(USA_MAINSTREET_ITEMS, TO_EUR(USA_MAINSTREET_ITEMS), TO_JAP(USA_MAINSTREET_ITEMS))());
         MainStreetPos = reinterpret_cast<Position *>(AutoRegion(USA_MAINSTREET_X, TO_EUR(USA_MAINSTREET_X), TO_JAP(USA_MAINSTREET_X))());
         Room = reinterpret_cast<u8 *>(AutoRegion(USA_ROOM_ID_ADDR, EUR_ROOM_ID_ADDR, JAP_ROOM_ID_ADDR)());
-        BuildingSlots = reinterpret_cast <u32 *>(AutoRegion(USA_BUILDING_BYTE, TO_EUR(USA_BUILDING_BYTE), TO_JAP(USA_BUILDING_BYTE))());
+        BuildingSlots = AutoRegion(USA_BUILDING_BYTE, TO_EUR(USA_BUILDING_BYTE), TO_JAP(USA_BUILDING_BYTE))();
         TCPImage = Garden + 0x5758;
         TimeReal = reinterpret_cast<u64 *>(AutoRegion(USA_REALTIME_ADDR, EUR_REALTIME_ADDR, JAP_REALTIME_ADDR)());
         TimeSave = reinterpret_cast<u64 *>(AutoRegion(USA_SAVETIME_ADDR, TO_EUR(USA_SAVETIME_ADDR), TO_JAP(USA_SAVETIME_ADDR))());
@@ -27,17 +27,17 @@ namespace CTRPluginFramework
         Minute = reinterpret_cast<u8 *>(AutoRegion(USA_MINUTES_ADDR, EUR_MINUTES_ADDR, JAP_MINUTES_ADDR)());
         WorldPos = reinterpret_cast<Position *>(AutoRegion(USA_WORLD_X_ADDR, TO_EUR(USA_WORLD_X_ADDR), TO_JAP(USA_WORLD_X_ADDR))());
         Nook = reinterpret_cast<u32 *>(AutoRegion(USA_NOOK_ADDR, TO_EUR(USA_NOOK_ADDR), TO_JAP(USA_NOOK_ADDR))());
-        TownFruit = reinterpret_cast<u32 *>(AutoRegion(USA_TOWN_FRUIT, TO_EUR(USA_TOWN_FRUIT), TO_JAP(USA_TOWN_FRUIT))());
-        TownGrass = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_TYPE, TO_EUR(USA_GRASS_TYPE), TO_JAP(USA_GRASS_TYPE))());
-        Permit = reinterpret_cast<u32 *>(AutoRegion(USA_PERMIT_ADDRESS, TO_EUR(USA_PERMIT_ADDRESS), TO_JAP(USA_PERMIT_ADDRESS))());
-        TownTree = reinterpret_cast<u32 *>(AutoRegion(USA_TREE_SIZE, TO_EUR(USA_TREE_SIZE), TO_JAP(USA_TREE_SIZE))());
-        PWP = reinterpret_cast<u32 *>(AutoRegion(USA_PWP_ADDRESS, TO_EUR(USA_PWP_ADDRESS), TO_JAP(USA_PWP_ADDRESS))());
+        TownFruit = AutoRegion(USA_TOWN_FRUIT, TO_EUR(USA_TOWN_FRUIT), TO_JAP(USA_TOWN_FRUIT))();
+        TownGrass = AutoRegion(USA_GRASS_TYPE, TO_EUR(USA_GRASS_TYPE), TO_JAP(USA_GRASS_TYPE))();
+        Permit = AutoRegion(USA_PERMIT_ADDRESS, TO_EUR(USA_PERMIT_ADDRESS), TO_JAP(USA_PERMIT_ADDRESS))();
+        TownTree = AutoRegion(USA_TREE_SIZE, TO_EUR(USA_TREE_SIZE), TO_JAP(USA_TREE_SIZE))();
+        PWP = AutoRegion(USA_PWP_ADDRESS, TO_EUR(USA_PWP_ADDRESS), TO_JAP(USA_PWP_ADDRESS))();
         Grass = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_START_ADDR, TO_EUR(USA_GRASS_START_ADDR), TO_JAP(USA_GRASS_START_ADDR))());
         GrassEnd = reinterpret_cast<u32 *>(AutoRegion(USA_GRASS_END_ADDR, TO_EUR(USA_GRASS_END_ADDR), TO_JAP(USA_GRASS_END_ADDR))());
         GameSpeed = reinterpret_cast<u32 *>(AutoRegion(USA_GAME_SPEED, 0x328EEAC0, 0x32939920)());
         ItemForm = AutoRegion(USA_ITEM_FORM, TO_EUR(USA_ITEM_FORM), TO_JAP(USA_ITEM_FORM))();
         Location = reinterpret_cast<u32 *>(AutoRegion(USA_LOCATION_ADDR, TO_EUR(USA_LOCATION_ADDR), TO_JAP(USA_LOCATION_ADDR))());
-        Keyboard = reinterpret_cast<u32 *>(AutoRegion(USA_KEYBOARD, EUR_KEYBOARD, JAP_KEYBOARD)());
+        Keyboard = AutoRegion(USA_KEYBOARD, EUR_KEYBOARD, JAP_KEYBOARD)();
         WispSpoof = reinterpret_cast<u32 *>(AutoRegion(USA_AMIIBO_WISP, TO_EUR(USA_AMIIBO_WISP), TO_JAP(USA_AMIIBO_WISP))());
         DIESpoof = reinterpret_cast<u32 *>(AutoRegion(USA_AMIIBO_DIE, TO_EUR(USA_AMIIBO_DIE), TO_JAP(USA_AMIIBO_DIE))());
         StaticNPC = reinterpret_cast<u32 >(AutoRegion(USA_NPC_ADDR, EUR_NPC_ADDR, JAP_NPC_ADDR)());
@@ -101,8 +101,7 @@ namespace CTRPluginFramework
         return (reinterpret_cast<u32 *>(items + GetWorldOffset()));
     }
 
-
-    u32         *Game::Building = nullptr;
+    u32         Game::Building = 0;
     u32         *Game::ClubItem = nullptr;
     u32         Game::Garden = 0;
     u32         Game::Gravity = 0;
@@ -117,23 +116,23 @@ namespace CTRPluginFramework
     u32         Game::Velocity = 0;
     u8          *Game::Hour = nullptr;
     u8          *Game::Minute = nullptr;
-    u32         *Game::BuildingSlots = nullptr;
+    u32         Game::BuildingSlots = 0;
     Position    *Game::WorldPos = nullptr;
     u32         *Game::CodeDifference = nullptr;
     u32         *Game::Nook = nullptr;
-    u32         *Game::TownFruit = nullptr;
-    u32         *Game::TownGrass = nullptr;
-    u32         *Game::Permit = nullptr;
-    u32         *Game::TownTree = nullptr;
-    u32         *Game::PWP = nullptr;
+    u32         Game::TownFruit = 0;
+    u32         Game::TownGrass = 0;
+    u32         Game::TownTree = 0;
+    u32         Game::Permit = 0;
+    u32         Game::PWP = 0;
     u32         *Game::Grass = nullptr;
     u32         *Game::GrassEnd = nullptr;
     u32         *Game::GameSpeed = nullptr;
-    u32			Game::ItemForm = 0;
-    u32			*Game::Location = nullptr;
-    u32			*Game::Keyboard = nullptr;
-    u32			*Game::WispSpoof = nullptr;
-    u32			*Game::DIESpoof = nullptr;
+    u32         Game::ItemForm = 0;
+    u32         *Game::Location = nullptr;
+    u32         Game::Keyboard = 0;
+    u32         *Game::WispSpoof = nullptr;
+    u32         *Game::DIESpoof = nullptr;
     u32         Game::StaticNPC = 0;
     u32         Game::DynamicNPC = 0;
     u8          *Game::BottomScreen = nullptr;
@@ -143,5 +142,4 @@ namespace CTRPluginFramework
     u32         Game::Visibility = 0;
     u16         *Game::CatalogItem = nullptr;
     u8          *Game::MapBool = nullptr;
-
 }

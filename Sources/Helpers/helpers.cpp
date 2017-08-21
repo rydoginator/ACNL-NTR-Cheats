@@ -1,22 +1,11 @@
 #include "cheats.hpp"
-#include <time.h>
-#include "ctrulib/util/utf.h"
+#include "CTRPluginFramework/Utils/Utils.hpp"
+
+#include <ctime>
 #include <cstring>
 
 namespace CTRPluginFramework
 {
-    int    RandomNum(int start, int end)
-    {
-        srand(svcGetSystemTick());
-
-        int r[20];
-
-        for (int i = 0; i < 20; i++)
-            r[i] = rand() % (end - start + 1) + start;
-
-        return (r[rand() % 20]);
-    }
-
     //Credit to SciresM for this code! :)
     u32     DecryptACNLMoney(u64 money)
     {
@@ -45,8 +34,8 @@ namespace CTRPluginFramework
     u64     EncryptACNLMoney(int dec)
     {
         // Make a new RNG
-        u16 adjust = RandomNum(0, 0x10000);
-        u8  shift_val = RandomNum(0, 0x1A);
+        u16 adjust = Utils::Random(0, 0x10000);
+        u8  shift_val = Utils::Random(0, 0x1A);
 
         // Encipher value
         u32 enc = dec + adjust + 0x8F187432;
@@ -57,57 +46,6 @@ namespace CTRPluginFramework
 
         // Pack result
         return ((u64)enc << 0) | ((u64)adjust << 32) | ((u64)shift_val << 48) | ((u64)chk << 56);
-    }
-
-    bool    Check32Value(u32 address, u32 value)
-    {
-        u32 CheckValue;
-        if(Process::Read32(address, CheckValue))
-        {
-            if (CheckValue == value)
-                return true;
-            else
-                return false;
-
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    bool    Check16Value(u32 address, u16 value)
-    {
-        u16 CheckValue;
-        if(Process::Read16(address, CheckValue))
-        {
-            if (CheckValue == value)
-                return true;
-            else
-                return false;
-
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    bool    Check8Value(u32 address, u8 value)
-    {
-        u8 CheckValue;
-        if(Process::Read8(address, CheckValue))
-        {
-            if (CheckValue == value)
-                return true;
-            else
-                return false;
-
-        }
-        else
-        {
-            return false;
-        }
     }
     
     void    StartMsg(void) //Startup message for plugin
@@ -204,60 +142,6 @@ namespace CTRPluginFramework
                 file.Close();
             }
         }
-    }
-
-    u32     GetSize(const std::string &str)
-    {
-        u32     size = str.length();
-        u8      buffer[0x100] = { 0 };
-        u8      *s = buffer;
-
-        if (!size) return (0);
-
-        std::memcpy(buffer, str.data(), size);
-
-        size = 0;
-        while (*s)
-        {
-            u32 code;
-            int units = decode_utf8(&code, s);
-
-            if (units == -1)
-                break;
-
-            s += units;
-            size++;
-        }
-        return (size);
-    }
-
-    u32     RemoveLastChar(std::string &str)
-    {
-        u32     size = str.length();
-        u8      buffer[0x100] = { 0 };
-        u8      *s = buffer;
-
-        if (!size) return (0);
-
-        std::memcpy(buffer, str.data(), size);
-
-        while (*s)
-        {
-            u32 code;
-            int units = decode_utf8(&code, s);
-
-            if (units == -1)
-                break;
-            if (*(s + units))
-                s += units;
-            else
-            {
-                *s = 0;
-                str = reinterpret_cast<char *>(buffer);
-                return (code);
-            }
-        }
-        return (0);
     }
 
     u8       *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize)

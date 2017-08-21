@@ -57,15 +57,9 @@ namespace CTRPluginFramework
     /*
     ** Helpers
     ********************/
-    int     RandomNum(int start, int end);
     u32     DecryptACNLMoney(u64 money);
     u64     EncryptACNLMoney(int dec);
-    bool    Check32Value(u32 address, u32 value);
-    bool    Check16Value(u32 address, u16 value);
-    bool    Check8Value(u32 address, u8 value);
     void    StartMsg(void);
-    u32     GetSize(const std::string &str);
-    u32     RemoveLastChar(std::string &str);
     u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
 
 
