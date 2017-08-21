@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <string>
+#include <vector>
 /// The maximum value of a u64.
 #define U64_MAX	UINT64_MAX
 
@@ -43,6 +45,8 @@ typedef u32 Handle;                 ///< Resource handle.
 typedef s32 Result;                 ///< Function result.
 typedef void (*ThreadFunc)(void *); ///< Thread entrypoint function.
 typedef void (*voidfn)(void);
+
+using StringVector = std::vector<std::string>;
 
 /// Creates a bitmask from a bit number.
 #define BIT(n) (1U<<(n))

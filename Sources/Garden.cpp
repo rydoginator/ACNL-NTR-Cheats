@@ -122,7 +122,7 @@ namespace CTRPluginFramework
                 // Folder successfully opened
 
                 // Let's create and open the file
-                if (dir.OpenFile(file, input, true) == 0)
+                if (dir.OpenFile(file, input, File::RWC) == 0)
                 {
                     // Successfully opened the file 
 
@@ -130,20 +130,7 @@ namespace CTRPluginFramework
                     if (file.Dump(Game::Garden, 0x89A80) == 0)
                     {
                         // Success
-
-                        std::string     path;
-                        std::string     message;
-
-                        // Assemble full path
-                        path = dir.GetPath();
-                        path += input;
-
-                        // Assemble message for MessageBox
-                        message = "File dumped to:\n";
-                        message += path;
-
-                        // Create MessageBox and open it
-                        (MessageBox(message))();
+                        (MessageBox("File dumped to:\n" + file.GetFullName()))();
                     }
                     else
                     {
@@ -184,7 +171,7 @@ namespace CTRPluginFramework
 
                 if (userChoice != -1)
                 {
-                    if (dir.OpenFile(file, list[userChoice], false) == 0)
+                    if (dir.OpenFile(file, list[userChoice], File::RWC) == 0)
                     {
                         if (file.Inject(Game::Garden, 0x89A80) == 0)
                         {
