@@ -66,6 +66,8 @@ namespace CTRPluginFramework
     void    StartMsg(void);
     u32     GetSize(const std::string &str);
     u32     RemoveLastChar(std::string &str);
+    u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
+
 
     // Cheats functions
 
