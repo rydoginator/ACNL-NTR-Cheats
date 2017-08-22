@@ -2,6 +2,7 @@
 #include "RAddress.hpp"
 #include "Offsets.hpp"
 #include "ctrulib/util/utf.h"
+#include <cstring>
 
 namespace   CTRPluginFramework
 {
@@ -269,7 +270,7 @@ namespace   CTRPluginFramework
      */
 
     #define NAME_OFFSET 0x55A8
-    #define NAME_MAX 0x14
+    #define NAME_MAX    12 ///< 6 Characters
 
     std::string     Player::GetName(void) const
     {
@@ -277,53 +278,51 @@ namespace   CTRPluginFramework
 
         // Convert game's name to utf8
         utf16_to_utf8(buf, reinterpret_cast<u16 *>(_offset + NAME_OFFSET), NAME_MAX);
-
         return (std::string(reinterpret_cast<char *>(buf)));
     }
 
-    std::vector<std::string>     Player::GetPatternNames(void) const
+    StringVector    Player::GetPatternNames(void) const
     {
-        std::vector<std::string> names;
-
-        u8      buf[NAME_MAX + 1] = { 0 };
+        StringVector    names;
+        u8              buf[NAME_MAX + 1] = { 0 };
 
         for (int i = 0; i < 10; i++)
         {
+            memset(buf, 0, NAME_MAX);
             utf16_to_utf8(buf, reinterpret_cast<u16 *>(_offset + 0x58 + (0x870 * i)), NAME_MAX);
+
             names.push_back(std::string(reinterpret_cast<char *>(buf)));
         }
-        return names;
+        return (names);
     }
 
     void    Player::SetName(std::string& name) const
     {
-        u16           buf[NAME_MAX + 1] = { 0 };
-        std::vector<int> matchIndex;
+        u16                 buf[NAME_MAX + 1] = { 0 };
+        std::vector<int>    matchIndex;
 
         // If name is empty, abort
         if (name.empty())
             return;
-        std::string originalName = GetName();
-        std::vector<std::string> names = GetPatternNames();
+
+        std::string     originalName = GetName();
+        StringVector    names = GetPatternNames();
+
         for (int i = 0; i < 10; i++)
         {
             if (names[i].compare(originalName) == 0)
-            {
                 matchIndex.push_back(i);
-            }
         }
+
         // Convert utf8 to utf16
         int res = utf8_to_utf16(buf, reinterpret_cast<const u8 *>(name.c_str()), NAME_MAX);
-
-
-        for (int i : matchIndex)
-        {
-            Process::CopyMemory(reinterpret_cast<void *>(_offset + 0x58 + (0x870 * matchIndex[i])), buf, NAME_MAX);
-        }
 
         // If conversion failed, abort
         if (res == -1)
             return;
+
+        for (int i : matchIndex)
+            Process::CopyMemory(reinterpret_cast<void *>(_offset + 0x58 + 0x870 * i), buf, NAME_MAX);
 
         // Copy name to game
         Process::CopyMemory(reinterpret_cast<void *>(_offset + NAME_OFFSET), buf, NAME_MAX);

@@ -12,13 +12,14 @@ namespace CTRPluginFramework
         {
             std::string &input = keyboard.GetInput();
 
-            if (event.type == InputChangeEvent::CharacterAdded && Utils::GetSize(input) >= 9)
+            if (event.type == InputChangeEvent::CharacterAdded && Utils::GetSize(input) >= 6)
                 Utils::RemoveLastChar(input);
         });
         if (keyboard.Open(input) != -1)
         {
-            // Ask for a second line name
-            if ((MessageBox("Do you want your name to\nappear below the bubble ?", DialogType::DialogYesNo))())
+            // Ask for a second line name if the name is smaller than 6 characters
+            if (Utils::GetSize(input) < 6 
+                && (MessageBox("Do you want your name to\nappear below the bubble ?", DialogType::DialogYesNo))())
                 input.insert(0, 1, '\n');
 
             Player::GetInstance()->SetName(input);
