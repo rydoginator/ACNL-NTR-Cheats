@@ -22,10 +22,7 @@ namespace CTRPluginFramework
         if (!buttons())
             return;
 
-        Keyboard  keyboard("Select which command \nyou'd like to execute.");
-
-        // Populate the keyboard with the entries
-        keyboard.Populate(list);
+        Keyboard  keyboard("Select which command \nyou'd like to execute.", list);
 
         // OPen the keyboard and wait for a user input
         // be sure to use an int in case the function return -1
@@ -53,15 +50,9 @@ namespace CTRPluginFramework
         static Clock    timer;
         static bool     isLaunched = false;
 
-        // Check only twice per minutes
-        if (isLaunched && timer.HasTimePassed(Seconds(0.5f)))
+        if (isLaunched)
         {
-            Player  *Player = Player::GetInstance();
-
-            if (Player != nullptr)
-                Player->Update();
-
-            timer.Restart();
+            Player::GetInstance()->Update();
         }
         else if (timer.HasTimePassed(Seconds(10.f)))
         {
@@ -79,15 +70,11 @@ namespace CTRPluginFramework
             "Player 3"
         };
 
-        Keyboard    keyboard("Which player would you like to teleport to?");
+        Keyboard    keyboard("Which player would you like to teleport to ?", list);
+        int         userChoice = keyboard.Open();
 
-        keyboard.Populate(list);
-
-        int userChoice = keyboard.Open();
         if (userChoice != -1)
-        {
             TeleportTo(userChoice);
-        }
     }
     
     void    TimePicker(void)
@@ -120,11 +107,8 @@ namespace CTRPluginFramework
             "11 PM"
         };
 
-        Keyboard  keyboard("Select which time you'd like to travel\nto");
-
-        keyboard.Populate(list);
-
-        int  userChoice = keyboard.Open();
+        Keyboard    keyboard("Select which time you'd like to travel\nto", list);
+        int         userChoice = keyboard.Open();
 
         if (userChoice != -1)
             SetTimeTo(userChoice);
@@ -132,17 +116,10 @@ namespace CTRPluginFramework
 
     void    GrassKeyboard(void)
     {
-        static const StringVector list =
-        {
-            "Destroy !",
-            "Replenish"
-        };
+        static const StringVector list = { "Destroy !", "Replenish" };
 
-        Keyboard keyboard("Would you like to destroy or make grass ?");
-
-        keyboard.Populate(list);
-
-        int userChoice = keyboard.Open();
+        Keyboard    keyboard("Would you like to destroy or make grass ?", list);
+        int         userChoice = keyboard.Open();
 
         if (userChoice == 0)
             DestroyGrass(nullptr);

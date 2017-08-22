@@ -169,7 +169,7 @@ namespace CTRPluginFramework
             "Bananas"
         };
 
-        Keyboard    keyboard("What fruit would you like?", list);
+        Keyboard    keyboard("What fruit would you like ?", list);
         int         userChoice = keyboard.Open();
 
         if (userChoice != -1)
@@ -206,7 +206,7 @@ namespace CTRPluginFramework
             "Square"
         };
 
-        Keyboard    keyboard("What grass type would you like?", list);
+        Keyboard    keyboard("What grass type would you like ?", list);
         int         userChoice = keyboard.Open();
 
         if (userChoice != -1)

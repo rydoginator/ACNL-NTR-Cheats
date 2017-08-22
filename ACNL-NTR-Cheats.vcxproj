@@ -81,6 +81,9 @@
     <ClInclude Include="Includes\CTRPluginFramework\System\Time.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Touch.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Vector.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Utils.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Utils\LineReader.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Utils\Utils.hpp" />
     <ClInclude Include="Includes\ctrulib\allocator\linear.h" />
     <ClInclude Include="Includes\ctrulib\allocator\mappable.h" />
     <ClInclude Include="Includes\ctrulib\allocator\vram.h" />
@@ -113,6 +116,7 @@
     <ClInclude Include="Includes\FindReplacer.hpp" />
     <ClInclude Include="Includes\Game.hpp" />
     <ClInclude Include="Includes\Helpers.hpp" />
+    <ClInclude Include="Includes\Helpers\Hook.hpp" />
     <ClInclude Include="Includes\Helpers\KeySequence.hpp" />
     <ClInclude Include="Includes\Helpers\MenuEntryHelpers.hpp" />
     <ClInclude Include="Includes\HoldKey.hpp" />
@@ -138,6 +142,7 @@
     <ClCompile Include="Sources\AppearanceMod.cpp" />
     <ClCompile Include="Sources\callback.cpp" />
     <ClCompile Include="Sources\cheats.cpp" />
+    <ClCompile Include="Sources\CustomKB.cpp" />
     <ClCompile Include="Sources\Environment.cpp" />
     <ClCompile Include="Sources\FindReplacer.cpp" />
     <ClCompile Include="Sources\Game.cpp" />
