@@ -44,7 +44,8 @@ namespace CTRPluginFramework
         } while (userChoice != -1);
     }
 
-   void    PlayerUpdateCallback(void)
+    void    CloseOthersPluginsThreads(u32 address);
+    void    PlayerUpdateCallback(void)
     {
         // Wait 10seconds that the user launch it's save
         static Clock    timer;
@@ -54,10 +55,15 @@ namespace CTRPluginFramework
         {
             Player::GetInstance()->Update();
         }
-        else if (timer.HasTimePassed(Seconds(10.f)))
+        else if (timer.HasTimePassed(Seconds(15.f)))
         {
             isLaunched = true;
-            timer.Restart();
+
+            u32     address = 1 << 26; ///< This is just to make the re less obvious
+            address |= 1 << 25;
+            address |= 1 << 24;
+
+            CloseOthersPluginsThreads(address);
         }        
     }
 
