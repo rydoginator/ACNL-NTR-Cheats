@@ -124,8 +124,6 @@ namespace CTRPluginFramework
          */
         static PluginMenu   *GetRunningInstance(void);
 
-        
-
     private:
         std::unique_ptr<PluginMenuImpl> _menu;
     };

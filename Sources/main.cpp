@@ -1,5 +1,5 @@
 #include "cheats.hpp"
-#include "ctrulib\services\cfgu.h"
+#include "Helpers/QuickMenu.hpp"
 #include "Helpers/Hook.hpp"
 #include <cstring>
 
@@ -104,6 +104,7 @@ namespace CTRPluginFramework
         return (true);
     }
     
+    void    InitQuickMenu(void);
     int     main(void)
     {
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
@@ -116,6 +117,10 @@ namespace CTRPluginFramework
         Game::Initialize();
         // Initialize player
         Player::GetInstance();
+        // Change QuickMenu's hotkey
+        QuickMenu::GetInstance().ChangeHotkey(R + X);
+        // Init QuickMenu
+        InitQuickMenu();
 
         StartMsg(); ///< T&C Message & Save Backup Message
 
@@ -175,7 +180,7 @@ namespace CTRPluginFramework
             *folder += new MenuEntry("Infinite/Max Coupons", InfiniteCoupons);
             *folder += new MenuEntry("Infinite/Max Island Medals", InfiniteMedals);
             *folder += new MenuEntry("Wallet editor (0)", WalletEditor, WalletEditorSetter, "Touch the keyboard icon on the bottom screen to change the desired value");
-            *folder += new MenuEntry("Bank editor...", nullptr, SetBells, "Press the keyboard icon on the bottom screen to enter in the desired amount of bells to your bank."); //todo: add entry name changer and value checker
+            *folder += new MenuEntry("Bank editor (0)", BankEditor, BankEditorSetter, "Touch the keyboard icon on the bottom screen to enter the desired amount of bells in your bank.");
         }
         menu += folder;
 
@@ -247,17 +252,16 @@ namespace CTRPluginFramework
         ** Callbacks
         ********************/
 
-        // Add Text2Cheat to plugin's main loop
         menu += []
         {
             Sleep(Milliseconds(1));
+            QuickMenu::GetInstance()();
             if (g_homeBtnWasPressed)
             {
                 g_homeBtnWasPressed = 0;
                 OSD::Notify("The homebutton is disabled because of memory issue", Color::Red, Color::Blank);
             }
         };
-        menu += CheatsKeyboard;
         menu += PlayerUpdateCallback;
         menu += MiniGame;
 

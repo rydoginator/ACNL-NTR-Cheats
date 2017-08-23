@@ -79,25 +79,6 @@ namespace CTRPluginFramework
         }
     }
 
-
-    void    SetBells(MenuEntry *entry)
-    {
-        u64 money;
-        u32 output;
-
-        Keyboard keyboard("Bank editor\nHow much money would you like?");
-
-        keyboard.IsHexadecimal(false);
-
-        // If the function return -1, then the user canceled the keyboard, so do nothing 
-        if (keyboard.Open(output) != -1)
-        {
-            money = EncryptACNLMoney(output);
-
-            Player::GetInstance()->Write64(0x6b8c, money);
-        }
-    }
-
     void    Encyclopedia(MenuEntry *entry)
     {
         static u32 offset = Player::GetInstance()->GetOffset();
@@ -143,9 +124,42 @@ namespace CTRPluginFramework
     // 0 - 3: current opened box
     // 4 - end: box item's
     #define BOX_SIZE 64
+    #define FILE_SIZE 4 + BOX_SIZE * 10
 
     struct InventoryBox
     {
+        InventoryBox()
+        {
+            currentBox = 0;
+            lastBox = 0;
+
+            // If file don't exist, create it and init it
+            if (!File::Exists("InventoryBoxs.bin"))
+            {
+                // Open with create flag
+                if (File::Open(file, "InventoryBoxs.bin", File::RWC | File::SYNC) == 0)
+                {
+                    u8  buffer[FILE_SIZE] = { 0 };
+                    // Fill the size with 0 bytes
+                    file.Write(buffer, FILE_SIZE);
+                }
+            }
+            // Else open it and get current box's index
+            else
+            {
+                if (File::Open(file, "InventoryBoxs.bin") == 0)
+                {
+                    u32  index = 0;
+
+                    file.Read(&index, 4);
+                    currentBox = index;
+                }
+            }
+        }
+        ~InventoryBox()
+        {
+            file.Flush();
+        }
         int     currentBox;
         int     lastBox;
         File    file;
@@ -153,7 +167,7 @@ namespace CTRPluginFramework
 
     void    OpenBox(MenuEntry *entry, int id)
     {
-        InventoryBox    *box = static_cast<InventoryBox *>(entry->GetArg());
+        InventoryBox    *box = GetArg<InventoryBox>(entry);
         File            &file = box->file;
 
         // If file is not open, something's wrong
@@ -183,7 +197,6 @@ namespace CTRPluginFramework
             file.Seek(4 + (id * BOX_SIZE), File::SET);
 
             // Read items from file and write them in ram
-
             file.Read(buffer, BOX_SIZE);
             Process::CopyMemory(reinterpret_cast<void *>(inventory), buffer, BOX_SIZE);
         }
@@ -197,8 +210,7 @@ namespace CTRPluginFramework
         file.Write(static_cast<void *>(&id), 4);
 
         // A little notification is always nice :)
-        sprintf(buffer, "Opened box %d", id + 1);
-        OSD::Notify(buffer, Color::LimeGreen);
+        OSD::Notify(Utils::Format("Opened box: %d", id + 1), Color::LimeGreen);
     }
 
     void    ExtendedInventoryBox(MenuEntry *entry)
@@ -206,11 +218,10 @@ namespace CTRPluginFramework
         // If entry is disabled, properly release InventoryBox
         if (!entry->IsActivated())
         {
-            InventoryBox    *box = static_cast<InventoryBox *>(entry->GetArg());
+            InventoryBox    *box = GetArg<InventoryBox>(entry);
 
             if (box != nullptr)
             {
-                box->file.Close();
                 delete box;
                 entry->SetArg(nullptr);
             }
@@ -220,51 +231,14 @@ namespace CTRPluginFramework
         // If just enabled the entry, create InventoryBox and open the file
         if (entry->WasJustActivated())
         {
-            InventoryBox    *box = new InventoryBox;
+            InventoryBox    *box = GetArg<InventoryBox>(entry);
 
-            box->currentBox = 0;
-            box->lastBox = 0;
-            entry->SetArg(box);
-
-            // If file don't exist, create it and init it
-            if (!File::Exists("InventoryBoxs.bin"))
+            if (!box->file.IsOpen())
             {
-                File    &file = box->file;
-
-                // Open with create flag
-                int flags = File::READ | File::WRITE | File::CREATE | File::SYNC;
-                if (File::Open(file, "InventoryBoxs.bin", flags) == 0)
-                {
-                    int size = 4 + (BOX_SIZE * 10);
-                    u8  buffer[4 + (BOX_SIZE * 10)] = { 0 };
-
-                    file.Write(buffer, size);
-                }
-                else
-                {
-                    OSD::Notify("InventoryBox: An error occurred.", Color::Red);
-                    entry->Disable();
-                    return;
-                }
-            }
-            // Else open it and get current box's index
-            else
-            {
-                File    &file = box->file;
-
-                if (File::Open(file, "InventoryBoxs.bin") == 0)
-                {
-                    u32  index = 0;
-
-                    file.Read(&index, 4);
-                    box->currentBox = index;
-                }
-                else
-                {
-                    OSD::Notify("InventoryBox: An error occurred.", Color::Red);
-                    entry->Disable();
-                    return;
-                }
+                OSD::Notify("Inventory Box: An error occurred", Color::Red);
+                OSD::Notify("Try to enable the cheat again");
+                entry->Disable();
+                return;
             }
         }
 
@@ -273,27 +247,17 @@ namespace CTRPluginFramework
         if (!start())
             return;
 
-        using StringVector = std::vector<std::string>;
-
-        char            buffer[0x100] = { 0 };
-        InventoryBox    *box = static_cast<InventoryBox *>(entry->GetArg());
+        InventoryBox    *box = GetArg<InventoryBox>(entry);
         StringVector    boxList;
-        std::string     keyboardHint = "Inventory Box\n\nWhich box do you want to open ?\n";
-
-        sprintf(buffer, "Currently opened: [Box %d]", box->currentBox + 1);
-        keyboardHint += buffer;
-
+        std::string     keyboardHint    = "Inventory Box\n\nWhich box do you want to open ?\n"
+                                        + Utils::Format("Currently opened: [Box %d]", box->currentBox + 1);
         Keyboard        keyboard(keyboardHint);
         
         // Init my list
-        sprintf(buffer, "Last: %d", box->lastBox + 1);
-        boxList.push_back(buffer);
-        
+        boxList.push_back(Utils::Format("Last: %d", box->lastBox + 1));
+
         for (int i = 1; i < 11; i++)
-        {
-            sprintf(buffer, "Box %d", i);
-            boxList.push_back(buffer);
-        }
+            boxList.push_back(Utils::Format("Box %d", i));
 
         // Init my keyboard with my list
         keyboard.Populate(boxList);
@@ -321,7 +285,7 @@ namespace CTRPluginFramework
             int *slots = Player::GetInstance()->FindItems(length, 0x202A);
             for (int i = 0; i < length; i++)
             {
-                u16 fossil = rand() % 66; //generate a new fossil for each iteration
+                u16 fossil = Utils::Random(0, 66); ///< Generate a new fossil for each iteration
                 Player::GetInstance()->WriteInventorySlot(slots[i], 0x3130 + fossil);
             }
         }
@@ -357,7 +321,7 @@ namespace CTRPluginFramework
         {
             u32 input = *static_cast<const u32 *>(in);
 
-            if (input <= 99999) return (true);
+            if (input >= 0 && input <= 99999) return (true);
 
             error = "The value must be between 0 - 99999";
             return (false);
@@ -371,7 +335,7 @@ namespace CTRPluginFramework
             if (pos != std::string::npos)
             {
                 name.erase(pos);
-                name += Format("(%d)", *value);
+                name += Utils::Format("(%d)", *value);
             }
         }
     }
@@ -388,4 +352,43 @@ namespace CTRPluginFramework
         entry->Disable();
     }
 
+    void    BankEditorSetter(MenuEntry *entry)
+    {
+        u32         *value = GetArg<u32>(entry);
+        Keyboard    keyboard("Bank Editor\n\nEnter the desired amount of bells");
+
+        keyboard.IsHexadecimal(false);
+        keyboard.SetCompareCallback([](const void *in, std::string &error)
+        {
+            u32 input = *static_cast<const u32 *>(in);
+
+            if (input >= 0 && input <= 999999999) return (true);
+
+            error = "The value must be between 0 - 999999999";
+            return (false);
+        });
+        if (keyboard.Open(*value) != -1)
+        {
+            std::string &name = entry->Name();
+            int pos = name.find("(");
+
+            if (pos != std::string::npos)
+            {
+                name.erase(pos);
+                name += Utils::Format("(%d)", *value);
+            }
+        }
+    }
+
+    void    BankEditor(MenuEntry *entry)
+    {
+        if (entry->IsActivated())
+        {
+            u64 money = EncryptACNLMoney(*GetArg<u32>(entry));
+
+            Player::GetInstance()->Write64(0x6B8C, money);
+        }
+
+        entry->Disable();
+    }
 }

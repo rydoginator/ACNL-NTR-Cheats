@@ -30,4 +30,11 @@ namespace CTRPluginFramework
 
         return (false);
     }
+
+    void HoldKey::operator=(u32 newKeys)
+    {
+        _keys = newKeys;
+        _isHold = false;
+        _timer.Restart();
+    }
 }

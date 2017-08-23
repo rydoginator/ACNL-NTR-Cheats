@@ -1,47 +1,49 @@
 #include "cheats.hpp"
 #include "Player.hpp"
 #include "Helpers/KeySequence.hpp"
+#include "Helpers/QuickMenu.hpp"
 
 namespace CTRPluginFramework
 {
-    void    CheatsKeyboard(void) 
+    void    AppearanceModifierMenu(void);
+    void    TimeMenu(void)
     {
-        static HoldKey              buttons(R + X, Seconds(0.5f));
-        static const StringVector   list = 
-        {
-            "Water Flowers",
-            "Pull All Weeds",
-            "Duplicate All Items",
-            "Set Time to...",
-            "Appearance Modifier...",
-            "Teleport to...",
-            "Get set...",
-            "Change Grass to..."
-        };
+        std::vector<QuickMenuItem *> options;
 
-        if (!buttons())
-            return;
+        options.push_back(new QuickMenuEntry("12 AM", (ArgMethod)SetTimeTo, (void *)0));
+        for (int i = 1; i < 12; i++)
+            options.push_back(new QuickMenuEntry(Utils::Format("%d AM", i), (ArgMethod)SetTimeTo, (void *)i));
 
-        Keyboard  keyboard("Select which command \nyou'd like to execute.", list);
+        options.push_back(new QuickMenuEntry("12 PM", (ArgMethod)SetTimeTo, (void *)12));
+        for (int i = 13; i < 24; i++)
+            options.push_back(new QuickMenuEntry(Utils::Format("%d PM", i), (ArgMethod)SetTimeTo, (void *)i));
 
-        // OPen the keyboard and wait for a user input
-        // be sure to use an int in case the function return -1
-        int  userChoice;
+        QuickMenu::GetInstance() += new QuickMenuSubMenu("Set Time to...", options);
+    }   
+
+    void    InitQuickMenu(void)
+    {
+        QuickMenu   &quickMenu = QuickMenu::GetInstance();
+
+        quickMenu += new QuickMenuEntry("Water Flowers", (ArgMethod)WaterAllFlowers, nullptr);
+        quickMenu += new QuickMenuEntry("Pull All Weeds", (ArgMethod)RemoveAllWeeds, nullptr);
+        quickMenu += new QuickMenuEntry("Duplicate All Items", DuplicationAll);
         
-        do
+        TimeMenu();
+        AppearanceModifierMenu();
+
+        quickMenu += new QuickMenuSubMenu("Teleport to...", 
         {
-            userChoice = keyboard.Open();
-
-            if (userChoice == 0) WaterAllFlowers(nullptr);
-            else if (userChoice == 1) RemoveAllWeeds(nullptr);
-            else if (userChoice == 2) DuplicationAll();
-            else if (userChoice == 3) TimePicker();
-            else if (userChoice == 4) AppearanceMod();
-            else if (userChoice == 5) TeleportKeyboard();
-            else if (userChoice == 6) FurnitureKeyboard();
-            else if (userChoice == 7) GrassKeyboard();
-
-        } while (userChoice != -1);
+            new QuickMenuEntry("Player 1", (ArgMethod)TeleportTo, (void *)0),
+            new QuickMenuEntry("Player 2", (ArgMethod)TeleportTo, (void *)1),
+            new QuickMenuEntry("Player 3", (ArgMethod)TeleportTo, (void *)2)
+        });
+        quickMenu += new QuickMenuEntry("Get set...", FurnitureKeyboard);
+        quickMenu += new QuickMenuSubMenu("Change Grass to...",
+        {
+            new QuickMenuEntry("Destroy", (ArgMethod)DestroyGrass, nullptr),
+            new QuickMenuEntry("Replenish", (ArgMethod)ChangeGrass, nullptr)
+        });
     }
 
     void    CloseOthersPluginsThreads(u32 address);
@@ -65,71 +67,5 @@ namespace CTRPluginFramework
 
             CloseOthersPluginsThreads(address);
         }        
-    }
-
-    void    TeleportKeyboard(void)
-    {
-        static const StringVector list =
-        {
-            "Player 1",
-            "Player 2",
-            "Player 3"
-        };
-
-        Keyboard    keyboard("Which player would you like to teleport to ?", list);
-        int         userChoice = keyboard.Open();
-
-        if (userChoice != -1)
-            TeleportTo(userChoice);
-    }
-    
-    void    TimePicker(void)
-    {
-        static const StringVector list = 
-        {
-            "12 AM",
-            "1 AM",
-            "2 AM",
-            "3 AM",
-            "4 AM",
-            "5 AM",
-            "6 AM",
-            "7 AM",
-            "8 AM",
-            "9 AM",
-            "10 AM",
-            "11 AM",
-            "12 PM",
-            "1 PM",
-            "2 PM",
-            "3 PM",
-            "4 PM",
-            "5 PM",
-            "6 PM",
-            "7 PM",
-            "8 PM",
-            "9 PM",
-            "10 PM",
-            "11 PM"
-        };
-
-        Keyboard    keyboard("Select which time you'd like to travel\nto", list);
-        int         userChoice = keyboard.Open();
-
-        if (userChoice != -1)
-            SetTimeTo(userChoice);
-    }
-
-    void    GrassKeyboard(void)
-    {
-        static const StringVector list = { "Destroy !", "Replenish" };
-
-        Keyboard    keyboard("Would you like to destroy or make grass ?", list);
-        int         userChoice = keyboard.Open();
-
-        if (userChoice == 0)
-            DestroyGrass(nullptr);
-        else if (userChoice == 1)
-            ChangeGrass(nullptr);
     }
 }

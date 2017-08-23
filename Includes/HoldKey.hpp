@@ -21,6 +21,11 @@ namespace CTRPluginFramework
          * \return If the key(s) were holded the required amount of time
          */
         bool    operator()(void);
+        /**
+         * \brief Change the keys that needs to be pressed
+         * \param newKeys The new keys value
+         */
+        void    operator = (u32 newKeys);
     private:
         Clock   _timer;
         Time    _goal;

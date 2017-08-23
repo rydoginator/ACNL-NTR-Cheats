@@ -68,7 +68,6 @@ namespace CTRPluginFramework
     /*
     ** Garden
     ********************/
-    void    NameChanger_OnInputChange(Keyboard &keyboard, InputChangeEvent &event);
     void    SetNameTo(MenuEntry *entry);
     void    GardenDumper(MenuEntry *entry);
     void    GardenRestore(MenuEntry *entry);
@@ -97,7 +96,6 @@ namespace CTRPluginFramework
     void    Duplication(MenuEntry *entry);
     void    ShowBuriedItems(MenuEntry *entry);
     void    PickBuriedItems(MenuEntry *entry);
-    void    SetBells(MenuEntry *entry);  ///< Need fix ?
     void    ExtendedInventoryBox(MenuEntry *entry);
     void    GenerateFossils(MenuEntry *entry);
     void    Encyclopedia(MenuEntry *entry);
@@ -109,6 +107,8 @@ namespace CTRPluginFramework
     void    InfiniteWallet(MenuEntry * entry);
     void    WalletEditorSetter(MenuEntry *entry);
     void    WalletEditor(MenuEntry *entry);
+    void    BankEditorSetter(MenuEntry *entry);
+    void    BankEditor(MenuEntry *entry);
 
 
     /*
@@ -157,20 +157,7 @@ namespace CTRPluginFramework
     /*
     ** Appearance
     ********************/
-    void    ChangeGender(void);
-    void    ChangeHair(void);
-    void    ChangeFace(void);
-    void    ChangeHairCol(void);
-    void    ChangeEyeCol(void);
-    void    ChangeTan(void);
-    void    ChangeHat(void);
-    void    ChangeAccessory(void);
-    void    ChangeTop(void);
-    void    ChangePants(void);
-    void    ChangeSocks(void);
-    void    ChangeShoes(void);
-    void    ApparelMod(void);
-    void    AppearanceMod(void);
+    void    AppearanceModifierMenu(void);
 
     /*
     ** Main Street

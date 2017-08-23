@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include <cstring>
 
 namespace CTRPluginFramework
 {
@@ -15,10 +16,9 @@ namespace CTRPluginFramework
 
     void    FillCatalog(MenuEntry *entry)
     {
-        for (int i = 0; i < 0x90; i++)
-        {
-            Player::GetInstance()->Write32(0x6C90 + (i * 4), 0xFFFFFFFF);
-        }
+        u32     address = Player::GetInstance()->GetOffset() + 0x6CC0;
+
+        std::memset((void *)address, 0xFF, 180 * 4);
     }
 
     void    NooklingKeyboard(MenuEntry *entry)
