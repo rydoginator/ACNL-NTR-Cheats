@@ -173,7 +173,7 @@ namespace CTRPluginFramework
             *folder += new MenuEntry("Duplicate", Duplication, "Press " FONT_R " to duplicate the item that is slot 01 to slot 02.");
             *folder += new MenuEntry("Show names of buried items", ShowBuriedItems, "This allows you to view what is buried underground in the little thought bubble above your head\nWarning: this is a heavy cheat, so it might cause slowdown.");
             *folder += new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown.");
-            *folder += new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nHold Start 1 second to choose which one to open.");
+            *folder += new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box.");
             *folder += new MenuEntry("Fossil Inspector", GenerateFossils, "Press " FONT_X " and " FONT_A " to process all fossils\nas if you talked to Blathers");
             *folder += new MenuEntry("Max Bank", MaxMoneyBank);
             *folder += new MenuEntry("Infinite Wallet", InfiniteWallet);

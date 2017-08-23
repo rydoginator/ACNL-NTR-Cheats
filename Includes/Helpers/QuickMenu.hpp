@@ -20,7 +20,7 @@ namespace CTRPluginFramework
 
         QuickMenuItem(const std::string &name, const ItemType itemType);
 
-        const std::string name;
+        std::string name;
         const ItemType    itemType;
     };
 

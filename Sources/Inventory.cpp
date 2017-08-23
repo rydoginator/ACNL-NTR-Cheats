@@ -165,27 +165,20 @@ namespace CTRPluginFramework
         File    file;
     };
 
-    void    OpenBox(MenuEntry *entry, int id)
+    static  InventoryBox        g_inventoryBox;
+    static  QuickMenuSubMenu    *g_inventorySubMenu = nullptr;
+
+    void    OpenBox(void *arg)
     {
-        InventoryBox    *box = GetArg<InventoryBox>(entry);
-        File            &file = box->file;
-
-        // If file is not open, something's wrong
-        if (!file.IsOpen())
-        {
-            OSD::Notify("An error occured !", Color::Red);
-            OSD::Notify("Try to re-enable the cheat.");
-            entry->Disable();
-            return;
-        }
-
+        File    &file = g_inventoryBox.file;
+        int     id = (int)arg - 1;
         u32     inventory = Player::GetInstance()->GetInventoryAddress();
         char    buffer[0x100] = {0};
 
         // Save current box
         {
             // Go to current box's offset in file
-            file.Seek(4 + (box->currentBox * BOX_SIZE), File::SET);
+            file.Seek(4 + (g_inventoryBox.currentBox * BOX_SIZE), File::SET);
 
             // Now save current items
             file.Write(reinterpret_cast<void *>(inventory), BOX_SIZE);
@@ -193,6 +186,9 @@ namespace CTRPluginFramework
 
         // Open new box
         {
+            // If id == 0, load last box
+            if (id == -1)
+                id = g_inventoryBox.lastBox;
             // Go to wanted box's offset in file
             file.Seek(4 + (id * BOX_SIZE), File::SET);
 
@@ -202,12 +198,15 @@ namespace CTRPluginFramework
         }
 
         // Update lastBox
-        box->lastBox = box->currentBox;
+        g_inventoryBox.lastBox = g_inventoryBox.currentBox;
 
         // Update current box
-        box->currentBox = id;
+        g_inventoryBox.currentBox = id;
         file.Seek(0, File::SET);
         file.Write(static_cast<void *>(&id), 4);
+
+        // Update Last entry in QuickMenu
+        g_inventorySubMenu->items[0]->name = Utils::Format("Last: %d", id + 1);
 
         // A little notification is always nice :)
         OSD::Notify(Utils::Format("Opened box: %d", id + 1), Color::LimeGreen);
@@ -215,66 +214,40 @@ namespace CTRPluginFramework
 
     void    ExtendedInventoryBox(MenuEntry *entry)
     {
-        // If entry is disabled, properly release InventoryBox
+        // If entry is disabled
         if (!entry->IsActivated())
         {
-            InventoryBox    *box = GetArg<InventoryBox>(entry);
-
-            if (box != nullptr)
-            {
-                delete box;
-                entry->SetArg(nullptr);
-            }
+            g_inventoryBox.file.Close();
+            // Remove Inventory Box from QuickMenu
+            QuickMenu::GetInstance() -= g_inventorySubMenu;
             return;
         }
 
-        // If just enabled the entry, create InventoryBox and open the file
+        // If just enabled the entry
         if (entry->WasJustActivated())
         {
-            InventoryBox    *box = GetArg<InventoryBox>(entry);
-
-            if (!box->file.IsOpen())
+            g_inventoryBox.file.Close();
+            g_inventoryBox = InventoryBox();
+            // Check that InventoryBox is correctly initialized
+            if (!g_inventoryBox.file.IsOpen())
             {
                 OSD::Notify("Inventory Box: An error occurred", Color::Red);
-                OSD::Notify("Try to enable the cheat again");
                 entry->Disable();
                 return;
             }
+
+            // Create the submenu if it's not done yet
+            if (g_inventorySubMenu == nullptr)
+            {
+                g_inventorySubMenu = new QuickMenuSubMenu("Inventory Box");
+                (*g_inventorySubMenu) += new QuickMenuEntry("Last: 1", OpenBox, (void *)0);
+                for (int i = 1; i < 11; i++)
+                    (*g_inventorySubMenu) += new QuickMenuEntry(Utils::Format("Box %d", i), OpenBox, (void *)i);
+            }
+
+            // Add Inventory Box in QuickMenu
+            QuickMenu::GetInstance() += g_inventorySubMenu;
         }
-
-        static HoldKey  start(Key::Start, Seconds(1.f));
-
-        if (!start())
-            return;
-
-        InventoryBox    *box = GetArg<InventoryBox>(entry);
-        StringVector    boxList;
-        std::string     keyboardHint    = "Inventory Box\n\nWhich box do you want to open ?\n"
-                                        + Utils::Format("Currently opened: [Box %d]", box->currentBox + 1);
-        Keyboard        keyboard(keyboardHint);
-        
-        // Init my list
-        boxList.push_back(Utils::Format("Last: %d", box->lastBox + 1));
-
-        for (int i = 1; i < 11; i++)
-            boxList.push_back(Utils::Format("Box %d", i));
-
-        // Init my keyboard with my list
-        keyboard.Populate(boxList);
-
-        // Show keyboard and get the box id
-
-        int  id = keyboard.Open();
-
-        // User did B, abort
-        if (id == -1)
-            return;
-
-        // If user decided to open the last opened box
-        if (id == 0)
-            OpenBox(entry, box->lastBox);
-        else
-            OpenBox(entry, id - 1);
     }
 
     void    GenerateFossils(MenuEntry *entry)
