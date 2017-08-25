@@ -13,13 +13,13 @@ namespace CTRPluginFramework
         float value = 400.0f * delta.AsSeconds();
         float NegValue = -400.0f * delta.AsSeconds();
 
-        if (Controller::IsKeysDown(A + DPadDown))
-            Player::GetInstance()->AddToCoordinates(0.f, 0.f, value);
-        if (Controller::IsKeysDown(A + DPadUp))
+        if (entry->Hotkeys[0].IsDown()) // Up
             Player::GetInstance()->AddToCoordinates(0.f, 0.f, NegValue);
-        if (Controller::IsKeysDown(A + DPadLeft))
+        if (entry->Hotkeys[1].IsDown()) // Down
+            Player::GetInstance()->AddToCoordinates(0.f, 0.f, value);
+        if (entry->Hotkeys[2].IsDown()) // Left
             Player::GetInstance()->AddToCoordinates(NegValue, 0.f, 0.f);
-        if (Controller::IsKeysDown(A + DPadRight))
+        if (entry->Hotkeys[3].IsDown()) // Right
             Player::GetInstance()->AddToCoordinates(value, 0.f, 0.f);
     }
 
@@ -63,16 +63,16 @@ namespace CTRPluginFramework
 
         int           slot = 0;
 
-        if (Controller::IsKeysDown(L))
+        if (entry->Hotkeys[2].IsDown())
             slot = 2;
-        else if (Controller::IsKeysDown(R))
+        else if (entry->Hotkeys[3].IsDown())
             slot = 1;
 
-        if (Controller::IsKeysDown(B + DPadUp))
+        if (entry->Hotkeys[0].IsDown())
         {
             savedPos[slot] = Player::GetInstance()->GetCoordinates();
         }
-        else if (Controller::IsKeysDown(B + DPadDown))
+        else if (entry->Hotkeys[1].IsDown())
         {
             Player::GetInstance()->SetCoordinates(savedPos[slot]);
         }

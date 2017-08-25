@@ -31,7 +31,7 @@ namespace CTRPluginFramework
         u32     offset = 0;
         u8      input;
 
-        if (Controller::IsKeysDown(R + DPadDown))
+        if (entry->Hotkeys[0].IsDown())
         {
             Keyboard keyboard("What building would you like to place ?");
             
@@ -61,7 +61,7 @@ namespace CTRPluginFramework
             }
         }
 
-        if (Controller::IsKeysDown(R + DPadUp))
+        if (entry->Hotkeys[1].IsDown())
         {
             Keyboard keyboard("What building would you like to remove?");
 

@@ -103,6 +103,35 @@ namespace CTRPluginFramework
         (MessageBox(unsupportedVersion))();
         return (true);
     }
+
+    MenuEntry *EntryWithHotkey(MenuEntry *entry, const Hotkey &hotkey)
+    {
+        if (entry != nullptr)
+        {
+            entry->Hotkeys += hotkey;
+            entry->SetArg(new std::string(entry->Name()));
+            entry->Name() += " " + hotkey.ToString();
+            entry->Hotkeys.OnHotkeyChangeCallback([](MenuEntry *entry, int index)
+            {
+                std::string *name = reinterpret_cast<std::string *>(entry->GetArg());
+
+                entry->Name() = *name + " " + entry->Hotkeys[0].ToString();
+            });
+        }
+
+        return (entry);
+    }
+
+    MenuEntry *EntryWithHotkey(MenuEntry *entry, const std::vector<Hotkey> &hotkeys)
+    {
+        if (entry != nullptr)
+        {
+            for (const Hotkey &hotkey : hotkeys)
+                entry->Hotkeys += hotkey;
+        }
+
+        return (entry);
+    }
     
     void    InitQuickMenu(void);
     int     main(void)
@@ -135,8 +164,9 @@ namespace CTRPluginFramework
             new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"),
             new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Mega Mew and Scotline"),
             new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Mega Mew and Scotline"),
-            new MenuEntry("Real Time Building Placer", BuildingPlacer, "Press R + D Pad down to place a building by ID directly where you are standing\nPress R + D pad up to place a building where you are standing."),
-
+            EntryWithHotkey(new MenuEntry("Real Time Building Placer", BuildingPlacer, 
+                "Press the corresponding hotkey to place/remove a building by ID directly where you are standing"),
+                {Hotkey(Key::R | Key::DPadUp, "Place a building"), Hotkey(Key::R | Key::DPadDown, "Remove a building" )})
         }));
 
 
@@ -146,9 +176,12 @@ namespace CTRPluginFramework
 
         menu += new MenuFolder("Movement Codes", std::vector<MenuEntry *>(
         {
-            new MenuEntry("Coordinates Modifier", CoordinateModifier, "Press \uE000 and D Pad in the direction that you want to move."),
+            EntryWithHotkey(new MenuEntry("Coordinates Modifier", CoordinateModifier, "Press an hotkey to move to the corresponding direction."),
+                {Hotkey(Key::A | Key::DPadUp, "Go up"), Hotkey(Key::A | Key::DPadDown, "Go down"), Hotkey(Key::A | Key::DPadLeft, "Go left") , Hotkey(Key::A | Key::DPadRight, "Go right")}),
             new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."),
-            new MenuEntry("Teleport", Teleporter, "Press \uE001 and \uE079 to save your location, \uE001 and \uE07A to teleport back to the location. Use \uE052 or \uE053 to use multiple locations!"),
+            EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
+                {Hotkey(Key:: B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
+                 Hotkey(Key::L, "Use slot 2"), Hotkey(Key::R, "Use slot 3") }),
             new MenuEntry("Walk Over Things", WalkOverThings, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."),
             new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to Mega Mew for this cheat"),
             new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower.")

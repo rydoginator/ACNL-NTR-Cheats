@@ -119,6 +119,7 @@
     <ClInclude Include="Includes\Helpers\Hook.hpp" />
     <ClInclude Include="Includes\Helpers\KeySequence.hpp" />
     <ClInclude Include="Includes\Helpers\MenuEntryHelpers.hpp" />
+    <ClInclude Include="Includes\Helpers\QuickMenu.hpp" />
     <ClInclude Include="Includes\HoldKey.hpp" />
     <ClInclude Include="Includes\MiniGame.hpp" />
     <ClInclude Include="Includes\NTR.hpp" />
@@ -162,7 +163,9 @@
     <ClCompile Include="Sources\Misc.cpp" />
     <ClCompile Include="Sources\Movement.cpp" />
     <ClCompile Include="Sources\Player.cpp" />
+    <ClCompile Include="Sources\QuickMenu.cpp" />
     <ClCompile Include="Sources\RAddress.cpp" />
+    <ClCompile Include="Sources\TermsAndConditions.cpp" />
     <ClCompile Include="Sources\TimeTravel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
