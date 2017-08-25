@@ -113,7 +113,7 @@ namespace CTRPluginFramework
          * \param size  The size to copy in bytes
          * \return 
          */
-        static bool     CopyMemory(void *dst, void *src, u32 size);
+        static bool     CopyMemory(void *dst, const void *src, u32 size);
 
         /**
          * \brief Check if the address is available and have the specified permissions \n

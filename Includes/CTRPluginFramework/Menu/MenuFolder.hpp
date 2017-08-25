@@ -12,7 +12,9 @@ namespace CTRPluginFramework
     {
 
     public:
-        MenuFolder(std::string name, std::string note = "");
+        MenuFolder(const std::string &name, const std::string &note = "");
+        MenuFolder(const std::string &name, const std::vector<MenuEntry *> &entries);
+        MenuFolder(const std::string &name, const std::string &note, const std::vector<MenuEntry *> &entries);
         ~MenuFolder();
 
         // Hide the folder from the menu. Will disable every sub entries

@@ -18,11 +18,11 @@ namespace CTRPluginFramework
 
     public:
 
-        explicit MenuEntry(std::string name, std::string note = "");
-        MenuEntry(std::string name, FuncPointer gameFunc, std::string note = "");
-        MenuEntry(std::string name, FuncPointer gameFunc, FuncPointer menuFunc, std::string note = "");
-        MenuEntry(int radioGroup, std::string name, FuncPointer gameFunc, std::string note = "");
-        MenuEntry(int radioGroup, std::string name, FuncPointer gameFunc, FuncPointer menuFunc, std::string note = "");
+        explicit MenuEntry(const std::string &name, const std::string &note = "");
+        MenuEntry(const std::string &name, FuncPointer gameFunc, const std::string &note = "");
+        MenuEntry(const std::string &name, FuncPointer gameFunc, FuncPointer menuFunc, const std::string &note = "");
+        MenuEntry(int radioGroup, const std::string &name, FuncPointer gameFunc, const std::string &note = "");
+        MenuEntry(int radioGroup, const std::string &name, FuncPointer gameFunc, FuncPointer menuFunc, const std::string &note = "");
         ~MenuEntry();
 
         // Enable the entry
