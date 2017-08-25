@@ -1,6 +1,7 @@
 #include "cheats.hpp"
 #include "CTRPluginFramework/System/Rect.hpp"
 #include "Helpers/MenuEntryHelpers.hpp"
+#include "Helpers/QuickMenu.hpp"
 
 namespace CTRPluginFramework
 {
@@ -57,9 +58,32 @@ namespace CTRPluginFramework
         }
     }
 
+    static  Coordinates     g_savedPos[3] = { 0 };
     void    Teleporter(MenuEntry *entry)
     {
-        static Coordinates  savedPos[3] = { 0 };
+        auto   savePosition = [](void *slot) { g_savedPos[(u32)slot] = Player::GetInstance()->GetCoordinates(); };
+        auto   loadPosition = [](void *slot) { Player::GetInstance()->SetCoordinates(g_savedPos[(u32)slot]); };
+
+        static QuickMenuSubMenu *teleporterSubMenu = new QuickMenuSubMenu("Teleporter",
+        {
+            new QuickMenuEntry("Save position #1", savePosition, (void *)0),
+            new QuickMenuEntry("Load position #1", loadPosition, (void *)0),
+            new QuickMenuEntry("Save position #2", savePosition, (void *)1),
+            new QuickMenuEntry("Load position #2", loadPosition, (void *)1),
+            new QuickMenuEntry("Save position #3", savePosition, (void *)2),
+            new QuickMenuEntry("Load position #3", loadPosition, (void *)2),
+        });
+
+        // If entry was just activated, add the Teleporter submenu to the QuickMenu
+        if (entry->WasJustActivated())
+            QuickMenu::GetInstance() += teleporterSubMenu;
+
+        // But if we disabled the entry, then remove the Teleporter submenu from QuickMenu
+        if (!entry->IsActivated())
+        {
+            QuickMenu::GetInstance() -= teleporterSubMenu;
+            return;
+        }
 
         int           slot = 0;
 
@@ -69,13 +93,9 @@ namespace CTRPluginFramework
             slot = 1;
 
         if (entry->Hotkeys[0].IsDown())
-        {
-            savedPos[slot] = Player::GetInstance()->GetCoordinates();
-        }
+            g_savedPos[slot] = Player::GetInstance()->GetCoordinates();
         else if (entry->Hotkeys[1].IsDown())
-        {
-            Player::GetInstance()->SetCoordinates(savedPos[slot]);
-        }
+            Player::GetInstance()->SetCoordinates(g_savedPos[slot]);
     }
 
     void    TeleportTo(int person)
