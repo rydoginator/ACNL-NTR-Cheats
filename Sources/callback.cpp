@@ -6,7 +6,7 @@
 namespace CTRPluginFramework
 {
     void    AppearanceModifierMenu(void);
-    void    TimeMenu(void)
+    static inline void    TimeMenu(void)
     {
         std::vector<QuickMenuItem *> options;
 
@@ -65,7 +65,7 @@ namespace CTRPluginFramework
             address |= 1 << 25;
             address |= 1 << 24;
 
-            CloseOthersPluginsThreads(address);
+            CloseOthersPluginsThreads(address); ///< address == 0x07000000
         }        
     }
 }
