@@ -393,8 +393,7 @@ namespace CTRPluginFramework
 
     void    FurnitureKeyboard(void)
     {
-        Keyboard keyboard("Which set would you like ?");
-        static std::vector<std::string> list =
+        static const StringVector list =
         {
             "Exotic Set",
             "Ranch Set",
@@ -445,17 +444,16 @@ namespace CTRPluginFramework
             "Rococo Set",
             "Alpine Set",
             "Ice Set",
-            "Sleek Set"
+            "Sleek Set",
             "Modern Wood Set",
             "Stripe Set",
             "Card Set"
         };
-        keyboard.Populate(list);
-        int userChoice = keyboard.Open();
+
+        Keyboard    keyboard("Which set would you like ?", list);
+        int         userChoice = keyboard.Open();
 
         if (userChoice != -1)
-        {
             GetSet(userChoice);
-        }
     }
 }
