@@ -49,23 +49,18 @@ namespace CTRPluginFramework
     void    CloseOthersPluginsThreads(u32 address);
     void    PlayerUpdateCallback(void)
     {
-        // Wait 10seconds that the user launch it's save
-        static Clock    timer;
-        static bool     isLaunched = false;
+        static bool     isPatched = false;
 
-        if (isLaunched)
-        {
-            Player::GetInstance()->Update();
-        }
-        else if (timer.HasTimePassed(Seconds(15.f)))
-        {
-            isLaunched = true;
+        Player::GetInstance()->Update();
 
-            u32     address = 1 << 26; ///< This is just to make the re less obvious
-            address |= 1 << 25;
-            address |= 1 << 24;
+        if (isPatched)
+            return;
 
-            CloseOthersPluginsThreads(address); ///< address == 0x07000000
-        }        
+        u32     address = 1 << 26; ///< This is just to make the re less obvious
+        address |= 1 << 25;
+        address |= 1 << 24;
+
+        CloseOthersPluginsThreads(address); ///< address == 0x07000000
+        isPatched = true;
     }
 }

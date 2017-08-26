@@ -19,7 +19,7 @@ namespace   CTRPluginFramework
         _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER)();
 
         // Read _offset
-        //Update();
+        Update(); ///< This will block the plugin until the user loaded his savegame
 
         if (_instance != nullptr)
             delete _instance;

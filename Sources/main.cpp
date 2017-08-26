@@ -144,14 +144,14 @@ namespace CTRPluginFramework
 
         // Initialize game's addresses based on region
         Game::Initialize();
-        // Initialize player
+        // Initialize player (will block plugin until the user loaded his savegame)
         Player::GetInstance();
         // Change QuickMenu's hotkey
         QuickMenu::GetInstance().ChangeHotkey(R + X);
         // Init QuickMenu
         InitQuickMenu();
-
-        StartMsg(); ///< T&C Message & Save Backup Message
+        // T&C Message & Save Backup Message
+        StartMsg();
 
         /*
         ** Garden
@@ -187,6 +187,10 @@ namespace CTRPluginFramework
             new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower.")
         }));
 
+        /*
+        ** Main Street
+        ********************/
+
         menu += new MenuFolder("Main Street Codes", std::vector<MenuEntry *>(
         {
             new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard, "Press the keyboard icon to change which upgrade the Nooklings have"),
@@ -196,7 +200,7 @@ namespace CTRPluginFramework
         }));
 
         /*
-        ** Inventory
+        ** Time Travel
         ********************/
 
         menu += new MenuFolder("Time Travel Codes", std::vector<MenuEntry *>(
@@ -204,6 +208,10 @@ namespace CTRPluginFramework
             new MenuEntry("Time Travel", TimeTravel, "Press either " FONT_R " or " FONT_B " and " FONT_DR " to travel forward or " FONT_DL " to retwind time or " FONT_B " and " FONT_DD " to set ingame time back to your 3DS's clock."),
             new MenuEntry("Time Machine", TimeMachine, "Press " FONT_Y " and " FONT_DR " to start time traveling.")
         }));
+
+        /*
+        ** Inventory
+        ********************/
 
         menu += new MenuFolder("Inventory", std::vector<MenuEntry *>(
         {
@@ -245,17 +253,17 @@ namespace CTRPluginFramework
         menu += folder;
 
         /*
-        ** Time Travel
+        ** Unlock
         ********************/
 
-       menu += new MenuFolder("Unlock Codes", std::vector<MenuEntry *>(
+        menu += new MenuFolder("Unlock Codes", std::vector<MenuEntry *>(
         {
             new MenuEntry("100% Mayor permit", Permit, "Special thanks to Slattz"),
             new MenuEntry("Unlock all PWPs", PWPUnlock, "Special thanks to Mega Mew and Scotline"),
             new MenuEntry("Fill out encyclopedia", Encyclopedia, "Special thanks to Mega Mew and Scotline"),
             new MenuEntry("Fill out emoticons", Emoticons, "Special thanks to Mega Mew and Scotline"),
             new MenuEntry("Fill out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline")
-       }));
+        }));
 
         /*
         ** Misc.
