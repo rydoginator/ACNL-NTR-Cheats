@@ -47,12 +47,7 @@ enum
 
 namespace CTRPluginFramework
 {
-    void    AppearanceMod(void);
-    void    DuplicationAll(void);
-    void    TeleportKeyboard(void);
-    void    GetSet(int set);
     void    FurnitureKeyboard(void);
-    void    GrassKeyboard(void);
 
     /*
     ** Helpers
@@ -94,6 +89,7 @@ namespace CTRPluginFramework
     ********************/
     void    Text2Item(MenuEntry *entry);
     void    Duplication(MenuEntry *entry);
+    void    DuplicationAll(void);
     void    ShowBuriedItems(MenuEntry *entry);
     void    PickBuriedItems(MenuEntry *entry);
     void    ExtendedInventoryBox(MenuEntry *entry);

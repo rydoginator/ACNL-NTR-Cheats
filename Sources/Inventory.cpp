@@ -49,6 +49,25 @@ namespace CTRPluginFramework
         }
     }
 
+    void    DuplicationAll(void)
+    {
+        u32     *address = reinterpret_cast<u32 *>(Player::GetInstance()->GetInventoryAddress());
+        u32     firstItem = *address;
+
+        // If slot0 is empty, exit
+        if (firstItem == 0x00007FFE)
+            return;
+
+        address++;
+
+        for (int i = 0; i < 14; i++, address++)
+        {
+            // If current slot is empty
+            if (*address == 0x00007FFE)
+                *address = firstItem;
+        }
+    }
+
     void    ShowBuriedItems(MenuEntry *entry)
     {
         u32* item = Game::GetItem();

@@ -1,31 +1,8 @@
 #include "cheats.hpp"
 
-#include "ctrulib/util/utf.h"
-
 namespace CTRPluginFramework
 {
-    u32     g_find[100];
-    u32     g_replace[100];
-    int     g_i = 0;
-
-    void    DuplicationAll(void)
-    {
-        u32     item[15]; //store the entire inventory into an array so that we can check the contents of the inventory
-        Player  *player = Player::GetInstance();
-
-        for (int i = 0; i < 15; i++)
-        {
-            player->ReadInventorySlot(i, item[i]);
-        }
-
-        for (int i = 0; i < 15; i++)
-        {
-            if (item[i] == 0x00007FFE) //check to see if the current index of the inventory is blank
-                player->WriteInventorySlot(i, item[0]); //duplicate all the items from slot 0
-        }
-    }
-
-    void    GetSet(int set)
+    static void    GetSet(int set)
     {
         static const u16 wallpaper[] = 
         {
