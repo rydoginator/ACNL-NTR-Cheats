@@ -389,7 +389,7 @@ namespace CTRPluginFramework
             "Mush Set",
             "Pave Set",
             "Egg Set",
-            "Spoopy Set",
+            "Spooky Set",
             "Harvest Set",
             "Jingle Set",
             "Princess Set",
