@@ -101,56 +101,35 @@ namespace CTRPluginFramework
         }
     }
 
-    void     WorldEdit(MenuEntry *entry)
+    void    WorldEdit(MenuEntry *entry)
     {
-        static u32  itemID;
-        static int  valid = -1;
-        char buffer[0x100];       
+        static u32 itemID;
+        static bool valid = false; //boolean to declare whether you're using a valud value or not
 
-        // Enter the item to place
-        if (Controller::IsKeyPressed(R))
-        {
-            u32 *i = Game::GetItem();
-            itemID = *i;
-            //sprintf(buffer, "Offset: %08X \nValue: %08X", Game::GetItem(), itemID);
-            OSD::Notify(buffer);
-        }
-        if (Controller::IsKeysDown(R + DPadLeft))
+        if (!Controller::IsKeyDown(R)) //return if not pressing R
+            return;
+        u32  *address = Game::GetItem(); //get the address of where your character is standing
+
+        if (Controller::IsKeyDown(DPadLeft))
         {
             Keyboard    keyboard("What item would you like to use?");
-
-            u32     output;
-            int     result = keyboard.Open(output);
-
-            // if result == -1, output is undefined so do nothing
-            if (result != -1)
-            {
-                itemID = output;
-                valid = 0;
-            }
+            u32 item;
+            if (keyboard.Open(itemID) != -1) //return if the user aborts (if != -1)
+                valid = true;
             else
-                valid = -1;
+                valid = false; // if the user aborts, you don't want to be writing abritary values
         }
 
-        // Write the saved item where you're standing on
-        if (Controller::IsKeysDown(R + DPadDown))
+        if (Controller::IsKeyDown(DPadUp))
         {
-            u32  *pointer = Game::GetItem();
-
-            if (valid == 0 && pointer != nullptr)
-                *pointer = itemID;
+            itemID = *address; //get the value of address
+            valid = true;
         }
 
-        // Save the item you're standing on
-        if (Controller::IsKeysDown(R + DPadUp))
+        if (Controller::IsKeyDown(DPadDown))
         {
-            u32 *i = Game::GetItem();
-
-            if (i != nullptr)
-            {
-                itemID = *i;
-                valid = 0;
-            }                
+            if (valid && address != nullptr)
+                *address = itemID;
         }
     }
 }
