@@ -240,6 +240,30 @@ namespace   CTRPluginFramework
         coord->z += zDiff;
     }
 
+    void    Player::SetIntCoordinates(int x, int z) const
+    {
+        Coordinates *coord = reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET);
+
+        coord->x = 32.f * x;
+        coord->z = 32.f * z;
+    }
+
+    void    Player::SetRotation(u32 rotation) const
+    {
+        if (!*_coordinatePointer)
+            return;
+        Process::Write32(*_coordinatePointer + 0x2C, rotation);
+    }
+
+    u32    Player::GetRotation(void) const
+    {
+        if (!*_coordinatePointer)
+            return -1;
+        u32 rotation;
+        Process::Read32(*_coordinatePointer + 0x2C, rotation);
+        return (rotation);
+    }
+
     /*
      * Thought
      */

@@ -2,6 +2,7 @@
 #include "RAddress.hpp"
 #include "Offsets.hpp"
 #include "Values.hpp"
+#include "cheats.hpp"
 
 namespace CTRPluginFramework
 {
@@ -16,7 +17,7 @@ namespace CTRPluginFramework
         MainStreetItem = reinterpret_cast<u32 *>(AutoRegion(USA_MAINSTREET_ITEMS, TO_EUR(USA_MAINSTREET_ITEMS), TO_JAP(USA_MAINSTREET_ITEMS))());
         MainStreetPos = reinterpret_cast<Position *>(AutoRegion(USA_MAINSTREET_X, TO_EUR(USA_MAINSTREET_X), TO_JAP(USA_MAINSTREET_X))());
         Room = reinterpret_cast<u8 *>(AutoRegion(USA_ROOM_ID_ADDR, EUR_ROOM_ID_ADDR, JAP_ROOM_ID_ADDR)());
-        BuildingSlots = AutoRegion(USA_BUILDING_BYTE, TO_EUR(USA_BUILDING_BYTE), TO_JAP(USA_BUILDING_BYTE))();
+        BuildingSlots = reinterpret_cast<u8 *>(AutoRegion(USA_BUILDING_BYTE, TO_EUR(USA_BUILDING_BYTE), TO_JAP(USA_BUILDING_BYTE))());
         TCPImage = Garden + 0x5758;
         TimeReal = reinterpret_cast<u64 *>(AutoRegion(USA_REALTIME_ADDR, EUR_REALTIME_ADDR, JAP_REALTIME_ADDR)());
         TimeSave = reinterpret_cast<u64 *>(AutoRegion(USA_SAVETIME_ADDR, TO_EUR(USA_SAVETIME_ADDR), TO_JAP(USA_SAVETIME_ADDR))());
@@ -61,6 +62,11 @@ namespace CTRPluginFramework
         u32     reg0;
         u32     reg1;
 
+#ifdef DEBUG
+        OSD::Notify(Utils::Format("X: %i Y: %i", x, y));
+#endif // DEBUG
+
+        
         if (room == 0x01)
         {
             reg0 = x % 0x10;
@@ -116,7 +122,7 @@ namespace CTRPluginFramework
     u32         Game::Velocity = 0;
     u8          *Game::Hour = nullptr;
     u8          *Game::Minute = nullptr;
-    u32         Game::BuildingSlots = 0;
+    u8         *Game::BuildingSlots = nullptr;
     Position    *Game::WorldPos = nullptr;
     u32         *Game::CodeDifference = nullptr;
     u32         *Game::Nook = nullptr;

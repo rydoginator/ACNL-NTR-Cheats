@@ -3,5 +3,6 @@
 
 #include "CTRPluginFramework/Utils/LineReader.hpp"
 #include "CTRPluginFramework/Utils/Utils.hpp"
+#include "CTRPluginFramework/Utils/StringExtensions.hpp"
 
 #endif

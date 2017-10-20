@@ -5,6 +5,7 @@
 #include "CTRPluginFramework/Menu/MenuFolder.hpp"
 
 #include <string>
+#include <vector>
 #include <memory>
 
 namespace CTRPluginFramework
@@ -75,6 +76,18 @@ namespace CTRPluginFramework
         ** This call is blocking so be sure to do everyting before calling this function
         ******************************/
         int     Run(void) const;
+
+        /**
+         * \brief Get all entries present at the root of the menu
+         * \return A std::vector with pointers to all MenuEntry objects
+         */
+        std::vector<MenuEntry *>    GetEntryList(void) const;
+
+        /**
+         * \brief Get all folders present at the root of the menu
+         * \return A std::vector with pointers to all MenuFolder objects
+         */
+        std::vector<MenuFolder *>   GetFolderList(void) const;
 
         /**
          * \brief Enable / Disable the Search button in the main menu

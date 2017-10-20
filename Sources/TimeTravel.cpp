@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include "Helpers.hpp"
 
 namespace CTRPluginFramework
 {
@@ -14,6 +15,18 @@ namespace CTRPluginFramework
     {
         SUB64(Game::TimeSave, time);
         SUB64(Game::TimeReal, time);         
+    }
+
+    u64     GetTime(void)
+    {
+        u64 time = *Game::TimeSave;
+        return (time);
+    }
+
+    void    SetTime(u64 time)
+    {
+        *Game::TimeSave = time;
+        *Game::TimeReal = time;
     }
 
     void    AddTime(u8 hour, u8 minute)
@@ -37,13 +50,27 @@ namespace CTRPluginFramework
 
     void    TimeTravel(MenuEntry *entry)
     {
+        float       *speed = GetArg<float>(entry, 1.0f);
+        static Clock time;
+
+        Time delta = time.Restart(); //calculate lag input
+
+        
+        u64 value = HOUR * delta.AsSeconds() * *speed;
+        static u64 savedTime = 0;
+
         if (Controller::IsKeysDown(R + DPadRight))
-        {
-            AddTime(0x9EF21AA);
-        }
+            AddTime(value);
         if (Controller::IsKeysDown(R + DPadLeft))
+            RewindTime(value);
+        if (Controller::IsKeysDown(R + DPadUp))
+            savedTime = GetTime();
+        if (Controller::IsKeysDown(R + DPadDown))
         {
-            RewindTime(0x9EF21AA);
+            if (savedTime != 0)
+            {
+                SetTime(savedTime);
+            }
         }
         if (!Controller::IsKeyDown(Key::B))
             return;
@@ -59,6 +86,14 @@ namespace CTRPluginFramework
         {
             ResetTime();
         }
+    }
+
+    void    TimeTravelSettings(MenuEntry *entry)
+    {
+        float       *speed = GetArg<float>(entry);
+
+        Keyboard keyboard("How fast would you like time travel to be?");
+        keyboard.Open(*speed);
     }
 
     bool    CheckMinuteInput(const void *input, std::string &error)

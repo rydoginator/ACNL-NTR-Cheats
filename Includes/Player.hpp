@@ -57,6 +57,9 @@ namespace CTRPluginFramework
         void    SetCoordinatesX(float x) const;
         void    SetCoordinatesY(float y) const;
         void    SetCoordinatesZ(float z) const;
+        void    SetIntCoordinates(int x, int z) const;
+        u32     GetRotation(void) const;
+        void    SetRotation(u32 rotation) const;
         // Change coordinates
         void    AddToCoordinates(float xDiff, float yDiff, float zDiff) const;
 

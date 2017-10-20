@@ -83,6 +83,7 @@ namespace CTRPluginFramework
     void    SpeedHackEditor(MenuEntry *entry);
     void    MoonJump(MenuEntry *entry);
     void    TeleportTo(int person);
+    void    PWPTeleport(MenuEntry *entry);
 
     /*
     ** Inventory
@@ -128,6 +129,7 @@ namespace CTRPluginFramework
     void    ResetTime(void);
     void    TimeTravel(MenuEntry *entry);
     void    TimeMachine(MenuEntry *entry);
+    void    TimeTravelSettings(MenuEntry *entry);
     void    SetTimeTo(int hour);
     void    TimePicker(void);
 
@@ -149,6 +151,8 @@ namespace CTRPluginFramework
     void    ChangeAnimal(const char* name);
     void    StorageEverywhere(MenuEntry *entry);
     void    Faint(MenuEntry *entry);
+    std::vector<u8>     FindWeed(void);
+    void    TestWeedCode(MenuEntry *entry);
     
     /*
     ** Appearance

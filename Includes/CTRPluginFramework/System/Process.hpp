@@ -61,6 +61,16 @@ namespace CTRPluginFramework
         static bool     IsPaused(void);
 
         /**
+         * \brief Pause the process at the next frame
+         */
+        static void     Pause(void);
+
+        /**
+         * \brief Resume the process
+         */
+        static void     Play(void);
+
+        /**
         * \brief Safely patch the current process (MemPerm check and Invalidate cache)
         * \param addr      The address to start the patch
         * \param patch     The patch values

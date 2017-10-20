@@ -24,8 +24,30 @@ namespace CTRPluginFramework
         // Return is the folder is visible in the menu
         bool    IsVisible(void) const;
 
+        /**
+         * \brief Append a MenuEntry object to this folder
+         * \param item The entry to append
+         */
         void    Append(MenuEntry *item) const;
+
+        /**
+         * \brief Append a MenuFolder object to this folder
+         * \param item The folder to append
+         */
         void    Append(MenuFolder *item) const;
+
+        /**
+         * \brief Get all entries present in this folder (doesn't contain subfolder's)
+         * \return A std::vector with pointers to all MenuEntry objects
+         */
+        std::vector<MenuEntry *>    GetEntryList(void) const;
+
+        /**
+         * \brief Get all folders present in this folder (doesn't contain subfolder's)
+         * \return A std::vector with pointers to all MenuEntry objects
+         */
+        std::vector<MenuFolder *>   GetFolderList(void) const;
+
         u32     ItemsCount(void) const;
         MenuFolder    *operator += (const MenuEntry *entry);
         MenuFolder    *operator += (const MenuFolder *folder);

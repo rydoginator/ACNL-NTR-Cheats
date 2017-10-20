@@ -2,6 +2,7 @@
 #include "Helpers.hpp"
 #include "CTRPluginFramework/Utils/Utils.hpp"
 
+
 namespace CTRPluginFramework
 {
     static const u8 	v1plugin[] = {

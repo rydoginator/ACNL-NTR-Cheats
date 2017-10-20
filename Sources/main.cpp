@@ -49,10 +49,10 @@ namespace CTRPluginFramework
     
     #define MAJOR_VERSION       4
     #define MINOR_VERSION       0
-    #define REVISION_VERSION    1
+    #define REVISION_VERSION    0
     #define STRINGIFY(x)        #x
     #define TOSTRING(x)         STRINGIFY(x)
-    #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta 2" "]"
+    #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta 3" "]"
     
     extern Region               g_region;
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
@@ -164,9 +164,7 @@ namespace CTRPluginFramework
             new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"),
             new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Mega Mew and Scotline"),
             new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Mega Mew and Scotline"),
-            EntryWithHotkey(new MenuEntry("Real Time Building Placer", BuildingPlacer, 
-                "Press the corresponding hotkey to place/remove a building by ID directly where you are standing"),
-                {Hotkey(Key::R | Key::DPadUp, "Place a building"), Hotkey(Key::R | Key::DPadDown, "Remove a building" )})
+            new MenuEntry("Real Time Building Placer", nullptr, BuildingPlacer, "Press on the keyboard option to bring up the building keyboard."),
         }));
 
 
@@ -180,11 +178,12 @@ namespace CTRPluginFramework
                 {Hotkey(Key::A | Key::DPadUp, "Go up"), Hotkey(Key::A | Key::DPadDown, "Go down"), Hotkey(Key::A | Key::DPadLeft, "Go left") , Hotkey(Key::A | Key::DPadRight, "Go right")}),
             new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."),
             EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
-                {Hotkey(Key:: B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
+                {Hotkey(Key::B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
                  Hotkey(Key::L, "Use slot 2"), Hotkey(Key::R, "Use slot 3") }),
             new MenuEntry("Walk Over Things", WalkOverThings, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."),
             new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to Mega Mew for this cheat"),
-            new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower.")
+            new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."),
+            new MenuEntry("Teleport to PWP...", nullptr, PWPTeleport, "Press on the keyboard to open up the menu to choose which PWP to teleport to")
         }));
 
         /*
@@ -205,7 +204,7 @@ namespace CTRPluginFramework
 
         menu += new MenuFolder("Time Travel Codes", std::vector<MenuEntry *>(
         {
-            new MenuEntry("Time Travel", TimeTravel, "Press either " FONT_R " or " FONT_B " and " FONT_DR " to travel forward or " FONT_DL " to retwind time or " FONT_B " and " FONT_DD " to set ingame time back to your 3DS's clock."),
+            new MenuEntry("Time Travel", TimeTravel, TimeTravelSettings, "Press either " FONT_R " or " FONT_B " and " FONT_DR " to travel forward or " FONT_DL " to retwind time or " FONT_B " and " FONT_DD " to set ingame time back to your 3DS's clock."),
             new MenuEntry("Time Machine", TimeMachine, "Press " FONT_Y " and " FONT_DR " to start time traveling.")
         }));
 
@@ -280,7 +279,10 @@ namespace CTRPluginFramework
             new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."),
             new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."),
             new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, "Press L or R to access your storage, and press L+R to access the catalog while switching emoticon tabs\nSpecial thanks Mega Mew and Scotline for this cheat :)"),
-            new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!\nCredits to Hikaru")
+            new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!\nCredits to Hikaru"),
+            new MenuEntry("Test Weed", TestWeedCode)
+            //new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
+            //new MenuEntry("Animation changer", DoorChanger, DoorChangerSettings, "This changes what your animation is for going through doors\nCredits to 0ICED0!")
         }));
 
         /*

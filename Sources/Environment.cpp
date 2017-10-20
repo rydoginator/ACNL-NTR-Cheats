@@ -104,11 +104,16 @@ namespace CTRPluginFramework
     void    WorldEdit(MenuEntry *entry)
     {
         static u32 itemID;
-        static bool valid = false; //boolean to declare whether you're using a valud value or not
+        static bool valid = false; //boolean to declare whether you're using a valid value or not
 
         if (!Controller::IsKeyDown(R)) //return if not pressing R
             return;
         u32  *address = Game::GetItem(); //get the address of where your character is standing
+#ifdef DEBUG
+        OSD::Notify(Utils::Format("Address: %08X Value: %08X", address, *address));
+#endif // DEBUG
+
+        
 
         if (Controller::IsKeyDown(DPadLeft))
         {

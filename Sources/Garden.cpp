@@ -28,64 +28,72 @@ namespace CTRPluginFramework
 
     void    BuildingPlacer(MenuEntry *entry)
     {
-        u32     offset = 0;
-        u8      input;
+        Keyboard keyboard("Building placer\nChoose an option.");
+        StringVector options = { "Place a building", "Remove a building" };
+        keyboard.Populate(options);
+        int userChoice = keyboard.Open();
+        u32 building = Game::Building;
+        u32 counter = 0;
 
-        if (entry->Hotkeys[0].IsDown())
+        options.clear(); //clear options in order to store the building ids in it.
+        if (userChoice == 0)
         {
-            Keyboard keyboard("What building would you like to place ?");
-            
-            //Exit if the user cancel the keyboard
-            if (keyboard.Open(input) == -1)
-                return;
-            
-            u8      x = static_cast<u8>(Game::WorldPos->x);
-            u8      y = static_cast<u8>(Game::MainStreetPos->y);
-            u32     slots = Game::BuildingSlots; //address of byte that represents how many buildings are taken up
-            u32     building = Game::Building;
-
-            while (READU8(building + offset) != 0xFC && offset < 0xE5)
-            {
-                offset += 0x4;
-            }
-            if (offset >= 0xE5)
-            {
+            for (const Buildings &option : buildingIDS)
+                options.push_back(option.Name);
+            Keyboard _keyboard("Which building would you like to place?");
+            _keyboard.Populate(options);
+            int index = _keyboard.Open();
+            u8 id = buildingIDS[index].id;
+            while (*(u8 *)(building + (counter * 4)) != 0xFC && counter < 31)
+                counter++;
+            if (counter == 30)
                 OSD::Notify("All building slots are filled!");
-            }
             else
             {
-                WRITEU8(building + offset, input);
-                WRITEU8(building + offset + 0x2, x);
-                WRITEU8(building + offset + 0x3, y);
-                ADD8(slots, 1);
+                Process::Write8(building + (counter * 4), id);
+                Process::Write8(building + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
+                Process::Write8(building + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
+                *Game::BuildingSlots++;
+                
             }
+            return;
         }
-
-        if (entry->Hotkeys[1].IsDown())
+        else if (userChoice == 1)
         {
-            Keyboard keyboard("What building would you like to remove?");
-
-            // Exit if the user cancel the keyboard
-            if (keyboard.Open(input) == -1)
-                return;
-
-            u32     building = Game::Building;
-            u32     slots = reinterpret_cast<u32>(Game::BuildingSlots);
-
-            while (READU8(building + offset) != input && offset < 0xE5)
+            std::vector<u8> buildings;
+            std::vector<u8> x, y;
+            
+            for (int i = 0; i < 30; i++)
             {
-                offset += 0x4;
+                if (READU8(building + (i * 4)) != 0xFC) //check if a building is not empty
+                {
+                    buildings.push_back(READU8(building + (i * 4)));
+                    x.push_back(READU8(building + (i * 4) + 2));
+                    y.push_back(READU8(building + (i * 4) + 3));
+                }
             }
-            if (offset == 0xE5)
+            
+            for (int i = 0; i < buildings.size(); i++)
             {
-                OSD::Notify("Could not find your building");
+                for (int j = 0; j < buildingIDS.size(); j++)
+                {
+                    if (buildingIDS[j].id == buildings[i])
+                        options.push_back(buildingIDS[j].Name);
+                }
             }
-            else
+            Keyboard _keyboard("Which building would you like to destroy?");
+            _keyboard.Populate(options);
+            int index = _keyboard.Open();
+
+            if (index != -1)
             {
-                WRITEU8(building + offset, 0xFC);
-                WRITEU8(building + offset + 0x2, 0x00);
-                WRITEU8(building + offset + 0x3, 0x00);
-                SUB8(slots, 1);
+                u8 id = buildings[index];
+                while (*(u8 *)(building + (counter * 4)) != id && counter < buildings.size())
+                    counter++;
+                Process::Write8(building + (counter * 4), 0xFC);
+                Process::Write8(building + (counter * 4) + 2, 0);
+                Process::Write8(building + (counter * 4) + 3, 0);
+                *Game::BuildingSlots--;
             }
         }
     }

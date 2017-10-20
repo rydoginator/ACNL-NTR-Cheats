@@ -47,7 +47,6 @@ typedef void (*ThreadFunc)(void *); ///< Thread entrypoint function.
 typedef void (*voidfn)(void);
 
 using StringVector = std::vector<std::string>;
-
 /// Creates a bitmask from a bit number.
 #define BIT(n) (1U<<(n))
 

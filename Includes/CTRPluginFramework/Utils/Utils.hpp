@@ -6,6 +6,7 @@
 
 namespace CTRPluginFramework
 {
+    class Color;
     class Utils
     {
     public:

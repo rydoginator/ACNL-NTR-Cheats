@@ -1,5 +1,6 @@
 #include "cheats.hpp"
 #include "Helpers.hpp"
+#include "3ds.h"
 
 namespace CTRPluginFramework
 {
@@ -98,16 +99,148 @@ namespace CTRPluginFramework
         Process::Write32(offset, 0x00FFFFFF);
     }
 
+
+    void    CameraMod(MenuEntry *entry)
+    {
+        //pointers & addresses
+        static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR)();
+        static u32  * cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER)());
+        static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR)());
+
+        //variables
+        static const u32    patch = 0xEA000020;
+        static const u32    nop = 0xE1A00000;
+        static const u32    originalRotation = 0xE18020B4;
+        static const u32    original = 0x2A000020;
+        static bool         isPatched = false;
+        static bool         rotationPatch = false;
+        static bool         followRotation = false;
+
+        if (*cameraPointer)
+        {
+            //check if you're outside
+            if (*Game::Location == -1)
+            {
+                if (*Game::Room == 1)
+                {
+                    Process::Patch(0x001a3230, (u8 *)&originalRotation, 4);
+                    Process::Patch(0x001a323C, (u8 *)&originalRotation, 4);
+                }
+                else
+                {
+                    Process::Patch(0x001a3230, (u8 *)&nop, 4);
+                    Process::Patch(0x001a323C, (u8 *)&nop, 4);
+                }
+            }
+            else
+            {
+                Process::Patch(0x001a3230, (u8 *)&originalRotation, 4);
+                Process::Patch(0x001a323C, (u8 *)&originalRotation, 4);
+            }
+            if (followRotation)
+            {
+                u32 rotation = Player::GetInstance()->GetRotation();
+                Process::Write16(*cameraPointer + 0x12E, (rotation >> 16) ^ 0x8000); //get the opposite of the rotation value in order to face opposite of player
+            }
+            if (Controller::IsKeyDown(R))
+            {
+                if (Controller::IsKeyDown(CPadUp))
+                    ADD16((*cameraPointer + 0x12C), 0x10);
+
+                if (Controller::IsKeyDown(CPadDown))
+                    SUB16((*cameraPointer + 0x12C), 0x10);
+
+                if (Controller::IsKeyDown(CPadRight))
+                    ADD16((*cameraPointer + 0x12E), 0x10);
+
+                if (Controller::IsKeyDown(CPadLeft))
+                    SUB16((*cameraPointer + 0x12E), 0x10);
+
+                // Stop camera from moving
+                if (Controller::IsKeyDown(Y))
+                    goto patch;
+                // Make camera move again
+                if (Controller::IsKeyDown(X))
+                    goto unpatch;
+
+                if (Controller::IsKeyPressed(A))
+                {
+                    if (!followRotation)
+                        followRotation = true;
+                    else
+                        followRotation = false;
+                }
+            }
+            if (!Controller::IsKeyDown(B))
+                return;
+
+            if (Controller::IsKeyDown(DPadLeft))
+            {
+                cameraCoordinates->x -= 0.1f;
+                goto patch;
+            }
+
+            if (Controller::IsKeyDown(DPadRight))
+            {
+                cameraCoordinates->x += 0.1f;
+                goto patch;
+            }
+
+            if (Controller::IsKeyDown(DPadDown))
+            {
+                cameraCoordinates->z += 0.1f;
+                goto patch;
+            }
+
+            if (Controller::IsKeyDown(DPadUp))
+            {
+                cameraCoordinates->z -= 0.1f;
+                goto patch;
+            }
+
+            if (Controller::IsKeyDown(R))
+            {
+                cameraCoordinates->y += 0.1f;
+                goto patch;
+            }
+
+            if (Controller::IsKeyDown(L))
+            {
+                cameraCoordinates->y -= 0.1f;
+                goto patch;
+            }
+
+            return;
+        patch:
+            if (!isPatched)
+            {
+                // Change the asm instruction to b, allows overwriting camera coordinates
+                Process::Patch(cameraAsm, (u8 *)&patch, 4);
+                isPatched = true;
+            }
+            return;
+        unpatch:
+            if (isPatched)
+            {
+                Process::Patch(cameraAsm, (u8 *)&original, 4);
+                isPatched = false;
+            }
+        }
+    }
+
+    /* OLD CODE
     void    CameraMod(MenuEntry *entry)
     {
         // Pointers & addresses
         static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR)();
-        static u32  * const cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER)());
+        static u32  * cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER)());
         static u32  * const cameraStop = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)());
         static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR)());
         
         // Variables
         static const u32    patch = 0xEA000020;
+        static const u32    nop = 0xE1A00000;
+        static const u32    originalRotation = 0xE18020B4;
         static const u32    original = 0x2A000020;
 
         static Coordinates  coord; ///< Saved player's coordinates
@@ -117,11 +250,6 @@ namespace CTRPluginFramework
 
 
         // Unpatch when B is released
-        if (isPatched && Controller::IsKeyReleased(B))
-        {
-            Process::Patch(cameraAsm, (u8 *)&original, 4);
-            isPatched = false;
-        }
 
         if (*cameraPointer)
         {
@@ -134,33 +262,28 @@ namespace CTRPluginFramework
                 Player::GetInstance()->SetCoordinates(coord);
 
             // Move camera
-            if (Controller::IsKeysDown(R + CPadDown))
-                ADD16((*cameraPointer + 0x12C), 0x2);
-
             if (Controller::IsKeysDown(R + CPadUp))
-                SUB16((*cameraPointer + 0x12C), 0x2);
+                ADD16((*cameraPointer + 0x12C), 0x10);
+
+            if (Controller::IsKeysDown(R + CPadDown))
+                SUB16((*cameraPointer + 0x12C), 0x10);
 
             if (Controller::IsKeysDown(R + CPadRight))
-                ADD16((*cameraPointer + 0x12E), 0x2);
+                ADD16((*cameraPointer + 0x12E), 0x10);
 
             if (Controller::IsKeysDown(R + CPadLeft))
-                SUB16((*cameraPointer + 0x12E), 0x2);
+                SUB16((*cameraPointer + 0x12E), 0x10);
 
             // Fetch camera stop value
             if (Controller::IsKeysDown(R + X))
             {
-                if (*cameraStop != 0)
-                {
-                    storage = *cameraStop;
-                    *cameraStop = 0;
-                }
+                goto unpatch;
             }
 
             // Restore camera stop value
             if (Controller::IsKeysDown(R + Y))
             {
-                if (storage != 0)
-                    *cameraStop = storage;
+                goto patch;
             }
         }
 
@@ -210,9 +333,30 @@ namespace CTRPluginFramework
         {
             // Change the asm instruction to b, allows overwriting camera coordinates
             Process::Patch(cameraAsm, (u8 *)&patch, 4);
+            Process::Patch(0x001a3230, (u8 *)&nop, 4);
+            Process::Patch(0x001a323C, (u8 *)&nop, 4);
             isPatched = true;
         }
+        return;
+    patchRotation:
+        std::vector<u8> valid = { 0, 0x68, 0x9F, 0xA0, 0xE4 };
+
+        if (std::find(valid.begin(), valid.end(), *Game::Room) != valid.end)
+        {
+            Process::Patch(0x001a3230, (u8 *)&originalRotation, 4);
+            Process::Patch(0x001a323C, (u8 *)&originalRotation, 4);
+        }
+        else if ()
+    unpatch:
+        if (isPatched)
+        {
+            Process::Patch(cameraAsm, (u8 *)&original, 4);
+            Process::Patch(0x001a3230, (u8 *)&originalRotation, 4);
+            Process::Patch(0x001a323C, (u8 *)&originalRotation, 4);
+            isPatched = false;
+        }
     }
+    */
 
     void    KeyboardExtender(MenuEntry *entry)
     {
@@ -387,5 +531,210 @@ namespace CTRPluginFramework
                 *Game::Consciousness = 0x0100;
         }
             
+    }
+
+    void    Corrupter(MenuEntry *entry)
+    {
+        u32 address = 0x30000000;
+        float value;
+        int     *corruption = GetArg<int>(entry);
+
+        while (Process::ReadFloat(address, value))
+        {
+            switch (*corruption)
+            {
+                case 0:
+                    if (value == 1.0f)
+                    {
+                        int rng = Utils::Random(0, 10);
+                        if (rng == 5)
+                        {
+                            rng = Utils::Random(1, 2);
+                            if (rng = 1)
+                                Process::WriteFloat(address, value + 0.1f);
+                            else
+                                Process::WriteFloat(address, value - 0.1f);
+                        }
+                    }
+                    break;
+                case 1:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(0, 10);
+                        if (rng == 5)
+                        {
+                            rng = Utils::Random(1, 2);
+                            if (rng = 1)
+                                Process::WriteFloat(address, value + 0.1f);
+                            else
+                                Process::WriteFloat(address, value - 0.1f);
+                        }
+                    }
+                    break;
+                case 2:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(0, 10);
+                        if (rng != 5)
+                        {
+                            rng = Utils::Random(1, 2);
+                            if (rng = 1)
+                                Process::WriteFloat(address, value + 0.1f);
+                            else
+                                Process::WriteFloat(address, value - 0.1f);
+                        }
+                    }
+                    break;
+                case 3:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(1, 2);
+                        if (rng = 1)
+                            Process::WriteFloat(address, value + 0.1f);
+                        else
+                            Process::WriteFloat(address, value - 0.1f);
+                    }
+                    break;
+
+                case 4:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(0, 20);
+                        Process::WriteFloat(address, 0.1f * rng);
+                    }
+                    break;
+                default:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(0, 20);
+                        Process::WriteFloat(address, 0.1f * rng);
+                    }
+                    break;
+            }
+            address += 4;
+        }
+    }
+
+    void    CorrupterSettings(MenuEntry *entry)
+    {
+        int     *corruption = GetArg<int>(entry);
+
+        Keyboard keyboard("Corruption Editor\nWhat level of corruption would you like?");
+        static std::vector<std::string> list =
+        {
+            "0 - Minimal",
+            "1 - Low",
+            "2 - Medium",
+            "3 - High",
+            "4 - Extreme !Dangerous!",
+        };
+        keyboard.Populate(list);
+        keyboard.CanAbort(false);
+
+        *corruption = keyboard.Open();
+
+    }
+
+    void    DoorChanger(MenuEntry *entry)
+    {
+        static u8 id = 0;
+        //u8     *id = GetArg<u8>(entry);
+
+        
+    
+
+        if (!Controller::IsKeyDown(R))
+            return;
+        Process::Write8(0x33077C86, id);
+        if (Controller::IsKeyPressed(DPadUp))
+            id++;
+        if (Controller::IsKeyPressed(DPadDown))
+            id--;
+    }
+
+    void    DoorChangerSettings(MenuEntry *entry)
+    {
+        u8      *id = GetArg<u8>(entry);
+
+        Keyboard keyboard("Which id would you like?");
+        
+        keyboard.Open(*id);
+    }
+
+    std::vector<u8> FindWeed(void)
+    {
+        std::vector <u16> weeds = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8 };
+
+        u32 offset = reinterpret_cast<u32>(Game::TownItem);
+        static u32 counter = 0;
+        
+        while (counter < 0x5000) //loop through town data
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                if (*(u16 *)(offset + counter) == weeds[i]) //check if the offset has a weed
+                {
+                    u8 acre;
+                    std::vector <u8> coordinates = { 0, 0 };
+                    acre = counter / 0x400; //each acre contains 0x100 bytes of data
+#ifdef DEBUG
+                    OSD::Notify(Utils::Format("acre id: %i", acre));
+#endif
+                    coordinates[0] = acre % 5; //get the remmainder of the row to find x
+                    coordinates[1] = acre / 5; //5 acres per row
+#ifdef DEBUG
+                    OSD::Notify(Utils::Format("acre coords: (%i,%i)", coordinates[0], coordinates[1]));
+#endif
+                    /*
+                    * We now know which acre we're in, so we multiply 16 to x and y to get to (0,0) of the acre
+                    */
+                    coordinates[0] = (coordinates[0] + 1) * 16;
+                    coordinates[1] = (coordinates[1] + 1) * 16;
+#ifdef DEBUG
+                    OSD::Notify(Utils::Format("coords: (%i,%i)", coordinates[0], coordinates[1]));
+#endif
+                    int tmp = counter - (acre * 0x400);
+                    coordinates[0] += (tmp / 4) % 16;
+                    coordinates[1] += tmp / 0x40;
+                    
+
+                    return (coordinates);
+                }
+
+            }
+            counter += 4;
+        }
+        counter = 0;
+        std::vector<u8>noWeeds = { 0, 0 }; //return 0, 0 if no weeds are found
+        return(noWeeds);
+    }
+
+    void    TestWeedCode(MenuEntry *entry)
+    {
+        static bool execution = false;
+        std::vector<u8> coordinates = { 0, 0 };
+
+        if (Controller::IsKeyPressed(R))
+        {
+            if (execution == true)
+                execution = false;
+            else
+                execution = true;
+        }
+        if (execution == true)
+        {
+            coordinates = FindWeed();
+#ifdef DEBUG
+            OSD::Notify(Utils::Format("coords: (%i,%i)", coordinates[0], coordinates[1]));
+#endif
+            if (coordinates[0] + coordinates[1] == 0)
+            {
+                execution == false;
+                return;
+            }
+            Player::GetInstance()->SetIntCoordinates(coordinates[0], coordinates[1]);
+            Player::GetInstance()->SetRotation(0xEB00000);
+            Controller::InjectKey(Key::Y);
+        }
     }
 }

@@ -5,5 +5,6 @@
 #include "Helpers/KeySequence.hpp"
 #include "Helpers/MenuEntryHelpers.hpp"
 #include "Helpers/QuickMenu.hpp"
+#include <algorithm>
 
 #endif

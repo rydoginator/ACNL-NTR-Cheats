@@ -5,6 +5,8 @@
 
 namespace CTRPluginFramework
 {
+
+
     void    CoordinateModifier(MenuEntry *entry)
     {
         static Clock time;
@@ -126,6 +128,40 @@ namespace CTRPluginFramework
             Player::GetInstance()->SetCoordinates(x, y, z);
         }
 
+    }
+
+    void    PWPTeleport(MenuEntry *entry)
+    {
+        std::vector<u8> buildings;
+        std::vector<u8> x;
+        std::vector<u8> y;
+        u32 offset = Game::Building;
+        Keyboard keyboard("Which building would you like to teleport to?");
+        StringVector entryNames;
+
+        for (int i = 0; i < 20; i++)
+        {
+            if (*(u8 *)(offset) != 0xFC)
+            {
+  
+                buildings.push_back(READU8(offset));
+                x.push_back(READU8(offset + 2));
+                y.push_back(READU8(offset + 3));
+            }
+            offset += 4;
+        }
+        for (int i = 0; i < buildings.size(); i++)
+        {
+            for (int j = 0; j < buildingIDS.size(); j++)
+            {
+                if (buildingIDS[j].id == buildings[i])
+                    entryNames.push_back(buildingIDS[j].Name);
+            }
+        }
+        keyboard.Populate(entryNames);
+        int index = keyboard.Open();
+
+        Player::GetInstance()->SetIntCoordinates(x[index], y[index] + 3);
     }
 
     void    WalkOverThings(MenuEntry *entry)
