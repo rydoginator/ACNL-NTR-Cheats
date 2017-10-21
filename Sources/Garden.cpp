@@ -108,8 +108,8 @@ namespace CTRPluginFramework
         if (keyboard.Open(input) != -1)
         {
             // Add extension to the name if user didn't
-            if (input.find(".bin") == std::string::npos)
-                input += ".bin";
+            if (input.find(".dat") == std::string::npos)
+                input += ".dat";
 
             // Let's create and open the file
             if (dir.OpenFile(file, input, File::RWC) == 0)
@@ -131,7 +131,7 @@ namespace CTRPluginFramework
         Directory       dir("dumps");
         StringVector    list;
 
-        if (dir.ListFiles(list, ".bin") == Directory::OPResult::NOT_OPEN)
+        if (dir.ListFiles(list, ".dat") == Directory::OPResult::NOT_OPEN)
         {
             MessageBox("Error\nCouldn't open dumps folder.")();
             return;
