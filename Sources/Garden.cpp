@@ -115,7 +115,7 @@ namespace CTRPluginFramework
             if (dir.OpenFile(file, input, File::RWC) == 0)
             {
                 // Dump to the file
-                if (file.Dump(Game::Garden, 0x89A80) == 0) // Success
+                if (file.Dump(Game::Garden, 0x89B00) == 0) // Success
                     (MessageBox("File dumped to:\n" + file.GetFullName()))();
                 else // Failed
                     MessageBox("Error\nDump failed.")();
