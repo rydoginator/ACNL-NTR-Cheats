@@ -78,13 +78,13 @@ namespace CTRPluginFramework
     }
 
     template <typename T>
-    Vector<T> operator * (T left, const Vector<T> &right)
+    Vector<T> operator * (const T left, const Vector<T> &right)
     {
         return (Vector<T>(right.x * left, right.y * left));
     }
 
     template <typename T>
-    Vector<T> &operator *= (Vector<T> &left, T right)
+    Vector<T> &operator *= (Vector<T> &left, const T right)
     {
         left.x *= right;
         left.y *= right;
@@ -92,13 +92,13 @@ namespace CTRPluginFramework
     }
 
     template <typename T>
-    Vector<T> operator / (Vector<T> &left, T right)
+    Vector<T> operator / (const Vector<T> &left, const T right)
     {
         return (Vector<T>(left.x / right, left.y / right));
     }
 
     template <typename T>
-    Vector<T> &operator /= (Vector<T> &left, T right)
+    Vector<T> &operator /= (Vector<T> &left, const T right)
     {
         left.x /= right;
         left.y /= right;
@@ -106,14 +106,14 @@ namespace CTRPluginFramework
     }
 
     template <typename T>
-    bool operator <= (Vector<T> &left, Vector<T> &right)
+    bool operator <= (const Vector<T> &left, const Vector<T> &right)
     {
         return (left.x <= right.x
             && left.y <= right.y);
     } 
 
     template <typename T>
-    bool operator >= (Vector<T> &left, Vector<T> &right)
+    bool operator >= (const Vector<T> &left, const Vector<T> &right)
     {
         return (left.x >= right.x
             && left.y >= right.y);

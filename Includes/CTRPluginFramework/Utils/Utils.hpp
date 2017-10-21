@@ -3,6 +3,8 @@
 
 #include "types.h"
 #include <string>
+#include <vector>
+#include <cstring>
 
 namespace CTRPluginFramework
 {
@@ -63,6 +65,59 @@ namespace CTRPluginFramework
          * \return The codepoint value of the char removed
          */
         static u32          RemoveLastChar(std::string &str);
+
+        template <typename T>
+        static u32     Search(const u32 start, const u32 size, const std::vector<T> &pattern)
+        {
+            if (!start || !size || pattern.empty())
+                return (0);
+
+            const u32   patternSize = pattern.size() * sizeof(T);
+            const u8    *patternc = reinterpret_cast<const u8 *>(pattern.data());
+            const u8    *startPos = reinterpret_cast<const u8 *>(start);
+
+            u32     table[256] = { patternSize };
+
+            for (u32 i = 0; i < patternSize - 1; i++)
+                table[patternc[i]] = patternSize - i - 1;
+
+            u32 j = 0;
+            while (j <= size - patternSize)
+            {
+                const u8 c = startPos[j + patternSize - 1];
+                if (patternc[patternSize - 1] == c && std::memcmp(patternc, startPos + j, patternSize - 1) == 0)
+                    return (reinterpret_cast<u32>(startPos + j));
+                j += table[c];
+            }
+            return (0);
+        }
+
+        template <typename T>
+        static u32     Rsearch(const u32 start, const u32 size, const std::vector<T> &pattern)
+        {
+            if (!start || !size || pattern.empty())
+                return (0);
+
+            const u32   patternSize = pattern.size() * sizeof(T);
+            const u8    *patternc = reinterpret_cast<const u8 *>(pattern.data());
+            const u8    *startPos = reinterpret_cast<const u8 *>(start);
+
+            u32     table[256] = { patternSize };
+
+            for (u32 i = 0; i < patternSize - 1; i++)
+                table[patternc[i]] = patternSize - i - 1;
+
+            u32 j = 0;
+            u32 last = 0;
+            while (j <= size - patternSize)
+            {
+                const u8 c = startPos[j + patternSize - 1];
+                if (patternc[patternSize - 1] == c && std::memcmp(patternc, startPos + j, patternSize - 1) == 0)
+                    last = reinterpret_cast<u32>(startPos + j);
+                j += table[c];
+            }
+            return (last);
+        }
     };
 }
 

@@ -83,6 +83,7 @@
     <ClInclude Include="Includes\CTRPluginFramework\System\Vector.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Utils.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Utils\LineReader.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Utils\StringExtensions.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Utils\Utils.hpp" />
     <ClInclude Include="Includes\ctrulib\allocator\linear.h" />
     <ClInclude Include="Includes\ctrulib\allocator\mappable.h" />
@@ -122,7 +123,6 @@
     <ClInclude Include="Includes\Helpers\QuickMenu.hpp" />
     <ClInclude Include="Includes\HoldKey.hpp" />
     <ClInclude Include="Includes\MiniGame.hpp" />
-    <ClInclude Include="Includes\NTR.hpp" />
     <ClInclude Include="Includes\Offsets.hpp" />
     <ClInclude Include="Includes\Player.hpp" />
     <ClInclude Include="Includes\RAddress.hpp" />
@@ -147,12 +147,14 @@
     <ClCompile Include="Sources\CustomKB.cpp" />
     <ClCompile Include="Sources\Environment.cpp" />
     <ClCompile Include="Sources\FindReplacer.cpp" />
+    <ClCompile Include="Sources\FurnituresSets.cpp" />
     <ClCompile Include="Sources\Game.cpp" />
     <ClCompile Include="Sources\Garden.cpp" />
     <ClCompile Include="Sources\helpers.cpp" />
     <ClCompile Include="Sources\Helpers\FindReplacer.cpp" />
     <ClCompile Include="Sources\Helpers\helpers.cpp" />
     <ClCompile Include="Sources\Helpers\HoldKey.cpp" />
+    <ClCompile Include="Sources\Helpers\Hook.cpp" />
     <ClCompile Include="Sources\Helpers\KeySequence.cpp" />
     <ClCompile Include="Sources\Helpers\RAddress.cpp" />
     <ClCompile Include="Sources\Helpers\Strings.cpp" />

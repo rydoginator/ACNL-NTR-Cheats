@@ -41,29 +41,30 @@ namespace CTRPluginFramework
     {
     public:
 
+        // Return all the keys currently down
+        static u32      GetKeysDown(void);
+        // Return if the key is still being pressed
+        static bool     IsKeyDown(Key key);
+        // Return if the key just got pressed
+        static bool     IsKeyPressed(Key key);
+        // Return if the key was released
+        static bool     IsKeyReleased(Key key);
 
-            // Return if the key is still being pressed
-            static bool     IsKeyDown(Key key);
-            // Return if the key just got pressed
-            static bool     IsKeyPressed(Key key);
-            // Return if the key was released
-            static bool     IsKeyReleased(Key key);
+        // Return if keyCombo is still being pressed
+        static bool     IsKeysDown(u32 keys);
+        // Return is the keys combo just got pressed
+        static bool     IsKeysPressed(u32 keys);
+        // Return is the keys combo just was released
+        static bool     IsKeysReleased(u32 keys);
+        // Update Controller status
+        static void     Update(void);
 
-            // Return if keyCombo is still being pressed
-            static bool     IsKeysDown(u32 keys);
-            // Return is the keys combo just got pressed
-            static bool     IsKeysPressed(u32 keys);            
-            // Return is the keys combo just was released
-            static bool     IsKeysReleased(u32 keys);
-            // Update Controller status
-            static void     Update(void);
-
-            static void     InjectTouch(u16 posX, u16 posY);
-            static void     InjectKey(u32 key);
+        static void     InjectTouch(u16 posX, u16 posY);
+        static void     InjectKey(u32 key);
     private:    
-            static u32      _keysDown;
-            static u32      _keysHeld;
-            static u32      _keysReleased;  
+        static u32      _keysDown;
+        static u32      _keysHeld;
+        static u32      _keysReleased;
     };
 }
 

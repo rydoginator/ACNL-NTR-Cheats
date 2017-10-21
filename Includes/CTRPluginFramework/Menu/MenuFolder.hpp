@@ -15,13 +15,29 @@ namespace CTRPluginFramework
         MenuFolder(const std::string &name, const std::string &note = "");
         MenuFolder(const std::string &name, const std::vector<MenuEntry *> &entries);
         MenuFolder(const std::string &name, const std::string &note, const std::vector<MenuEntry *> &entries);
+
+        /**
+         * \brief Destroy a MenuFolder.\n
+         * Upon destruction all MenuEntry and MenuFolder objects contained by this folder\n
+         * will be destroyed too (so all pointers will be invalidated).
+         */
         ~MenuFolder();
 
-        // Hide the folder from the menu. Will disable every sub entries
+        /**
+         * \brief Hide the folder from the menu.\n
+         * Will disable every MenuEntry objects contained in this folder and subfolders
+         */
         void    Hide(void) const;
-        // Reinsert a folder previously hidden in the menu
+
+        /**
+         * \brief Display the folder previously hidden in the menu
+         */
         void    Show(void) const;
-        // Return is the folder is visible in the menu
+
+        /**
+         * \brief Check if the current folder is visible in the menu
+         * \return true if the folder is visible, false otherwise
+         */
         bool    IsVisible(void) const;
 
         /**
@@ -48,9 +64,64 @@ namespace CTRPluginFramework
          */
         std::vector<MenuFolder *>   GetFolderList(void) const;
 
+        /**
+         * \brief Get a reference of the string that hold the name of this folder
+         * \return A reference of the std::string
+         */
+        std::string &Name(void) const;
+        /**
+         * \brief Get a reference of the string that hold the note of this folder
+         * \return A reference of the std::string
+         */
+        std::string &Note(void) const;
+
+        /**
+         * \brief Get the number of items that his folder contains (not counting subfolders's content)
+         * \return The count of items
+         */
         u32     ItemsCount(void) const;
+
+        /**
+         * \brief Remove and destroy all items contained by this folder.\n
+         * This invalidate all pointers to any contained object.
+         */
+        void    Clear(void) const;
+
+        /**
+         * \brief Remove all objects in the range specified
+         * \param startIndex The index where the range begin
+         * \param count The number of elements to remove
+         * \param destroy If the elements must be destroyed (invalidate pointers and release ressources)
+         */
+        void    Remove(u32 startIndex, u32 count, bool destroy) const;
+
+        /**
+         * \brief Add an entry to this folder
+         * \param entry The MenuEntry object that must be added
+         * \return A pointer to this MenuFolder
+         */
         MenuFolder    *operator += (const MenuEntry *entry);
+
+        /**
+         * \brief Remove an entry from this folder
+         * \param entry The MenuEntry object that must be removed
+         * \return A pointer to this MenuFolder
+         */
+        MenuFolder    *operator -= (const MenuEntry *entry);
+
+        /**
+         * \brief Add a (sub)folder to this folder
+         * \param folder The MenuFolder object that must added
+         * \return A pointer to this MenuFolder
+         */
         MenuFolder    *operator += (const MenuFolder *folder);
+
+        /**
+         * \brief Remove a (sub)folder to this folder
+         * \param folder The MenuFolder object that must be removed
+         * \return A pointer to this MenuFolder
+         */
+        MenuFolder    *operator -= (const MenuFolder *folder);
 
     private:
         friend class PluginMenu;

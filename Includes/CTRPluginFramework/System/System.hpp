@@ -40,6 +40,16 @@ namespace CTRPluginFramework
          * \return true if connected \n false if not connected
          */
         static bool         IsConnectedToInternet(void);
+
+        /**
+         * \brief Check if the cfw is Luma3DS or not\n
+         * A version number can be passed and if it's the case the function will return whether the version of the cfw is the same or higher (true) or inferior (false)
+         * \param major An optional version
+         * \param minor An optional version
+         * \param revision An optional version
+         * \return If the cfw is Luma3DS or not
+         */
+        static bool         CfwIsLuma3DS(u8 major = 0, u8 minor = 0, u8 revision = 0);
     };
 }
 

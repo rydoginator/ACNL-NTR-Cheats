@@ -1,15 +1,13 @@
 #include "MiniGame.hpp"
 #include "Strings.hpp"
+#include "CTRPluginFramework/Graphics/OSD.hpp"
 #include "CTRPluginFramework/Menu/MessageBox.hpp"
 #include "CTRPluginFramework/Utils/Utils.hpp"
 #include "Player.hpp"
 #include "Helpers.hpp"
-#include "NTR.hpp"
 
 namespace CTRPluginFramework
 {
-    int     RandomNum(int start, int end);
-
     Korok::Korok(void) :
         posX(Utils::Random(16, 95)), ///< Random posX
         posY(Utils::Random(16, 79)), ///< Random posY
@@ -36,13 +34,11 @@ namespace CTRPluginFramework
     bool            KorokMiniGame::InGame = false;
     KorokMiniGame   *KorokMiniGame::_instance = nullptr;
 #if DEBUG_MINIGAME
-    bool            KorokMiniGame::_OSDAlreadyCreated = false;
+    bool            KorokMiniGame::_OSDAlreadyAdded = false;
     std::string     g_DebugLine;
 
-    int             OSDMiniGameCallback(u32 isBottom, u32 addr, u32 addrB, u32 stride, u32 format);
+    static bool     OSDMiniGameCallback(const Screen &screen);
 #endif
-    bool            g_osdLock = false; ///< Hacky way until Process::IsPaused is available
-
  
     KorokMiniGame::KorokMiniGame(void)
     {
@@ -58,10 +54,10 @@ namespace CTRPluginFramework
 
 #if DEBUG_MINIGAME
         // Check that the osd is already added
-        if (!_OSDAlreadyCreated)
+        if (!_OSDAlreadyAdded)
         {
-            NTR::NewCallback((NTR::OverlayCallback)OSDMiniGameCallback);
-            _OSDAlreadyCreated = true;
+            OSD::Run(OSDMiniGameCallback);
+            _OSDAlreadyAdded = true;
         }
 #endif
     }
@@ -69,6 +65,9 @@ namespace CTRPluginFramework
     KorokMiniGame::~KorokMiniGame(void)
     {
         InGame = false; ///< Reset game status
+#if DEBUG_MINIGAME
+        OSD::Stop(OSDMiniGameCallback);
+#endif
         _instance = nullptr;
     }
 
@@ -93,17 +92,13 @@ namespace CTRPluginFramework
                     if (!osd && !korok.isFound)
                     {
                         osd = true;
-                        g_osdLock = true;
                         g_DebugLine = Format("Player[%d, %d] Korok[%d, %d] Touch[%d, %d]", position->x, position->y, korok.posX, korok.posY, touchPos.x, touchPos.y);
-                        g_osdLock = false;
                     }
 #endif
                     if (korok.CheckPosition(position))
                     {
                         LeftToFound--;
-                        g_osdLock = true;
                         MessageBox(Format("Yahaha! You found me!\nThere are %d korok seed(s) left!", LeftToFound))();
-                        g_osdLock = false;
                     }
                 }
             }
@@ -131,7 +126,6 @@ namespace CTRPluginFramework
 
         if (keySequence())
         {
-            g_osdLock = true;
             // If a game is already running
             if (KorokMiniGame::InGame)
             {
@@ -156,8 +150,6 @@ namespace CTRPluginFramework
                 Player::GetInstance()->Write16(0x1A, 0x26FF);
                 Player::GetInstance()->Write16(0x22, 0x27A5);
             }
-
-            g_osdLock = false;
         }
 
         if (game != nullptr)
@@ -169,22 +161,20 @@ namespace CTRPluginFramework
                 // Clean game resources
                 delete game;
                 game = nullptr;
-                g_osdLock = true;
                 MessageBox("Congratulation for finding all Koroks !!\nWe hope you enjoyed the easter egg !\n Don't tell anyone, and enjoy 4.0 :)")();
-                g_osdLock = false;
             }
         }
     }
 
 #if DEBUG_MINIGAME
     
-    static void    DrawRect(u32 posX, u32 posY)
+    static void    DrawRect(const Screen &screen, u32 posX, u32 posY)
     {        
         u16     color = 0xF800; ///< Red
 
         for (int i = 0; i < 2; i++)
         {
-            u16     *framebuf = (u16 *)NTR::GetLeftFramebuffer(posX + i, posY);
+            u16     *framebuf = reinterpret_cast<u16 *>(screen.GetFramebuffer(posX + i, posY));
 
             for (int j = 0; j < 2; j++)
             {
@@ -193,33 +183,24 @@ namespace CTRPluginFramework
         }
     }
 
-    int     OSDMiniGameCallback(u32 isBottom, u32 addr, u32 addrB, u32 stride, u32 format)
+    static bool     OSDMiniGameCallback(const Screen &screen)
     {
-        static u32 lastAddress = 0;
-
-        if (addr == lastAddress || !isBottom || g_osdLock || !KorokMiniGame::InGame)
-            return (1);
-
-        lastAddress = addr;
-
         KorokMiniGame *kMiniGame = KorokMiniGame::GetInstance();
 
-        if (kMiniGame != nullptr)
+        if (kMiniGame == nullptr || screen.IsTop)
+            return (false);
+
+        KorokVector &koroks = kMiniGame->GetKoroks();
+
+        for (Korok &korok : koroks)
         {
-            KorokVector &koroks = kMiniGame->GetKoroks();
-
-            for (Korok &korok : koroks)
+            if (!korok.isFound)
             {
-                if (!korok.isFound)
-                {
-                    DrawRect(korok.posX * 2 + 48, korok.posY * 2.14f + 16);
-                }
+                DrawRect(screen, korok.posX * 2 + 48, korok.posY * 2.14f + 16);
             }
-            Draw::String(0, 0, Color::Blank, Color::Black, (u8 *)g_DebugLine.c_str());
-            return (0);
         }
-
-        return (1);
+        screen.Draw(g_DebugLine, 0, 0, Color::Blank, Color::Black);
+        return (true);
     }
 #endif
 }
