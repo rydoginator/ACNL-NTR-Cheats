@@ -76,7 +76,10 @@ namespace CTRPluginFramework
             const u8    *patternc = reinterpret_cast<const u8 *>(pattern.data());
             const u8    *startPos = reinterpret_cast<const u8 *>(start);
 
-            u32     table[256] = { patternSize };
+            u32     table[256];
+
+            for (u32 i = 0; i < 256; i++)
+                table[i] = patternSize;
 
             for (u32 i = 0; i < patternSize - 1; i++)
                 table[patternc[i]] = patternSize - i - 1;
@@ -102,7 +105,10 @@ namespace CTRPluginFramework
             const u8    *patternc = reinterpret_cast<const u8 *>(pattern.data());
             const u8    *startPos = reinterpret_cast<const u8 *>(start);
 
-            u32     table[256] = { patternSize };
+            u32     table[256];
+
+            for (u32 i = 0; i < 256; i++)
+                table[i] = patternSize;
 
             for (u32 i = 0; i < patternSize - 1; i++)
                 table[patternc[i]] = patternSize - i - 1;

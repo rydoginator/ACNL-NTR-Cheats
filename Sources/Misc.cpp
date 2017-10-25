@@ -635,32 +635,6 @@ namespace CTRPluginFramework
 
     }
 
-    void    DoorChanger(MenuEntry *entry)
-    {
-        static u8 id = 0;
-        //u8     *id = GetArg<u8>(entry);
-
-        
-    
-
-        if (!Controller::IsKeyDown(R))
-            return;
-        Process::Write8(0x33077C86, id);
-        if (Controller::IsKeyPressed(DPadUp))
-            id++;
-        if (Controller::IsKeyPressed(DPadDown))
-            id--;
-    }
-
-    void    DoorChangerSettings(MenuEntry *entry)
-    {
-        u8      *id = GetArg<u8>(entry);
-
-        Keyboard keyboard("Which id would you like?");
-        
-        keyboard.Open(*id);
-    }
-
     std::vector<u8> FindWeed(void)
     {
         std::vector <u16> weeds = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8 };

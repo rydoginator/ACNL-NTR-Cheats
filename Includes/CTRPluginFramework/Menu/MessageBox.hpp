@@ -17,14 +17,15 @@ namespace CTRPluginFramework
     class MessageBox
     {
     public:
-        MessageBox(std::string message, DialogType dialogType = DialogType::DialogOk);
+        MessageBox(const std::string &title, const std::string &message, DialogType dialogType = DialogType::DialogOk);
+        MessageBox(const std::string &message, DialogType dialogType = DialogType::DialogOk);
         ~MessageBox(void);
 
         // Display the Message Box and wait for the user input
         // Return:
         // True if user selected Yes / Ok
         // False is user selected No / Cancel
-        bool operator()(void);
+        bool operator()(void) const;
     private:
         std::unique_ptr<MessageBoxImpl>  _messageBox;
     };

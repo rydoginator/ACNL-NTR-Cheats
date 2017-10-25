@@ -150,6 +150,8 @@ namespace CTRPluginFramework
     void    AnimalChanger(MenuEntry *entry);
     void    ChangeAnimal(const char* name);
     void    StorageEverywhere(MenuEntry *entry);
+    void    Corrupter(MenuEntry *entry);
+    void    CorrupterSettings(MenuEntry *entry);
     void    Faint(MenuEntry *entry);
     std::vector<u8>     FindWeed(void);
     void    TestWeedCode(MenuEntry *entry);

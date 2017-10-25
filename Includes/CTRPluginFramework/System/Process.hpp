@@ -6,6 +6,13 @@
 
 namespace CTRPluginFramework
 {
+    enum class StringFormat
+    {
+        Utf8,
+        Utf16,
+        Utf32
+    };
+
     class Process
     {
     public:
@@ -239,6 +246,35 @@ namespace CTRPluginFramework
         * \return True if success, false otherwise
         */
         static bool     ReadDouble(u32 address, double &value);
+
+        /**
+         * \brief Read a string from the desired address and convert it to utf8
+         * \param address The address to read the string from
+         * \param output The std::string object with the utf8 string
+         * \param size The size in bytes to read from the address
+         * \param format The input format to do the conversion
+         * \return true if the read is successful, false otherwise
+         */
+        static bool     ReadString(u32 address, std::string &output, u32 size, StringFormat format);
+
+        /**
+         * \brief Write a utf8 string to an address and do the conversion if needed
+         * \param address The address to write the string to
+         * \param input The string to write
+         * \param outFmt The desired output format
+         * \return true if the write is successful, false otherwise
+         */
+        static bool     WriteString(u32 address, const std::string &input, StringFormat outFmt = StringFormat::Utf8);
+
+        /**
+        * \brief Write a utf8 string to an address and do the conversion if specified
+        * \param address The address to write the string to
+        * \param input The string to write
+        * \param size The number of bytes to write, last is null terminator
+        * \param outFmt The desired output format
+        * \return true if the write is successful, false otherwise
+        */
+        static bool     WriteString(u32 address, const std::string &input, u32 size, StringFormat outFmt = StringFormat::Utf8);
     };
 }
 

@@ -137,7 +137,11 @@ namespace CTRPluginFramework
          */
         static PluginMenu   *GetRunningInstance(void);
 
-        
+        /**
+         * \brief If a callback is set, the callback will be called
+         * when the menu is opened for the first time
+         */
+        CallbackPointer     OnFirstOpening;
 
     private:
         std::unique_ptr<PluginMenuImpl> _menu;
