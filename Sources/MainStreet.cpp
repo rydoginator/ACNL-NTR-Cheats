@@ -16,9 +16,9 @@ namespace CTRPluginFramework
 
     void    FillCatalog(MenuEntry *entry)
     {
-        u32     address = Player::GetInstance()->GetOffset() + 0x6CC0;
+        u32     address = Player::GetInstance()->GetOffset() + 0x6D30;
 
-        std::memset((void *)address, 0xFF, 180 * 4);
+        std::memset((void *)address, 0xFF, 106 * 4);
     }
 
     void    NooklingKeyboard(MenuEntry *entry)
