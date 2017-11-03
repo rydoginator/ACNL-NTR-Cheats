@@ -711,4 +711,20 @@ namespace CTRPluginFramework
             Controller::InjectKey(Key::Y);
         }
     }
+
+    void    EnableAllTours(MenuEntry *entry) //Thanks to Wii8461!
+    {
+        static const u32 pointer = Game::Tours;
+        u32 offset;
+
+        Process::Read32(pointer, offset); //Read from pointer
+        if (offset != 0)
+        {
+            offset += 0x10; //add pointer offset
+            for(int i = 0; i < 64; i++)
+            {
+                Process::Write8(offset+i, 1); //Mark every tours as enabled
+            }
+        }
+    }
 }

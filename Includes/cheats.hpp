@@ -155,6 +155,7 @@ namespace CTRPluginFramework
     void    Faint(MenuEntry *entry);
     std::vector<u8>     FindWeed(void);
     void    TestWeedCode(MenuEntry *entry);
+    void    EnableAllTours(MenuEntry *entry);
     
     /*
     ** Appearance

@@ -214,6 +214,10 @@
 
 #define     USA_MAP_BOOL                        0x950C30
 #define     EUR_MAP_BOOL                        0x94FC30
-#define     JAP_MAP_BOOL                        0x949C30           
+#define     JAP_MAP_BOOL                        0x949C30  
+
+#define     USA_TOURS                           0x95D734
+#define     EUR_TOURS                           0x95C730
+#define     JAP_TOURS                           0x955730         
 
 #endif
