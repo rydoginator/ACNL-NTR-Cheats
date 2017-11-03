@@ -3,6 +3,7 @@
 #include "Helpers/Hook.hpp"
 #include <cstring>
 
+extern "C" vu32* hidSharedMem;
 extern "C" void APT_Hook(void);
 volatile u32    g_homeBtnWasPressed = 0;
 volatile u32    g_aptHookReturnAddress = 0;
@@ -136,6 +137,7 @@ namespace CTRPluginFramework
     void    InitQuickMenu(void);
     int     main(void)
     {
+        Process::ProtectRegion((u32)hidSharedMem, MEMPERM_READ | MEMPERM_WRITE);
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
         PluginMenu  &menu = *m;
 
