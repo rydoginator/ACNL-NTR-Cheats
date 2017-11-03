@@ -16,7 +16,7 @@ namespace CTRPluginFramework
 
     void    FillCatalog(MenuEntry *entry)
     {
-        u32     address = Player::GetInstance()->GetOffset() + 0x6D30;
+        u32     address = Player::GetInstance()->GetOffset() + 0x6C90;
 
         std::memset((void *)address, 0xFF, 106 * 4);
     }
