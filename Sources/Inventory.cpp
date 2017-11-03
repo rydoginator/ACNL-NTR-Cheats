@@ -19,9 +19,9 @@ namespace CTRPluginFramework
                 u32 in = *static_cast<const u32 *>(input);
 
                 // Check the value
-                if ((in << 8) < 0x10000)
+                if ((in << 8) < 0x200000 || (in << 8) > 0x600000)
                 {
-                    error = "The value must be greater than 1000";
+                    error = "Invalid Item ID!";
                     // Return that the value isn't valid
                     return (false);
                 }
