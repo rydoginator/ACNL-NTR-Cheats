@@ -735,7 +735,8 @@ namespace CTRPluginFramework
                 execution = false;
                 return;
             }
-
+            if (*Game::MapBool == 0)
+                return;
             Player::GetInstance()->SetFloatCoordinates(coordiantes[0] + 0.5f, coordiantes[1] - 0.01f);
             Player::GetInstance()->SetRotation(0);
             u16 heldItem;
@@ -747,11 +748,6 @@ namespace CTRPluginFramework
             }
             Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
             Controller::InjectKey(Key::A);
-            while (*Game::MapBool == 0) //wait until the map shows up again before continuing to prevent crash
-            {
-                if (*Game::MapBool == 1)
-                    break;
-            }
         }
     }
 
