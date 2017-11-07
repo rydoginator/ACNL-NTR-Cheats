@@ -635,18 +635,19 @@ namespace CTRPluginFramework
 
     }
 
-    std::vector<u8> FindWeed(void)
+    std::vector<u8> FindItemCoordinates(std::vector<u16> & id, bool isFlag) //isFlag is used to check the flag of items ex: buried items
     {
-        std::vector <u16> weeds = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8 };
-
+        int size = id.size();
         u32 offset = reinterpret_cast<u32>(Game::TownItem);
         static u32 counter = 0;
+        if (isFlag)
+            offset += 2;
         
         while (counter < 0x5000) //loop through town data
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < size; i++)
             {
-                if (*(u16 *)(offset + counter) == weeds[i]) //check if the offset has a weed
+                if (*(u16 *)(offset + counter) == id[i]) //check if the offset has a weed
                 {
                     u8 acre;
                     std::vector <u8> coordinates = { 0, 0 };
@@ -679,13 +680,14 @@ namespace CTRPluginFramework
             counter += 4;
         }
         counter = 0;
-        std::vector<u8>noWeeds = { 0, 0 }; //return 0, 0 if no weeds are found
-        return(noWeeds);
+        std::vector<u8>noItems = { 0, 0 }; //return 0, 0 if no items are found, which is out of bounds
+        return(noItems);
     }
 
-    void    TestWeedCode(MenuEntry *entry)
+    void    UltimateWeedPuller(MenuEntry *entry)
     {
         static bool execution = false;
+        std::vector <u16> weeds = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CC, 0x00F8 };
         std::vector<u8> coordinates = { 0, 0 };
 
         if (Controller::IsKeyPressed(R))
@@ -695,9 +697,9 @@ namespace CTRPluginFramework
             else
                 execution = true;
         }
-        if (execution == true)
+        if (execution)
         {
-            coordinates = FindWeed();
+            coordinates = FindItemCoordinates(weeds, false);
 #ifdef DEBUG
             OSD::Notify(Utils::Format("coords: (%i,%i)", coordinates[0], coordinates[1]));
 #endif
@@ -712,19 +714,54 @@ namespace CTRPluginFramework
         }
     }
 
+    void    UnBuryItems(MenuEntry *entry)
+    {
+        std::vector<u8> coordiantes = { 0, 0 };
+        static bool execution = false;
+
+        if (Controller::IsKeyPressed(R))
+        {
+            if (execution == true)
+                execution = false;
+            else
+                execution = true;
+        }
+        if (execution)
+        {
+            std::vector<u16> buriedFlag = { 0x8000 };
+            coordiantes = FindItemCoordinates(buriedFlag, true);
+            if (coordiantes[0] + coordiantes[1] == 0)
+            {
+                execution = false;
+                return;
+            }
+
+            Player::GetInstance()->SetFloatCoordinates(coordiantes[0] + 0.5f, coordiantes[1] - 0.01f);
+            Player::GetInstance()->SetRotation(0);
+            u16 heldItem;
+            if (Player::GetInstance()->Read16(0x26, heldItem) && heldItem < 0x3357 || heldItem > 0x335C) //check if the player doesn't have a shovel
+            {
+                Process::Write16(Game::ItemForm, 0x335B);
+                Process::Write16(Game::ItemForm - 0x3AD8, 0x335B);
+                Player::GetInstance()->Write16(0x26, 0x335B);// give the player a shovel in their hands
+            }
+            Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
+            Controller::InjectKey(Key::A);
+            while (*Game::MapBool == 0) //wait until the map shows up again before continuing to prevent crash
+            {
+                if (*Game::MapBool == 1)
+                    break;
+            }
+        }
+    }
+
+
     void    EnableAllTours(MenuEntry *entry) //Thanks to Wii8461!
     {
-        static const u32 pointer = Game::Tours;
-        u32 offset;
-
-        Process::Read32(pointer, offset); //Read from pointer
-        if (offset != 0)
+        if (*Game::Tours != 0)
         {
-            offset += 0x10; //add pointer offset
             for(int i = 0; i < 64; i++)
-            {
-                Process::Write8(offset+i, 1); //Mark every tours as enabled
-            }
+                Process::Write8(*Game::Tours + 10 + i, 1); //Mark every tours as enabled
         }
     }
 }

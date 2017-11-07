@@ -153,8 +153,9 @@ namespace CTRPluginFramework
     void    Corrupter(MenuEntry *entry);
     void    CorrupterSettings(MenuEntry *entry);
     void    Faint(MenuEntry *entry);
-    std::vector<u8>     FindWeed(void);
-    void    TestWeedCode(MenuEntry *entry);
+    std::vector<u8> FindItemCoordinates(std::vector<u16> & id, bool isFlag);
+    void    UltimateWeedPuller(MenuEntry *entry);
+    void    UnBuryItems(MenuEntry *entry);
     void    EnableAllTours(MenuEntry *entry);
     
     /*

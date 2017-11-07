@@ -248,6 +248,14 @@ namespace   CTRPluginFramework
         coord->z = 32.f * z;
     }
 
+    void    Player::SetFloatCoordinates(float x, float z) const
+    {
+        Coordinates *coord = reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET);
+
+        coord->x = 32.f * x;
+        coord->z = 32.f * z;
+    }
+
     void    Player::SetRotation(u32 rotation) const
     {
         if (!*_coordinatePointer)

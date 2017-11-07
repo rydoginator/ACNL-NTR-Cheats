@@ -50,7 +50,7 @@ namespace CTRPluginFramework
         Visibility = reinterpret_cast<u32>(AutoRegion(USA_VISIBILITY_ADDR, EUR_VISIBILITY_ADDR, JAP_VISIBILITY_ADDR)());
         CatalogItem = reinterpret_cast<u16 *>(AutoRegion(USA_CATALOG_ITEM, EUR_CATALOG_ITEM, JAP_CATALOG_ITEM)());
         MapBool = reinterpret_cast<u8 *>(AutoRegion(USA_MAP_BOOL, EUR_MAP_BOOL, JAP_MAP_BOOL)());
-        Tours = reinterpret_cast<u32 >(AutoRegion(USA_TOURS, EUR_TOURS, JAP_TOURS)());
+        Tours = reinterpret_cast<u32 *>(AutoRegion(USA_TOURS, EUR_TOURS, JAP_TOURS)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -149,5 +149,5 @@ namespace CTRPluginFramework
     u32         Game::Visibility = 0;
     u16         *Game::CatalogItem = nullptr;
     u8          *Game::MapBool = nullptr;
-    u32         Game::Tours = 0;
+    u32         *Game::Tours = nullptr;
 }

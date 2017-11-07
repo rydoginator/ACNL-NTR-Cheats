@@ -293,7 +293,7 @@ namespace CTRPluginFramework
 
     void    InfiniteMedals(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x6B7C, EncryptACNLMoney(9999));
+        Player::GetInstance()->Write64(0x6b9c, EncryptACNLMoney(9999));
     }
 
     void    InfiniteWallet(MenuEntry * entry)

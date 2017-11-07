@@ -282,7 +282,8 @@ namespace CTRPluginFramework
             new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."),
             new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, "Press L or R to access your storage, and press L+R to access the catalog while switching emoticon tabs\nSpecial thanks Mega Mew and Scotline for this cheat :)"),
             new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!\nCredits to Hikaru"),
-            new MenuEntry("Ultimate Weed Pulling Hack", TestWeedCode, "Press R+A to start automatically plucking weeds in your town! \nR+A again to disable." ),
+            new MenuEntry("Ultimate Weed Pulling Hack", UltimateWeedPuller, "Press R to start automatically plucking weeds in your town! \nR again to disable." ),
+            new MenuEntry("Ultimate Unburying Hack", UnBuryItems, "Press R to start unburying various buried items around your town!\nR again to disable." ),
             new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
             new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to Wii8461!")
         }));
