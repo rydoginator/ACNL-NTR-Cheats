@@ -75,6 +75,7 @@ namespace CTRPluginFramework
     /*
     ** Movement
     ********************/
+    void    SpeedSettings(MenuEntry *entry);
     void    CoordinateModifier(MenuEntry *entry);
     void    TouchCoordinates(MenuEntry *entry);
     void    Teleporter(MenuEntry *entry);

@@ -735,17 +735,18 @@ namespace CTRPluginFramework
                 execution = false;
                 return;
             }
+            u16 heldItem;
+            if (Player::GetInstance()->Read16(0x26, heldItem) && heldItem < 0x3357 || heldItem > 0x335C) //check if the player doesn't have a shovel
+            {
+                MessageBox(Color::Yellow << "Info", "Please equip a shovel and press the hotkey again.")();
+                execution = false;
+                return;
+            }
             if (*Game::MapBool == 0)
                 return;
             Player::GetInstance()->SetFloatCoordinates(coordiantes[0] + 0.5f, coordiantes[1] - 0.01f);
             Player::GetInstance()->SetRotation(0);
-            u16 heldItem;
-            if (Player::GetInstance()->Read16(0x26, heldItem) && heldItem < 0x3357 || heldItem > 0x335C) //check if the player doesn't have a shovel
-            {
-                Process::Write16(Game::ItemForm, 0x335B);
-                Process::Write16(Game::ItemForm - 0x3AD8, 0x335B);
-                Player::GetInstance()->Write16(0x26, 0x335B);// give the player a shovel in their hands
-            }
+
             Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
             Controller::InjectKey(Key::A);
         }

@@ -6,24 +6,29 @@
 namespace CTRPluginFramework
 {
 
+    void    SpeedSettings(MenuEntry *entry)
+    {
+        float *speed = GetArg<float>(entry);
+        Keyboard keyboard("Which speed would you like to use?");
+        keyboard.Open(*speed);
+    }
 
     void    CoordinateModifier(MenuEntry *entry)
     {
         static Clock time;
-
+        float speed = *GetArg<float>(entry, 1.f);
         Time delta = time.Restart();
 
         float value = 400.0f * delta.AsSeconds();
-        float NegValue = -400.0f * delta.AsSeconds();
 
         if (entry->Hotkeys[0].IsDown()) // Up
-            Player::GetInstance()->AddToCoordinates(0.f, 0.f, NegValue);
+            Player::GetInstance()->AddToCoordinates(0.f, 0.f, 0 - value * speed);
         if (entry->Hotkeys[1].IsDown()) // Down
-            Player::GetInstance()->AddToCoordinates(0.f, 0.f, value);
+            Player::GetInstance()->AddToCoordinates(0.f, 0.f, value * speed);
         if (entry->Hotkeys[2].IsDown()) // Left
-            Player::GetInstance()->AddToCoordinates(NegValue, 0.f, 0.f);
+            Player::GetInstance()->AddToCoordinates(0 - value * speed, 0.f, 0.f);
         if (entry->Hotkeys[3].IsDown()) // Right
-            Player::GetInstance()->AddToCoordinates(value, 0.f, 0.f);
+            Player::GetInstance()->AddToCoordinates(value * speed, 0.f, 0.f);
     }
 
     void    TouchCoordinates(MenuEntry *entry)
@@ -170,7 +175,7 @@ namespace CTRPluginFramework
         u32     original[] = { 0x0A000094, 0x0A000052, 0x0A000001, 0xDA000014, 0xED841A05, 0xED840A07, 0x0A000026, 0x0A000065 };
         u32     patch[] = { 0xEA000094, 0xEA000052, 0xEA000001, 0xEA000014, 0xE1A00000, 0xE1A00000, 0xEA000026, 0xEA000065 };
         
-        if (Controller::IsKeysDown(L + DPadUp))
+        if (entry->Hotkeys[0].IsDown())
         {
             for (int i = 0; i < 8; i++)
             {
@@ -178,7 +183,7 @@ namespace CTRPluginFramework
             }
         }
 
-        if (Controller::IsKeysDown(L + DPadDown))
+        if (entry->Hotkeys[1].IsDown())
         {
             for (int i = 0; i < 8; i++)
             {
@@ -189,7 +194,7 @@ namespace CTRPluginFramework
 
     void    SpeedHack(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(B))
+        if (Controller::IsKeyDown(B) || Controller::IsKeyDown(L) || Controller::IsKeyDown(R))
         {
             float       velocity;
             float       speed = *GetArg<float>(entry, 5.238f);
@@ -227,14 +232,21 @@ namespace CTRPluginFramework
 
     void    MoonJump(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(L + DPadUp))
+        static Clock time;
+
+        Time delta = time.Restart();
+
+        float value = 200.0f * delta.AsSeconds();
+        float speed = *GetArg<float>(entry, 1.f);
+
+        if (entry->Hotkeys[0].IsDown())
         {
                 Process::Write16(Game::Gravity, 0xFFFF);
-                Player::GetInstance()->AddToCoordinates(0.f, 0.05f, 0.f);
+                Player::GetInstance()->AddToCoordinates(0.f, value * speed, 0.f);
         }
-        if (Controller::IsKeysDown(L + DPadDown))
+        if (entry->Hotkeys[1].IsDown())
         {
-            Player::GetInstance()->AddToCoordinates(0.f, -0.05f, 0.f);
+            Player::GetInstance()->AddToCoordinates(0.f, 0 - value * speed, 0.f);
         }
     }
 }

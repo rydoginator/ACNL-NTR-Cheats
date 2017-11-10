@@ -176,15 +176,17 @@ namespace CTRPluginFramework
 
         menu += new MenuFolder("Movement Codes", std::vector<MenuEntry *>(
         {
-            EntryWithHotkey(new MenuEntry("Coordinates Modifier", CoordinateModifier, "Press an hotkey to move to the corresponding direction."),
-                {Hotkey(Key::A | Key::DPadUp, "Go up"), Hotkey(Key::A | Key::DPadDown, "Go down"), Hotkey(Key::A | Key::DPadLeft, "Go left") , Hotkey(Key::A | Key::DPadRight, "Go right")}),
+            EntryWithHotkey(new MenuEntry("Coordinates Modifier", CoordinateModifier, SpeedSettings, "Press the hotkey to move to the corresponding direction."),
+                { Hotkey(Key::A | Key::DPadUp, "Go up"), Hotkey(Key::A | Key::DPadDown, "Go down"), Hotkey(Key::A | Key::DPadLeft, "Go left") , Hotkey(Key::A | Key::DPadRight, "Go right")}),
             new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."),
             EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
                 {Hotkey(Key::B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
                  Hotkey(Key::L, "Use slot 2"), Hotkey(Key::R, "Use slot 3") }),
-            new MenuEntry("Walk Over Things", WalkOverThings, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."),
+            EntryWithHotkey(new MenuEntry("Walk Over Things", WalkOverThings, "Press the hotkeys to enable/disable collisions."),
+                { Hotkey(Key::L | Key::DPadUp, "Disable collisions"), Hotkey(Key::L | Key::DPadDown, "Enable Collisions") }),
             new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to Mega Mew for this cheat"),
-            new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."),
+            EntryWithHotkey(new MenuEntry("Moon Jump", MoonJump, SpeedSettings, "Press the hotkeys to move your character up/down.\nThis cheat also has a side effect of disabling gravity and causing various glitches."),
+                { Hotkey(Key::L | Key::DPadUp, "Move up"), Hotkey(Key::L | Key::DPadDown, "Move down") }),
             new MenuEntry("Teleport to PWP...", nullptr, PWPTeleport, "Press on the keyboard to open up the menu to choose which PWP to teleport to")
         }));
 
@@ -197,7 +199,7 @@ namespace CTRPluginFramework
             new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard, "Press the keyboard icon to change which upgrade the Nooklings have"),
             new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop"),
             new MenuEntry("Fill out Main Street", FillMainStreet, "Unlocks all the Main Street buildings except Leif + Nooklings"),
-            new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press " FONT_L " and " FONT_A " while in the catalog to send the item directly to your pockets!")
+            //new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press " FONT_L " and " FONT_A " while in the catalog to send the item directly to your pockets!") TODO: Find correct offset/pointer
         }));
 
         /*
@@ -206,8 +208,14 @@ namespace CTRPluginFramework
 
         menu += new MenuFolder("Time Travel Codes", std::vector<MenuEntry *>(
         {
-            new MenuEntry("Time Travel", TimeTravel, TimeTravelSettings, "Press either " FONT_R " or " FONT_B " and " FONT_DR " to travel forward or " FONT_DL " to retwind time or " FONT_B " and " FONT_DD " to set ingame time back to your 3DS's clock."),
-            new MenuEntry("Time Machine", TimeMachine, "Press " FONT_Y " and " FONT_DR " to start time traveling.")
+            EntryWithHotkey(new MenuEntry("Time Travel", TimeTravel, TimeTravelSettings, "Press the hotkeys to travel through time.\nPress the keyboard icon to change the settings."),
+            {
+                Hotkey(Key::R | Key::DPadLeft, "Freely move time backwards"), Hotkey(Key::R | Key::DPadRight, "Freely move time forwards"),
+                Hotkey(Key::B | Key::DPadLeft, "Rewind time by an hour"), Hotkey(Key::B | Key::DPadRight, "Go forward in time by an hour"),
+                Hotkey(Key::R | Key::DPadUp, "Save current time") , Hotkey(Key::R | Key::DPadDown, "Restore saved time"),
+                Hotkey(Key::B | Key::DPadDown, "Reset ingame time")
+            }),
+            new MenuEntry("Time Machine", nullptr, TimeMachine, "Press on the keyboard icon or enable the cheat to enter the time machine settings!")
         }));
 
         /*
@@ -216,12 +224,15 @@ namespace CTRPluginFramework
 
         menu += new MenuFolder("Inventory", std::vector<MenuEntry *>(
         {
-            new MenuEntry("Text to Item", Text2Item, "Press " FONT_X " and " FONT_DR " to open the keyboard to enter in the ID you want to recieve."),
-            new MenuEntry("Duplicate", Duplication, "Press " FONT_R " to duplicate the item that is slot 01 to slot 02."),
-            new MenuEntry("Show names of buried items", ShowBuriedItems, "This allows you to view what is buried underground in the little thought bubble above your head\nWarning: this is a heavy cheat, so it might cause slowdown."),
+            EntryWithHotkey(new MenuEntry("Text to Item", Text2Item, "Press the hotkeys to bring up the keyboard to enter the item ID."),
+            { Hotkey(Key::X | Key::DPadRight, "Open the keyboard")}),
+            EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into slot 2."), 
+            { Hotkey(Key::R, "Duplicate items")}),
+            new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into slot 2."),
             new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown."),
             new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box."),
-            new MenuEntry("Fossil Inspector", GenerateFossils, "Press " FONT_X " and " FONT_A " to process all fossils\nas if you talked to Blathers"),
+            EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
+            { Hotkey(Key::X | Key::A, "Inspect fossils") }),
             new MenuEntry("Max Bank", MaxMoneyBank),
             new MenuEntry("Infinite Wallet", InfiniteWallet),
             new MenuEntry("Infinite/Max Coupons", InfiniteCoupons),
@@ -242,13 +253,20 @@ namespace CTRPluginFramework
             *****************************************************************************/
             *folder += new MenuFolder("R + A Codes", std::vector<MenuEntry *>(
             {
-                new MenuEntry(1, "Remove All Items", RemoveAllItems, "Press " FONT_R " and " FONT_A " to execute... Beware as there is no going back if you save."),
-                new MenuEntry(1, "Remove All Weeds", RemoveAllWeeds, "Press " FONT_R " and " FONT_A " to execute."),
-                new MenuEntry(1, "Water All Flowers", WaterAllFlowers, "Press " FONT_R " and " FONT_A "to execute."),
-                new MenuEntry(1, "Fill Grass", FillGrass, "Press " FONT_R " and " FONT_A " to fill your town with grass.\nPlease note that bald spots will respawn on the next day."),
-                new MenuEntry(1, "Destroy Grass", DestroyGrass, "Press " FONT_R " and " FONT_A " to destroy all the grass in your town to make a desert wasteland.")
+                EntryWithHotkey(new MenuEntry(1, "Remove All Items", RemoveAllItems, "Press the hotkeys to execute... Beware as there is no going back if you save."),
+                    { Hotkey(Key::R | Key::A, "Remove all items")}),
+                EntryWithHotkey(new MenuEntry(1, "Remove All Weeds", RemoveAllWeeds, "Press the hotkeys to clear all weeds"),
+                    { Hotkey(Key::R | Key::A, "Remove all weeds") }),
+                EntryWithHotkey(new MenuEntry(1, "Water All Flowers", WaterAllFlowers, "Press the hotkeys to water all flowers"),
+                    { Hotkey(Key::R | Key::A, "Water all flowers") }),
+                EntryWithHotkey(new MenuEntry(1, "Fill Grass", FillGrass, "Press the hotkeys to fill your town with grass.\nPlease note that bald spots will respawn on the next day."),
+                    { Hotkey(Key::R | Key::A, "Restore all grass") }),
+                EntryWithHotkey(new MenuEntry(1, "Destroy Grass", DestroyGrass, "Press the hotkeys to destroy all the grass in your town to make a desert wasteland."),
+                    {Hotkey(Key::R | Key::A, "Remove all grass")}),
             }));
-            *folder += new MenuEntry("Real Time World Edit", WorldEdit, "Press " FONT_R " and " FONT_DL " to open the keyboard to store the item. " FONT_R " and " FONT_DU " to store the item that you're standing on. And " FONT_R " + " FONT_DD " to write the item to the place that you're standing on.");
+            *folder += EntryWithHotkey(new MenuEntry("Real Time World Edit", WorldEdit, "Press the corresponding hotkeys to use the cheat,"),
+            { Hotkey(Key::R | Key::DPadLeft, "Open the keyboard"), Hotkey(Key::R | Key::DPadUp, "Store the item that you're standing on"),
+                Hotkey(Key::R | Key::DPadDown, "Write the item to where your player is standing")}),
             *folder += new MenuEntry("Search and Replace", nullptr, SearchReplace, "Press the keyboard icon to enter in what you want to search and replace");
         }
         menu += folder;

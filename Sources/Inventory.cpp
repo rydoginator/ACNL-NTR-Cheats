@@ -5,7 +5,7 @@ namespace CTRPluginFramework
 {
     void    Text2Item(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(X + DPadRight))
+        if (entry->Hotkeys[0].IsDown())
         {
             u32 output;
 
@@ -40,7 +40,7 @@ namespace CTRPluginFramework
 
     void    Duplication(MenuEntry   *entry)
     {
-        if (Controller::IsKeyDown(R))
+        if (entry->Hotkeys[0].IsDown())
         {
             u32 item;
 
@@ -270,7 +270,7 @@ namespace CTRPluginFramework
     void    GenerateFossils(MenuEntry *entry)
     {
         int length;
-        if (Controller::IsKeysDown(X + A))
+        if (entry->Hotkeys[0].IsDown())
         {
             int *slots = Player::GetInstance()->FindItems(length, 0x202A);
             for (int i = 0; i < length; i++)

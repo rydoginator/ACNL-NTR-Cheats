@@ -59,30 +59,34 @@ namespace CTRPluginFramework
         u64 value = HOUR * delta.AsSeconds() * *speed;
         static u64 savedTime = 0;
 
-        if (Controller::IsKeysDown(R + DPadRight))
+        if (entry->Hotkeys[1].IsDown())
             AddTime(value);
-        if (Controller::IsKeysDown(R + DPadLeft))
+        if (entry->Hotkeys[0].IsDown())
             RewindTime(value);
-        if (Controller::IsKeysDown(R + DPadUp))
+        if (entry->Hotkeys[4].IsDown())
             savedTime = GetTime();
-        if (Controller::IsKeysDown(R + DPadDown))
+        if (entry->Hotkeys[5].IsDown())
         {
             if (savedTime != 0)
             {
                 SetTime(savedTime);
             }
         }
-        if (!Controller::IsKeyDown(Key::B))
-            return;
-        if (Controller::IsKeyPressed(Key::DPadRight))
+        if (entry->Hotkeys[2].IsDown())
         {
             AddTime(HOUR);
+            while (entry->Hotkeys[2].IsDown())
+                Controller::Update();
         }
-        if (Controller::IsKeyPressed(Key::DPadLeft))
+
+        if (entry->Hotkeys[3].IsDown())
         {
             RewindTime(HOUR);
+            while (entry->Hotkeys[3].IsDown())
+                Controller::Update();
         }
-        if (Controller::IsKeyPressed(Key::DPadDown))
+
+        if (entry->Hotkeys[6].IsDown())
         {
             ResetTime();
         }
@@ -162,93 +166,90 @@ namespace CTRPluginFramework
         u64 time;
         static bool direction = false;
 
-        if (Controller::IsKeysDown(Y + DPadRight))
         {
+            Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
+            std::vector<std::string> list =
             {
-                Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
-                std::vector<std::string> list =
-                {
-                    "Forwards",
-                    "Backwards"
-                };
-                keyboard.Populate(list);
+                "Forwards",
+                "Backwards"
+            };
+            keyboard.Populate(list);
 
-                int  userChoice = keyboard.Open();
+            int  userChoice = keyboard.Open();
 
-                if (userChoice == 0)
-                {
-                    direction = true;
-                }
-                else if (userChoice == -1)
-                {
-                    direction = false;
-                }
-                else
-                {
-                    return;
-                }
+            if (userChoice == 0)
+            {
+                direction = true;
             }
+            else if (userChoice == -1)
             {
-                Keyboard keyboard("How many minutes?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckMinuteInput);
-
-                if (keyboard.Open(minutes) == -1)
-                {
-                    return;
-                }
-            }
-            {
-                Keyboard keyboard("How many hours?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckHourInput);
-
-                if (keyboard.Open(hours) == -1)
-                {
-                    return;
-                }
-            }
-            {
-                Keyboard keyboard("How many days?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckDayInput);
-
-                if (keyboard.Open(days) == -1)
-                {
-                    return;
-                }
-            }
-            {
-                Keyboard keyboard("How many months?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckDayInput);
-
-                if (keyboard.Open(months) == -1)
-                {
-                    return;
-                }
-            }
-            {
-                Keyboard keyboard("How many years?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckYearInput);
-
-                if (keyboard.Open(hours) == -1)
-                {
-                    return;
-                }
-            }
-            time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
-            if (direction == true)
-            {
-                AddTime(time);
-                OSD::Notify("Welcome to the future, time traveler.");
+                direction = false;
             }
             else
             {
-                RewindTime(time);
-                OSD::Notify("Welcome to the past, time traveler.");
+                return;
             }
+        }
+        {
+            Keyboard keyboard("How many minutes?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckMinuteInput);
+
+            if (keyboard.Open(minutes) == -1)
+            {
+                return;
+            }
+        }
+        {
+            Keyboard keyboard("How many hours?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckHourInput);
+
+            if (keyboard.Open(hours) == -1)
+            {
+                return;
+            }
+        }
+        {
+            Keyboard keyboard("How many days?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckDayInput);
+
+            if (keyboard.Open(days) == -1)
+            {
+                return;
+            }
+        }
+        {
+            Keyboard keyboard("How many months?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckDayInput);
+
+            if (keyboard.Open(months) == -1)
+            {
+                return;
+            }
+        }
+        {
+            Keyboard keyboard("How many years?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckYearInput);
+
+            if (keyboard.Open(hours) == -1)
+            {
+                return;
+            }
+        }
+        time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
+        if (direction == true)
+        {
+            AddTime(time);
+            OSD::Notify("Welcome to the future, time traveler.");
+        }
+        else
+        {
+            RewindTime(time);
+            OSD::Notify("Welcome to the past, time traveler.");
         }
     }
 

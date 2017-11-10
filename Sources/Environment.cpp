@@ -5,7 +5,7 @@ namespace CTRPluginFramework
 {
     void    RemoveAllItems(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(R + A))
+        if (entry->Hotkeys[0].IsDown())
         {
             u32     *item = Game::TownItem;
 
@@ -20,7 +20,7 @@ namespace CTRPluginFramework
     {
         static u16 weeds[] = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8 };
 
-        if (!Controller::IsKeysDown(R + A) && entry != nullptr)
+        if (!entry->Hotkeys[0].IsDown() && entry != nullptr)
             return;
 
         FindReplacer<u16>  findReplacer(reinterpret_cast<u32>(Game::TownItem), 0x5000);
@@ -106,16 +106,14 @@ namespace CTRPluginFramework
         static u32 itemID;
         static bool valid = false; //boolean to declare whether you're using a valid value or not
 
-        if (!Controller::IsKeyDown(R)) //return if not pressing R
-            return;
-        u32  *address = Game::GetItem(); //get the address of where your character is standing
+        
 #ifdef DEBUG
         OSD::Notify(Utils::Format("Address: %08X Value: %08X", address, *address));
 #endif // DEBUG
 
         
 
-        if (Controller::IsKeyDown(DPadLeft))
+        if (entry->Hotkeys[0].IsDown())
         {
             Keyboard    keyboard("What item would you like to use?");
             u32 item;
@@ -124,15 +122,17 @@ namespace CTRPluginFramework
             else
                 valid = false; // if the user aborts, you don't want to be writing abritary values
         }
-
-        if (Controller::IsKeyDown(DPadUp))
+        
+        if (entry->Hotkeys[1].IsDown())
         {
+            u32  *address = Game::GetItem(); //get the address of where your character is standing
             itemID = *address; //get the value of address
             valid = true;
         }
 
-        if (Controller::IsKeyDown(DPadDown))
+        if (entry->Hotkeys[2].IsDown())
         {
+            u32  *address = Game::GetItem(); //get the address of where your character is standing
             if (valid && address != nullptr)
                 *address = itemID;
         }
