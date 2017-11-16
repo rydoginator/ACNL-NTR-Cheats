@@ -126,6 +126,10 @@
 #define     EUR_CAMERA_ASM_ADDR                 0x76350C
 #define     JAP_CAMERA_ASM_ADDR                 0x762CA4
 
+#define     USA_CAMERA_ROT_ASM                  0x1A3230
+#define     EUR_CAMERA_ROT_ASM                  0x1A3250
+#define     JAP_CAMERA_ROT_ASM                  0x1A3190
+
 #define     USA_CAMERA_X_ADDR                   0x9866F4
 #define     EUR_CAMERA_X_ADDR                   0x9856F4
 #define     JAP_CAMERA_X_ADDR                   0x97F6F4
@@ -163,6 +167,10 @@
 #define     USA_THOUGHT_ASM                     0x2160BC
 #define     EUR_THOUGHT_ASM                     0x2160DC
 #define     JAP_THOUGHT_ASM                     0x215FFC
+
+#define     USA_BOTTOM_ASM                      0x6D2B50
+#define     EUR_BOTTOM_ASM                      0x6D1B88
+#define     JAP_BOTTOM_ASM                      0x6D1334
 
 //offset difference to be used in the walk over things code
 #define     USA_CODE_DIFFERENCE                 0x0

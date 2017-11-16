@@ -83,14 +83,10 @@ namespace CTRPluginFramework
         u32   patch = 0xE38110FF;
         u32   original = 0xE3811004;
 
-        if (Controller::IsKeysDown(Y + DPadUp))
-        {
+        if (entry->Hotkeys[0].IsDown())
             Process::Patch(Game::Visibility, (u8 *)&patch, 4);
-        }
-        if (Controller::IsKeysDown(Y + DPadDown))
-        {
+        if (entry->Hotkeys[1].IsDown())
             Process::Patch(Game::Visibility, (u8 *)&original, 4);
-        }
     }
 
     void    FastGameSpeed(MenuEntry *entry)
@@ -104,6 +100,7 @@ namespace CTRPluginFramework
     {
         //pointers & addresses
         static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR)();
+        static const u32    rotationAsm = AutoRegion(USA_CAMERA_ROT_ASM, EUR_CAMERA_ROT_ASM, JAP_CAMERA_ROT_ASM)();
         static u32  * cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER)());
         static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR)());
 
@@ -123,93 +120,85 @@ namespace CTRPluginFramework
             {
                 if (*Game::Room == 1)
                 {
-                    Process::Patch(0x001a3230, (u8 *)&originalRotation, 4);
-                    Process::Patch(0x001a323C, (u8 *)&originalRotation, 4);
+                    Process::Patch(rotationAsm, (u8 *)&originalRotation, 4);
+                    Process::Patch(rotationAsm + 0xC, (u8 *)&originalRotation, 4);
                 }
                 else
                 {
-                    Process::Patch(0x001a3230, (u8 *)&nop, 4);
-                    Process::Patch(0x001a323C, (u8 *)&nop, 4);
+                    Process::Patch(rotationAsm, (u8 *)&nop, 4);
+                    Process::Patch(rotationAsm + 0xC, (u8 *)&nop, 4);
                 }
             }
             else
             {
-                Process::Patch(0x001a3230, (u8 *)&originalRotation, 4);
-                Process::Patch(0x001a323C, (u8 *)&originalRotation, 4);
+                Process::Patch(rotationAsm, (u8 *)&originalRotation, 4);
+                Process::Patch(rotationAsm + 0xC, (u8 *)&originalRotation, 4);
             }
             if (followRotation)
             {
                 u32 rotation = Player::GetInstance()->GetRotation();
                 Process::Write16(*cameraPointer + 0x12E, (rotation >> 16) ^ 0x8000); //get the opposite of the rotation value in order to face opposite of player
             }
-            if (Controller::IsKeyDown(R))
+            if (entry->Hotkeys[0].IsDown())
             {
-                if (Controller::IsKeyDown(CPadUp))
+                if (Controller::IsKeyDown(Key::CPadUp))
                     ADD16((*cameraPointer + 0x12C), 0x10);
-
-                if (Controller::IsKeyDown(CPadDown))
+                if (Controller::IsKeyDown(Key::CPadDown))
                     SUB16((*cameraPointer + 0x12C), 0x10);
-
-                if (Controller::IsKeyDown(CPadRight))
+                if (Controller::IsKeyDown(Key::CPadLeft))
                     ADD16((*cameraPointer + 0x12E), 0x10);
-
-                if (Controller::IsKeyDown(CPadLeft))
+                if (Controller::IsKeyDown(Key::CPadRight))
                     SUB16((*cameraPointer + 0x12E), 0x10);
-
-                // Stop camera from moving
-                if (Controller::IsKeyDown(Y))
-                    goto patch;
-                // Make camera move again
-                if (Controller::IsKeyDown(X))
-                    goto unpatch;
-
-                if (Controller::IsKeyPressed(A))
-                {
-                    if (!followRotation)
-                        followRotation = true;
-                    else
-                        followRotation = false;
-                }
             }
-            if (!Controller::IsKeyDown(B))
-                return;
-
-            if (Controller::IsKeyDown(DPadLeft))
-            {
-                cameraCoordinates->x -= 0.1f;
+            if (entry->Hotkeys[1].IsDown()) // Stop camera from moving
                 goto patch;
-            }
-
-            if (Controller::IsKeyDown(DPadRight))
+            if (entry->Hotkeys[2].IsDown()) // Make camera move again
+                goto unpatch;
+            if (entry->Hotkeys[3].IsDown())
             {
-                cameraCoordinates->x += 0.1f;
-                goto patch;
+                if (!followRotation)
+                    followRotation = true;
+                else
+                    followRotation = false;
+                while (entry->Hotkeys[3].IsDown())
+                    Controller::Update();
             }
 
-            if (Controller::IsKeyDown(DPadDown))
-            {
-                cameraCoordinates->z += 0.1f;
-                goto patch;
-            }
-
-            if (Controller::IsKeyDown(DPadUp))
+            if (entry->Hotkeys[4].IsDown())
             {
                 cameraCoordinates->z -= 0.1f;
                 goto patch;
             }
 
-            if (Controller::IsKeyDown(R))
+            if (entry->Hotkeys[5].IsDown())
             {
-                cameraCoordinates->y += 0.1f;
+                cameraCoordinates->x += 0.1f;
                 goto patch;
             }
 
-            if (Controller::IsKeyDown(L))
+            if (entry->Hotkeys[6].IsDown())
+            {
+                cameraCoordinates->z += 0.1f;
+                goto patch;
+            }
+
+            if (entry->Hotkeys[7].IsDown())
+            {
+                cameraCoordinates->x -= 0.1f;
+                goto patch;
+            }
+
+            if (entry->Hotkeys[8].IsDown())
             {
                 cameraCoordinates->y -= 0.1f;
                 goto patch;
             }
 
+            if (entry->Hotkeys[9].IsDown())
+            {
+                cameraCoordinates->y += 0.1f;
+                goto patch;
+            }
             return;
         patch:
             if (!isPatched)
@@ -227,136 +216,6 @@ namespace CTRPluginFramework
             }
         }
     }
-
-    /* OLD CODE
-    void    CameraMod(MenuEntry *entry)
-    {
-        // Pointers & addresses
-        static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR)();
-        static u32  * cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER)());
-        static u32  * const cameraStop = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)());
-        static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR)());
-        
-        // Variables
-        static const u32    patch = 0xEA000020;
-        static const u32    nop = 0xE1A00000;
-        static const u32    originalRotation = 0xE18020B4;
-        static const u32    original = 0x2A000020;
-
-        static Coordinates  coord; ///< Saved player's coordinates
-        static u32          storage;
-        static bool         isPatched = false;
-        
-
-
-        // Unpatch when B is released
-
-        if (*cameraPointer)
-        {
-            // Fetch player's coordinates
-            if (!Controller::IsKeyDown(CPad))
-                coord = Player::GetInstance()->GetCoordinates();
-
-            // Restore player's coordinates
-            if (Controller::IsKeysDown(R + CPadDown))
-                Player::GetInstance()->SetCoordinates(coord);
-
-            // Move camera
-            if (Controller::IsKeysDown(R + CPadUp))
-                ADD16((*cameraPointer + 0x12C), 0x10);
-
-            if (Controller::IsKeysDown(R + CPadDown))
-                SUB16((*cameraPointer + 0x12C), 0x10);
-
-            if (Controller::IsKeysDown(R + CPadRight))
-                ADD16((*cameraPointer + 0x12E), 0x10);
-
-            if (Controller::IsKeysDown(R + CPadLeft))
-                SUB16((*cameraPointer + 0x12E), 0x10);
-
-            // Fetch camera stop value
-            if (Controller::IsKeysDown(R + X))
-            {
-                goto unpatch;
-            }
-
-            // Restore camera stop value
-            if (Controller::IsKeysDown(R + Y))
-            {
-                goto patch;
-            }
-        }
-
-        // Next codes require B to be pressed, exit if not
-        if (!Controller::IsKeyDown(B))
-            return;
-
-        if (Controller::IsKeysDown(B + DPadLeft))
-        {
-            cameraCoordinates->x -= 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + DPadRight))
-        {
-            cameraCoordinates->x += 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + DPadDown))
-        {
-            cameraCoordinates->z += 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + DPadUp))
-        {
-            cameraCoordinates->z -= 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + R))
-        {
-            cameraCoordinates->y += 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + L))
-        {
-            cameraCoordinates->y -= 0.1f;
-            goto patch;
-        }
-
-        return;
-    patch:
-        if (!isPatched)
-        {
-            // Change the asm instruction to b, allows overwriting camera coordinates
-            Process::Patch(cameraAsm, (u8 *)&patch, 4);
-            Process::Patch(0x001a3230, (u8 *)&nop, 4);
-            Process::Patch(0x001a323C, (u8 *)&nop, 4);
-            isPatched = true;
-        }
-        return;
-    patchRotation:
-        std::vector<u8> valid = { 0, 0x68, 0x9F, 0xA0, 0xE4 };
-
-        if (std::find(valid.begin(), valid.end(), *Game::Room) != valid.end)
-        {
-            Process::Patch(0x001a3230, (u8 *)&originalRotation, 4);
-            Process::Patch(0x001a323C, (u8 *)&originalRotation, 4);
-        }
-        else if ()
-    unpatch:
-        if (isPatched)
-        {
-            Process::Patch(cameraAsm, (u8 *)&original, 4);
-            Process::Patch(0x001a3230, (u8 *)&originalRotation, 4);
-            Process::Patch(0x001a323C, (u8 *)&originalRotation, 4);
-            isPatched = false;
-        }
-    }
-    */
 
     void    KeyboardExtender(MenuEntry *entry)
     {
@@ -515,12 +374,56 @@ namespace CTRPluginFramework
 
     void    StorageEverywhere(MenuEntry *entry)
     {
-        if (Controller::IsKeyDown(L))
-            *Game::BottomScreen = 0x3D;
-        if (Controller::IsKeysDown(R))
-            *Game::BottomScreen = 0x89;
-        if (Controller::IsKeysDown(L + R))
-            *Game::BottomScreen = 0x7C;
+        static bool patched = false;
+        static Clock clock;
+        static u32 address = AutoRegion(USA_BOTTOM_ASM, EUR_BOTTOM_ASM, JAP_BOTTOM_ASM)();
+        u32 original = 0xE1A04000;
+        u32 patch = 0xE3A04000;
+        u8 id = *GetArg<u8>(entry, 0);
+        
+        if (entry->Hotkeys[0].IsDown())
+        {
+            Process::Patch(address, (u8 *)&patch + 0x3D, 4);
+            patched = true;
+        }
+
+        if (entry->Hotkeys[1].IsDown())
+        {
+            Process::Patch(address, (u8 *)&patch + 0x89, 4);
+            patched = true;
+        }
+
+        if (entry->Hotkeys[2].IsDown())
+        {
+            Process::Patch(address, (u8 *)&patch + 0x7C, 4);
+            patched = true;
+        }
+
+        if (entry->Hotkeys[3].IsDown())
+        {
+            Process::Patch(address, (u8 *)&patch + id, 4);
+            patched = true;
+        }
+
+        //unpatch the address when the hotkeys aren't pressed 
+
+        if (patched && clock.HasTimePassed(Seconds(1.f)))
+        {
+            Process::Patch(address, (u8 *)&original, 4);
+            patched = false;
+            clock.Restart();
+        }
+    }
+
+
+    void    StorageEverywhereSettings(MenuEntry *entry)
+    {
+        u8 *arg = GetArg<u8>(entry);
+        u8 id;
+        Keyboard keyboard("Which ID would you like?");
+        keyboard.IsHexadecimal(true);
+        if (keyboard.Open(id) != -1)
+            *arg = id;
     }
 
     void    Faint(MenuEntry *entry)

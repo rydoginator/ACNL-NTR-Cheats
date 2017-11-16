@@ -290,15 +290,26 @@ namespace CTRPluginFramework
 
         menu += new MenuFolder("Misc.", std::vector<MenuEntry *>(
         {
-            new MenuEntry("Ghost Mode", GhostMode, "Press Y + D pad up to enable, Y + D pad down to disable"),
-            new MenuEntry("Camera Mod", CameraMod, "R + Circle pad = rotation \n\n R + A stop player from moving or Y lock camera, X unlock camera(needed) \n\n B + D pad move camera, L / R up and down"),
+            EntryWithHotkey(new MenuEntry("Ghost Mode", GhostMode, "Press the hotkeys to make your character invisible/visible."),
+                {
+                    Hotkey(Key::Y | Key::DPadUp, "Go invisible"), Hotkey(Key::Y | Key::DPadDown, "Go visible")
+                }),
+            EntryWithHotkey(new MenuEntry("Camera Mod", CameraMod, "Press the hotkeys to move the camera around."),
+                {
+                    Hotkey(Key::R, "Rotate the camera (With Circle Pad)"), Hotkey(Key::R | Key::Y, "Detach the camera"), Hotkey(Key::R | Key::X, "Reattach the camera"), Hotkey(Key::R | Key::A, "Enable/Disable camera following behind player"),
+                    Hotkey(Key::B | Key::DPadUp, "Pan the camera north"), Hotkey(Key::B | Key::DPadRight, "Pan the camera east"), Hotkey(Key::B | Key::DPadDown, "Pan the camera south"), Hotkey(Key::B | Key::DPadLeft, "Pan the camera west"),
+                    Hotkey(Key::B | Key::L, "Pan the camera downwards"), Hotkey(Key::B | Key::R, "Pan the camera upwards")
+                }),
             new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"),
             new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Wii8461 for this cheat"),
             new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"),
             new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"),
             new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."),
             new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."),
-            new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, "Press L or R to access your storage, and press L+R to access the catalog while switching emoticon tabs\nSpecial thanks Mega Mew and Scotline for this cheat :)"),
+            EntryWithHotkey(new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, StorageEverywhereSettings, "Press the hotkeys and open the keyboard, emoticons, mailbox or force a bottom screen change to access the window of your choice" ), 
+            {
+                Hotkey(Key::L, "Access drawers"), Hotkey(Key::R, "Access secret storage"), Hotkey(Key::L | Key::R, "Access catalog"), Hotkey(Key::Y, "Custom (use keyboard in cheat menu)")
+            }),
             new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!\nCredits to Hikaru"),
             new MenuEntry("Ultimate Weed Pulling Hack", UltimateWeedPuller, "Press R to start automatically plucking weeds in your town! \nR again to disable." ),
             new MenuEntry("Ultimate Unburying Hack", UnBuryItems, "Press R to start unburying various buried items around your town!\nR again to disable." ),
