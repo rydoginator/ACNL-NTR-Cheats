@@ -2,6 +2,11 @@
 #include "Helpers.hpp"
 #include "3ds.h"
 
+extern "C" void LoadBottomUI(void);
+
+u32     g_bottomUI = 0;
+u32     g_bottomReturn;
+
 namespace CTRPluginFramework
 {
 
@@ -374,45 +379,33 @@ namespace CTRPluginFramework
 
     void    StorageEverywhere(MenuEntry *entry)
     {
-        static bool patched = false;
+        static Hook hook;
         static Clock clock;
-        static u32 address = AutoRegion(USA_BOTTOM_ASM, EUR_BOTTOM_ASM, JAP_BOTTOM_ASM)();
-        u32 original = 0xE1A04000;
-        u32 patch = 0xE3A04000;
-        u8 id = *GetArg<u8>(entry, 0);
+        u32 addr = AutoRegion(USA_BOTTOM_ASM -4, EUR_BOTTOM_ASM -4, JAP_BOTTOM_ASM -4)();
         
         if (entry->Hotkeys[0].IsDown())
-        {
-            Process::Patch(address, (u8 *)&patch + 0x3D, 4);
-            patched = true;
-        }
+            *Game::BottomScreen = 0x3D;
 
         if (entry->Hotkeys[1].IsDown())
-        {
-            Process::Patch(address, (u8 *)&patch + 0x89, 4);
-            patched = true;
-        }
+            *Game::BottomScreen = 0x89;
 
         if (entry->Hotkeys[2].IsDown())
-        {
-            Process::Patch(address, (u8 *)&patch + 0x7C, 4);
-            patched = true;
-        }
+            *Game::BottomScreen = 0x7C;
 
         if (entry->Hotkeys[3].IsDown())
         {
-            Process::Patch(address, (u8 *)&patch + id, 4);
-            patched = true;
+            g_bottomUI = *GetArg<u8>(entry, 0);
+            g_bottomReturn = addr + 8;
+            hook.Initialize(addr, (u32)LoadBottomUI);
+            clock.Restart();
+            hook.Enable();
         }
-
-        //unpatch the address when the hotkeys aren't pressed 
-
-        if (patched && clock.HasTimePassed(Seconds(1.f)))
+        if (hook.isEnabled && clock.HasTimePassed(Seconds(1.f)))
         {
-            Process::Patch(address, (u8 *)&original, 4);
-            patched = false;
+            hook.Disable();
             clock.Restart();
         }
+
     }
 
 
@@ -428,7 +421,7 @@ namespace CTRPluginFramework
 
     void    Faint(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(R + A))
+        if (entry->Hotkeys[0].IsDown())
         {
             if (*Game::Location == -1)
                 *Game::Consciousness = 0x0100;
@@ -593,12 +586,14 @@ namespace CTRPluginFramework
         std::vector <u16> weeds = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CC, 0x00F8 };
         std::vector<u8> coordinates = { 0, 0 };
 
-        if (Controller::IsKeyPressed(R))
+        if (entry->Hotkeys[0].IsDown())
         {
-            if (execution == true)
+            if (execution)
                 execution = false;
             else
                 execution = true;
+            while (entry->Hotkeys[0].IsDown())
+                Controller::Update();
         }
         if (execution)
         {
@@ -611,7 +606,7 @@ namespace CTRPluginFramework
                 execution == false;
                 return;
             }
-            Player::GetInstance()->SetIntCoordinates(coordinates[0], coordinates[1]);
+            Player::GetInstance()->SetFloatCoordinates(coordinates[0] + 0.1f, coordinates[1] + 0.1f);
             Player::GetInstance()->SetRotation(0xEB00000);
             Controller::InjectKey(Key::Y);
         }
@@ -622,12 +617,14 @@ namespace CTRPluginFramework
         std::vector<u8> coordiantes = { 0, 0 };
         static bool execution = false;
 
-        if (Controller::IsKeyPressed(R))
+        if (entry->Hotkeys[0].IsDown())
         {
-            if (execution == true)
+            if (execution)
                 execution = false;
             else
                 execution = true;
+            while (entry->Hotkeys[0].IsDown())
+                Controller::Update();
         }
         if (execution)
         {

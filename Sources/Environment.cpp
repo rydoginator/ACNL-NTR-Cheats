@@ -20,9 +20,13 @@ namespace CTRPluginFramework
     {
         static u16 weeds[] = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8 };
 
-        if (!entry->Hotkeys[0].IsDown() && entry != nullptr)
-            return;
+        if (entry == nullptr)
+            goto weed;
+        if (entry->Hotkeys[0].IsDown())
+            goto weed;
+        return;
 
+        weed:
         FindReplacer<u16>  findReplacer(reinterpret_cast<u32>(Game::TownItem), 0x5000);
 
         for (int i = 0; i < 7; i++)
@@ -74,14 +78,20 @@ namespace CTRPluginFramework
 
     void    WaterAllFlowers(MenuEntry *entry)
     {
-        if (!Controller::IsKeysDown(R + A) && entry != nullptr)
-            return;
+        if (entry == nullptr)
+            goto water;
+        //since hotkeys aren't available when the arg is nullptr, check if the arg is nullptr first
+        if (entry->Hotkeys[0].IsDown()) 
+            goto water;
+        return;
+
+        water:
 
         u32     address = reinterpret_cast<u32>(Game::TownItem);
         u32     end = address + RANGE_TOWN_ITEMS;
         u32     item;
 
-        // Parse all items in Town
+            // Parse all items in Town
         for (; address < end; address += ITEM_BYTES)
         {
             item = READU16(address);

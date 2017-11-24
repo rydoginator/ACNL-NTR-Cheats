@@ -416,7 +416,7 @@ namespace CTRPluginFramework
             "Cosmos and Roses",
             "Other Flowers",
             "Fueki Set",
-            "balloon Set",
+            "Balloon Set",
             "Astro Set",
             "Rococo Set",
             "Alpine Set",

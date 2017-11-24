@@ -310,9 +310,18 @@ namespace CTRPluginFramework
             {
                 Hotkey(Key::L, "Access drawers"), Hotkey(Key::R, "Access secret storage"), Hotkey(Key::L | Key::R, "Access catalog"), Hotkey(Key::Y, "Custom (use keyboard in cheat menu)")
             }),
-            new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!\nCredits to Hikaru"),
-            new MenuEntry("Ultimate Weed Pulling Hack", UltimateWeedPuller, "Press R to start automatically plucking weeds in your town! \nR again to disable." ),
-            new MenuEntry("Ultimate Unburying Hack", UnBuryItems, "Press R to start unburying various buried items around your town!\nR again to disable." ),
+            EntryWithHotkey(new MenuEntry("Faint", Faint, "Press the hotkeys to make your character pass out like they got bit by a scorpion!\nCredits to Hikaru"),
+            {
+                Hotkey(Key::R | Key::A, "Make your character faint")
+            }),
+            EntryWithHotkey(new MenuEntry("Ultimate Weed Pulling Hack", UltimateWeedPuller, "Press the hotkeys to start automatically plucking weeds in your town! \nPress the Hotkeys again to disable."),
+            {
+                Hotkey(Key::R, "Start/Stop plucking weeds")
+            }),
+            EntryWithHotkey(new MenuEntry("Ultimate Unburying Hack", UnBuryItems, "Press R to start unburying various buried items around your town!\nR again to disable."),
+            {
+                Hotkey(Key::R, "Start/Stop Unburying items")
+            }),
             new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
             new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to Wii8461!")
         }));

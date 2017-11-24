@@ -283,7 +283,7 @@ namespace CTRPluginFramework
 
     void    MaxMoneyBank(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x6B6C, EncryptACNLMoney(999999999));
+        Player::GetInstance()->Write64(0x6B8C, EncryptACNLMoney(999999999));
     }
 
     void    InfiniteCoupons(MenuEntry *entry)
