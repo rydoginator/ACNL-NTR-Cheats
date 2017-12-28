@@ -116,13 +116,6 @@ namespace CTRPluginFramework
         static u32 itemID;
         static bool valid = false; //boolean to declare whether you're using a valid value or not
 
-        
-#ifdef DEBUG
-        OSD::Notify(Utils::Format("Address: %08X Value: %08X", address, *address));
-#endif // DEBUG
-
-        
-
         if (entry->Hotkeys[0].IsDown())
         {
             Keyboard    keyboard("What item would you like to use?");

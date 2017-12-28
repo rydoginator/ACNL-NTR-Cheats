@@ -11,6 +11,14 @@
 #include "Values.hpp"
 #include "Strings.hpp"
 
+#define MAJOR_VERSION       4
+#define MINOR_VERSION       0
+#define REVISION_VERSION    0
+#define BETA_VERSION        3
+#define STRINGIFY(x)        #x
+#define TOSTRING(x)         STRINGIFY(x)
+#define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta " TOSTRING(BETA_VERSION) " ]"
+
 #define READU32(x)      *(u32 *)(x)
 #define READU16(x)      *(u16 *)(x)
 #define READU8(x)       *(u8 *)(x)
@@ -56,6 +64,8 @@ namespace CTRPluginFramework
     u64     EncryptACNLMoney(int dec);
     void    StartMsg(void);
     u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
+    char    Sstrncpy(char *dest, const char *src, size_t n);
+    bool    launchUpdater(void);
 
 
     // Cheats functions

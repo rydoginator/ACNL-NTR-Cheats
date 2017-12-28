@@ -68,4 +68,10 @@ namespace CTRPluginFramework
 
         return nullptr;
     }
+
+    char Sstrncpy(char *dest, const char *src, size_t n) //'Safe' strncpy, always null terminates
+    {
+        strncpy(dest, src, n);
+        return dest[n] = '\0';
+    }
 }

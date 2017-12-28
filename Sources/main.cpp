@@ -1,6 +1,7 @@
 #include "cheats.hpp"
 #include "Helpers/QuickMenu.hpp"
 #include "Helpers/Hook.hpp"
+#include "3ds.h"
 #include <cstring>
 
 extern "C" vu32* hidSharedMem;
@@ -47,14 +48,7 @@ namespace CTRPluginFramework
         // Install APT Hook to block home button
         InstallAPTHook();
     }
-    
-    #define MAJOR_VERSION       4
-    #define MINOR_VERSION       0
-    #define REVISION_VERSION    0
-    #define STRINGIFY(x)        #x
-    #define TOSTRING(x)         STRINGIFY(x)
-    #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta 3" "]"
-    
+        
     extern Region               g_region;
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
@@ -144,6 +138,21 @@ namespace CTRPluginFramework
         if (CheckRegion())
             return (1); ///< Unsupported game/version
 
+        // T&C Message & Save Backup Message
+        StartMsg();
+        //Launch Updater
+        httpcInit(0);
+        if(launchUpdater())
+        {
+            httpcExit();
+            ptmSysmInit();
+            MessageBox("The update has been installed.\nYour 3DS will now be restarted.")();
+            PTMSYSM_RebootAsync(0);
+            ptmSysmExit();
+            return 0;
+        }
+        httpcExit();
+
         // Initialize game's addresses based on region
         Game::Initialize();
         // Initialize player (will block plugin until the user loaded his savegame)
@@ -152,8 +161,6 @@ namespace CTRPluginFramework
         QuickMenu::GetInstance().ChangeHotkey(R + X);
         // Init QuickMenu
         InitQuickMenu();
-        // T&C Message & Save Backup Message
-        StartMsg();
 
         /*
         ** Garden

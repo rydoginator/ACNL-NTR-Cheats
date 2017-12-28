@@ -12,7 +12,8 @@ BUILD		:= 	Build
 INCLUDES	:= 	Includes
 LIBDIRS		:= 	$(TOPDIR)
 SOURCES 	:= 	Sources \
-				Sources/Helpers
+				Sources/Helpers \
+                Sources/ctrulib
 
 IP 			:=  5
 FTP_HOST 	:=	192.168.1.
@@ -79,7 +80,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ... 
-	@rm -fr $(BUILD) $(OUTPUT).plg
+	@rm -fr $(BUILD) $(OUTPUT).plg $(OUTPUT).elf
 
 re: clean all
 
@@ -95,7 +96,8 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-$(OUTPUT).plg : $(OFILES)
+$(OUTPUT).plg : $(OUTPUT).elf
+$(OUTPUT).elf : $(OFILES)
 
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data
