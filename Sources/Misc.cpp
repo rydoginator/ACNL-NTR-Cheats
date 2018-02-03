@@ -96,18 +96,23 @@ namespace CTRPluginFramework
 
     void    FastGameSpeed(MenuEntry *entry)
     {
+        static const u32    nop = 0xE1A00000;
+        static const u32    original = 0xE58450A0;
         static u32 offset = reinterpret_cast<u32>(Game::GameSpeed);
-        Process::Write32(offset, 0x00FFFFFF);
+        if (entry->WasJustActivated())
+            Process::Patch(offset, &nop, 4);
+        else if (!entry->WasJustActivated())
+            Process::Patch(offset, &original, 4);
     }
 
 
     void    CameraMod(MenuEntry *entry)
     {
         //pointers & addresses
-        static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR)();
-        static const u32    rotationAsm = AutoRegion(USA_CAMERA_ROT_ASM, EUR_CAMERA_ROT_ASM, JAP_CAMERA_ROT_ASM)();
-        static u32  * cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER)());
-        static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR)());
+        static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR, USA_WA_CAMERA_ASM_ADDR, EUR_WA_CAMERA_ASM_ADDR, JAP_WA_CAMERA_ASM_ADDR)();
+        static const u32    rotationAsm = AutoRegion(USA_CAMERA_ROT_ASM, EUR_CAMERA_ROT_ASM, JAP_CAMERA_ROT_ASM, USA_WA_CAMERA_ROT_ASM, EUR_WA_CAMERA_ROT_ASM, JAP_WA_CAMERA_ROT_ASM)();
+        static u32  * cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER, USA_WA_CAMERA_POINTER, EUR_WA_CAMERA_POINTER, JAP_WA_CAMERA_POINTER)());
+        static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR, USA_WA_CAMERA_X_ADDR, EUR_WA_CAMERA_X_ADDR, JAP_WA_CAMERA_X_ADDR)());
 
         //variables
         static const u32    patch = 0xEA000020;
@@ -381,7 +386,7 @@ namespace CTRPluginFramework
     {
         static Hook hook;
         static Clock clock;
-        u32 addr = AutoRegion(USA_BOTTOM_ASM -4, EUR_BOTTOM_ASM -4, JAP_BOTTOM_ASM -4)();
+        u32 addr = AutoRegion(USA_BOTTOM_ASM -4, EUR_BOTTOM_ASM -4, JAP_BOTTOM_ASM -4, USA_WA_BOTTOM_ASM - 4, EUR_WA_BOTTOM_ASM - 4, JAP_WA_BOTTOM_ASM - 4)();
         
         if (entry->Hotkeys[0].IsDown())
             *Game::BottomScreen = 0x3D;

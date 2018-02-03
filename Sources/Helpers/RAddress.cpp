@@ -7,15 +7,18 @@ namespace CTRPluginFramework
     {
         USA,
         EUR,
-        JAP
+        JAP,
+        w_USA,
+        w_EUR,
+        w_JAP
     };
 
     // Global to keep the current region
     Region   g_region = USA;
 
     template <typename T>
-    RAddress<T>::RAddress(T usa, T eur, T jap) :
-    Usa(usa), Eur(eur), Jap(jap)
+    RAddress<T>::RAddress(T usa, T eur, T jap, T w_usa, T w_eur, T w_jap) :
+    Usa(usa), Eur(eur), Jap(jap), w_Usa(w_usa), w_Eur(w_eur), w_Jap(w_jap)
     {
         
     }
@@ -27,6 +30,12 @@ namespace CTRPluginFramework
             return (Eur);
         if (g_region == JAP)
             return (Jap);
+        if (g_region == w_USA)
+            return (w_Usa);
+        if (g_region == w_EUR)
+            return (w_Eur);
+        if (g_region == w_JAP)
+            return (w_Jap);
         return (Usa);
     }
 
