@@ -11,7 +11,7 @@ namespace CTRPluginFramework
     public:
 
         // Constructor
-        RAddress<T>::RAddress(T usa, T eur, T jap, T w_usa, T w_eur, T w_jap);
+        RAddress(T usa, T eur, T jap, T w_usa, T w_eur, T w_jap);
         ~RAddress(){}
 
         // Return the value according to the current region
