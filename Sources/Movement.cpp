@@ -107,12 +107,13 @@ namespace CTRPluginFramework
 
     void    TeleportTo(int person)
     {
-        u32     coordinatePointer = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)();
+        u32     coordinatePointer = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER, USA_WA_CAMSTOP_POINTER, EUR_WA_CAMSTOP_POINTER, JAP_WA_CAMSTOP_POINTER)();
+        u32     coordinatebyte = AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE, USA_WA_COORDINATES_BYTE, EUR_WA_COORDINATES_BYTE, JAP_WA_COORDINATES_BYTE)();
         u8      coordinateIndex;
         u32     pointers[4];
         float   x, y, z;
 
-        Process::Read8(AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE)(), coordinateIndex);
+        Process::Read8(coordinatebyte, coordinateIndex);
         for (int i = 0; i < 4; i++)
         {
             Process::Read32(coordinatePointer + i *4, pointers[i]);

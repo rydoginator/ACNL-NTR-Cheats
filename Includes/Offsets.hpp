@@ -72,6 +72,9 @@
 #define     USA_PLAYER_POINTER                  0xAB014C
 #define     EUR_PLAYER_POINTER                  0xAAF14C
 #define     JAP_PLAYER_POINTER                  0xAA914C
+#define     USA_WA_PLAYER_POINTER               0xAAF14C
+#define     EUR_WA_PLAYER_POINTER               0xAAF14C
+#define     JAP_WA_PLAYER_POINTER               0xAA814C
 
 #define     USA_KEYBOARD_ADDR                   0x32DC4A10
 #define     USA_KEYBOARD_ISLAND_ADDR            0x32DF7D14

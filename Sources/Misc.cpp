@@ -100,9 +100,9 @@ namespace CTRPluginFramework
         static const u32    original = 0xE58450A0;
         static u32 offset = reinterpret_cast<u32>(Game::GameSpeed);
         if (entry->WasJustActivated())
-            Process::Patch(offset, &nop, 4);
+            Process::Patch(offset, (u8 *)&nop, 4);
         else if (!entry->WasJustActivated())
-            Process::Patch(offset, &original, 4);
+            Process::Patch(offset, (u8 *)&original, 4);
     }
 
 

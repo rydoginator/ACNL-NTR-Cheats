@@ -13,10 +13,10 @@ namespace   CTRPluginFramework
     Player::Player(void)
     {
         // Set pointers
-        _coordinateIndex = reinterpret_cast<u8 *>(AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE)());
-        _coordinatePointerBase = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)();
-        _thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR)());
-        _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER)();
+        _coordinateIndex = reinterpret_cast<u8 *>(AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE, USA_WA_COORDINATES_BYTE, EUR_WA_COORDINATES_BYTE, JAP_WA_COORDINATES_BYTE)());
+        _coordinatePointerBase = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER, USA_WA_CAMSTOP_POINTER, EUR_WA_CAMSTOP_POINTER, JAP_WA_CAMSTOP_POINTER)();
+        _thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR, USA_WA_THOUGHT_ADDR, EUR_WA_THOUGHT_ADDR, JAP_WA_THOUGHT_ADDR)());
+        _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER, USA_WA_PLAYER_POINTER, EUR_WA_PLAYER_POINTER, JAP_WA_PLAYER_POINTER)();
 
         // Read _offset
         Update(); ///< This will block the plugin until the user loaded his savegame
