@@ -54,7 +54,7 @@ namespace CTRPluginFramework
                 Process::Write8(building + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
                 Process::Write8(building + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
                 *Game::BuildingSlots++;
-                
+                OSD::Notify("Building Placed! Reload the area to see effects.");
             }
             return;
         }
