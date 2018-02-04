@@ -104,6 +104,9 @@ namespace CTRPluginFramework
                 OSD::Notify("Ghost Mode: " << Color::Red << "Disabled!");    
             }
         }
+
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
     }
 
     void    FastGameSpeed(MenuEntry *entry)
