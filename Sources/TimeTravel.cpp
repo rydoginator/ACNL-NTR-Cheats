@@ -59,34 +59,34 @@ namespace CTRPluginFramework
         u64 value = HOUR * delta.AsSeconds() * *speed;
         static u64 savedTime = 0;
 
-        if (entry->Hotkeys[1].IsDown())
+        if (entry->Hotkeys[1].IsDown()) //Freely move time forwards
             AddTime(value);
-        if (entry->Hotkeys[0].IsDown())
+        if (entry->Hotkeys[0].IsDown()) //Freely move time backwards
             RewindTime(value);
-        if (entry->Hotkeys[4].IsDown())
+        if (entry->Hotkeys[4].IsDown()) //Save current time
             savedTime = GetTime();
-        if (entry->Hotkeys[5].IsDown())
+        if (entry->Hotkeys[5].IsDown()) //Restore saved time
         {
             if (savedTime != 0)
             {
                 SetTime(savedTime);
             }
         }
-        if (entry->Hotkeys[2].IsDown())
+        if (entry->Hotkeys[2].IsDown()) //Rewind time by an hour
         {
-            AddTime(HOUR);
+            RewindTime(HOUR);
             while (entry->Hotkeys[2].IsDown())
                 Controller::Update();
         }
 
-        if (entry->Hotkeys[3].IsDown())
+        if (entry->Hotkeys[3].IsDown()) //Go forward in time by an hour
         {
-            RewindTime(HOUR);
+            AddTime(HOUR);
             while (entry->Hotkeys[3].IsDown())
                 Controller::Update();
         }
 
-        if (entry->Hotkeys[6].IsDown())
+        if (entry->Hotkeys[6].IsDown()) //Reset ingame time
         {
             ResetTime();
         }
@@ -164,7 +164,7 @@ namespace CTRPluginFramework
     {
         static u8 minutes, hours, days, months, years;
         u64 time;
-        static bool direction = false;
+        static bool forward = false;
 
         {
             Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
@@ -179,16 +179,15 @@ namespace CTRPluginFramework
 
             if (userChoice == 0)
             {
-                direction = true;
+                forward = true;
             }
-            else if (userChoice == -1)
+
+            else if (userChoice == 1)
             {
-                direction = false;
+                forward = false;
             }
-            else
-            {
-                return;
-            }
+            
+            else return; //If user backs out
         }
         {
             Keyboard keyboard("How many minutes?");
@@ -241,7 +240,7 @@ namespace CTRPluginFramework
             }
         }
         time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
-        if (direction == true)
+        if (forward == true)
         {
             AddTime(time);
             OSD::Notify("Welcome to the future, time traveler.");
