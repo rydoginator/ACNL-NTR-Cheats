@@ -21,7 +21,7 @@ namespace CTRPluginFramework
                 // Check the value
                 if ((in << 8) < 0x200000 || (in << 8) > 0x600000)
                 {
-                    error = "Invalid Item ID!";
+                    error = "Invalid Item ID: Cannot be use with Text2Item!";
                     // Return that the value isn't valid
                     return (false);
                 }
