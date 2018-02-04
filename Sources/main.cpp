@@ -190,10 +190,10 @@ namespace CTRPluginFramework
                 {Hotkey(Key::B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
                  Hotkey(Key::L, "Use slot 2"), Hotkey(Key::R, "Use slot 3") }),
             EntryWithHotkey(new MenuEntry("Walk Over Things", WalkOverThings, "Press the hotkeys to enable/disable collisions."),
-                { Hotkey(Key::L | Key::DPadUp, "Disable collisions"), Hotkey(Key::L | Key::DPadDown, "Enable Collisions") }),
+                {Hotkey(Key::L | Key::DPadUp, "Toggle Collisions")}),
             new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to Mega Mew for this cheat"),
             EntryWithHotkey(new MenuEntry("Moon Jump", MoonJump, SpeedSettings, "Press the hotkeys to move your character up/down.\nThis cheat also has a side effect of disabling gravity and causing various glitches."),
-                { Hotkey(Key::L | Key::DPadUp, "Move up"), Hotkey(Key::L | Key::DPadDown, "Move down") }),
+                {Hotkey(Key::L | Key::DPadUp, "Move up"), Hotkey(Key::L | Key::DPadDown, "Move down")}),
             new MenuEntry("Teleport to PWP...", nullptr, PWPTeleport, "Press on the keyboard to open up the menu to choose which PWP to teleport to")
         }));
 
@@ -235,7 +235,6 @@ namespace CTRPluginFramework
             { Hotkey(Key::X | Key::DPadRight, "Open the keyboard")}),
             EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into slot 2."), 
             { Hotkey(Key::R, "Duplicate items")}),
-            new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into slot 2."),
             new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown."),
             new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box."),
             EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
@@ -284,11 +283,11 @@ namespace CTRPluginFramework
 
         menu += new MenuFolder("Unlock Codes", std::vector<MenuEntry *>(
         {
-            new MenuEntry("100% Mayor permit", Permit, "Special thanks to Slattz"),
-            new MenuEntry("Unlock all PWPs", PWPUnlock, "Special thanks to Mega Mew and Scotline"),
-            new MenuEntry("Fill out encyclopedia", Encyclopedia, "Special thanks to Mega Mew and Scotline"),
-            new MenuEntry("Fill out emoticons", Emoticons, "Special thanks to Mega Mew and Scotline"),
-            new MenuEntry("Fill out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline")
+            new MenuEntry("100% Mayor Permit", Permit, "Special thanks to Slattz"),
+            new MenuEntry("Unlock All PWPs", PWPUnlock, "Special thanks to Mega Mew and Scotline"),
+            new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks to Mega Mew and Scotline"),
+            new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks to Mega Mew and Scotline"),
+            new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline")
         }));
 
         /*
@@ -299,7 +298,7 @@ namespace CTRPluginFramework
         {
             EntryWithHotkey(new MenuEntry("Ghost Mode", GhostMode, "Press the hotkeys to make your character invisible/visible."),
                 {
-                    Hotkey(Key::Y | Key::DPadUp, "Go invisible"), Hotkey(Key::Y | Key::DPadDown, "Go visible")
+                    Hotkey(Key::Y | Key::DPadUp, "Toggle Invisibility")
                 }),
             EntryWithHotkey(new MenuEntry("Camera Mod", CameraMod, "Press the hotkeys to move the camera around."),
                 {
@@ -344,7 +343,7 @@ namespace CTRPluginFramework
             if (g_homeBtnWasPressed)
             {
                 g_homeBtnWasPressed = 0;
-                OSD::Notify("The homebutton is disabled because of memory issue", Color::Red, Color::Blank);
+                OSD::Notify("Due to memory issues, the Home Menu button is disabled", Color::Red, Color::Blank);
             }
         };
         menu += PlayerUpdateCallback;

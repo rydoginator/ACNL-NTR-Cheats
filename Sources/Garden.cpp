@@ -190,12 +190,15 @@ namespace CTRPluginFramework
         for (int i = 0; i < 3; i++)
         {
             Process::Write32(Game::PWP + (i * 4), 0xFFFFFFFF);
-        } 
+        }
+        OSD::Notify("All PWPs Unlocked!", Color::Green, Color::Black);
+        entry->Disable();
     }
 
     void    Permit(MenuEntry *entry)
     {
         Process::Write32(Game::Permit, 0xD7DFC900);
+        OSD::Notify("Permit now 100%!", Color::Green, Color::Black);
         entry->Disable();
     }
 

@@ -13,6 +13,7 @@ namespace CTRPluginFramework
             {
                 *item++ =  0x00007FFE;
             }
+            OSD::Notify(Color::Green << "Removed All Items!");
         }
     }
 
@@ -35,6 +36,7 @@ namespace CTRPluginFramework
         }
 
         findReplacer();
+        OSD::Notify(Color::Green << "Removed All Weeds!");
     }
 
     void    SearchReplace(MenuEntry *entry)
@@ -50,6 +52,7 @@ namespace CTRPluginFramework
             {
                 findReplacer.AddPair(search, replace);
                 findReplacer();
+                OSD::Notify(Format("0x%04X replaced with 0x%04X", search, replace));   
             }
         }
     }
@@ -63,6 +66,8 @@ namespace CTRPluginFramework
 
         for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
             Process::Write32(offset, 0xFFFFFFFF);
+
+        OSD::Notify(Color::Green << "Grass Filled!" << Color::Blank << "(reload the area)");
     }
 
     void    DestroyGrass(MenuEntry *entry)
@@ -74,6 +79,8 @@ namespace CTRPluginFramework
 
         for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
             Process::Write32(offset, 0x00000000);
+
+        OSD::Notify(Color::Green << "Grass Removed!" << Color::Blank << "(reload the area)");
     }
 
     void    WaterAllFlowers(MenuEntry *entry)
@@ -109,6 +116,7 @@ namespace CTRPluginFramework
                 WRITEU32(address, item);
             }
         }
+        OSD::Notify(Color::Green << "Flowers Watered!" << Color::Blank << "(reload the area)");
     }
 
     void    WorldEdit(MenuEntry *entry)
@@ -116,7 +124,7 @@ namespace CTRPluginFramework
         static u32 itemID;
         static bool valid = false; //boolean to declare whether you're using a valid value or not
 
-        if (entry->Hotkeys[0].IsDown())
+        if (entry->Hotkeys[0].IsDown()) //Open keyboard
         {
             Keyboard    keyboard("What item would you like to use?");
             u32 item;
@@ -126,18 +134,21 @@ namespace CTRPluginFramework
                 valid = false; // if the user aborts, you don't want to be writing abritary values
         }
         
-        if (entry->Hotkeys[1].IsDown())
+        if (entry->Hotkeys[1].IsDown()) //Store item below feet
         {
             u32  *address = Game::GetItem(); //get the address of where your character is standing
             itemID = *address; //get the value of address
             valid = true;
         }
 
-        if (entry->Hotkeys[2].IsDown())
+        if (entry->Hotkeys[2].IsDown()) //Write item
         {
             u32  *address = Game::GetItem(); //get the address of where your character is standing
             if (valid && address != nullptr)
+            {
                 *address = itemID;
+                OSD::Notify(Format("0x%04X set on ground", itemID));
+            }
         }
     }
 }

@@ -105,6 +105,7 @@ namespace CTRPluginFramework
         if (offset != 0)
         {
             Process::CopyMemory(reinterpret_cast<void *>(offset + 0x6c70), buffer, sizeof(buffer));
+            OSD::Notify("Encyclopedia Filled!", Color::Green, Color::Black);
             entry->Disable();
         }
     }
@@ -117,6 +118,7 @@ namespace CTRPluginFramework
         if (offset != 0)
         {
             Process::CopyMemory(reinterpret_cast<void *>(offset + 0x89d0), buffer, sizeof(buffer));
+            OSD::Notify("Emoticons Filled!", Color::Green, Color::Black);
             entry->Disable();
         }
     }
@@ -126,7 +128,10 @@ namespace CTRPluginFramework
         for (int i = 0; i < 3; i++)
         {
             if (Player::GetInstance()->Write32(0x8F9C + (i * 4), 0xFFFFFFFF))
+            {
+                OSD::Notify("Song List Filled!", Color::Green, Color::Black);
                 entry->Disable(); /// We disable the cheat once the cheat sucessfully writes to the player just in case they enable on title screen
+            }
         }
     }
 

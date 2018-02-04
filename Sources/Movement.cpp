@@ -172,25 +172,39 @@ namespace CTRPluginFramework
 
     void    WalkOverThings(MenuEntry *entry)
     {
+        static bool btn = false;
+        static bool active = false;
         u32     offsets[] = { 0x6503FC, 0x650414, 0x650578, 0x6505F0, 0x6506A4, 0x6506BC, 0x6506C0, 0x6506ec };
         u32     original[] = { 0x0A000094, 0x0A000052, 0x0A000001, 0xDA000014, 0xED841A05, 0xED840A07, 0x0A000026, 0x0A000065 };
         u32     patch[] = { 0xEA000094, 0xEA000052, 0xEA000001, 0xEA000014, 0xE1A00000, 0xE1A00000, 0xEA000026, 0xEA000065 };
         
-        if (entry->Hotkeys[0].IsDown())
+        if (entry->Hotkeys[0].IsDown() && !btn)
         {
-            for (int i = 0; i < 8; i++)
+            if (!active)
             {
-                Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&patch[i], 4);
+                for (int i = 0; i < 8; i++)
+                {
+                    Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&patch[i], 4);
+                }
+                OSD::Notify("Walk Over Things: " << Color::Green << "Enabled!");
+                active = true;
+                btn = true;
+            }
+
+            else if (active)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&original[i], 4);
+                }
+                OSD::Notify("Walk Over Things: " << Color::Red << "Disabled!");
+                active = false;
+                btn = true;
             }
         }
 
-        if (entry->Hotkeys[1].IsDown())
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&original[i], 4);
-            }
-        }
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
     }
 
     void    SpeedHack(MenuEntry *entry)

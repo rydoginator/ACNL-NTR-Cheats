@@ -85,13 +85,25 @@ namespace CTRPluginFramework
 
     void    GhostMode(MenuEntry *entry)
     {
+        static bool btn = false;
+        static bool active = false;
         u32   patch = 0xE38110FF;
         u32   original = 0xE3811004;
 
-        if (entry->Hotkeys[0].IsDown())
-            Process::Patch(Game::Visibility, (u8 *)&patch, 4);
-        if (entry->Hotkeys[1].IsDown())
-            Process::Patch(Game::Visibility, (u8 *)&original, 4);
+        if (entry->Hotkeys[0].IsDown() && !btn)
+        {
+            if (!active)
+            {
+                Process::Patch(Game::Visibility, (u8 *)&patch, 4);
+                OSD::Notify("Ghost Mode: " << Color::Green << "Enabled!");
+            }
+
+            else if (active)
+            {
+                Process::Patch(Game::Visibility, (u8 *)&original, 4);
+                OSD::Notify("Ghost Mode: " << Color::Red << "Disabled!");    
+            }
+        }
     }
 
     void    FastGameSpeed(MenuEntry *entry)
