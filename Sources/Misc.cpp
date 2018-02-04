@@ -677,7 +677,7 @@ namespace CTRPluginFramework
             for(int i = 0; i < 64; i++)
                 Process::Write8(*Game::Tours + 10 + i, 1); //Mark every tours as enabled
 
-            OSD::Notify("All Tours Choosable!", Color::Green, Color::Black);
+            OSD::Notify("Every Tour is now Choosable!", Color::Green, Color::Black);
         }
         entry->Disable();
     }
