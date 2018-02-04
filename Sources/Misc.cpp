@@ -96,12 +96,16 @@ namespace CTRPluginFramework
             {
                 Process::Patch(Game::Visibility, (u8 *)&patch, 4);
                 OSD::Notify("Ghost Mode: " << Color::Green << "Enabled!");
+                active = true;
+                btn = true; 
             }
 
             else if (active)
             {
                 Process::Patch(Game::Visibility, (u8 *)&original, 4);
-                OSD::Notify("Ghost Mode: " << Color::Red << "Disabled!");    
+                OSD::Notify("Ghost Mode: " << Color::Red << "Disabled!");
+                active = false;
+                btn = true;   
             }
         }
 
