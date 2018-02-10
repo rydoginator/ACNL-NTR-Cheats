@@ -79,22 +79,28 @@ namespace CTRPluginFramework
                 g_region = USA;
                 break;
             case 0x0004000000086400:
-                if (ver != 6192)
+                if (ver != 6176)
                     goto unsupported;
                 g_region = EUR;
                 break;
             case 0x0004000000086200:
-                if (ver != 6192)
+                if (ver != 6272)
                     goto unsupported;
                 g_region = JAP;
                 break;
             case 0x0004000000198d00:
+                if (ver != 6160)
+                    goto unsupported;
                 g_region = w_JAP;
                 break;
             case 0x0004000000198e00:
+                if (ver != 5120)
+                    goto unsupported;
                 g_region = w_USA;
                 break;
             case 0x0004000000198f00:
+                /*if (ver != 0)
+                    goto unsupported;*/
                 g_region = w_EUR;
                 break;
             default:
