@@ -44,7 +44,10 @@ enum Region
 {
     USA = 0,
     EUR,
-    JAP
+    JAP,
+    w_USA,
+    w_EUR,
+    w_JAP
 };
 
 enum
