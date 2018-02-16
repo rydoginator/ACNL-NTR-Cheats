@@ -245,7 +245,13 @@
 #define     EUR_WA_KEYBOARD                     0xAD6630
 #define     JAP_WA_KEYBOARD                     0xACF630
 
-#define     USA_AMIIBO_WISP                     0x330B68A4
+#define     USA_AMIIBO_WISP                     0x95EECC
+#define     EUR_AMIIBO_WISP                     0x95DEC4
+#define     JAP_AMIIBO_WISP                     0x957EC4
+#define     USA_WA_AMIIBO_WISP                  0x95DEAC
+#define     EUR_WA_AMIIBO_WISP                  0x95DEC4
+#define     JAP_WA_AMIIBO_WISP                  0x956EC4
+
 #define     USA_AMIIBO_DIE                      0x3308E8CC
 
 #define     USA_BOTTOM_ADDR                     0x950D1F

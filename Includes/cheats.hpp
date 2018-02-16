@@ -172,6 +172,7 @@ namespace CTRPluginFramework
     void    UltimateWeedPuller(MenuEntry *entry);
     void    UnBuryItems(MenuEntry *entry);
     void    EnableAllTours(MenuEntry *entry);
+    void    AmiiboSpoof(MenuEntry *entry);
     
     /*
     ** Appearance

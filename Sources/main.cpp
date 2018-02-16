@@ -345,7 +345,11 @@ namespace CTRPluginFramework
                 Hotkey(Key::R, "Start/Stop Unburying items")
             }),
             new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
-            new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to Wii8461!")
+            new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to Wii8461!"),
+            EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")"),
+            {
+                Hotkey(Key::R, "Open Villager Categories List")
+            })
         }));
 
         /*
