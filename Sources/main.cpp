@@ -157,7 +157,7 @@ namespace CTRPluginFramework
         // T&C Message & Save Backup Message
         StartMsg();
         //Launch Updater
-        httpcInit(0);
+        /*httpcInit(0);
         if(launchUpdater())
         {
             httpcExit();
@@ -167,7 +167,7 @@ namespace CTRPluginFramework
             ptmSysmExit();
             return 0;
         }
-        httpcExit();
+        httpcExit();*/
 
         // Initialize game's addresses based on region
         Game::Initialize();
@@ -346,10 +346,10 @@ namespace CTRPluginFramework
             }),
             new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
             new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to Wii8461!"),
-            EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")"),
+            /*EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")"),
             {
                 Hotkey(Key::R, "Open Villager Categories List")
-            })
+            })*/
         }));
 
         /*
