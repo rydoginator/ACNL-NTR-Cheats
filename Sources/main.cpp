@@ -154,6 +154,14 @@ namespace CTRPluginFramework
         if (CheckRegion())
             return (1); ///< Unsupported game/version
 
+        // Initialize game's addresses based on region
+        Game::Initialize();
+
+        while (*Game::Room != 0x5E) //Stalls plugin loading until savegame is init'd)
+        {
+            Sleep(Milliseconds(1));
+        }
+
         // T&C Message & Save Backup Message
         StartMsg();
         //Launch Updater
@@ -169,9 +177,7 @@ namespace CTRPluginFramework
         }
         httpcExit();*/
 
-        // Initialize game's addresses based on region
-        Game::Initialize();
-        // Initialize player (will block plugin until the user loaded his savegame)
+        // Initialize player
         Player::GetInstance();
         // Change QuickMenu's hotkey
         QuickMenu::GetInstance().ChangeHotkey(R + X);
