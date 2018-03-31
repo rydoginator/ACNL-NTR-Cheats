@@ -1,5 +1,6 @@
 #include "cheats.hpp"
 #include "AmiiboSpoof.hpp"
+#include "Helpers/OSDMenu.hpp"
 
 namespace CTRPluginFramework
 {
@@ -43,7 +44,7 @@ namespace CTRPluginFramework
     }
     
     using StringVector = std::vector<std::string>;
-    void    VillagersKeyboard(u8 mode)
+    /*void    VillagersKeyboard(u8 mode)
     {
         int             user;
         Keyboard        keyboard("Select the category a villager you\nwant to spoof is in.");
@@ -72,6 +73,74 @@ namespace CTRPluginFramework
 
         const Villagers &villagerSelected = g_villagers[user + selected.Start]; //Do something with villager selected
         
+        if (mode == MODE_WISP)
+            WispSpoofer(villagerSelected.AMIIBO_ID);
+
+        else if (mode == MODE_DIE)
+            //DIESpoofer(villagerSelected.Filename);
+            OSD::Notify("D.I.E. Minigame currently not supported.");
+
+        else if (mode == MODE_PL)
+            //PLSpoofer(villagerSelected.Filename);
+            OSD::Notify("P.L. Minigame currently not supported.");
+
+        else if (mode == MODE_AMC)
+            //AMCSpoofer(villagerSelected.AMIIBO_ID);
+            OSD::Notify("Amiibo Camera currently not supported.");
+
+        else return;
+    }*/
+
+    void    VillagersKeyboard(u8 mode)
+    {
+        int             choice;
+        OSDMenu &menu = OSDMenu::GetInstance();
+        StringVector    species;
+        StringVector    villagers;
+
+        menu.Clear();
+        menu.SetTitle("Select the type of villager you want to spoof.");
+        // Populate with specie
+        for (const Species &specie : g_species)
+            species.push_back(specie.Name);
+
+        // Set the entries
+        for (u32 i = 0; i < species.size(); ++i)
+            menu += species;
+
+        menu.Open(); //Ask user which category they want to load
+
+        // Wait until the menu is closed
+        while (menu.IsBusy())
+            menu.Update();
+
+        choice = menu.GetSelectionIndex();
+        menu.Close();
+        if (choice == -1)
+        {
+            OSD::Notify("Amiibo Spoofer cannot continue!");
+            return;
+        }
+        const Species &selected = g_species[choice]; //Populate with villagers corresponding to user choice
+
+        menu.Clear();
+        menu.SetTitle("Which villager do you want to spoof?");
+        for (u32 i = selected.Start; i <= selected.End; i++)
+            villagers.push_back(g_villagers[i].Name);
+
+        // Set the entries
+        for (u32 i = 0; i < villagers.size(); ++i)
+            menu += villagers;
+
+        menu.Open(); //Ask user which villager they want to choose
+
+        // Wait until the menu is closed
+        while (menu.IsBusy())
+            menu.Update();
+
+        const Villagers &villagerSelected = g_villagers[choice + selected.Start]; //Do something with villager selected
+        menu.Close();
+
         if (mode == MODE_WISP)
             WispSpoofer(villagerSelected.AMIIBO_ID);
 
