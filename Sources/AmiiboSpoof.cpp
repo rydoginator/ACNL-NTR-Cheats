@@ -44,53 +44,6 @@ namespace CTRPluginFramework
     }
     
     using StringVector = std::vector<std::string>;
-    /*void    VillagersKeyboard(u8 mode)
-    {
-        int             user;
-        Keyboard        keyboard("Select the category a villager you\nwant to spoof is in.");
-        keyboard.CanAbort(false);
-        StringVector    species;
-        StringVector    villagers;
-
-        // Populate with specie
-        for (const Species &specie : g_species)
-            species.push_back(specie.Name);
-
-        keyboard.Populate(species);
-        user = keyboard.Open(); //Ask user which category they want to load
-
-        const Species &selected = g_species[user]; //Populate with villagers corresponding to user choice
-
-        keyboard.GetMessage() = "Which villager do you want to spoof?";
-        for (int i = selected.Start; i <= selected.End; i++)
-            villagers.push_back(g_villagers[i].Name);
-
-        keyboard.Populate(villagers);
-
-        Sleep(Milliseconds(100)); //Allow time for previous keyboard to fully disappear
-
-        user = keyboard.Open(); //Ask user which villager they want to choose
-
-        const Villagers &villagerSelected = g_villagers[user + selected.Start]; //Do something with villager selected
-        
-        if (mode == MODE_WISP)
-            WispSpoofer(villagerSelected.AMIIBO_ID);
-
-        else if (mode == MODE_DIE)
-            //DIESpoofer(villagerSelected.Filename);
-            OSD::Notify("D.I.E. Minigame currently not supported.");
-
-        else if (mode == MODE_PL)
-            //PLSpoofer(villagerSelected.Filename);
-            OSD::Notify("P.L. Minigame currently not supported.");
-
-        else if (mode == MODE_AMC)
-            //AMCSpoofer(villagerSelected.AMIIBO_ID);
-            OSD::Notify("Amiibo Camera currently not supported.");
-
-        else return;
-    }*/
-
     void    VillagersKeyboard(u8 mode)
     {
         int             choice;
