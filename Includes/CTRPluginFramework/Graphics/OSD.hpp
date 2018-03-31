@@ -44,7 +44,7 @@ namespace CTRPluginFramework
          * \return 0 if success, -1 if the notification couldn't be added
          */
         static int      Notify(std::string str, Color foreground = Color(255, 255, 255), Color background = Color());
-        
+
         /**
          * \brief Add a callback to the OSD system which will be called at each game's frame
          * \param cb The callback to add
@@ -56,6 +56,11 @@ namespace CTRPluginFramework
          * \param cb The callback to remove
          */
         static void     Stop(OSDCallback cb);
+
+        /* Those are to be used only when the process is paused */
+        static const Screen&    GetTopScreen(void);
+        static const Screen&    GetBottomScreen(void);
+        static void             SwapBuffers(void);
 
         static void     Lock(void);
         static bool     TryLock(void); //false success, true failure
