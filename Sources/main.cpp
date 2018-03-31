@@ -150,6 +150,7 @@ namespace CTRPluginFramework
         Process::ProtectRegion((u32)hidSharedMem, MEMPERM_READ | MEMPERM_WRITE);
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
         PluginMenu  &menu = *m;
+        menu.SyncronizeWithFrame(true);
 
         if (CheckRegion())
             return (1); ///< Unsupported game/version

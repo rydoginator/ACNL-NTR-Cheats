@@ -124,7 +124,10 @@ namespace CTRPluginFramework
         clock.Restart();
 
         if (menu._selection != -1)
+        {
             menu.Close();
+            while (!clock.HasTimePassed(Milliseconds(500)));
+        }
     }
 
     bool     OSDMenu_Draw(const Screen &screen)

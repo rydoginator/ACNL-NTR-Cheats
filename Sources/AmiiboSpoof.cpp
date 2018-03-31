@@ -51,6 +51,7 @@ namespace CTRPluginFramework
         StringVector    species;
         StringVector    villagers;
 
+        Process::Pause();
         menu.Clear();
         menu.SetTitle("Select the type of villager you want to spoof.");
 
@@ -77,13 +78,14 @@ namespace CTRPluginFramework
         menu += villagers;
         menu.Open(); //Ask user which villager they want to choose
         choice = menu.GetMenuInput(); //Get the menu selection
+        Process::Play();
 
         if (choice == -1)
         {
             OSD::Notify("Amiibo Spoofer cannot continue!");
             return;
         }
-        
+
         const Villagers &villagerSelected = g_villagers[choice + selected.Start];
 
         if (mode == MODE_WISP)
