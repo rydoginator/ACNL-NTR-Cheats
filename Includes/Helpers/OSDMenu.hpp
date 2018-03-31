@@ -18,8 +18,8 @@ namespace CTRPluginFramework
         void    Open(void);
         void    Close(void);
         void    Clear(void);
+        int     GetMenuInput(void);
         int     GetSelectionIndex(void);
-        void    Update(void);
 
         void    SetTitle(const std::string &title);
         void    operator+=(const std::string &entry);
