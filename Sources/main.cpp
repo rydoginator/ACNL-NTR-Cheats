@@ -43,7 +43,7 @@ namespace CTRPluginFramework
     }
 
     // This function is called on the plugin starts, before main
-    void    PatchProcess(void)
+    void    PatchProcess(FwkSettings &settings)
     {
         // Install APT Hook to block home button
         InstallAPTHook();

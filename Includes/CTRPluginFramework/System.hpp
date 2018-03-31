@@ -5,6 +5,7 @@
 #include "CTRPluginFramework/System/Controller.hpp"
 #include "CTRPluginFramework/System/Directory.hpp"
 #include "CTRPluginFramework/System/File.hpp"
+#include "CTRPluginFramework/System/FwkSettings.hpp"
 #include "CTRPluginFramework/System/Process.hpp"
 #include "CTRPluginFramework/System/System.hpp"
 #include "CTRPluginFramework/System/Time.hpp"
@@ -12,4 +13,3 @@
 #include "CTRPluginFramework/System/Sleep.hpp"
 
 #endif
-    

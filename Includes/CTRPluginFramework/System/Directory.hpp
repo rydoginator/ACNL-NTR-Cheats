@@ -116,6 +116,12 @@ namespace CTRPluginFramework
          */
         std::string     GetFullName(void) const;
         
+        /**
+         * \brief Check if the current Directory is open
+         * \return true if the specified path was successfully opened, false otherwise
+         */
+        bool    IsOpen(void) const;
+
         Directory(void);
         Directory(const std::string &path, bool create = false);
         ~Directory();

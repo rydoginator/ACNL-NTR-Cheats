@@ -2,6 +2,9 @@
 #define CTRPLUGINFRAMEWORK_UTILS_UTILS_HPP
 
 #include "types.h"
+
+#include "CTRPluginFramework/System/Process.hpp"
+
 #include <string>
 #include <vector>
 #include <cstring>

@@ -90,24 +90,6 @@ namespace CTRPluginFramework
         std::vector<MenuFolder *>   GetFolderList(void) const;
 
         /**
-         * \brief Enable / Disable the Search button in the main menu
-         * \param isEnabled If the button must be enabled or not
-         */
-        void    SetSearchButtonState(bool isEnabled) const;
-
-        /**
-         * \brief Enable / Disable the ActionReplay button in the main menu
-         * \param isEnabled If the button must be enabled or not
-         */
-        void    SetActionReplayButtonState(bool isEnabled) const;
-
-        /**
-         * \brief Enable / Disable the FreeCheats in Tools
-         * \param isEnabled If FreeCheats must be enabled or not
-         */
-        void    SetFreeCheatsState(bool isEnabled) const;
-
-        /**
         * \brief Enable / Disable the HexEditor in Tools
         * \param isEnabled If HexEditor must be enabled or not
         */
@@ -138,10 +120,22 @@ namespace CTRPluginFramework
         static PluginMenu   *GetRunningInstance(void);
 
         /**
+         * \brief If set to true, the plugin's loop will only be executed 1 per top screen's frame
+         * \param useSync Wheter to wait for the top screen's frame or not
+         */
+        void         SyncronizeWithFrame(const bool useSync);
+
+        /**
          * \brief If a callback is set, the callback will be called
          * when the menu is opened for the first time
          */
         CallbackPointer     OnFirstOpening;
+
+        /**
+         * \brief If a callback is set, the callback will be called
+         * when the menu is opened. Ideal to put the code that refresh the UI. ;)
+         */
+        CallbackPointer     OnOpening;
 
     private:
         std::unique_ptr<PluginMenuImpl> _menu;

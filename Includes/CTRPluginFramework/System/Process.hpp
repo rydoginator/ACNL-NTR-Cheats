@@ -16,7 +16,7 @@ namespace CTRPluginFramework
     class Process
     {
     public:
-         
+
         /**
          * \brief Get current process handle (already open, don't close it)
          * \return Return current process handle (already open, don't close it)
@@ -28,10 +28,10 @@ namespace CTRPluginFramework
          * \return Return current process ID
          */
         static u32      GetProcessID(void);
-         
+
         /**
          * \brief Get the title ID of the current process
-         * \return TitleID of the current process 
+         * \return TitleID of the current process
          */
         static u64      GetTitleID(void);
 
@@ -74,8 +74,10 @@ namespace CTRPluginFramework
 
         /**
          * \brief Resume the process
+         * \param frames if a number is specified the process will play x frames
+         * before being paused again
          */
-        static void     Play(void);
+        static void     Play(const u32 frames = 0);
 
         /**
         * \brief Safely patch the current process (MemPerm check and Invalidate cache)
@@ -86,7 +88,7 @@ namespace CTRPluginFramework
         * \return  If the patch was successful or not
         */
         static bool     Patch(u32 addr, void *patch, u32 length, void *original = nullptr);
-            
+
         /**
         * \brief Safely patch the current process (MemPerm check and Invalidate cache)
         * \param addr      The address to start the patch
@@ -95,8 +97,8 @@ namespace CTRPluginFramework
         * \return  If the patch was successful or not
         */
         static bool     Patch(u32 addr, u32 patch, void *original = nullptr);
-            
-         
+
+
         /**
         * \brief Protect the memory by settings Read & Write perm
         * \param addr      Address from start protecting
@@ -105,12 +107,12 @@ namespace CTRPluginFramework
         * \return If the protection was successful or not
         */
         static bool     ProtectMemory(u32  addr, u32 size, int perm = (MEMPERM_READ | MEMPERM_WRITE |MEMPERM_EXECUTE));
-            
+
 
         /**
          * \brief Protect the entire region where addr belongs to
          * \param addr      An address
-         * \param perm      The permissions that must be applied to the region 
+         * \param perm      The permissions that must be applied to the region
          * \return  If the protection was successful or not
          */
         static bool     ProtectRegion(u32 addr, int perm = (MEMPERM_READ | MEMPERM_WRITE |MEMPERM_EXECUTE));
@@ -128,7 +130,7 @@ namespace CTRPluginFramework
          * \param dst   The destination to copy to
          * \param src   The source to copy from
          * \param size  The size to copy in bytes
-         * \return 
+         * \return
          */
         static bool     CopyMemory(void *dst, const void *src, u32 size);
 

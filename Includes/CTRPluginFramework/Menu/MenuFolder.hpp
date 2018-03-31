@@ -7,6 +7,15 @@
 
 namespace CTRPluginFramework
 {
+#ifndef SEPARATOR_TYPE
+#define SEPARATOR_TYPE
+    enum class Separator
+    {
+        Filled,
+        Stippled
+    };
+#endif
+
     class MenuFolderImpl;
     class MenuFolder
     {
@@ -41,10 +50,24 @@ namespace CTRPluginFramework
         bool    IsVisible(void) const;
 
         /**
+         * \brief Set if this entry must display a separator on top of the entry
+         * \param useSeparator pass true if the separator must be displayed, false otherwise
+         * \param type Type of separator to display
+         */
+        void    UseTopSeparator(bool useSeparator, Separator type = Separator::Filled) const;
+
+        /**
+        * \brief Set if this entry must display a separator at the bottom of the entry
+        * \param useSeparator pass true if the separator must be displayed, false otherwise
+        * \param type Type of separator to display
+        */
+        void    UseBottomSeparator(bool useSeparator, Separator type = Separator::Filled) const;
+
+        /**
          * \brief Append a MenuEntry object to this folder
          * \param item The entry to append
          */
-        void    Append(MenuEntry *item) const;
+        void    Append(MenuEntry *item) const;  
 
         /**
          * \brief Append a MenuFolder object to this folder
@@ -122,6 +145,19 @@ namespace CTRPluginFramework
          * \return A pointer to this MenuFolder
          */
         MenuFolder    *operator -= (const MenuFolder *folder);
+
+        /**
+        * \brief Callback type, receive the object that called the callback
+        * must returns true or false:
+        *  true: if the folder can be opened
+        *  false: if the folder mus close
+        */
+        using MenuFolder_OnOpeningFunc = bool(*)(MenuFolder &);
+
+        /**
+         * \brief This callback is called when the folder will be opened
+         */
+        MenuFolder_OnOpeningFunc    OnOpening;
 
     private:
         friend class PluginMenu;
