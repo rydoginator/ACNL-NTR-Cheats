@@ -117,7 +117,7 @@ namespace CTRPluginFramework
             return;
 
         if (keys & Key::A) menu._selection = menu._selector;
-        else if (keys & Key::B) menu.Close(); ///< Uncomment to enable the abort
+        //else if (keys & Key::B) menu.Close(); ///< Uncomment to enable the abort
         else if (keys & Key::Up) menu._selector = std::max((int)0, menu._selector - 1);
         else if (keys & Key::Down) menu._selector = std::min((int)menu._entries.size() - 1, menu._selector + 1);
 
