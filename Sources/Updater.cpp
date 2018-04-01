@@ -25,7 +25,7 @@ namespace CTRPluginFramework
     
         major = strtol(releaseName, &next, 10); //Get major version
         #if DEBUG
-        OSD::Notify(Format("Major: %d, Result: %d", major, major >= MAJOR_VERSION));
+        MessageBox(Format("Major: %d, Result: %d", major, major >= MAJOR_VERSION))();
         #endif
         if (next && *next == '.') //If minor version
             next++;
@@ -34,7 +34,7 @@ namespace CTRPluginFramework
     
         minor = strtol(next, &next, 10); //Get minor version
         #if DEBUG
-        OSD::Notify(Format("Minor: %d, Result %d", minor, minor >= MINOR_VERSION));
+        MessageBox(Format("Minor: %d, Result %d", minor, minor >= MINOR_VERSION))();
         #endif
         if (next && *next == '.') //If revision version
             next++;
@@ -44,7 +44,7 @@ namespace CTRPluginFramework
             next++;
             beta_ver = strtol(next, NULL, 10); //Get beta version
             #if DEBUG
-            OSD::Notify(Format("Beta 1: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION));
+            MessageBox(Format("Beta 1: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION))();
             #endif
             return major >= MAJOR_VERSION && minor >= MINOR_VERSION && beta_ver > BETA_VERSION;
         }
@@ -54,7 +54,7 @@ namespace CTRPluginFramework
     
         revision = strtol(next,  &next, 10); //Get revision version
         #if DEBUG
-        OSD::Notify(Format("Revision: %d, Result %d", revision, revision >= REVISION_VERSION));
+        MessageBox(Format("Revision: %d, Result %d", revision, revision >= REVISION_VERSION))();
         #endif
         if (next && *next == 'B') //If there's a beta ver after revision ver
             next++;
@@ -64,7 +64,7 @@ namespace CTRPluginFramework
         
         beta_ver = strtol(next, NULL, 10); //Get beta version
         #if DEBUG
-        MessageBox(Format("Beta 2: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION));
+        MessageBox(Format("Beta 2: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION))();
         #endif
         return major >= MAJOR_VERSION && minor >= MINOR_VERSION 
                 && revision >= REVISION_VERSION && beta_ver > BETA_VERSION;
@@ -97,7 +97,7 @@ namespace CTRPluginFramework
                 if (responseCode >= 301 && responseCode <= 303)
                 {
                     #if DEBUG
-                        MessageBox("redirecting URL");
+                        MessageBox("redirecting URL")();
                     #endif
                     memset(url, '\0', strlen(url));
                     if (R_SUCCEEDED(res = httpcGetResponseHeader(&context, "Location", url, 1024)))
@@ -106,8 +106,6 @@ namespace CTRPluginFramework
 
                 else
                 {
-                    resolved = true;
-
                     if (responseCode != 200)
                     {
                     #if DEBUG
@@ -116,10 +114,12 @@ namespace CTRPluginFramework
                         httpcCloseContext(&context);
                         return false;       
                     }
+
+                    resolved = true;
                 }
             }
             #if DEBUG
-            else OSD::Notify("Could not open HTTP context!");
+            else MessageBox("Could not open HTTP context!")();
             #endif
         }
 
@@ -144,7 +144,7 @@ namespace CTRPluginFramework
                 if (!tempfile.IsOpen())
                 {
                     #if DEBUG
-                        OSD::Notify("Temp File not open!");
+                        MessageBox("Temp File not open!")();
                     #endif
                     return false;
                 }
@@ -190,7 +190,12 @@ namespace CTRPluginFramework
                     break;
                 }
             }
+            httpcCloseContext(&context);
         }
+
+        #if DEBUG
+        else MessageBox("Failed to get download size!")();
+        #endif
 
         return ret;
     }
@@ -211,10 +216,8 @@ namespace CTRPluginFramework
 
                 else return false; //if no update
 
-                OSD::Notify(Format("New Version: %s !!!", newVerString));
-                char url[200];
-                snprintf(url, 200, "https://github.com/RyDog199/ACNL-NTR-Cheats/releases/download/%s/ACNL-NTR-Cheats.plg", newVerString);
-                Sstrncpy(urlDownload, url, 200);
+
+                Sstrncpy(urlDownload, "https://raw.githubusercontent.com/RyDog199/ACNL-NTR-Cheats/master/ACNL-NTR-Cheats.plg", 200);
                 Sstrncpy(newChangelog, "The changelog cannot be viewed from the plugin.\nVisit < http://bit.ly/ACPLG-Change >\nto see the changelog on Github.", 200);
 
                 return updateavailable;
@@ -230,12 +233,14 @@ namespace CTRPluginFramework
         if (http_download(urlDownload, NULL, NULL))
         {
             #if DEBUG
-                OSD::Notify("Update Downloaded!");
+                MessageBox("Update Downloaded!")();
             #endif
 
             if (!File::Exists("TempFile.bin"))
             {
-                MessageBox("The downloaded update does not exist!")();
+                #if DEBUG
+                MessageBox("The downloaded update does not exist on file!")();
+                #endif
                 return false;
             }
 
@@ -244,8 +249,9 @@ namespace CTRPluginFramework
             return true;
         }
 
-        else
-            OSD::Notify("Couldn't download the update!");
+        #if DEBUG
+        else MessageBox("Couldn't download the update!")();
+        #endif
 
         return false;
     }
@@ -261,7 +267,7 @@ namespace CTRPluginFramework
         if (checkUpdate())
         {
             #if DEBUG
-                OSD::Notify("Check Update: True!");
+                MessageBox("Check Update: True!")();
             #endif
 
             MessageBox(Format("New Version: %s", newVerString), Format("Changelog:\n%s", newChangelog))();
@@ -273,7 +279,7 @@ namespace CTRPluginFramework
         else
         {
             #if DEBUG
-                OSD::Notify("Check Update: False!");
+                MessageBox("Check Update: False!")();
             #endif
         }
 
@@ -281,7 +287,7 @@ namespace CTRPluginFramework
         delete[] newChangelog;
         delete[] newVerString;
         #if DEBUG
-            OSD::Notify(Format("launchUpdater Ret: %d", ret));
+            MessageBox(Format("launchUpdater Ret: %d", ret))();
         #endif
         return ret;
     }

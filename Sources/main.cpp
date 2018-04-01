@@ -147,6 +147,7 @@ namespace CTRPluginFramework
     void    InitQuickMenu(void);
     int     main(void)
     {
+        svcSetThreadPriority(0xFFFF8000, 0x39);
         Process::ProtectRegion((u32)hidSharedMem, MEMPERM_READ | MEMPERM_WRITE);
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
         PluginMenu  &menu = *m;
