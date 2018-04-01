@@ -14,7 +14,7 @@
 #define MAJOR_VERSION       4
 #define MINOR_VERSION       0
 #define REVISION_VERSION    0
-#define BETA_VERSION        3
+#define BETA_VERSION        2
 #define STRINGIFY(x)        #x
 #define TOSTRING(x)         STRINGIFY(x)
 #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta " TOSTRING(BETA_VERSION) " ]"

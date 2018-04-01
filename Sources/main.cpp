@@ -166,7 +166,7 @@ namespace CTRPluginFramework
         // T&C Message & Save Backup Message
         StartMsg();
         //Launch Updater
-        /*httpcInit(0);
+        httpcInit(0);
         if(launchUpdater())
         {
             httpcExit();
@@ -176,7 +176,7 @@ namespace CTRPluginFramework
             ptmSysmExit();
             return 0;
         }
-        httpcExit();*/
+        httpcExit();
 
         // Initialize player
         Player::GetInstance();
