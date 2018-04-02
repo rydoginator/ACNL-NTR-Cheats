@@ -368,7 +368,9 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")"),
             {
                 Hotkey(Key::R, "Open Villager Categories List")
-            })
+            }),
+            EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code."),
+                {Hotkey(Key::R | Key::B, "Change Button Activator")})
         }));
 
         /*

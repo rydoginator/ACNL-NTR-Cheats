@@ -173,6 +173,8 @@ namespace CTRPluginFramework
     void    UnBuryItems(MenuEntry *entry);
     void    EnableAllTours(MenuEntry *entry);
     void    AmiiboSpoof(MenuEntry *entry);
+    bool    CheckU8Input(const void *input, std::string &error);
+    void    UseAnyEmote(MenuEntry *entry);
     
     /*
     ** Appearance

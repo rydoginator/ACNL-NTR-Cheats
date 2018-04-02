@@ -303,6 +303,13 @@
 #define     EUR_WA_TOURS                        0x95E114
 #define     JAP_WA_TOURS                        0x954730
 
+#define     USA_EMOTE                           0x25E054
+#define     EUR_EMOTE                           0x25E050
+#define     JAP_EMOTE                           0x25DF70
+#define     USA_WA_EMOTE                        0x25DA98
+#define     EUR_WA_EMOTE                        0x25E050
+#define     JAP_WA_EMOTE                        0x25DF70
+
 
 
 #endif

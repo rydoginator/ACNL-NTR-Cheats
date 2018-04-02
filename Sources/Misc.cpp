@@ -688,4 +688,42 @@ namespace CTRPluginFramework
         }
         entry->Disable();
     }
+
+    bool    CheckU8Input(const void *input, std::string &error)
+    {
+        int  in = *static_cast<const int *>(input);
+        if (in > 0xFF)
+        {
+            error = "Input cannot be over 0xFF";
+            return (false);
+        }
+
+        return (true);
+    }
+
+    void UseAnyEmote(MenuEntry *entry)
+    {
+        static u32 offset = Game::EmoteASM;
+        static u8 EmoteID;
+        u32 patch = 0;
+
+        if (entry->Hotkeys[0].IsDown())
+        {
+            Keyboard keyboard("Input a Emote ID. 0xFF restores game's orig code.");
+            keyboard.IsHexadecimal(true);
+            keyboard.SetCompareCallback(CheckU8Input);
+
+            if (keyboard.Open(EmoteID) == -1)
+                return;
+
+            if (EmoteID == 0xFF)
+                patch = 0xE7D00001;
+
+            else
+                patch = 0xE3A00000 | EmoteID;
+
+            Process::Patch(offset, (u8 *)&patch, 4);
+            OSD::Notify(Format("Wrote ID: %X", EmoteID));
+        }
+    }
 }
