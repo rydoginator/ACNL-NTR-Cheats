@@ -308,7 +308,9 @@ namespace CTRPluginFramework
             *folder += EntryWithHotkey(new MenuEntry("Real Time World Edit", WorldEdit, "Press the corresponding hotkeys to use the cheat,"),
             { Hotkey(Key::R | Key::DPadLeft, "Open the keyboard"), Hotkey(Key::R | Key::DPadUp, "Store the item that you're standing on"),
                 Hotkey(Key::R | Key::DPadDown, "Write the item to where your player is standing")}),
-            *folder += new MenuEntry("Search and Replace", nullptr, SearchReplace, "Press the keyboard icon to enter in what you want to search and replace");
+            *folder += new MenuEntry("Search and Replace", nullptr, SearchReplace, "Press the keyboard icon to enter in what you want to search and replace"),
+            *folder += EntryWithHotkey(new MenuEntry("Flowers Are Unbreakable", UnbreakableFlowers, "Press the hotkey to enable/disable."),
+                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")});
         }
         menu += folder;
 
@@ -372,7 +374,7 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code."),
                 {Hotkey(Key::R | Key::B, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable."),
-                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
+                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")})
         }));
 
         /*

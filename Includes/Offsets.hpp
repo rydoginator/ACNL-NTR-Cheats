@@ -317,6 +317,13 @@
 #define     EUR_WA_PATTERNEDIT                  0x2FECCC
 #define     JAP_WA_PATTERNEDIT                  0x2FEC78
 
+#define     USA_NOBREAKFLOWERS                  0x597F58
+#define     EUR_NOBREAKFLOWERS                  0x596FA0
+#define     JAP_NOBREAKFLOWERS                  0x596890
+#define     USA_WA_NOBREAKFLOWERS               0x597470
+#define     EUR_WA_NOBREAKFLOWERS               0x596FA0
+#define     JAP_WA_NOBREAKFLOWERS               0x596890
+
 
 
 #endif

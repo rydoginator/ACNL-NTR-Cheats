@@ -752,4 +752,31 @@ namespace CTRPluginFramework
             }
         }
     }
+
+    void UnbreakableFlowers(MenuEntry *entry)
+    {
+        static u32 offset = Game::NoBreakFlowers;
+        static u32 original = reinterpret_cast<u32 >(AutoRegion(0xEBF5935C, 0xEBF5976C, 0xEBF5990F, 0xEBF59616, 0xEBF5976C, 0xEBF5990F)());
+        static bool btn = false;
+        static bool active = false;
+        
+        if (entry->Hotkeys[0].IsDown() && !btn)
+        {
+            if (!active) //Turn On
+            {
+                Process::Write32(offset, 0xE3A0001D);
+                OSD::Notify("Flowers Are Unbreakable: " << Color::Green << "Enabled!");
+                active = true;
+                btn = true;
+            }
+
+            else if (active) //Turn Off
+            {
+                Process::Write32(offset, offset);
+                OSD::Notify("Flowers Are Unbreakable: " << Color::Red << "Disabled!");
+                active = false;
+                btn = true;
+            }
+        }
+    }
 }

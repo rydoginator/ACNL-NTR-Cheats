@@ -176,6 +176,7 @@ namespace CTRPluginFramework
     bool    CheckU8Input(const void *input, std::string &error);
     void    UseAnyEmote(MenuEntry *entry);
     void    EditAnyPattern(MenuEntry *entry);
+    void    UnbreakableFlowers(MenuEntry *entry);
     
     /*
     ** Appearance

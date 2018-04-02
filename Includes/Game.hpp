@@ -70,6 +70,7 @@ namespace CTRPluginFramework
         static u32      *Tours;         ///<Pointer to Tours that are enabled/disabled
         static u32      EmoteASM;       ///<ASM offset for Emoticons
         static u32      PatternEdit;    ///<ASM offset for Edit Any Pattern
+        static u32      NoBreakFlowers; ///<ASM offset for Breaking Flowers
     };
 }
 

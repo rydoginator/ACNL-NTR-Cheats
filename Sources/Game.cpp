@@ -53,6 +53,7 @@ namespace CTRPluginFramework
         Tours = reinterpret_cast<u32 *>(AutoRegion(USA_TOURS, EUR_TOURS, JAP_TOURS, USA_WA_TOURS, EUR_WA_TOURS, JAP_WA_TOURS)());
         EmoteASM = reinterpret_cast<u32 >(AutoRegion(USA_EMOTE, EUR_EMOTE, JAP_EMOTE, USA_WA_EMOTE, EUR_WA_EMOTE, JAP_WA_EMOTE)());
         PatternEdit = reinterpret_cast<u32 >(AutoRegion(USA_PATTERNEDIT, EUR_PATTERNEDIT, JAP_PATTERNEDIT, USA_WA_PATTERNEDIT, EUR_WA_PATTERNEDIT, JAP_WA_PATTERNEDIT)());
+        NoBreakFlowers = reinterpret_cast<u32 >(AutoRegion(USA_NOBREAKFLOWERS, EUR_NOBREAKFLOWERS, JAP_NOBREAKFLOWERS, USA_WA_NOBREAKFLOWERS, EUR_WA_NOBREAKFLOWERS, JAP_WA_NOBREAKFLOWERS)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -154,4 +155,5 @@ namespace CTRPluginFramework
     u32         *Game::Tours = nullptr;
     u32         Game::EmoteASM = 0;
     u32         Game::PatternEdit = 0;
+    u32         Game::NoBreakFlowers = 0;
 }
