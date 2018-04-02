@@ -10,10 +10,10 @@ namespace CTRPluginFramework
     struct FwkSettings
     {
         // Plugin init options
-        u32     ThreadPriority; ///< Priority for the main thread of the plugin must be within 0x3E - 0x18 | Default: 0x30
-        u32     HeapSize;       ///< Size to be allocated for the heap (can be reduced on failure) | Default: 0x100000 /* setting not used yet */
-        bool    EcoMemoryMode;  ///< Enable EcoMemoryMode: Heap will be reduced, backgrounds won't be loaded
-        bool    StartARHandler; ///< Enable the Action Replay's handler, if this is set to off, even if the menu allows to create codes, they won't be executed
+        u32     ThreadPriority; ///< Pri ority for the main thread of the plugin must be within 0x3E - 0x18 | Default: 0x30
+        u32     HeapSize;       ///< Size to be allocated for the heap | Default: 0x100000 with NTR, 0x200000 using Luma's plugin loader
+        bool    EcoMemoryMode;  ///< Enable EcoMemoryMode: backgrounds won't be loaded and the heap usage will be lowered. Search won't work if loaded with NTR
+        bool    AllowActionReplay; ///< Enable the Action Replay's handler, if this is set to off, even if the menu allows to create codes, they won't be executed
         bool    AllowSearchEngine; ///< If false then the search engine won't be available | Default: true
         Time    WaitTimeToBoot; ///< Time to wait for the plugin to really starts (from when the game will starts) | Default: 5 seconds
 

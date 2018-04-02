@@ -49,7 +49,7 @@ namespace CTRPluginFramework
         // Install APT Hook to block home button
         InstallAPTHook();
         settings.ThreadPriority = 0x39;
-        settings.StartARHandler = false;
+        settings.AllowActionReplay = false;
         if (System::IsLoaderNTR())
             settings.HeapSize = 0x150000;
     }
@@ -155,7 +155,9 @@ namespace CTRPluginFramework
         Process::ProtectRegion((u32)hidSharedMem, MEMPERM_READ | MEMPERM_WRITE);
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
         PluginMenu  &menu = *m;
-        menu.SyncronizeWithFrame(true);
+        menu.SynchronizeWithFrame(true);
+        // T&C Message & Save Backup Message
+        menu.OnFirstOpening = StartMsg;
 
         /*OSD::Run([](const Screen &screen)
         {
@@ -169,14 +171,6 @@ namespace CTRPluginFramework
 
         // Initialize game's addresses based on region
         Game::Initialize();
-
-        while (*Game::Room != 0x5E) //Stalls plugin loading until savegame is init'd)
-        {
-            Sleep(Milliseconds(1));
-        }
-
-        // T&C Message & Save Backup Message
-        StartMsg();
         //Launch Updater
         httpcInit(0);
         if(launchUpdater())
@@ -353,7 +347,7 @@ namespace CTRPluginFramework
             {
                 Hotkey(Key::L, "Access drawers"), Hotkey(Key::R, "Access secret storage"), Hotkey(Key::L | Key::R, "Access catalog"), Hotkey(Key::Y, "Custom (use keyboard in cheat menu)")
             }),
-            EntryWithHotkey(new MenuEntry("Faint", Faint, "Press the hotkeys to make your character pass out like they got bit by a scorpion!\nCredits to Hikaru"),
+            EntryWithHotkey(new MenuEntry("Faint", Faint, "Press the hotkeys to make your character pass out like they got bit by a scorpion!\nCredits to Kageshi"),
             {
                 Hotkey(Key::R | Key::A, "Make your character faint")
             }),
@@ -367,11 +361,11 @@ namespace CTRPluginFramework
             }),
             new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
             new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to Wii8461!"),
-            EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")"),
+            EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")\nCredits to Slattz and Scotline for the cheat."),
             {
                 Hotkey(Key::R, "Open Villager Categories List")
             }),
-            EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code."),
+            EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code.\nCredits to 0ICED0 for the cheat."),
                 {Hotkey(Key::R | Key::B, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable."),
                 {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")})

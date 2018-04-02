@@ -20,11 +20,63 @@ namespace CTRPluginFramework
         u32       BytesPerPixel;
         GSPFormat Format;
 
+        /**
+         * \brief Get a pointer to the screen's framebuffer
+         * \param posX The position on the screen to point to
+         * \param posY The position on the screen to point to
+         * \param useRightFb If the function must return a pointer to the right framebuffer
+         * \return A pointer to the screen's framebuffer at the desired position
+         */
         u8 *    GetFramebuffer(u32 posX, u32 posY, bool useRightFb = false) const;
+
+        /**
+         * \brief Draw a string using Linux's font
+         * \param str The string to draw
+         * \param posX The position on screen to draw the string to
+         * \param posY The position on screen to draw the string to
+         * \param foreground The color of the characters
+         * \param background The color of the background
+         * \return posY + 10 (line feed)
+         */
         u32     Draw(const std::string &str, u32 posX, u32 posY, const Color &foreground = Color::Blank, const Color &background = Color::Black) const;
+
+        /**
+         * \brief Draw a string using system font (support utf8 strings with special chars & unicode)
+         * \param str The string to draw
+         * \param posX The position on screen to draw the string to
+         * \param posY The position on screen to draw the string to
+         * \param foreground The color of the characters
+         * \return posY + 16 (line feed)
+         */
+        u32     DrawSysfont(const std::string &str, u32 posX, u32 posY, const Color &foreground = Color::Blank) const;
+
+        /**
+         * \brief Draw a rectangle
+         * \param posX The position on screen to draw the rectangle
+         * \param posY The position on screen to draw the rectangle
+         * \param width The width of the rectangle
+         * \param height The height of the rectangle
+         * \param color The color of the rectangle
+         * \param filled If the rectangle is filled or if the function should only draw the border
+         */
         void    DrawRect(u32 posX, u32 posY, u32 width, u32 height, const Color &color, bool filled = true) const;
+        /**
+         * \brief Change the color of a pixel at the desired X, Y position
+         * \param posX The X position of the pixel to change
+         * \param posY The Y position of the pixel to change
+         * \param color The new color of the pixel
+         */
         void    DrawPixel(u32 posX, u32 posY, const Color &color) const;
+
+        /**
+         * \brief Get the current color of a pixel at X, Y position
+         * \param posX The X position of the pixel to read
+         * \param posY The Y position of the pixel to read
+         * \param pixel The output color of the pixel
+         * \param fromRightFb If the pixel must be read from the right framebuffer
+         */
         void    ReadPixel(u32 posX, u32 posY, Color &pixel, bool fromRightFb = false) const;
+
     private:
         friend class OSDImpl;
         Screen() {};

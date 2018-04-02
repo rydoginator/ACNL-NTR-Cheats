@@ -28,6 +28,8 @@ namespace CTRPluginFramework
         quickMenu += new QuickMenuEntry("Water Flowers", (ArgMethod)WaterAllFlowers, nullptr);
         quickMenu += new QuickMenuEntry("Pull All Weeds", (ArgMethod)RemoveAllWeeds, nullptr);
         quickMenu += new QuickMenuEntry("Duplicate All Items", DuplicationAll);
+        quickMenu += new QuickMenuEntry("Clear Inventory", ClearInv);
+
         
         TimeMenu();
         AppearanceModifierMenu();
@@ -53,12 +55,13 @@ namespace CTRPluginFramework
 
         Player::GetInstance()->Update();
 
-        if (isPatched)
+        if (isPatched || !System::IsLoaderNTR())
             return;
 
         u32     address = 1 << 26; ///< This is just to make the re less obvious
         address |= 1 << 25;
         address |= 1 << 24;
+
 
         CloseOthersPluginsThreads(address); ///< address == 0x07000000
         isPatched = true;

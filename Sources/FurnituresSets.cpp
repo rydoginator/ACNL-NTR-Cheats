@@ -295,64 +295,12 @@ namespace CTRPluginFramework
                 player->WriteInventorySlot(2 + i, 0x2DFA + i);
             }
             break;
-        case  53:
-            player->WriteInventorySlot(0, 0x2CC8);
-            player->WriteInventorySlot(1, 0x2D08);
-            for (int i = 0; i < 10; i++)
+        case 53:
+            for (int i = 0; i < 5; i++)
             {
-                player->WriteInventorySlot(2 + i, 0x2E94 + i);
+                player->WriteInventorySlot(i, 0x334F + (i * 4));
             }
-            break;
-        case 54:
-            player->WriteInventorySlot(0, 0x236C);
-            player->WriteInventorySlot(1, 0x26C4);
-            player->WriteInventorySlot(2, 0x300E);
-            player->WriteInventorySlot(3, 0x2FF4);
-            player->WriteInventorySlot(4, 0x30EB);
-            player->WriteInventorySlot(5, 0x2F3A);
-            player->WriteInventorySlot(6, 0x2CC9);
-            player->WriteInventorySlot(7, 0x2F3D);
-            player->WriteInventorySlot(8, 0x2E32);
-            player->WriteInventorySlot(9, 0x2D4B);
-            player->WriteInventorySlot(10, 0x2EEE);
-            player->WriteInventorySlot(11, 0x2870);
-            player->WriteInventorySlot(12, 0x2CED);
-            player->WriteInventorySlot(13, 0x2EE1);
-            player->WriteInventorySlot(14, 0x2C3A);
-            player->WriteInventorySlot(15, 0x2C3B);
-            break;
-        case 55:
-            player->WriteInventorySlot(0, 0x23AC);
-            player->WriteInventorySlot(1, 0x2458);
-            player->WriteInventorySlot(2, 0x2CD5);
-            for (int i = 0; i < 9; i++)
-            {
-                player->WriteInventorySlot(3 + i, 0x2D8B + i);
-            }
-            break;
-        case 56:
-            for (int i = 0; i < 12; i++)
-            {
-                player->WriteInventorySlot(i, 0x2E43 + i);
-            }
-            break;
-        case 57:
-            for (int i = 0; i < 16; i++)
-            {
-                player->WriteInventorySlot(i, 0x30D2 + i);
-            }
-            break;
-        case 58:
-            for (int i = 0; i < 9; i++)
-            {
-                player->WriteInventorySlot(i, 0x30E2 + i);
-            }
-            break;
-        case 59:
-            for (int i = 0; i < 8; i++)
-            {
-                player->WriteInventorySlot(i, 0x30EB + i);
-            }
+            player->WriteInventorySlot(5, 0x3363);
             break;
         default:
             if (set < 26)
@@ -424,7 +372,8 @@ namespace CTRPluginFramework
             "Sleek Set",
             "Modern Wood Set",
             "Stripe Set",
-            "Card Set"
+            "Card Set",
+            "Golden Tools"
         };
 
         Keyboard    keyboard("Which set would you like ?", list);

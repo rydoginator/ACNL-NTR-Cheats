@@ -14,7 +14,7 @@
 #define MAJOR_VERSION       4
 #define MINOR_VERSION       0
 #define REVISION_VERSION    0
-#define BETA_VERSION        3
+#define BETA_VERSION        4
 #define STRINGIFY(x)        #x
 #define TOSTRING(x)         STRINGIFY(x)
 #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta " TOSTRING(BETA_VERSION) " ]"
@@ -105,6 +105,7 @@ namespace CTRPluginFramework
     void    Text2Item(MenuEntry *entry);
     void    Duplication(MenuEntry *entry);
     void    DuplicationAll(void);
+    void    ClearInv(void);
     void    ShowBuriedItems(MenuEntry *entry);
     void    PickBuriedItems(MenuEntry *entry);
     void    ExtendedInventoryBox(MenuEntry *entry);

@@ -3,12 +3,12 @@
 .section .text
 .global _start
 _start:
-STMFD	SP!, {R0-R12, LR};
-MRS     R0, CPSR
-STMFD	SP!, {R0}
+stmfd   sp!, {r0-r12, lr}
+mrs     r0, cpsr
+stmfd   sp!, {r0}
 
-LDR     R6, =_start
-ADR     R5, _start
+ldr     r6, =_start
+adr     r5, _start
 sub     r5, r5, r6      /* r5 = realAddress - baseAddress */
 ldr     r6, = __rel_dyn_start
 ldr     r7, = __rel_dyn_end
@@ -40,13 +40,12 @@ ldr     r1, = __c_bss_end
 sub     r1, r1, r0
 bl      ClearMem
 
-mov     r0, #0
 bl      LaunchMainThread
-mov     r0, sp
 
 ldmfd	sp!, {r0}
 msr		cpsr, r0
-ldmfd	SP!, {R0-R12, LR};
+ldmfd	sp!, {r0-r12, pc}
+bx      lr
 
 @---------------------------------------------------------------------------------
 @ Clear memory to 0x00 if length != 0

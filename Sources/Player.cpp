@@ -48,8 +48,8 @@ namespace   CTRPluginFramework
         u32 value;
 
         // Don't exit this function until the offset is somewhat valid
-        //while (!Process::Read32(_playerPointer, _offset) || !Process::Read32(_offset, value))
-        //    Sleep(Milliseconds(1));
+        while (!Process::Read32(_playerPointer, _offset) || !Process::Read32(_offset, value))
+           Sleep(Milliseconds(1));
 
         //Update coordinates pointer
         u8 index = *_coordinateIndex;

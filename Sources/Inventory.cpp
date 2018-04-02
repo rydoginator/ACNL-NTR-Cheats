@@ -58,14 +58,20 @@ namespace CTRPluginFramework
         if (firstItem == 0x00007FFE)
             return;
 
-        address++;
+        ++address;
 
-        for (int i = 0; i < 14; i++, address++)
+        for (int i = 0; i < 15; i++, ++address)
         {
             // If current slot is empty
             if (*address == 0x00007FFE)
                 *address = firstItem;
         }
+    }
+
+    void    ClearInv(void)
+    {
+        for (int i = 0; i < 17; i++)
+            Player::GetInstance()->WriteInventorySlot(i, 0x7FFE);
     }
 
     void    ShowBuriedItems(MenuEntry *entry)
