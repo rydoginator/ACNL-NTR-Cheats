@@ -239,8 +239,8 @@ namespace CTRPluginFramework
         menu += new MenuFolder("Main Street Codes", std::vector<MenuEntry *>(
         {
             new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard, "Press the keyboard icon to change which upgrade the Nooklings have"),
+            new MenuEntry("Main Street Unlocker", nullptr, MainStreetKeyboard, "Press the keyboard icon to change what Main Street buildings are unlocked"),
             new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop"),
-            new MenuEntry("Fill out Main Street", FillMainStreet, "Unlocks all the Main Street buildings except Leif + Nooklings"),
             //new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press " FONT_L " and " FONT_A " while in the catalog to send the item directly to your pockets!") TODO: Find correct offset/pointer
         }));
 

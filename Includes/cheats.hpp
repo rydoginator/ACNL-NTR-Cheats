@@ -183,7 +183,7 @@ namespace CTRPluginFramework
     ** Main Street
     ****************/
     void    FillCatalog(MenuEntry *entry);
-    void    FillMainStreet(MenuEntry *entry);
+    void    MainStreetKeyboard(MenuEntry *entry);
     void    NooklingKeyboard(MenuEntry *entry);
     void    SetNook(int value);
     void    CatalogToPockets(MenuEntry *entry);

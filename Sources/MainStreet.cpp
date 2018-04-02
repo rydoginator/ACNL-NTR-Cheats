@@ -3,22 +3,54 @@
 
 namespace CTRPluginFramework
 {
-    void    FillMainStreet(MenuEntry *entry)
-    {
-        u32 nook = reinterpret_cast<u32>(Game::Nook);  
-        Process::Write8(nook + 0x45C8, 0x2); //Kicks
-        Process::Write8(nook + 0x8A58, 0x1); //Museum Shop
-        Process::Write8(nook + 0x8B1E, 0x2); //Club LOL
-        Process::Write8(nook + 0x8B3E, 0x1); //Dream Suite
-        Process::Write8(nook + 0x8B40, 0x1); //Fortune Teller
-        Process::Write8(nook + 0x8B50, 0x2); //Shampoodle
-    }
-
     void    FillCatalog(MenuEntry *entry)
     {
         u32     address = Player::GetInstance()->GetOffset() + 0x6C90;
 
         std::memset((void *)address, 0xFF, 106 * 4);
+    }
+
+    void    MainStreetKeyboard(MenuEntry *entry)
+    {
+        Keyboard  keyboard("Which building would you like to unlock / lock?");
+        u32 nook = reinterpret_cast<u32>(Game::Nook);
+        int offsets[] = {0x45C8, 0x8A58, 0x8B1E, 0x8B3E, 0x8B40, 0x8B50}; 
+        std::vector<std::string> list =
+        {
+            "Kicks",
+            "Museum Shop",
+            "Club LOL",
+            "Dream Suite",
+            "Fortune Teller",
+            "Shampoodle"
+        };
+
+        std::vector<std::string> state =
+        {
+            "Lock",
+            "Unlock"
+        };
+
+
+        keyboard.Populate(list);
+        int  shop = keyboard.Open();
+
+        if (shop != -1)
+        {
+            keyboard.GetMessage() = "Unlock or Lock?";
+            keyboard.Populate(state);
+
+            int byte = keyboard.Open();
+            if (byte != -1)
+            {
+                //If Kicks, Club LOL or Shampoodle & want to unlock
+                if ((shop == 0 || shop == 2 || shop == 5) && byte == 1)
+                {
+                    byte = 2;
+                }
+                Process::Write8(nook + offsets[shop], byte);
+            }
+        }
     }
 
     void    NooklingKeyboard(MenuEntry *entry)
