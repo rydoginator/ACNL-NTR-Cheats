@@ -69,6 +69,7 @@ namespace CTRPluginFramework
         static u8       *MapBool;       ///<Address of boolean that tells if you're showing your map or not
         static u32      *Tours;         ///<Pointer to Tours that are enabled/disabled
         static u32      EmoteASM;       ///<ASM offset for Emoticons
+        static u32      PatternEdit;    ///<ASM offset for Edit Any Pattern
     };
 }
 

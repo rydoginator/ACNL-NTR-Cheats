@@ -726,4 +726,30 @@ namespace CTRPluginFramework
             OSD::Notify(Format("Wrote ID: %X", EmoteID));
         }
     }
+
+    void EditAnyPattern(MenuEntry *entry)
+    {
+        static u32 offset = Game::PatternEdit;
+        static bool btn = false;
+        static bool active = false;
+        
+        if (entry->Hotkeys[0].IsDown() && !btn)
+        {
+            if (!active)
+            {
+                Process::Write32(offset, 0xE3A00001);
+                OSD::Notify("Edit Every Pattern: " << Color::Green << "Enabled!");
+                active = true;
+                btn = true;
+            }
+
+            else if (active)
+            {
+                Process::Write32(offset, 0xE3A00000);
+                OSD::Notify("Edit Every Pattern: " << Color::Red << "Disabled!");
+                active = false;
+                btn = true;
+            }
+        }
+    }
 }

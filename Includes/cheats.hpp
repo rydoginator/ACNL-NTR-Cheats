@@ -175,6 +175,7 @@ namespace CTRPluginFramework
     void    AmiiboSpoof(MenuEntry *entry);
     bool    CheckU8Input(const void *input, std::string &error);
     void    UseAnyEmote(MenuEntry *entry);
+    void    EditAnyPattern(MenuEntry *entry);
     
     /*
     ** Appearance

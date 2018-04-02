@@ -52,6 +52,7 @@ namespace CTRPluginFramework
         MapBool = reinterpret_cast<u8 *>(AutoRegion(USA_MAP_BOOL, EUR_MAP_BOOL, JAP_MAP_BOOL, USA_WA_MAP_BOOL, EUR_WA_MAP_BOOL, JAP_WA_MAP_BOOL)());
         Tours = reinterpret_cast<u32 *>(AutoRegion(USA_TOURS, EUR_TOURS, JAP_TOURS, USA_WA_TOURS, EUR_WA_TOURS, JAP_WA_TOURS)());
         EmoteASM = reinterpret_cast<u32 >(AutoRegion(USA_EMOTE, EUR_EMOTE, JAP_EMOTE, USA_WA_EMOTE, EUR_WA_EMOTE, JAP_WA_EMOTE)());
+        PatternEdit = reinterpret_cast<u32 >(AutoRegion(USA_PATTERNEDIT, EUR_PATTERNEDIT, JAP_PATTERNEDIT, USA_WA_PATTERNEDIT, EUR_WA_PATTERNEDIT, JAP_WA_PATTERNEDIT)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -152,4 +153,5 @@ namespace CTRPluginFramework
     u8          *Game::MapBool = nullptr;
     u32         *Game::Tours = nullptr;
     u32         Game::EmoteASM = 0;
+    u32         Game::PatternEdit = 0;
 }

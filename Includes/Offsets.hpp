@@ -310,6 +310,13 @@
 #define     EUR_WA_EMOTE                        0x25E050
 #define     JAP_WA_EMOTE                        0x25DF70
 
+#define     USA_PATTERNEDIT                     0x2FEC44
+#define     EUR_PATTERNEDIT                     0x2FECCC
+#define     JAP_PATTERNEDIT                     0x2FEC78
+#define     USA_WA_PATTERNEDIT                  0x2FE9C0
+#define     EUR_WA_PATTERNEDIT                  0x2FECCC
+#define     JAP_WA_PATTERNEDIT                  0x2FEC78
+
 
 
 #endif
