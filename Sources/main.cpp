@@ -1,6 +1,6 @@
 #include "cheats.hpp"
 #include "Helpers/QuickMenu.hpp"
-#include "Helpers/Hook.hpp"
+#include "Hook.hpp"
 #include "Helpers/newlibHeap.h"
 #include "3ds.h"
 #include <cstring>
