@@ -19,12 +19,8 @@ namespace CTRPluginFramework
         while (!time.HasTimePassed(Seconds(12))) //Write to offsets until timer stops - 7.f is fine on n3ds but not on o3ds
         {
             Process::Write16(offset+0x219, Amiibo_ID); //Amiibo ID
-            //Process::Write32(offset+0x21C, 0x023D0500); //Tell game if it's Special Villager(0) or Normal (1)
             Process::Write8(offset+0x204, 0x13); //Tell game an amiibo is being scanned
         }
-
-        Process::Write16(offset+0x219, 0x0000); //Finished: null the amiibo ID
-        Process::Write8(offset+0x204, 0x12); //Finished: Tell game an amiibo has been/can be scanned
     }
 
     void    DIESpoofer(const char* Model)
