@@ -104,8 +104,8 @@ namespace CTRPluginFramework
                 g_region = w_USA;
                 break;
             case 0x0004000000198f00:
-                /*if (ver != 0)
-                    goto unsupported;*/
+                if (ver != 6160)
+                    goto unsupported;
                 g_region = w_EUR;
                 break;
             default:
