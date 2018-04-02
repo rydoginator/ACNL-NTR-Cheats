@@ -66,7 +66,7 @@ namespace CTRPluginFramework
         "Special thanks to:\n"
         "Nanquitas\n"
         "Slattz\n"
-        "Mega Mew\n"
+        "WemI0\n"
         "Scotline\n"
         "and others :)";
 
