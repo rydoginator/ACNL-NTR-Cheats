@@ -23,7 +23,7 @@ namespace CTRPluginFramework
 
     void    NooklingKeyboard(MenuEntry *entry)
     {
-        Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
+        Keyboard  keyboard("What Nooklings store would you like?");
         std::vector<std::string> list =
         {
             "Nookling Cranny",
