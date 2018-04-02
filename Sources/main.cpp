@@ -1,6 +1,7 @@
 #include "cheats.hpp"
 #include "Helpers/QuickMenu.hpp"
 #include "Helpers/Hook.hpp"
+#include "Helpers/newlibHeap.h"
 #include "3ds.h"
 #include <cstring>
 
@@ -47,6 +48,10 @@ namespace CTRPluginFramework
     {
         // Install APT Hook to block home button
         InstallAPTHook();
+        settings.ThreadPriority = 0x39;
+        settings.StartARHandler = false;
+        if (System::IsLoaderNTR())
+            settings.HeapSize = 0x150000;
     }
         
     extern Region               g_region;
@@ -147,11 +152,17 @@ namespace CTRPluginFramework
     void    InitQuickMenu(void);
     int     main(void)
     {
-        svcSetThreadPriority(0xFFFF8000, 0x39);
         Process::ProtectRegion((u32)hidSharedMem, MEMPERM_READ | MEMPERM_WRITE);
         PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
         PluginMenu  &menu = *m;
         menu.SyncronizeWithFrame(true);
+
+        OSD::Run([](const Screen &screen)
+        {
+            if (!screen.IsTop) return false;
+            screen.Draw(Utils::Format("Free: %08X", getMemFree()), 10, 10);
+            return true;
+        });
 
         if (CheckRegion())
             return (1); ///< Unsupported game/version
