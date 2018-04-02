@@ -157,12 +157,12 @@ namespace CTRPluginFramework
         PluginMenu  &menu = *m;
         menu.SyncronizeWithFrame(true);
 
-        OSD::Run([](const Screen &screen)
+        /*OSD::Run([](const Screen &screen)
         {
             if (!screen.IsTop) return false;
             screen.Draw(Utils::Format("Free: %08X", getMemFree()), 10, 10);
             return true;
-        });
+        });*/
 
         if (CheckRegion())
             return (1); ///< Unsupported game/version
