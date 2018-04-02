@@ -709,7 +709,7 @@ namespace CTRPluginFramework
 
         if (entry->Hotkeys[0].IsDown())
         {
-            Keyboard keyboard("Input a Emote ID. 0xFF restores game's orig code.");
+            Keyboard keyboard("Input a Emote ID. 0xFF restores game's original functionality.");
             keyboard.IsHexadecimal(true);
             keyboard.SetCompareCallback(CheckU8Input);
 
@@ -717,10 +717,17 @@ namespace CTRPluginFramework
                 return;
 
             if (EmoteID == 0xFF)
+            {
                 patch = 0xE7D00001;
+                OSD::Notify("Restored Game's Original Functionality.");
+
+            }
 
             else
+            {
                 patch = 0xE3A00000 | EmoteID;
+                OSD::Notify(Format("Wrote ID: %X", EmoteID));
+            }
 
             Process::Patch(offset, (u8 *)&patch, 4);
             OSD::Notify(Format("Wrote ID: %X", EmoteID));
@@ -751,6 +758,9 @@ namespace CTRPluginFramework
                 btn = true;
             }
         }
+
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
     }
 
     void UnbreakableFlowers(MenuEntry *entry)
@@ -772,11 +782,14 @@ namespace CTRPluginFramework
 
             else if (active) //Turn Off
             {
-                Process::Write32(offset, offset);
+                Process::Write32(offset, original);
                 OSD::Notify("Flowers Are Unbreakable: " << Color::Red << "Disabled!");
                 active = false;
                 btn = true;
             }
         }
+
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
     }
 }
