@@ -730,7 +730,6 @@ namespace CTRPluginFramework
             }
 
             Process::Patch(offset, (u8 *)&patch, 4);
-            OSD::Notify(Format("Wrote ID: %X", EmoteID));
         }
     }
 
