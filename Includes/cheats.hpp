@@ -56,6 +56,16 @@ enum
     ISLANDFINDER
 };
 
+union Item
+{
+    u32     raw;
+    struct
+    {
+        u16     ID;
+        u16     Flags;
+    };
+};
+
 namespace CTRPluginFramework
 {
     void    FurnitureKeyboard(void);

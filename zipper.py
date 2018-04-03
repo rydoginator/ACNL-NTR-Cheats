@@ -1,18 +1,19 @@
 import sys
 import shutil
+import os
 import datetime
-
-EUR_TID     = "0004000000086400"
-USA_TID     = "0004000000086300"
-JAP_TID        = "0004000000086200"
+JAP_TID_LOW = 86200
+D_ASCII = 68
 FILE        = "ACNL-NTR-Cheats.plg"
-
 def printf(string):
     print(datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S') + " : " + string);
-
+if not os.path.exists("plugin"):
+    for i in range(0, 3):
+        os.makedirs("plugin/" + "00040000000" + str(JAP_TID_LOW + (i * 100)))
+        os.makedirs("plugin/" + "0004000000198" + chr(D_ASCII + i) + "00")
 printf("Copying files into each folder");
-shutil.copy2(FILE, "plugin/" + EUR_TID + "/" + FILE)
-shutil.copy2(FILE, "plugin/" + USA_TID + "/" + FILE)
-shutil.copy2(FILE, "plugin/" + JAP_TID + "/" + FILE)
+for i in range(0, 3):
+    shutil.copy2(FILE, "plugin/" + "00040000000" + str(JAP_TID_LOW + (i * 100)) + "/" + FILE)
+    shutil.copy2(FILE, "plugin/" + "0004000000198" + chr(D_ASCII + i) + "00" + "/" + FILE)
 shutil.make_archive("ACNL-NTR-Cheats", 'zip', ".\plugin");
 printf("Done!");

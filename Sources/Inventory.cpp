@@ -7,7 +7,7 @@ namespace CTRPluginFramework
     {
         if (entry->Hotkeys[0].IsDown())
         {
-            u32 output;
+            Item item = { 0 };
 
             // New keyboard, hint being:
             Keyboard keyboard("What item would you like ?");
@@ -16,10 +16,12 @@ namespace CTRPluginFramework
             keyboard.SetCompareCallback([](const void *input, std::string &error)
             {
                 // Cast the input into the appropriate type (must match the type provided to Open)
-                u32 in = *static_cast<const u32 *>(input);
+                Item in = *static_cast<const Item *>(input);
+                u32 chk;
+                chk = (in.ID & ~0x8000) - 0x2000;
 
                 // Check the value
-                if ((in << 8) < 0x200000 || (in << 8) > 0x600000)
+                if (chk >= 0x172B)
                 {
                     error = "Invalid Item ID: Cannot be use with Text2Item!";
                     // Return that the value isn't valid
@@ -31,9 +33,9 @@ namespace CTRPluginFramework
             });
 
             // If the function return -1, then the user canceled the keyboard, so do nothing 
-            if (keyboard.Open(output) != -1)
+            if (keyboard.Open(item.raw) != -1)
             {
-                Player::GetInstance()->WriteInventorySlot(0, output);
+                Player::GetInstance()->WriteInventorySlot(0, item.raw);
             }
         }
     }
