@@ -18,10 +18,10 @@ namespace CTRPluginFramework
                 // Cast the input into the appropriate type (must match the type provided to Open)
                 Item in = *static_cast<const Item *>(input);
                 u32 chk;
-                chk = (in.ID & ~0x8000) - 0x2000;
+                chk = in.ID - 0x2000;
 
                 // Check the value
-                if (chk >= 0x172B)
+                if (chk >= 0x6000)
                 {
                     error = "Invalid Item ID: Cannot be use with Text2Item!";
                     // Return that the value isn't valid

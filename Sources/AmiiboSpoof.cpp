@@ -6,6 +6,7 @@ namespace CTRPluginFramework
 {
     void    WispSpoofer(u16 Amiibo_ID)
     {
+        bool sanrio = false;
         static Clock time;
         static const u32 offset = GetWispOffset();
 
@@ -15,12 +16,31 @@ namespace CTRPluginFramework
             return;
         }
 
+        if (Amiibo_ID == 0x0374 || Amiibo_ID == 0x028F || Amiibo_ID == 0x04D3 || Amiibo_ID == 0x032E
+            || Amiibo_ID == 0x02E0 || Amiibo_ID == 0x04A8)
+        {
+            sanrio = true;
+        }
+
+        if (sanrio)
+        {
+            MessageBox("The Sanrio Amiibo are currently unsupported.\n \
+                They weren't functioning like they should.\n \
+                They acted like normal villagers rather than RV Villagers.\n \
+                Sorry for any inconvienience.");
+            return;
+        }
+
         time.Restart(); //Restart timer so it'll work again
         while (!time.HasTimePassed(Seconds(12))) //Write to offsets until timer stops - 7.f is fine on n3ds but not on o3ds
         {
             Process::Write16(offset+0x219, Amiibo_ID); //Amiibo ID
+            //if (sanrio)
+            //    Process::Write8(offset+0x218, 0x1);
             Process::Write8(offset+0x204, 0x13); //Tell game an amiibo is being scanned
         }
+
+        sanrio = false;
     }
 
     void    DIESpoofer(const char* Model)
