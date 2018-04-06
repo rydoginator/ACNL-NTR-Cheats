@@ -391,7 +391,7 @@ namespace CTRPluginFramework
         {"Curly", 0x0131, "pig00", 0x0478}, // Pig 
         {"Crackle/Spork", 0x0136, "pig05", 0x047D}, // Pig 
         {"Gala", 0x013b, "pig13", 0x0485}, // Pig 
-        {"Ganon", 0x0140, "pig18", 0x0801}, // Pig
+        {"Ganon", 0x0140, "pig18", 0x0102}, // Pig
         {"Hugh", 0x0134, "pig03", 0x047B}, // Pig 
         {"Kevin", 0x013d, "pig15", 0x0487}, // Pig 
         {"Lucy", 0x0135, "pig04", 0x047C}, // Pig 
