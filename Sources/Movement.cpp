@@ -156,12 +156,15 @@ namespace CTRPluginFramework
             }
             offset += 4;
         }
-        for (int i = 0; i < buildings.size(); i++)
+        for (int i = 0; i < buildings.size(); ++i)
         {
-            for (int j = 0; j < buildingIDS.size(); j++)
+            for (const IDs& building : buildingIDS)
             {
-                if (buildingIDS[j].id == buildings[i])
-                    entryNames.push_back(buildingIDS[j].Name);
+                if (building.id != buildings[i])
+                    continue;
+
+                entryNames.push_back(building.Name);
+                break;
             }
         }
         keyboard.Populate(entryNames);

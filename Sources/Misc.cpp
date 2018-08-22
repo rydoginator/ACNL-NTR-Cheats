@@ -13,10 +13,10 @@ namespace CTRPluginFramework
     struct NPC
     {
         const char *File;
-        std::string Name;
+        const char *Name;
     };
 
-    const std::vector<NPC> villagers =
+    const NPC villagers[] =
     {
         { "alp.bcres", "Cyrus" },
         { "alw.bcres", "Reese" },

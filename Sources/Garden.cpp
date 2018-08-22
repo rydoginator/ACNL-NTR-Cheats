@@ -40,7 +40,7 @@ namespace CTRPluginFramework
         options.clear(); //clear options in order to store the building ids in it.
         if (userChoice == 0)
         {
-            for (const Buildings &option : buildingIDS)
+            for (const IDs &option : buildingIDS)
                 options.push_back(option.Name);
             Keyboard _keyboard("Which building would you like to place?");
             _keyboard.Populate(options);
@@ -82,10 +82,13 @@ namespace CTRPluginFramework
             
             for (int i = 0; i < buildings.size(); i++)
             {
-                for (int j = 0; j < buildingIDS.size(); j++)
+                for (const IDs& building : buildingIDS)
                 {
-                    if (buildingIDS[j].id == buildings[i])
-                        options.push_back(buildingIDS[j].Name);
+                    if (building.id != buildings[i])
+                        continue;
+
+                    options.push_back(building.Name);
+                    break;
                 }
             }
             Keyboard _keyboard("Which building would you like to destroy?");
