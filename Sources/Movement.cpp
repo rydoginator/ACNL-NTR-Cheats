@@ -219,8 +219,8 @@ namespace CTRPluginFramework
 
             if (velocity >= speed)
                 Process::WriteFloat(Game::Velocity, speed);
-            else if (velocity > 0)
-                Process::WriteFloat(Game::Velocity, velocity + 0.1f);
+            else if (velocity > 0.0f)
+                Process::WriteFloat(Game::Velocity, velocity + 0.5f);
         }
     }
 

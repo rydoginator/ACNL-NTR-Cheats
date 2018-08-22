@@ -115,13 +115,13 @@ namespace CTRPluginFramework
 
     void    FastGameSpeed(MenuEntry *entry)
     {
-        static const u32    nop = 0xE1A00000;
-        static const u32    original = 0xE58450A0;
+        static const u32    patch = 0xE3E004FF;
+        static const u32    original = 0xE59400A0;
         static u32 offset = reinterpret_cast<u32>(Game::GameSpeed);
         if (entry->WasJustActivated())
-            Process::Patch(offset, (u8 *)&nop, 4);
-        else if (!entry->WasJustActivated())
-            Process::Patch(offset, (u8 *)&original, 4);
+            Process::Patch(offset, patch);
+        else if (!entry->IsActivated())
+            Process::Patch(offset, original);
     }
 
 
@@ -141,6 +141,12 @@ namespace CTRPluginFramework
         static bool         isPatched = false;
         static bool         rotationPatch = false;
         static bool         followRotation = false;
+
+        static Clock time;
+        Time delta = time.Restart();
+
+        float speed = 400.0f * delta.AsSeconds();
+        u16 difference = 0x1000 * delta.AsSeconds();
 
         if (*cameraPointer)
         {
@@ -171,13 +177,13 @@ namespace CTRPluginFramework
             if (entry->Hotkeys[0].IsDown())
             {
                 if (Controller::IsKeyDown(Key::CPadUp))
-                    ADD16((*cameraPointer + 0x12C), 0x10);
+                    ADD16((*cameraPointer + 0x12C), difference);
                 if (Controller::IsKeyDown(Key::CPadDown))
-                    SUB16((*cameraPointer + 0x12C), 0x10);
+                    SUB16((*cameraPointer + 0x12C), difference);
                 if (Controller::IsKeyDown(Key::CPadLeft))
-                    ADD16((*cameraPointer + 0x12E), 0x10);
+                    ADD16((*cameraPointer + 0x12E), difference);
                 if (Controller::IsKeyDown(Key::CPadRight))
-                    SUB16((*cameraPointer + 0x12E), 0x10);
+                    SUB16((*cameraPointer + 0x12E), difference);
             }
             if (entry->Hotkeys[1].IsDown()) // Stop camera from moving
                 goto patch;
@@ -195,37 +201,37 @@ namespace CTRPluginFramework
 
             if (entry->Hotkeys[4].IsDown())
             {
-                cameraCoordinates->z -= 0.1f;
+                cameraCoordinates->z -= speed;
                 goto patch;
             }
 
             if (entry->Hotkeys[5].IsDown())
             {
-                cameraCoordinates->x += 0.1f;
+                cameraCoordinates->x += speed;
                 goto patch;
             }
 
             if (entry->Hotkeys[6].IsDown())
             {
-                cameraCoordinates->z += 0.1f;
+                cameraCoordinates->z += speed;
                 goto patch;
             }
 
             if (entry->Hotkeys[7].IsDown())
             {
-                cameraCoordinates->x -= 0.1f;
+                cameraCoordinates->x -= speed;
                 goto patch;
             }
 
             if (entry->Hotkeys[8].IsDown())
             {
-                cameraCoordinates->y -= 0.1f;
+                cameraCoordinates->y -= speed;
                 goto patch;
             }
 
             if (entry->Hotkeys[9].IsDown())
             {
-                cameraCoordinates->y += 0.1f;
+                cameraCoordinates->y += speed;
                 goto patch;
             }
             return;
@@ -630,6 +636,7 @@ namespace CTRPluginFramework
                 execution == false;
                 return;
             }
+            Sleep(Seconds(1));
             Player::GetInstance()->SetFloatCoordinates(coordinates[0] + 0.1f, coordinates[1] + 0.1f);
             Player::GetInstance()->SetRotation(0xEB00000);
             Controller::InjectKey(Key::Y);

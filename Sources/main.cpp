@@ -258,23 +258,33 @@ namespace CTRPluginFramework
         ** Inventory
         ********************/
 
-        menu += new MenuFolder("Inventory", std::vector<MenuEntry *>(
+        MenuFolder *inv = new MenuFolder("Inventory");
         {
-            EntryWithHotkey(new MenuEntry("Text to Item", Text2Item, "Press the hotkeys to bring up the keyboard to enter the item ID."),
-            { Hotkey(Key::X | Key::DPadRight, "Open the keyboard")}),
-            EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into slot 2."), 
-            { Hotkey(Key::R, "Duplicate items")}),
-            new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown."),
-            new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box."),
-            EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
-            { Hotkey(Key::X | Key::A, "Inspect fossils") }),
-            new MenuEntry("Max Bank", MaxMoneyBank),
-            new MenuEntry("Infinite Wallet", InfiniteWallet),
-            new MenuEntry("Infinite/Max Coupons", InfiniteCoupons),
-            new MenuEntry("Infinite/Max Island Medals", InfiniteMedals),
-            new MenuEntry("Wallet editor (0)", WalletEditor, WalletEditorSetter, "Touch the keyboard icon on the bottom screen to change the desired value"),
-            new MenuEntry("Bank editor (0)", BankEditor, BankEditorSetter, "Touch the keyboard icon on the bottom screen to enter the desired amount of bells in your bank.")
-        }));
+            *inv += new MenuFolder("Money cheats", std::vector<MenuEntry *>(
+                {
+                    new MenuEntry(2, "Max/Infinite Bank", MaxMoneyBank, "Sets your bank to always have 999,999,999 bells."),
+                    new MenuEntry(2, "Bells in Bank Don't Decrease", InfiniteBank, "Withdrawing any amount of bells does nothing.\nI wish my real bank did this..."),
+                    new MenuEntry(3, "Max/Infinite Wallet", MaxWallet, "Sets your bank to always have 99,999 bells."),
+                    new MenuEntry(3, "Bells in Wallet Don't Decrease", InfiniteWallet, "Spending any bells doesn't decrease your wallet.\nGo on a shopping spree!"),
+                    new MenuEntry(4, "Coupons Don't Decrease", InfiniteCoupons),
+                    new MenuEntry(4, "Infinite/Max Coupons", MaxCoupons),
+                    new MenuEntry(5, "Medals Don't Decrease", InfiniteMedals),
+                    new MenuEntry(5, "Infinite/Max Island Medals", MaxMedals),
+                    new MenuEntry("Wallet editor (0)", WalletEditor, WalletEditorSetter, "Touch the keyboard icon on the bottom screen to change the desired value"),
+                    new MenuEntry("Bank editor (0)", BankEditor, BankEditorSetter, "Touch the keyboard icon on the bottom screen to enter the desired amount of bells in your bank.")
+                }));
+            *inv += EntryWithHotkey(new MenuEntry("Text to Item", Text2Item, "Press the hotkeys to bring up the keyboard to enter the item ID."),
+                {Hotkey(Key::X | Key::DPadRight, "Open the keyboard") });
+            *inv += EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into slot 2."),
+                {Hotkey(Key::R, "Duplicate items") }),
+            *inv += new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown.");
+            *inv += new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box.");
+            *inv += EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
+                {Hotkey(Key::X | Key::A, "Inspect fossils") });
+        }
+
+        menu += inv;
+
 
         /*
         ** Environment
@@ -365,7 +375,7 @@ namespace CTRPluginFramework
             {
                 Hotkey(Key::R, "Open Villager Categories List")
             }),
-            EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code.\nCredits to 0ICED0 for the cheat."),
+            EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code.\nOriginal cheat by 0ICED0, adapted by Slattz."),
                 {Hotkey(Key::R | Key::B, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable."),
                 {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")})

@@ -123,10 +123,19 @@ namespace CTRPluginFramework
     void    Encyclopedia(MenuEntry *entry);
     void    Emoticons(MenuEntry *entry);
     void    Songs(MenuEntry *entry);
+
+    /*
+	** Money Cheats
+	*****************/
+
     void    MaxMoneyBank(MenuEntry *entry);
+    void    InfiniteBank(MenuEntry *entry);
+    void    MaxCoupons(MenuEntry *entry);
     void    InfiniteCoupons(MenuEntry *entry);
+    void    MaxMedals(MenuEntry *entry);
     void    InfiniteMedals(MenuEntry *entry);
-    void    InfiniteWallet(MenuEntry * entry);
+    void    MaxWallet(MenuEntry *entry);
+    void    InfiniteWallet(MenuEntry *entry);
     void    WalletEditorSetter(MenuEntry *entry);
     void    WalletEditor(MenuEntry *entry);
     void    BankEditorSetter(MenuEntry *entry);

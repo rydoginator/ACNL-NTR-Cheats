@@ -208,7 +208,7 @@ namespace CTRPluginFramework
         bool            updateavailable = false;
 
 
-        if (http_download("https://raw.githubusercontent.com/RyDog199/ACNL-NTR-Cheats/master/latest.txt", (u8 **)&latest, &size)) //BootNTR Test
+        if (http_download("https://raw.githubusercontent.com/rydoginator/ACNL-NTR-Cheats/master/latest.txt", (u8 **)&latest, &size)) //BootNTR Test
         {
                 Sstrncpy(newVerString, latest, size);
                 if (CheckVersion(newVerString))
@@ -217,7 +217,7 @@ namespace CTRPluginFramework
                 else return false; //if no update
 
 
-                Sstrncpy(urlDownload, "https://raw.githubusercontent.com/RyDog199/ACNL-NTR-Cheats/master/ACNL-NTR-Cheats.plg", 200);
+                Sstrncpy(urlDownload, "https://raw.githubusercontent.com/rydoginator/ACNL-NTR-Cheats/master/ACNL-NTR-Cheats.plg", 200);
                 Sstrncpy(newChangelog, "The changelog cannot be viewed from the plugin.\nVisit < http://bit.ly/ACPLG-Change >\nto see the changelog on Github.", 200);
 
                 return updateavailable;

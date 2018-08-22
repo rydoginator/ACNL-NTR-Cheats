@@ -118,13 +118,18 @@ namespace   CTRPluginFramework
         return (Write32(0x6BD0 + (slot * 4), item));
     }
 
+    bool Player::WriteInventoryLock(int slot, u8 lock) const
+    {
+        return (WriteByte(0x6C10 + slot, lock));
+    }
+
     //Get all the occurances of 0x7FFE inside someone's inventory and return which slots it's in (as an array) and how long the array is
     int     * Player::GetAvaibleSlots(int &length) const
     {
         u32 item[16];
         int slot = 0;
         static int slots[16];
-        for (int i = 0; i < 16; i ++)
+        for (int i = 0; i < 16; i++)
         {
             ReadInventorySlot(i, item[i]);
         }

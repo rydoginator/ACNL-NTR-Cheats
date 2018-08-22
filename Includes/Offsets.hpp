@@ -229,11 +229,11 @@
 #define     USA_PERMIT_ADDRESS                  0x31F2C738
 #define     USA_TREE_SIZE                       0x31F72E06
 
-#define     USA_GAME_SPEED                      0x54DDF4
-#define     EUR_GAME_SPEED                      0x549CE4
-#define     JAP_GAME_SPEED                      0x54C728
+#define     USA_GAME_SPEED                      0x54DDB4
+#define     EUR_GAME_SPEED                      0x54CDFC //Same as WA
+#define     JAP_GAME_SPEED                      0x54C6E8 //Same as WA
 #define     USA_WA_GAME_SPEED                   0x54D30C
-#define     EUR_WA_GAME_SPEED                   0x54CE3C
+
 
 
 #define     USA_ITEM_FORM                       0x3307778C

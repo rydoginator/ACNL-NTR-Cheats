@@ -46,8 +46,11 @@ namespace CTRPluginFramework
         {
             u32 item;
 
-            if (Player::GetInstance()->ReadInventorySlot(0, item))
+            if (Player::GetInstance()->ReadInventorySlot(0, item)) {
                 Player::GetInstance()->WriteInventorySlot(1, item);
+                Player::GetInstance()->WriteInventoryLock(1, 0);
+            }
+
         }
     }
 
@@ -65,15 +68,20 @@ namespace CTRPluginFramework
         for (int i = 0; i < 15; i++, ++address)
         {
             // If current slot is empty
-            if (*address == 0x00007FFE)
+            if (*address == 0x00007FFE) {
                 *address = firstItem;
+                Player::GetInstance()->WriteInventoryLock(i + (i == 15 ? 0 : 1), 0);
+            }
         }
     }
 
     void    ClearInv(void)
     {
-        for (int i = 0; i < 17; i++)
+        for (int i = 0; i < 16; i++) 
+        {
             Player::GetInstance()->WriteInventorySlot(i, 0x7FFE);
+            Player::GetInstance()->WriteInventoryLock(i, 0);
+        }
     }
 
     void    ShowBuriedItems(MenuEntry *entry)
@@ -296,22 +304,86 @@ namespace CTRPluginFramework
 
     void    MaxMoneyBank(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x6B8C, EncryptACNLMoney(999999999));
+        static u64 seed = 0;
+        if (seed == 0)
+            seed = EncryptACNLMoney(999999999);
+        Player::GetInstance()->Write64(0x6B8C, seed);
+    }
+
+    void    InfiniteBank(MenuEntry *entry)
+    {
+        u64 seed;
+        static u32 money = 0;
+        Player::GetInstance()->Read64(0x6B8C, seed);
+        if (entry->WasJustActivated())
+            money = DecryptACNLMoney(seed);
+        if (DecryptACNLMoney(seed) > money)
+            money = DecryptACNLMoney(seed);      // store new value if you increase your bells
+        else if (DecryptACNLMoney(seed) < money) // if you lose some money then write the stored value back
+            Player::GetInstance()->Write64(0x6B8C, EncryptACNLMoney(money));
+    }
+
+    void    MaxCoupons(MenuEntry *entry)
+    {
+        static u64 seed = 0;
+        if (seed == 0)
+            seed = EncryptACNLMoney(999999999);
+        Player::GetInstance()->Write64(0x8D1C, EncryptACNLMoney(9999));
     }
 
     void    InfiniteCoupons(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x8D1C, EncryptACNLMoney(9999));
+        u64 seed;
+        static u32 coupons = 0;
+        Player::GetInstance()->Read64(0x8D1C, seed);
+        if (entry->WasJustActivated())
+            coupons = DecryptACNLMoney(seed);
+        if (DecryptACNLMoney(seed) > coupons)
+            coupons = DecryptACNLMoney(seed);
+        else if (DecryptACNLMoney(seed) < coupons)
+            Player::GetInstance()->Write64(0x8D1C, EncryptACNLMoney(coupons));
+    }
+
+    void    MaxMedals(MenuEntry *entry)
+    {
+        static u64 seed = 0;
+        if (seed == 0)
+            seed = EncryptACNLMoney(9999);
+        Player::GetInstance()->Write64(0x6b9c, seed);
     }
 
     void    InfiniteMedals(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x6b9c, EncryptACNLMoney(9999));
+        u64 seed;
+        static u32 medals = 0;
+        Player::GetInstance()->Read64(0x6b9c, seed);
+        if (entry->WasJustActivated())
+            medals = DecryptACNLMoney(seed);
+        if (DecryptACNLMoney(seed) > medals)
+            medals = DecryptACNLMoney(seed);
+        else if (DecryptACNLMoney(seed) < medals)
+            Player::GetInstance()->Write64(0x6b9c, EncryptACNLMoney(medals));
     }
 
-    void    InfiniteWallet(MenuEntry * entry)
+    void    MaxWallet(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x6F08, EncryptACNLMoney(99999));
+        static u64 seed = 0;
+        if (seed == 0)
+            seed = EncryptACNLMoney(99999);
+        Player::GetInstance()->Write64(0x6F08, seed);
+    }
+
+    void    InfiniteWallet(MenuEntry *entry)
+    {
+        u64 seed;
+        static u32 money = 0;
+        Player::GetInstance()->Read64(0x6F08, seed);
+        if (entry->WasJustActivated())
+            money = DecryptACNLMoney(seed);
+        if (DecryptACNLMoney(seed) > money)
+            money = DecryptACNLMoney(seed);
+        else if (DecryptACNLMoney(seed) < money)
+            Player::GetInstance()->Write64(0x6F08, EncryptACNLMoney(money));
     }
 
     void    WalletEditorSetter(MenuEntry *entry)
