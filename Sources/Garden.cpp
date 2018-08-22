@@ -1,6 +1,8 @@
 #include "cheats.hpp"
 #include "CTRPluginFramework/Utils/Utils.hpp"
 
+static const char RTBP_ErrorMSG[] = "RTBP just tried to place/remove Building 0x%02X, which is invalid.\nPlease report this to the developers, along with:\n1)The building you selected on the list\n2)The building amount (Amount is: %d).";
+
 namespace CTRPluginFramework
 {
     void    SetNameTo(MenuEntry *entry)
@@ -48,6 +50,11 @@ namespace CTRPluginFramework
                 counter++;
             if (counter == 30)
                 OSD::Notify("All building slots are filled!");
+            else if ((id >= 0x12 && id <= 0x4B) || id > 0xFC) 
+            {
+                MessageBox("Building Placer Error!", Format(RTBP_ErrorMSG, id, counter))();
+                return;
+            }
             else
             {
                 Process::Write8(building + (counter * 4), id);
