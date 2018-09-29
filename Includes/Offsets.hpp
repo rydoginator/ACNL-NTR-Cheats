@@ -324,6 +324,25 @@
 #define     EUR_WA_NOBREAKFLOWERS               0x596FA0
 #define     JAP_WA_NOBREAKFLOWERS               0x596890
 
+#define     USA_WEATHER                         0x62FC30
+#define     EUR_WEATHER                         0x62EC68
+#define     JAP_WEATHER                         0x62E728
+#define     USA_WA_WEATHER                      0x62F158
+#define     EUR_WA_WEATHER                      0x62EC68
+#define     JAP_WA_WEATHER                      0x62E728
 
+#define     USA_CONFETTI                        0x266CDC
+#define     EUR_CONFETTI                        0x266CD8
+#define     JAP_CONFETTI                        0x266BF8
+#define     USA_WA_CONFETTI                     0x266720
+#define     EUR_WA_CONFETTI                     0x266CD8
+#define     JAP_WA_CONFETTI                     0x266BF8
+
+#define     USA_CHERRYBLOSSOM                   0x296A64
+#define     EUR_CHERRYBLOSSOM                   0x296A60
+#define     JAP_CHERRYBLOSSOM                   0x296960
+#define     USA_WA_CHERRYBLOSSOM                0x2964A8
+#define     EUR_WA_CHERRYBLOSSOM                0x296A60
+#define     JAP_WA_CHERRYBLOSSOM                0x296960
 
 #endif

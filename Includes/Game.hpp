@@ -71,6 +71,9 @@ namespace CTRPluginFramework
         static u32      EmoteASM;       ///<ASM offset for Emoticons
         static u32      PatternEdit;    ///<ASM offset for Edit Any Pattern
         static u32      NoBreakFlowers; ///<ASM offset for Breaking Flowers
+        static u32      Weather; ///<ASM offset for Weather Mod
+        static u32      Confetti; ///<ASM offset for Confetti Mod
+        static u32      CherryBlossom; ///<ASM offset for Cherry Blossom Mod
     };
 }
 

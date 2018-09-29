@@ -213,6 +213,13 @@ namespace CTRPluginFramework
     void    CatalogToPockets(MenuEntry *entry);
 
     /*
+    ** Weather
+    ****************/
+    void    WeatherMod(MenuEntry *entry);
+    void    CherryBlossomMod(MenuEntry *entry);
+    void    ConfettiMod(MenuEntry *entry);
+
+    /*
     ** Callbacks
     ********************/
     void    CheatsKeyboard(void);

@@ -378,7 +378,25 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code.\nOriginal cheat by 0ICED0, adapted by Slattz."),
                 {Hotkey(Key::R | Key::B, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable."),
-                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")})
+                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
+            EntryWithHotkey(new MenuEntry("Weather Modifier", WeatherMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+                {
+                Hotkey(Key::Y | Key::DPadLeft, "Change Button Activator"), 
+                Hotkey(Key::Y | Key::DPadUp, "Change Increment Hotkey"),
+                Hotkey(Key::Y | Key::DPadDown, "Change Decrement Hotkey")
+                }),
+            EntryWithHotkey(new MenuEntry("Confetti Mod", ConfettiMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+                {
+                Hotkey(Key::L | Key::DPadLeft, "Change Button Activator"), 
+                Hotkey(Key::L | Key::DPadUp, "Change Increment Hotkey"),
+                Hotkey(Key::L | Key::DPadDown, "Change Decrement Hotkey")
+                }),
+            EntryWithHotkey(new MenuEntry("Cherry Blossom Mod", CherryBlossomMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+                {
+                Hotkey(Key::R | Key::DPadLeft, "Change Button Activator"), 
+                Hotkey(Key::R | Key::DPadUp, "Change Increment Hotkey"),
+                Hotkey(Key::R | Key::DPadDown, "Change Decrement Hotkey")
+                })
         }));
 
         /*
