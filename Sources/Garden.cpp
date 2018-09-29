@@ -48,8 +48,12 @@ namespace CTRPluginFramework
         int userChoice = keyboard.Open();
 
         options.clear(); //clear options in order to store the building ids in it.
+
+        if (userChoice == -1)
+            return;
+
         /* Place Bulding */
-        if (userChoice == 0) //Place
+        else if (userChoice == 0) //Place
         {
             for (const Building &pwp : buildingIDS)
                 options.push_back(pwp.Name);
@@ -57,6 +61,10 @@ namespace CTRPluginFramework
             Keyboard _keyboard("Which building would you like to place?");
             _keyboard.Populate(options);
             int index = _keyboard.Open();
+
+            if (index == -1)
+                return;
+
             u8 id = buildingIDS[index].id;
 
             if ((id >= 0x12 && id <= 0x4B) || id > 0xFC) //Invalid Buildings
