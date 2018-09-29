@@ -38,13 +38,14 @@ namespace CTRPluginFramework
             return;
         }
 
+        u32 off_building = Game::Building;
+        u32 counter = 0;
+        u32 maxcounter = 0;
+        
         Keyboard keyboard("Building placer\nChoose an option.");
         StringVector options = { "Place a building", "Remove a building" };
         keyboard.Populate(options);
         int userChoice = keyboard.Open();
-        u32 off_building = Game::Building;
-        u32 counter = 0;
-        u32 maxcounter = 0;
 
         options.clear(); //clear options in order to store the building ids in it.
         /* Place Bulding */
@@ -107,7 +108,6 @@ namespace CTRPluginFramework
         /* Remove Bulding */
         else if (userChoice == 1) //Remove
         {
-            Sleep(Seconds(3)); //Allow other keyboard to disappear
             std::vector<u8> buildings;
             std::vector<u8> x, y;
             std::vector<bool> IsEvent;
@@ -116,9 +116,12 @@ namespace CTRPluginFramework
 
             Keyboard _keyboard("Which building type would you like to remove?");
             _keyboard.Populate(pwptype);
-            int pwptypechoice = keyboard.Open();
+            int pwptypechoice = _keyboard.Open();
 
-            if (pwptypechoice == 0) {
+            if (pwptypechoice == -1) //abort
+                return;
+
+            else if (pwptypechoice == 0) {
                 start = 0;
                 end = 56;
             }
