@@ -158,7 +158,7 @@ namespace CTRPluginFramework
         }
         for (int i = 0; i < buildings.size(); ++i)
         {
-            for (const IDs& building : buildingIDS)
+            for (const Building& building : buildingIDS)
             {
                 if (building.id != buildings[i])
                     continue;

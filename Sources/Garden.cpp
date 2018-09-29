@@ -2,6 +2,9 @@
 #include "CTRPluginFramework/Utils/Utils.hpp"
 
 static const char RTBP_ErrorMSG[] = "RTBP just tried to place/remove Building 0x%02X, which is invalid.\nPlease report this to the developers, along with:\n1)The building you selected on the list\n2)The building amount (Amount is: %d).";
+static const char RTBP_EventMSG[] = "Only two event pwps can be placed at one time (to avoid issues with the game).\nPlease remove one of the existing event buildings to place a new one.";
+static const char RTBP_0PWPMSG[] = "No buildings of this type can be found!";
+static const char RTBP_0NUMMSG[] = "You have 0 buildings, how the hell are you removing one???";
 
 namespace CTRPluginFramework
 {
@@ -30,80 +33,150 @@ namespace CTRPluginFramework
 
     void    BuildingPlacer(MenuEntry *entry)
     {
+        if (*Game::Room != 0) {
+            MessageBox("RTBP Error!", "You need to be in the Town for this to work.")();
+            return;
+        }
+
         Keyboard keyboard("Building placer\nChoose an option.");
         StringVector options = { "Place a building", "Remove a building" };
         keyboard.Populate(options);
         int userChoice = keyboard.Open();
-        u32 building = Game::Building;
+        u32 off_building = Game::Building;
         u32 counter = 0;
+        u32 maxcounter = 0;
 
         options.clear(); //clear options in order to store the building ids in it.
-        if (userChoice == 0)
+        /* Place Bulding */
+        if (userChoice == 0) //Place
         {
-            for (const IDs &option : buildingIDS)
-                options.push_back(option.Name);
+            for (const Building &pwp : buildingIDS)
+                options.push_back(pwp.Name);
+            
             Keyboard _keyboard("Which building would you like to place?");
             _keyboard.Populate(options);
             int index = _keyboard.Open();
             u8 id = buildingIDS[index].id;
-            while (*(u8 *)(building + (counter * 4)) != 0xFC && counter < 31)
-                counter++;
-            if (counter == 30)
-                OSD::Notify("All building slots are filled!");
-            else if ((id >= 0x12 && id <= 0x4B) || id > 0xFC) 
+
+            if ((id >= 0x12 && id <= 0x4B) || id > 0xFC) //Invalid Buildings
             {
                 MessageBox("Building Placer Error!", Format(RTBP_ErrorMSG, id, counter))();
                 return;
             }
+
+            else if (buildingIDS[index].IsEvent) {
+                if (*(Game::BuildingSlots+1) == 2) {
+                    Sleep(Seconds(1));
+                    MessageBox("Building Placer Error!", RTBP_EventMSG)();
+                    return;
+                }
+
+                counter = 56; //Event PWP are last two slots
+                maxcounter = 58;
+            }
+
+            else {
+                counter = 0;
+                maxcounter = 56;
+            }
+
+            while (*(u8 *)(off_building + (counter * 4)) != 0xFC && counter < maxcounter) {
+                counter++;
+            }
+
+            if (counter == maxcounter)
+                OSD::Notify("Every Building Slot Is Filled!");
+
             else
             {
-                Process::Write8(building + (counter * 4), id);
-                Process::Write8(building + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
-                Process::Write8(building + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
-                *Game::BuildingSlots++;
-                OSD::Notify("Building Placed! Reload the area to see effects.");
+                Process::Write8(off_building + (counter * 4), id);
+                Process::Write8(off_building + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
+                Process::Write8(off_building + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
+                OSD::Notify(Format("\"%s\" Placed!", buildingIDS[index].Name));
+                OSD::Notify("Reload the area to see effects.");
+                if (buildingIDS[index].IsEvent)
+                    ADD8((Game::BuildingSlots+1), 1); //Increment Event Building Amount
+
+                else
+                    ADD8(Game::BuildingSlots, 1); ////Increment Normal Building Amount
             }
             return;
+
         }
-        else if (userChoice == 1)
+
+        /* Remove Bulding */
+        else if (userChoice == 1) //Remove
         {
+            Sleep(Seconds(3)); //Allow other keyboard to disappear
             std::vector<u8> buildings;
             std::vector<u8> x, y;
-            
-            for (int i = 0; i < 30; i++)
+            std::vector<bool> IsEvent;
+            int start = 0, end = 0;
+            StringVector pwptype = {"Normal PWPs", "Event PWPs"};
+
+            Keyboard _keyboard("Which building type would you like to remove?");
+            _keyboard.Populate(pwptype);
+            int pwptypechoice = keyboard.Open();
+
+            if (pwptypechoice == 0) {
+                start = 0;
+                end = 56;
+            }
+
+            else if (pwptypechoice == 1) {
+                start = 56;
+                end = 58;
+            }
+
+            for (int i = start; i < end; i++)
             {
-                if (READU8(building + (i * 4)) != 0xFC) //check if a building is not empty
+                if (READU8(off_building + (i * 4)) != 0xFC) //check if a building is not empty
                 {
-                    buildings.push_back(READU8(building + (i * 4)));
-                    x.push_back(READU8(building + (i * 4) + 2));
-                    y.push_back(READU8(building + (i * 4) + 3));
+                    buildings.push_back(READU8(off_building + (i * 4)));
+                    x.push_back(READU8(off_building + (i * 4) + 2));
+                    y.push_back(READU8(off_building + (i * 4) + 3));
                 }
+            }
+
+            if (buildings.size() == 0) { //Possible case due to event pwps not always there
+                MessageBox("Building Remover Error!", RTBP_0PWPMSG)();
+                return;
             }
             
             for (int i = 0; i < buildings.size(); i++)
             {
-                for (const IDs& building : buildingIDS)
+                for (const Building& building : buildingIDS)
                 {
                     if (building.id != buildings[i])
                         continue;
 
                     options.push_back(building.Name);
+                    IsEvent.push_back(building.IsEvent);
                     break;
                 }
             }
-            Keyboard _keyboard("Which building would you like to destroy?");
-            _keyboard.Populate(options);
-            int index = _keyboard.Open();
 
-            if (index != -1)
+            Keyboard __keyboard("Which building would you like to remove?");
+            __keyboard.Populate(options);
+            int index = __keyboard.Open();
+
+            if (index != -1) //user didn't abort
             {
                 u8 id = buildings[index];
-                while (*(u8 *)(building + (counter * 4)) != id && counter < buildings.size())
+                while (*(u8 *)(off_building + (start*4) + (counter * 4)) != id && counter < buildings.size() && counter+start < end)
                     counter++;
-                Process::Write8(building + (counter * 4), 0xFC);
-                Process::Write8(building + (counter * 4) + 2, 0);
-                Process::Write8(building + (counter * 4) + 3, 0);
-                *Game::BuildingSlots--;
+                Process::Write8(off_building + (start*4) + (counter * 4), 0xFC);
+                Process::Write8(off_building + (start*4) + (counter * 4) + 2, 0);
+                Process::Write8(off_building + (start*4) + (counter * 4) + 3, 0);
+                OSD::Notify("Building Removed!");
+                OSD::Notify("Reload the area to see effects.");
+                if (IsEvent[index] && *(Game::BuildingSlots+1) > 0)
+                    SUB8((Game::BuildingSlots+1), 1); //Decrement Event Building Amount
+
+                else if (*Game::BuildingSlots > 0)
+                    SUB8(Game::BuildingSlots, 1); //Decrement Normal Building Amount
+
+                else MessageBox("Building Remover Error!", RTBP_0NUMMSG)();
             }
         }
     }

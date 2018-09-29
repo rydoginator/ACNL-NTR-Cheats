@@ -9,7 +9,14 @@ struct IDs
     const char *    Name;
 };
 
-extern const IDs    buildingIDS[189];
+struct Building
+{
+    u8 id;
+    const char *Name;
+    bool IsEvent;
+};
+
+extern const Building buildingIDS[178];
 extern const IDs    rooms[129];
 extern const IDs    regions[15];
 
