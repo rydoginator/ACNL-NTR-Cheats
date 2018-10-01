@@ -74,13 +74,13 @@ namespace CTRPluginFramework
             }
         }
 
-        if (entry->Hotkeys[2].IsDown()) //Rewind time by an hour
+        if (entry->Hotkeys[2].IsDown() && !hourbtn) //Rewind time by an hour
         {
             hourbtn = true;
             RewindTime(HOUR);
         }
 
-        else if (entry->Hotkeys[3].IsDown()) //Go forward in time by an hour
+        else if (entry->Hotkeys[3].IsDown() && !hourbtn) //Go forward in time by an hour
         {
             hourbtn = true;
             AddTime(HOUR);
@@ -88,12 +88,6 @@ namespace CTRPluginFramework
 
         else if (!entry->Hotkeys[2].IsDown() && !entry->Hotkeys[3].IsDown()) {
             hourbtn = false;
-        }
-
-        if (entry->Hotkeys[3].IsDown()) //Go forward in time by an hour
-        {
-            hourbtn = true;
-            AddTime(HOUR);
         }
 
         if (entry->Hotkeys[6].IsDown()) //Reset ingame time
