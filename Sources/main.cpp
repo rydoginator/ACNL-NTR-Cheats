@@ -47,7 +47,7 @@ namespace CTRPluginFramework
     void    PatchProcess(FwkSettings &settings)
     {
         // Install APT Hook to block home button
-        InstallAPTHook();
+        //InstallAPTHook();
         settings.ThreadPriority = 0x39;
         settings.AllowActionReplay = false;
         if (System::IsLoaderNTR())
