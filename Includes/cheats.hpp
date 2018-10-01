@@ -124,6 +124,7 @@ namespace CTRPluginFramework
     void    Encyclopedia(MenuEntry *entry);
     void    Emoticons(MenuEntry *entry);
     void    Songs(MenuEntry *entry);
+    void    FillCatalog(MenuEntry *entry);
 
     /*
 	** Money Cheats
@@ -211,11 +212,11 @@ namespace CTRPluginFramework
     /*
     ** Main Street
     ****************/
-    void    FillCatalog(MenuEntry *entry);
     void    MainStreetKeyboard(MenuEntry *entry);
+    int     NooklingStoreSelector(void);
     void    NooklingKeyboard(MenuEntry *entry);
-    void    SetNook(int value);
     void    CatalogToPockets(MenuEntry *entry);
+    void    ShopsAlwaysOpenKeyboard(MenuEntry *entry);
 
     /*
     ** Weather

@@ -48,7 +48,7 @@ namespace CTRPluginFramework
         KeyboardText = reinterpret_cast<u32 *>(AutoRegion(USA_TEXT_KEYBOARD, EUR_TEXT_KEYBOARD, JAP_TEXT_KEYBOARD, USA_WA_TEXT_KEYBOARD, EUR_WA_TEXT_KEYBOARD, JAP_WA_TEXT_KEYBOARD)());
         EnterBool = reinterpret_cast<u8 *>(AutoRegion(USA_ENTER_BOOL, EUR_ENTER_BOOL, JAP_ENTER_BOOL, USA_WA_ENTER_BOOL, EUR_WA_ENTER_BOOL, JAP_WA_ENTER_BOOL)());
         Visibility = reinterpret_cast<u32>(AutoRegion(USA_VISIBILITY_ADDR, EUR_VISIBILITY_ADDR, JAP_VISIBILITY_ADDR, USA_WA_VISIBILITY_ADDR, EUR_WA_VISIBILITY_ADDR, JAP_WA_VISIBILITY_ADDR)());
-       // CatalogItem = reinterpret_cast<u16 *>(AutoRegion(USA_CATALOG_ITEM, EUR_CATALOG_ITEM, JAP_CATALOG_ITEM)());
+        CatalogItem = reinterpret_cast<u32>(AutoRegion(USA_CATALOG_ITEM, EUR_CATALOG_ITEM, JAP_CATALOG_ITEM, USA_WA_CATALOG_ITEM, EUR_WA_CATALOG_ITEM, JAP_WA_CATALOG_ITEM)());
         MapBool = reinterpret_cast<u8 *>(AutoRegion(USA_MAP_BOOL, EUR_MAP_BOOL, JAP_MAP_BOOL, USA_WA_MAP_BOOL, EUR_WA_MAP_BOOL, JAP_WA_MAP_BOOL)());
         Tours = reinterpret_cast<u32 *>(AutoRegion(USA_TOURS, EUR_TOURS, JAP_TOURS, USA_WA_TOURS, EUR_WA_TOURS, JAP_WA_TOURS)());
         EmoteASM = reinterpret_cast<u32 >(AutoRegion(USA_EMOTE, EUR_EMOTE, JAP_EMOTE, USA_WA_EMOTE, EUR_WA_EMOTE, JAP_WA_EMOTE)());
@@ -58,6 +58,15 @@ namespace CTRPluginFramework
         Weather = reinterpret_cast<u32 >(AutoRegion(USA_WEATHER, EUR_WEATHER, JAP_WEATHER, USA_WA_WEATHER, EUR_WA_WEATHER, JAP_WA_WEATHER)());
         Confetti = reinterpret_cast<u32 >(AutoRegion(USA_CONFETTI, EUR_CONFETTI, JAP_CONFETTI, USA_WA_CONFETTI, EUR_WA_CONFETTI, JAP_WA_CONFETTI)());
         CherryBlossom = reinterpret_cast<u32 >(AutoRegion(USA_CHERRYBLOSSOM, EUR_CHERRYBLOSSOM, JAP_CHERRYBLOSSOM, USA_WA_CHERRYBLOSSOM, EUR_WA_CHERRYBLOSSOM, JAP_WA_CHERRYBLOSSOM)());
+        AlwaysOpen_Retail = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_RETAIL, EUR_ALWAYSOPEN_RETAIL, JAP_ALWAYSOPEN_RETAIL, USA_WA_ALWAYSOPEN_RETAIL, EUR_WA_ALWAYSOPEN_RETAIL, JAP_WA_ALWAYSOPEN_RETAIL)());
+        AlwaysOpen_Nookling = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_NOOKLING, EUR, JAP_ALWAYSOPEN_NOOKLING, USA_WA_ALWAYSOPEN_NOOKLING, EUR_WA_ALWAYSOPEN_NOOKLING, JAP_WA_ALWAYSOPEN_NOOKLING)());
+        AlwaysOpen_Garden = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_GARDEN, EUR, JAP_ALWAYSOPEN_GARDEN, USA_WA_ALWAYSOPEN_GARDEN, EUR_WA_ALWAYSOPEN_GARDEN, JAP_WA_ALWAYSOPEN_GARDEN)());
+        AlwaysOpen_Ables = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_ABLES, EUR, JAP_ALWAYSOPEN_ABLES, USA_WA_ALWAYSOPEN_ABLES, EUR_WA_ALWAYSOPEN_ABLES, JAP_WA_ALWAYSOPEN_ABLES)());
+        AlwaysOpen_Sham = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_SHAMPOODLE, EUR, JAP_ALWAYSOPEN_SHAMPOODLE, USA_WA_ALWAYSOPEN_SHAMPOODLE, EUR_WA_ALWAYSOPEN_SHAMPOODLE, JAP_WA_ALWAYSOPEN_SHAMPOODLE)());
+        AlwaysOpen_Kicks = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_KICKS, EUR, JAP_ALWAYSOPEN_KICKS, USA_WA_ALWAYSOPEN_KICKS, EUR_WA_ALWAYSOPEN_KICKS, JAP_WA_ALWAYSOPEN_KICKS)());
+        AlwaysOpen_Nook = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_NOOKS, EUR, JAP_ALWAYSOPEN_NOOKS, USA_WA_ALWAYSOPEN_NOOKS, EUR_WA_ALWAYSOPEN_NOOKS, JAP_WA_ALWAYSOPEN_NOOKS)());
+        AlwaysOpen_Katrina = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_KATRINA, EUR, JAP_ALWAYSOPEN_KATRINA, USA_WA_ALWAYSOPEN_KATRINA, EUR_WA_ALWAYSOPEN_KATRINA, JAP_WA_ALWAYSOPEN_KATRINA)());
+        AlwaysOpen_Redd = reinterpret_cast<u32>(AutoRegion(USA_ALWAYSOPEN_REDD, EUR, JAP_ALWAYSOPEN_REDD, USA_WA_ALWAYSOPEN_REDD, EUR_WA_ALWAYSOPEN_REDD, JAP_WA_ALWAYSOPEN_REDD)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -154,7 +163,7 @@ namespace CTRPluginFramework
     u32         *Game::KeyboardText = nullptr;
     u8          *Game::EnterBool = nullptr;
     u32         Game::Visibility = 0;
-    u16         *Game::CatalogItem = nullptr;
+    u32         Game::CatalogItem = 0;
     u8          *Game::MapBool = nullptr;
     u32         *Game::Tours = nullptr;
     u32         Game::EmoteASM = 0;
@@ -164,4 +173,13 @@ namespace CTRPluginFramework
     u32         Game::Weather = 0;
     u32         Game::Confetti = 0;
     u32         Game::CherryBlossom = 0;
+    u32         Game::AlwaysOpen_Retail = 0;
+    u32         Game::AlwaysOpen_Nookling = 0;
+    u32         Game::AlwaysOpen_Garden = 0;
+    u32         Game::AlwaysOpen_Ables = 0;
+    u32         Game::AlwaysOpen_Sham = 0;
+    u32         Game::AlwaysOpen_Kicks = 0;
+    u32         Game::AlwaysOpen_Nook = 0;
+    u32         Game::AlwaysOpen_Katrina = 0;
+    u32         Game::AlwaysOpen_Redd = 0;
 }

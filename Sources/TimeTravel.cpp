@@ -52,6 +52,7 @@ namespace CTRPluginFramework
     {
         float       *speed = GetArg<float>(entry, 1.0f);
         static Clock time;
+        static bool hourbtn = false;
 
         Time delta = time.Restart(); //calculate lag input
 
@@ -72,18 +73,27 @@ namespace CTRPluginFramework
                 SetTime(savedTime);
             }
         }
+
         if (entry->Hotkeys[2].IsDown()) //Rewind time by an hour
         {
+            hourbtn = true;
             RewindTime(HOUR);
-            while (entry->Hotkeys[2].IsDown())
-                Controller::Update();
+        }
+
+        else if (entry->Hotkeys[3].IsDown()) //Go forward in time by an hour
+        {
+            hourbtn = true;
+            AddTime(HOUR);
+        }
+
+        else if (!entry->Hotkeys[2].IsDown() && !entry->Hotkeys[3].IsDown()) {
+            hourbtn = false;
         }
 
         if (entry->Hotkeys[3].IsDown()) //Go forward in time by an hour
         {
+            hourbtn = true;
             AddTime(HOUR);
-            while (entry->Hotkeys[3].IsDown())
-                Controller::Update();
         }
 
         if (entry->Hotkeys[6].IsDown()) //Reset ingame time

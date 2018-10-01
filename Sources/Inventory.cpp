@@ -151,6 +151,14 @@ namespace CTRPluginFramework
         }
     }
 
+    void    FillCatalog(MenuEntry *entry)
+    {
+        u32     address = Player::GetInstance()->GetOffset() + 0x6C90;
+
+        std::memset((void *)address, 0xFF, 106 * 4);
+        entry->Disable();
+    }
+
     void    HaveMaxBells(MenuEntry *entry)
     {
         u64 money = EncryptACNLMoney(99999);

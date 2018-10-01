@@ -285,9 +285,12 @@
 #define     JAP_WA_VISIBILITY_ADDR              0x65308C
 
 
-#define     USA_CATALOG_ITEM                    0x950D1F
-#define     EUR_CATALOG_ITEM                    0x94FD1F
-#define     JAP_CATALOG_ITEM                    0x949D1F
+#define     USA_CATALOG_ITEM                    0x95033C
+#define     EUR_CATALOG_ITEM                    0x94F33C
+#define     JAP_CATALOG_ITEM                    0x94933C
+#define		USA_WA_CATALOG_ITEM					0x94F32C
+#define		EUR_WA_CATALOG_ITEM					0x94F33C
+#define		JAP_WA_CATALOG_ITEM					0x94833C
 
 #define     USA_MAP_BOOL                        0x950C30
 #define     EUR_MAP_BOOL                        0x94FC30
@@ -331,7 +334,6 @@
 #define     EUR_WA_COUNTRY                      0x34FC60
 #define     JAP_WA_COUNTRY                      0x34F8F8
 
-
 #define     USA_WEATHER                         0x62FC30
 #define     EUR_WEATHER                         0x62EC68
 #define     JAP_WEATHER                         0x62E728
@@ -352,5 +354,68 @@
 #define     USA_WA_CHERRYBLOSSOM                0x2964A8
 #define     EUR_WA_CHERRYBLOSSOM                0x296A60
 #define     JAP_WA_CHERRYBLOSSOM                0x296960
+
+#define     USA_ALWAYSOPEN_RETAIL               0x309348
+#define     EUR_ALWAYSOPEN_RETAIL               0x309344
+#define     JAP_ALWAYSOPEN_RETAIL               0x3093BC
+#define     USA_WA_ALWAYSOPEN_RETAIL            0x309430
+#define     EUR_WA_ALWAYSOPEN_RETAIL            0x309344
+#define     JAP_WA_ALWAYSOPEN_RETAIL            0x3093BC
+
+#define     USA_ALWAYSOPEN_NOOKLING             0x711B14
+#define     EUR_ALWAYSOPEN_NOOKLING             0x710B1C
+#define     JAP_ALWAYSOPEN_NOOKLING             0x7102C8
+#define     USA_WA_ALWAYSOPEN_NOOKLING          0x710FC4
+#define     EUR_WA_ALWAYSOPEN_NOOKLING          0x710AF4
+#define     JAP_WA_ALWAYSOPEN_NOOKLING          0x7102A0
+
+#define     USA_ALWAYSOPEN_GARDEN               0x711BCC
+#define     EUR_ALWAYSOPEN_GARDEN               0x710BD4
+#define     JAP_ALWAYSOPEN_GARDEN               0x710380
+#define     USA_WA_ALWAYSOPEN_GARDEN            0x71107C
+#define     EUR_WA_ALWAYSOPEN_GARDEN            0x710BAC
+#define     JAP_WA_ALWAYSOPEN_GARDEN            0x710358
+
+#define     USA_ALWAYSOPEN_ABLES                0x713EB0
+#define     EUR_ALWAYSOPEN_ABLES                0x712EB8
+#define     JAP_ALWAYSOPEN_ABLES                0x712664
+#define     USA_WA_ALWAYSOPEN_ABLES             0x713360
+#define     EUR_WA_ALWAYSOPEN_ABLES             0x712E90
+#define     JAP_WA_ALWAYSOPEN_ABLES             0x71263C
+
+#define     USA_ALWAYSOPEN_SHAMPOODLE           0x71D42C
+#define     EUR_ALWAYSOPEN_SHAMPOODLE           0x71C434
+#define     JAP_ALWAYSOPEN_SHAMPOODLE           0x71BBE0
+#define     USA_WA_ALWAYSOPEN_SHAMPOODLE        0x71C774
+#define     EUR_WA_ALWAYSOPEN_SHAMPOODLE        0x71C40C
+#define     JAP_WA_ALWAYSOPEN_SHAMPOODLE        0x71BBB8
+
+#define     USA_ALWAYSOPEN_KICKS                0x71184C
+#define     EUR_ALWAYSOPEN_KICKS                0x710854
+#define     JAP_ALWAYSOPEN_KICKS                0x710000
+#define     USA_WA_ALWAYSOPEN_KICKS             0x710CFC
+#define     EUR_WA_ALWAYSOPEN_KICKS             0x71082C
+#define     JAP_WA_ALWAYSOPEN_KICKS             0x70FFD8
+
+#define     USA_ALWAYSOPEN_NOOKS                0x71F654
+#define     EUR_ALWAYSOPEN_NOOKS                0x71E65C
+#define     JAP_ALWAYSOPEN_NOOKS                0x71DE08
+#define     USA_WA_ALWAYSOPEN_NOOKS             0x71E99C
+#define     EUR_WA_ALWAYSOPEN_NOOKS             0x71E634
+#define     JAP_WA_ALWAYSOPEN_NOOKS             0x71DDE0
+
+#define     USA_ALWAYSOPEN_KATRINA              0x718098
+#define     EUR_ALWAYSOPEN_KATRINA              0x7170A0
+#define     JAP_ALWAYSOPEN_KATRINA              0x71684C
+#define     USA_WA_ALWAYSOPEN_KATRINA           0x717548
+#define     EUR_WA_ALWAYSOPEN_KATRINA           0x717078
+#define     JAP_WA_ALWAYSOPEN_KATRINA           0x716824
+
+#define     USA_ALWAYSOPEN_REDD                 0x718444
+#define     EUR_ALWAYSOPEN_REDD                 0x71744C
+#define     JAP_ALWAYSOPEN_REDD                 0x716BF8
+#define     USA_WA_ALWAYSOPEN_REDD              0x7178F4
+#define     EUR_WA_ALWAYSOPEN_REDD              0x717424
+#define     JAP_WA_ALWAYSOPEN_REDD              0x716BD0
 
 #endif

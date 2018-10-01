@@ -52,7 +52,7 @@ namespace CTRPluginFramework
         static u32      Permit;         ///<Offset of Mayor Permit rating
         static u32      *Grass;         ///<Offset of where grass starts
         static u32      *GrassEnd;
-        static u32      *GameSpeed;     ///<offset of game speed found by Scotline and Mega Mew
+        static u32      *GameSpeed;     ///<offset of game speed found by Scotline and WemI0
         static u32      ItemForm;
         static u32      *Location;      //<Return -1 if you're outdoors
         static u32      Keyboard;      ///<Offset of Keyboard Symbols
@@ -65,16 +65,25 @@ namespace CTRPluginFramework
         static u32      *KeyboardText;  ///<Pointer to text config of text that represents how big the text can be and how much text can be put in
         static u8       *EnterBool;     ///<Allows the user to press enter in their keyboard
         static u32      Visibility;     ///<ASM address that makes your character invisible
-        static u16      *CatalogItem;   ///<The item that you're on inside of your catalog
+        static u32      CatalogItem;   ///<The item that you're on inside of your catalog
         static u8       *MapBool;       ///<Address of boolean that tells if you're showing your map or not
         static u32      *Tours;         ///<Pointer to Tours that are enabled/disabled
         static u32      EmoteASM;       ///<ASM offset for Emoticons
         static u32      PatternEdit;    ///<ASM offset for Edit Any Pattern
         static u32      NoBreakFlowers; ///<ASM offset for Breaking Flowers
         static u32      CountryASM;     ///<ASM offset for Country Spoofer
-        static u32      Weather; ///<ASM offset for Weather Mod
-        static u32      Confetti; ///<ASM offset for Confetti Mod
+        static u32      Weather;        ///<ASM offset for Weather Mod
+        static u32      Confetti;       ///<ASM offset for Confetti Mod
         static u32      CherryBlossom; ///<ASM offset for Cherry Blossom Mod
+        static u32      AlwaysOpen_Retail; ///<ASM offset for Always Open - Retail
+        static u32      AlwaysOpen_Nookling; ///<ASM offset for Always Open - Nooklings
+        static u32      AlwaysOpen_Garden; ///<ASM offset for Always Open - Garden Center
+        static u32      AlwaysOpen_Ables; ///<ASM offset for Always Open - Able Sisters
+        static u32      AlwaysOpen_Sham; ///<ASM offset for Always Open - Shampoodle
+        static u32      AlwaysOpen_Kicks; ///<ASM offset for Always Open - Kicks
+        static u32      AlwaysOpen_Nook; ///<ASM offset for Always Open - Nook
+        static u32      AlwaysOpen_Katrina; ///<ASM offset for Always Open - Katrina
+        static u32      AlwaysOpen_Redd; ///<ASM offset for Always Open - Redd
     };
 }
 

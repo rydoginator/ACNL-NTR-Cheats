@@ -202,8 +202,8 @@ namespace CTRPluginFramework
             new MenuEntry("Set name to...", nullptr, SetNameTo),
             new MenuEntry("Save Dumper", nullptr, GardenDumper, "Select the keyboard icon to start dumping your save file."),
             new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"),
-            new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Mega Mew and Scotline"),
-            new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Mega Mew and Scotline"),
+            new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to WemI0 and Scotline"),
             new MenuEntry("Real Time Building Placer", nullptr, BuildingPlacer, "Press on the keyboard option to bring up the building keyboard."),
         }));
 
@@ -222,7 +222,7 @@ namespace CTRPluginFramework
                  Hotkey(Key::L, "Use slot 2"), Hotkey(Key::R, "Use slot 3") }),
             EntryWithHotkey(new MenuEntry("Walk Over Things", WalkOverThings, "Press the hotkeys to enable/disable collisions."),
                 {Hotkey(Key::L | Key::DPadUp, "Toggle Collisions")}),
-            new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to Mega Mew for this cheat"),
+            new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to WemI0 for this cheat"),
             EntryWithHotkey(new MenuEntry("Moon Jump", MoonJump, SpeedSettings, "Press the hotkeys to move your character up/down.\nThis cheat also has a side effect of disabling gravity and causing various glitches."),
                 {Hotkey(Key::L | Key::DPadUp, "Move up"), Hotkey(Key::L | Key::DPadDown, "Move down")}),
             new MenuEntry("Teleport to PWP...", nullptr, PWPTeleport, "Press on the keyboard to open up the menu to choose which PWP to teleport to")
@@ -232,12 +232,13 @@ namespace CTRPluginFramework
         ** Main Street
         ********************/
 
-        menu += new MenuFolder("Main Street Codes", std::vector<MenuEntry *>(
+        menu += new MenuFolder("Shop Codes", std::vector<MenuEntry *>(
         {
-            new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard, "Press the keyboard icon to change which upgrade the Nooklings have"),
-            new MenuEntry("Main Street Unlocker", nullptr, MainStreetKeyboard, "Press the keyboard icon to change what Main Street buildings are unlocked"),
-            new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop"),
-            //new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press " FONT_L " and " FONT_A " while in the catalog to send the item directly to your pockets!") TODO: Find correct offset/pointer
+            new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard, "Press the keyboard icon to change which upgrade the Nooklings have."),
+            new MenuEntry("Main Street Shop Unlocker", nullptr, MainStreetKeyboard, "Press the keyboard icon to change what Main Street buildings are unlocked."),
+            new MenuEntry("Shops Always Open", nullptr, ShopsAlwaysOpenKeyboard, "Press the keyboard icon to change which shops are always open."),
+            EntryWithHotkey(new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press the hotkey while in the catalog to send the item directly to your pockets!.\nOriginal cheat by Rydog, adapted by Slattz."),
+                {Hotkey(Key::L, "Change Button Activator")})
         }));
 
         /*
@@ -327,10 +328,11 @@ namespace CTRPluginFramework
         menu += new MenuFolder("Unlock Codes", std::vector<MenuEntry *>(
         {
             new MenuEntry("100% Mayor Permit", Permit, "Special thanks to Slattz"),
-            new MenuEntry("Unlock All PWPs", PWPUnlock, "Special thanks to Mega Mew and Scotline"),
-            new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks to Mega Mew and Scotline"),
-            new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks to Mega Mew and Scotline"),
-            new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline")
+            new MenuEntry("Unlock All PWPs", PWPUnlock, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop.\nSpecial thanks to Slattz and WemI0")
         }));
 
         /*
@@ -353,7 +355,7 @@ namespace CTRPluginFramework
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"),
             new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Wii8461 for this cheat"),
-            new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"),
+            new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and WemI0 for this cheat"),
             new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"),
             new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."),
             new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."),
