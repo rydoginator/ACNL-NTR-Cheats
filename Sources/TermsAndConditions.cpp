@@ -36,7 +36,7 @@ namespace CTRPluginFramework
                 address |= 1 << 25;
                 address |= 1 << 24;
 
-                // Even if we exit the plugin, prevent online seeders plugins to work :p
+                // Even if we exit the plugin, prevents other plugins to work
                 CloseOthersPluginsThreads(address); ///< address == 0x07000000
                 abort();
             }

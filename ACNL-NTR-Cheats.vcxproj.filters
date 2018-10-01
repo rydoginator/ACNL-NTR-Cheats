@@ -90,7 +90,7 @@
     <ClCompile Include="Sources\CustomKB.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\AntiSeeder.cpp">
+    <ClCompile Include="Sources\OnlyPlg.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Sources\TermsAndConditions.cpp">

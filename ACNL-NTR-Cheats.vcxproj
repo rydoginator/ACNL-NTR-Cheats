@@ -140,7 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Sources\AntiSeeder.cpp" />
+    <ClCompile Include="Sources\OnlyPlg.cpp" />
     <ClCompile Include="Sources\AppearanceMod.cpp" />
     <ClCompile Include="Sources\callback.cpp" />
     <ClCompile Include="Sources\cheats.cpp" />
