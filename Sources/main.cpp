@@ -59,7 +59,7 @@ namespace CTRPluginFramework
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
     static const std::string    gameName = "Animal Crossing New Leaf";
     static const std::string    creator = "RyDog";
-    static const std::string    developer = creator + "& Slattz";
+    static const std::string    developer = creator + " & Slattz";
     static const std::string    credits =
         "Plugin Version: " STRING_VERSION  "\n"
         "Creator: " + creator + "\n"
