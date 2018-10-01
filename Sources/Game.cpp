@@ -54,6 +54,7 @@ namespace CTRPluginFramework
         EmoteASM = reinterpret_cast<u32 >(AutoRegion(USA_EMOTE, EUR_EMOTE, JAP_EMOTE, USA_WA_EMOTE, EUR_WA_EMOTE, JAP_WA_EMOTE)());
         PatternEdit = reinterpret_cast<u32 >(AutoRegion(USA_PATTERNEDIT, EUR_PATTERNEDIT, JAP_PATTERNEDIT, USA_WA_PATTERNEDIT, EUR_WA_PATTERNEDIT, JAP_WA_PATTERNEDIT)());
         NoBreakFlowers = reinterpret_cast<u32 >(AutoRegion(USA_NOBREAKFLOWERS, EUR_NOBREAKFLOWERS, JAP_NOBREAKFLOWERS, USA_WA_NOBREAKFLOWERS, EUR_WA_NOBREAKFLOWERS, JAP_WA_NOBREAKFLOWERS)());
+        CountryASM = reinterpret_cast<u32 >(AutoRegion(USA_COUNTRY, EUR_COUNTRY, JAP_COUNTRY, USA_WA_COUNTRY, EUR_WA_COUNTRY, JAP_WA_COUNTRY)());
         Weather = reinterpret_cast<u32 >(AutoRegion(USA_WEATHER, EUR_WEATHER, JAP_WEATHER, USA_WA_WEATHER, EUR_WA_WEATHER, JAP_WA_WEATHER)());
         Confetti = reinterpret_cast<u32 >(AutoRegion(USA_CONFETTI, EUR_CONFETTI, JAP_CONFETTI, USA_WA_CONFETTI, EUR_WA_CONFETTI, JAP_WA_CONFETTI)());
         CherryBlossom = reinterpret_cast<u32 >(AutoRegion(USA_CHERRYBLOSSOM, EUR_CHERRYBLOSSOM, JAP_CHERRYBLOSSOM, USA_WA_CHERRYBLOSSOM, EUR_WA_CHERRYBLOSSOM, JAP_WA_CHERRYBLOSSOM)());
@@ -159,6 +160,7 @@ namespace CTRPluginFramework
     u32         Game::EmoteASM = 0;
     u32         Game::PatternEdit = 0;
     u32         Game::NoBreakFlowers = 0;
+    u32         Game::CountryASM = 0;
     u32         Game::Weather = 0;
     u32         Game::Confetti = 0;
     u32         Game::CherryBlossom = 0;

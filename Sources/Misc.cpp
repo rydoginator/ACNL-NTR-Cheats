@@ -798,4 +798,80 @@ namespace CTRPluginFramework
         else if (!entry->Hotkeys[0].IsDown())
             btn = false;
     }
+
+    /*
+    Needs more wwork, experimental for the time being
+    */
+
+    void LoadRoomID(u8 id)
+    {
+        WRITEU8(0x9E9FBC, id);
+        WRITEU8(0x9513D3, 0x01);
+        WRITEU16(0x9513D4, 0x0001);
+        WRITEU8(0x958343, id);
+    }
+
+    void RoomPicker(MenuEntry *entry)
+    {
+        StringVector options;
+        for (const IDs &option : rooms)
+            options.push_back(option.Name);
+        Keyboard _keyboard("Which room would you like to load?");
+        _keyboard.Populate(options);
+        int index = _keyboard.Open();
+        if (index == -1)
+            return;
+
+        u8 id = rooms[index].id;
+        LoadRoomID(id);
+    }
+
+    void CountrySpoofer(MenuEntry *entry)
+    {
+        static u32 offset = Game::CountryASM;
+        static u8 RegionID;
+        u32 patch = 0;
+        StringVector options;
+        static bool btn = false;
+
+        if (entry->Hotkeys[0].IsDown() && !btn)
+        {
+            btn = true;
+            if (*Game::Room != 0) //make sure in town to limit any potential issues
+            {
+                OSD::Notify("This code can only be used in the Town!");
+            }
+
+            else
+            {
+                for (const IDs &option : regions)
+                    options.push_back(option.Name);
+
+                Keyboard keyboard("Select a Country to Spoof.");
+                keyboard.Populate(options);
+                int index = keyboard.Open();
+                if (index == -1)
+                    return;
+
+                RegionID = regions[index].id;
+
+                if (RegionID == 0xFF)
+                {
+                    OSD::Notify("Restored To Your Own Country.");
+                    patch = 0xE1A00C20;
+                }
+
+                else
+                {
+                    patch = 0xE3A00000 | RegionID;
+                    OSD::Notify(Format("Set Country to: %s!", regions[index].Name));
+                }
+
+                Process::Patch(offset, (u8 *)&patch, 4);
+            }
+        }
+
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
+    }
 }

@@ -324,6 +324,14 @@
 #define     EUR_WA_NOBREAKFLOWERS               0x596FA0
 #define     JAP_WA_NOBREAKFLOWERS               0x596890
 
+#define     USA_COUNTRY                         0x350B18
+#define     EUR_COUNTRY                         0x34FC60
+#define     JAP_COUNTRY                         0x34F8F8
+#define     USA_WA_COUNTRY                      0x35052C
+#define     EUR_WA_COUNTRY                      0x34FC60
+#define     JAP_WA_COUNTRY                      0x34F8F8
+
+
 #define     USA_WEATHER                         0x62FC30
 #define     EUR_WEATHER                         0x62EC68
 #define     JAP_WEATHER                         0x62E728

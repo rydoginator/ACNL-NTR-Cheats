@@ -349,6 +349,8 @@ namespace CTRPluginFramework
                     Hotkey(Key::B | Key::DPadUp, "Pan the camera north"), Hotkey(Key::B | Key::DPadRight, "Pan the camera east"), Hotkey(Key::B | Key::DPadDown, "Pan the camera south"), Hotkey(Key::B | Key::DPadLeft, "Pan the camera west"),
                     Hotkey(Key::B | Key::L, "Pan the camera downwards"), Hotkey(Key::B | Key::R, "Pan the camera upwards")
                 }),
+            EntryWithHotkey(new MenuEntry("Country Spoofer", CountrySpoofer, "Spoofs your country, allowing you to go to another country's island.\nOriginal cheat by Wii8641 & Nanquitas, adapted by Slattz."),
+                {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"),
             new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Wii8461 for this cheat"),
             new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"),
@@ -379,7 +381,7 @@ namespace CTRPluginFramework
             }),
             EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code.\nOriginal cheat by 0ICED0, adapted by Slattz."),
                 {Hotkey(Key::R | Key::B, "Change Button Activator")}),
-            EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable."),
+            EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable.\nCredits to Slattz for the cheat"),
                 {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Weather Modifier", WeatherMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
                 {
