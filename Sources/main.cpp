@@ -58,10 +58,12 @@ namespace CTRPluginFramework
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
     static const std::string    gameName = "Animal Crossing New Leaf";
-    static const std::string    developer = "RyDog";
+    static const std::string    creator = "RyDog";
+    static const std::string    developer = creator + "& Slattz";
     static const std::string    credits =
         "Plugin Version: " STRING_VERSION  "\n"
-        "Creator: " + developer + "\n"
+        "Creator: " + creator + "\n"
+        "Developer: " + developer + "\n"
         "\n"
         "Special thanks to:\n"
         "Nanquitas\n"
