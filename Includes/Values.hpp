@@ -17,7 +17,7 @@ struct Building
 };
 
 extern const Building buildingIDS[178];
-extern const IDs    rooms[129];
+extern const IDs    rooms[95];
 extern const IDs    regions[15];
 
 /*

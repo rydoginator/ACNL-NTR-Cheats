@@ -799,20 +799,27 @@ namespace CTRPluginFramework
             btn = false;
     }
 
-    /*
-    Needs more wwork, experimental for the time being
-    */
+    /* Broken & experimental, needs proper region porting and checks */
 
-    void LoadRoomID(u8 id)
+    void LoadRoomID(u8 roomID)
     {
-        WRITEU8(0x9E9FBC, id);
-        WRITEU8(0x9513D3, 0x01);
-        WRITEU16(0x9513D4, 0x0001);
-        WRITEU8(0x958343, id);
+        u32 offset = reinterpret_cast<u32>(Game::Room);
+        /*
+        Process::Write8(0x9513D3, 0x01);
+        Process::Write16(0x9513D4, 0x0001);
+        Process::Write8(0x958343, roomID);
+        Process::Write16(0xAC298C, 0x0001);
+        */
+        Process::Write8(offset+0x1F0E, 0x01);
+        Process::Write16(offset+0x1F0F, 0x0001);
+        Process::Write8(offset+0x8E7E, roomID);
+        Process::Write16(offset+0x1734C7, 0x0001);
     }
 
     void RoomPicker(MenuEntry *entry)
     {
+        if (*Game::Room == 0x60) return;
+
         StringVector options;
         for (const IDs &option : rooms)
             options.push_back(option.Name);
@@ -822,8 +829,8 @@ namespace CTRPluginFramework
         if (index == -1)
             return;
 
-        u8 id = rooms[index].id;
-        LoadRoomID(id);
+        u8 roomID = rooms[index].id;
+        LoadRoomID(roomID);
     }
 
     void CountrySpoofer(MenuEntry *entry)
