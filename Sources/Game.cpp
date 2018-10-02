@@ -67,6 +67,7 @@ namespace CTRPluginFramework
         AlwaysOpen_Nook = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_NOOKS, EUR_ALWAYSOPEN_NOOKS, JAP_ALWAYSOPEN_NOOKS, USA_WA_ALWAYSOPEN_NOOKS, EUR_WA_ALWAYSOPEN_NOOKS, JAP_WA_ALWAYSOPEN_NOOKS)());
         AlwaysOpen_Katrina = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_KATRINA, EUR_ALWAYSOPEN_KATRINA, JAP_ALWAYSOPEN_KATRINA, USA_WA_ALWAYSOPEN_KATRINA, EUR_WA_ALWAYSOPEN_KATRINA, JAP_WA_ALWAYSOPEN_KATRINA)());
         AlwaysOpen_Redd = reinterpret_cast<u32>(AutoRegion(USA_ALWAYSOPEN_REDD, EUR_ALWAYSOPEN_REDD, JAP_ALWAYSOPEN_REDD, USA_WA_ALWAYSOPEN_REDD, EUR_WA_ALWAYSOPEN_REDD, JAP_WA_ALWAYSOPEN_REDD)());
+        Internal_FurnFix = reinterpret_cast<u32>(AutoRegion(USA_FURN_FIX, EUR_FURN_FIX, JAP_FURN_FIX, USA_WA_FURN_FIX, EUR_WA_FURN_FIX, JAP_WA_FURN_FIX)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -182,4 +183,5 @@ namespace CTRPluginFramework
     u32         Game::AlwaysOpen_Nook = 0;
     u32         Game::AlwaysOpen_Katrina = 0;
     u32         Game::AlwaysOpen_Redd = 0;
+    u32         Game::Internal_FurnFix = 0;
 }

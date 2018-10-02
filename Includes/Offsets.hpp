@@ -418,4 +418,11 @@
 #define     EUR_WA_ALWAYSOPEN_REDD              0x717424
 #define     JAP_WA_ALWAYSOPEN_REDD              0x716BD0
 
+#define     USA_FURN_FIX                        0x6A6EE0
+#define     EUR_FURN_FIX                        0x6A5F18
+#define     JAP_FURN_FIX                        0x6A59B0
+#define     USA_WA_FURN_FIX                     0x6A6408
+#define     EUR_WA_FURN_FIX                     0x6A5F18
+#define     JAP_WA_FURN_FIX                     0x6A59B0
+
 #endif

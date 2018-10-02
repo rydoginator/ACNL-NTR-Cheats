@@ -1,6 +1,9 @@
 #include "cheats.hpp"
 #include "CTRPluginFramework/Utils/Utils.hpp"
 
+extern "C" void FixSaveFurn(void);
+u32 g_FixSaveFurnAddr = 0;
+
 static const char RTBP_ErrorMSG[] = "RTBP just tried to place/remove Building 0x%02X, which is invalid.\nPlease report this to the developers, along with:\n1)The building you selected on the list\n2)The building amount (Amount is: %d).";
 static const char RTBP_EventMSG[] = "Only two event pwps can be placed at one time (to avoid issues with the game).\nPlease remove one of the existing event buildings to place a new one.";
 static const char RTBP_0PWPMSG[] = "No buildings of this type can be found!";
@@ -317,8 +320,14 @@ namespace CTRPluginFramework
         {
             if (dir.OpenFile(file, list[userChoice], File::RWC) == 0)
             {
-                if (file.Inject(Game::Garden, 0x89A80) == 0)
+                if (file.Inject(Game::Garden, 0x89A80) == 0) {
                     MessageBox("Successfully restored your save !")();
+                    g_FixSaveFurnAddr = Game::Internal_FurnFix;
+                    u32 orig[1] = {0};
+                    Process::Patch(g_FixSaveFurnAddr+0x41C, 0xE1A00000, orig); //Must be patched, otherwise game crashes
+                    FixSaveFurn(); //Calls func to call Game's internal function to fix furniture
+                    Process::Patch(g_FixSaveFurnAddr+0x41C, orig[0]); //Unpatch so game doesn't have a potential fit when it calls the func itself
+                }
                 else
                     MessageBox("Error\nError injecting dump!")();
             }

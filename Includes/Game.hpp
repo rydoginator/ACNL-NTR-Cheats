@@ -84,6 +84,7 @@ namespace CTRPluginFramework
         static u32      AlwaysOpen_Nook; ///<ASM offset for Always Open - Nook
         static u32      AlwaysOpen_Katrina; ///<ASM offset for Always Open - Katrina
         static u32      AlwaysOpen_Redd; ///<ASM offset for Always Open - Redd
+        static u32      Internal_FurnFix; ///<ASM offset for Save Restore Furniture Fix; Used as the function
     };
 }
 
