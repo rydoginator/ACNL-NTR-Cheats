@@ -31,7 +31,7 @@ namespace CTRPluginFramework
         }
     }
 
-    void    BuildingPlacer(MenuEntry *entry)
+    void    BuildingModifier(MenuEntry *entry)
     {
         if (*Game::Room != 0) {
             MessageBox("RTBP Error!", "You need to be in the Town for this to work.")();
@@ -43,7 +43,7 @@ namespace CTRPluginFramework
         u32 maxcounter = 0;
         
         Keyboard keyboard("Building placer\nChoose an option.");
-        StringVector options = { "Place a building", "Remove a building" };
+        StringVector options = { "Place a Building", "Remove a Building", "Move a Building" };
         keyboard.Populate(options);
         int userChoice = keyboard.Open();
 
@@ -190,6 +190,78 @@ namespace CTRPluginFramework
                 else MessageBox("Building Remover Error!", RTBP_0NUMMSG)();
             }
         }
+
+        /* Move Bulding */
+        else if (userChoice == 2) //Move
+        {
+            std::vector<u8> buildings;
+            std::vector<u8> x, y;
+            std::vector<bool> IsEvent;
+            int start = 0, end = 0;
+            StringVector pwptype = {"Normal PWPs", "Event PWPs"};
+
+            Keyboard _keyboard("Which building type would you like to remove?");
+            _keyboard.Populate(pwptype);
+            int pwptypechoice = _keyboard.Open();
+
+            if (pwptypechoice == -1) //abort
+                return;
+
+            else if (pwptypechoice == 0) {
+                start = 0;
+                end = 56;
+            }
+
+            else if (pwptypechoice == 1) {
+                start = 56;
+                end = 58;
+            }
+
+            for (int i = start; i < end; i++)
+            {
+                if (READU8(off_building + (i * 4)) != 0xFC) //check if a building is not empty
+                {
+                    buildings.push_back(READU8(off_building + (i * 4)));
+                    x.push_back(READU8(off_building + (i * 4) + 2));
+                    y.push_back(READU8(off_building + (i * 4) + 3));
+                }
+            }
+
+            if (buildings.size() == 0) { //Possible case due to event pwps not always there
+                MessageBox("Building Remover Error!", RTBP_0PWPMSG)();
+                return;
+            }
+            
+            for (int i = 0; i < buildings.size(); i++)
+            {
+                for (const Building& building : buildingIDS)
+                {
+                    if (building.id != buildings[i])
+                        continue;
+
+                    options.push_back(building.Name);
+                    IsEvent.push_back(building.IsEvent);
+                    break;
+                }
+            }
+
+            Keyboard __keyboard("Which building would you like to remove?");
+            __keyboard.Populate(options);
+            int index = __keyboard.Open();
+
+            if (index != -1) //user didn't abort
+            {
+                u8 id = buildings[index];
+                while (*(u8 *)(off_building + (start*4) + (counter * 4)) != id && counter < buildings.size() && counter+start < end)
+                    counter++;
+
+                Process::Write8(off_building + (start*4) + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
+                Process::Write8(off_building + (start*4) + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
+                OSD::Notify("Building Moved to Current Position!");
+                OSD::Notify("Reload the area to see effects.");
+            }
+
+        }
     }
 
     void    GardenDumper(MenuEntry *entry)
@@ -216,6 +288,7 @@ namespace CTRPluginFramework
             }
 
             file.Flush();
+            file.Close();
         }
     }
 
