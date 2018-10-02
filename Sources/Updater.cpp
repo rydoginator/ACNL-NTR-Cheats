@@ -27,6 +27,7 @@ namespace CTRPluginFramework
         #if DEBUG
         MessageBox(Format("Major: %d, Result: %d", major, major >= MAJOR_VERSION))();
         #endif
+
         if (next && *next == '.') //If minor version
             next++;
         else
@@ -36,6 +37,7 @@ namespace CTRPluginFramework
         #if DEBUG
         MessageBox(Format("Minor: %d, Result %d", minor, minor >= MINOR_VERSION))();
         #endif
+
         if (next && *next == '.') //If revision version
             next++;
 
@@ -50,7 +52,7 @@ namespace CTRPluginFramework
         }
             
         else //If there's no revision ver & beta ver
-            return major >= MAJOR_VERSION && minor >= MINOR_VERSION;
+            return major >= MAJOR_VERSION && minor > MINOR_VERSION;
     
         revision = strtol(next,  &next, 10); //Get revision version
         #if DEBUG
@@ -244,8 +246,16 @@ namespace CTRPluginFramework
                 return false;
             }
 
-            File::Remove("ACNL-NTR-Cheats.plg");
-            File::Rename("TempFile.bin", "ACNL-NTR-Cheats.plg");
+            if (System::IsLoaderNTR()) {
+                File::Remove("ACNL-NTR-Cheats.plg");
+                File::Rename("TempFile.bin", "ACNL-NTR-Cheats.plg");
+            }
+
+            else {
+                File::Remove("plugin.plg");
+                File::Rename("TempFile.bin", "plugin.plg");
+            }
+
             return true;
         }
 
