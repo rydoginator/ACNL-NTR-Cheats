@@ -68,6 +68,8 @@ namespace CTRPluginFramework
         AlwaysOpen_Katrina = reinterpret_cast<u32 >(AutoRegion(USA_ALWAYSOPEN_KATRINA, EUR_ALWAYSOPEN_KATRINA, JAP_ALWAYSOPEN_KATRINA, USA_WA_ALWAYSOPEN_KATRINA, EUR_WA_ALWAYSOPEN_KATRINA, JAP_WA_ALWAYSOPEN_KATRINA)());
         AlwaysOpen_Redd = reinterpret_cast<u32>(AutoRegion(USA_ALWAYSOPEN_REDD, EUR_ALWAYSOPEN_REDD, JAP_ALWAYSOPEN_REDD, USA_WA_ALWAYSOPEN_REDD, EUR_WA_ALWAYSOPEN_REDD, JAP_WA_ALWAYSOPEN_REDD)());
         Internal_FurnFix = reinterpret_cast<u32>(AutoRegion(USA_FURN_FIX, EUR_FURN_FIX, JAP_FURN_FIX, USA_WA_FURN_FIX, EUR_WA_FURN_FIX, JAP_WA_FURN_FIX)());
+		FishCantScare = reinterpret_cast<u32>(AutoRegion(USA_FISH_CANT_BE_SCARED, EUR_FISH_CANT_BE_SCARED, JAP_FISH_CANT_BE_SCARED, USA_FISH_CANT_BE_SCARED, EUR_FISH_CANT_BE_SCARED, JAP_FISH_CANT_BE_SCARED)());
+		FishBiteRightAway = reinterpret_cast<u32>(AutoRegion(USA_FISH_BITE_RIGHT_AWAY, EUR_FISH_BITE_RIGHT_AWAY, JAP_FISH_BITE_RIGHT_AWAY, USA_FISH_BITE_RIGHT_AWAY, EUR_FISH_BITE_RIGHT_AWAY, JAP_FISH_BITE_RIGHT_AWAY)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -151,6 +153,8 @@ namespace CTRPluginFramework
     u32         Game::PWP = 0;
     u32         *Game::Grass = nullptr;
     u32         *Game::GrassEnd = nullptr;
+	u32         Game::FishCantScare = 0;
+	u32         Game::FishBiteRightAway = 0;
     u32         *Game::GameSpeed = nullptr;
     u32         Game::ItemForm = 0;
     u32         *Game::Location = nullptr;

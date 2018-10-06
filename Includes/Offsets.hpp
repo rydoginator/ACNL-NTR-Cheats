@@ -425,4 +425,12 @@
 #define     EUR_WA_FURN_FIX                     0x6A5F18
 #define     JAP_WA_FURN_FIX                     0x6A59B0
 
+#define     USA_FISH_CANT_BE_SCARED             0x1EAB14 //WA Versions are the same
+#define     EUR_FISH_CANT_BE_SCARED             0x1EAB34
+#define     JAP_FISH_CANT_BE_SCARED             0x1EAA70
+
+#define     USA_FISH_BITE_RIGHT_AWAY            0x1EA844 //WA Versions are the same
+#define     EUR_FISH_BITE_RIGHT_AWAY            0x1EA864
+#define     JAP_FISH_BITE_RIGHT_AWAY            0x1EA7A0
+
 #endif

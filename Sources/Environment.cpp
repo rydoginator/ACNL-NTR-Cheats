@@ -151,4 +151,47 @@ namespace CTRPluginFramework
             }
         }
     }
+
+	void    FishCantBeScared(MenuEntry *entry)
+	{
+		static bool active = false;
+		u32     offset = Game::FishCantScare;
+		u32     original = 0xE3500000;
+		u32     patch = 0xE3500001;
+
+		if (entry->WasJustActivated() && !active)
+		{
+			Process::Patch(offset, patch);
+			OSD::Notify("Fish Cannot be scared: " << Color::Green << "Enabled!");
+			active = true;
+		}
+		else if (!entry->IsActivated() && active)
+		{
+			Process::Patch(offset, original);
+			OSD::Notify("Fish Cannot be scared: " << Color::Red << "Disabled!");
+			active = false;
+		}
+
+	}
+
+	void    FishAlwaysBiteRightAway(MenuEntry *entry)
+	{
+		static bool active = false;
+		u32     offset = Game::FishBiteRightAway;
+		u32     original = 0xE0800100;
+		u32     patch = 0xE3A0005A;
+
+		if (entry->WasJustActivated() && !active)
+		{
+			Process::Patch(offset, patch);
+			OSD::Notify("Fish Bite Right Away: " << Color::Green << "Enabled!");
+			active = true;
+		}
+		else if (!entry->IsActivated() && active)
+		{
+			Process::Patch(offset, original);
+			OSD::Notify("Fish Bite Right Away: " << Color::Red << "Disabled!");
+			active = false;
+		}
+	}
 }
