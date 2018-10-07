@@ -1,5 +1,6 @@
 #include "cheats.hpp"
 #include "FindReplacer.hpp"
+#include "Helpers/MenuEntryHelpers.hpp"
 
 namespace CTRPluginFramework
 {
@@ -151,6 +152,72 @@ namespace CTRPluginFramework
             }
         }
     }
+
+    static bool FishIdRefresh = false;
+    void    FishIdEditorSetter(MenuEntry *entry)
+    {
+        u32         *value = GetArg<u32>(entry);
+        Keyboard    keyboard("Fish Id Editor\n\nEnter the desired fish to find. New spawned fish only.");
+
+        keyboard.IsHexadecimal(true);
+        keyboard.SetCompareCallback([](const void *in, std::string &error)
+        {
+            u32 input = *static_cast<const u32 *>(in);
+
+            if (input >= 0x22E2 && input <= 0x232C) {
+                FishIdRefresh = true;
+                return (true);
+            }
+
+            error = "The value must be between 0x22E2 - 0x232C";
+            return (false);
+        });
+        if (keyboard.Open(*value) != -1)
+        {
+            std::string &name = entry->Name();
+            int pos = name.find("(");
+
+            if (pos != std::string::npos)
+            {
+                name.erase(pos);
+                name += Utils::Format("(%d)", *value);
+            }
+        }
+    }
+
+	void    FishIdEditor(MenuEntry *entry)
+	{
+        static bool active = false;
+        u32     offset = Game::FishSetId;
+        u32     original = 0xE1A0A000;
+        u32     patch = 0xE3A0A000;
+
+        if ((entry->WasJustActivated() && !active) || FishIdRefresh)
+        {
+            u32 fishId = *GetArg<u32>(entry);
+            if (fishId < 0x22E2) {
+                fishId = 0x22E2; // Failsafe as to not break the fish functions
+            }
+            else if (fishId > 0x232C) {
+                fishId = 0x232C; // Failsafe as to not break the fish functions
+            }
+
+
+            patch += fishId - 0x22E2 + 1; //We can just add our value straight to the patch bytes as long as its <= 75. We need to subtract the min from it to get the index instead
+            Process::Patch(offset, patch);
+            OSD::Notify(Format("All Fish Set To: 0x%04X", fishId & 0xFFFF));
+
+
+            active = true;
+            FishIdRefresh = false;
+        }
+        else if (!entry->IsActivated() && active)
+        {
+            Process::Patch(offset, original);
+            OSD::Notify("Fish Restored To Normal Id's: " << Color::Red << "Disabled!");
+            active = false;
+        }
+	}
 
 	void    FishCantBeScared(MenuEntry *entry)
 	{

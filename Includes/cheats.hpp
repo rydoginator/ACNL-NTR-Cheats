@@ -154,8 +154,10 @@ namespace CTRPluginFramework
     void    DestroyGrass(MenuEntry *entry);
     void    FillGrass(MenuEntry *entry);
     void    SearchReplace(MenuEntry *entry);
-	void    FishCantBeScared(MenuEntry *entry);
-	void    FishAlwaysBiteRightAway(MenuEntry *entry);
+    void    FishIdEditorSetter(MenuEntry *entry);
+    void    FishIdEditor(MenuEntry *entry);
+    void    FishCantBeScared(MenuEntry *entry);
+    void    FishAlwaysBiteRightAway(MenuEntry *entry);
 
     /*
     ** Time Travel

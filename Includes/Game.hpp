@@ -52,8 +52,9 @@ namespace CTRPluginFramework
         static u32      Permit;         ///<Offset of Mayor Permit rating
         static u32      *Grass;         ///<Offset of where grass starts
         static u32      *GrassEnd;
-		static u32      FishCantScare; ///<offset of the player speed check for fish by natfoth
-		static u32      FishBiteRightAway; ///<offset of the fish luck chances by natfoth
+        static u32      FishCantScare; ///<offset of the player speed check for fish by natfoth
+        static u32      FishBiteRightAway; ///<offset of the fish luck chances by natfoth
+        static u32      FishSetId; ///<offset of the fish index id by natfoth
         static u32      *GameSpeed;     ///<offset of game speed found by Scotline and WemI0
         static u32      ItemForm;
         static u32      *Location;      //<Return -1 if you're outdoors

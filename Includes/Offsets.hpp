@@ -425,12 +425,19 @@
 #define     EUR_WA_FURN_FIX                     0x6A5F18
 #define     JAP_WA_FURN_FIX                     0x6A59B0
 
-#define     USA_FISH_CANT_BE_SCARED             0x1EAB14 //WA Versions are the same
-#define     EUR_FISH_CANT_BE_SCARED             0x1EAB34
-#define     JAP_FISH_CANT_BE_SCARED             0x1EAA70
+#define     USA_FISH_CANT_BE_SCARED             0x1EAB14
+#define     EUR_FISH_CANT_BE_SCARED             0x1EAB34 //Same as WA
+#define     JAP_FISH_CANT_BE_SCARED             0x1EAA70 //Same as WA
+#define     USA_WA_FISH_CANT_BE_SCARED          0x1EA558
 
-#define     USA_FISH_BITE_RIGHT_AWAY            0x1EA844 //WA Versions are the same
-#define     EUR_FISH_BITE_RIGHT_AWAY            0x1EA864
-#define     JAP_FISH_BITE_RIGHT_AWAY            0x1EA7A0
+#define     USA_FISH_BITE_RIGHT_AWAY            0x1EA844
+#define     EUR_FISH_BITE_RIGHT_AWAY            0x1EA864 //Same as WA
+#define     JAP_FISH_BITE_RIGHT_AWAY            0x1EA7A0 //Same as WA
+#define     USA_WA_FISH_BITE_RIGHT_AWAY         0x1EA288
+
+#define     USA_FISH_SET_FISH_ID                0x2545CC
+#define     EUR_FISH_SET_FISH_ID                0x2545C8 //Same as WA
+#define     JAP_FISH_SET_FISH_ID                0x2544E8 //Same as WA
+#define     USA_WA_FISH_SET_FISH_ID             0x254010
 
 #endif

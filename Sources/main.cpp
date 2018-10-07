@@ -315,11 +315,12 @@ namespace CTRPluginFramework
 			/* Subfolder of Enviroment
 			** These codes control the fish functions
 			*****************************************************************************/
-			*folder += new MenuFolder("Fish Codes", std::vector<MenuEntry *>(
-				{
-					new MenuEntry("Fish Cant Be Scared", FishCantBeScared, "Prevents fish from scaring when the player is running. Special thanks to Natfoth"),
-					new MenuEntry("Bite Right Away", FishAlwaysBiteRightAway, "The fish will bite on the first bite every time. Special thanks to Natfoth"),
-				}));
+            *folder += new MenuFolder("Fish Codes", std::vector<MenuEntry *>(
+                {
+                    new MenuEntry("Fish Cant Be Scared", FishCantBeScared, "Prevents fish from scaring when the player is running. Special thanks to Natfoth"),
+                    new MenuEntry("Fish Bite Right Away", FishAlwaysBiteRightAway, "The fish will bite on the first bite every time. Special thanks to Natfoth"),
+                    new MenuEntry("Fish Id Editor", FishIdEditor, FishIdEditorSetter, "Sets the Id of the fish that spawn. Fish will still only spawn in their correct areas. Only works for newly spawned fish. Special thanks to Natfoth"),
+                }));
             *folder += EntryWithHotkey(new MenuEntry("Real Time World Edit", WorldEdit, "Press the corresponding hotkeys to use the cheat,"),
             { Hotkey(Key::R | Key::DPadLeft, "Open the keyboard"), Hotkey(Key::R | Key::DPadUp, "Store the item that you're standing on"),
                 Hotkey(Key::R | Key::DPadDown, "Write the item to where your player is standing")}),
