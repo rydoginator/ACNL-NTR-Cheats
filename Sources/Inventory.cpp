@@ -42,15 +42,26 @@ namespace CTRPluginFramework
 
     void    Duplication(MenuEntry   *entry)
     {
-        if (entry->Hotkeys[0].IsDown())
+        static bool active = false;
+        if (entry->Hotkeys[0].IsDown() && !active)
         {
+            active = true; //We only need to try 1 attempt per hotkey press
             u32 item;
 
             if (Player::GetInstance()->ReadInventorySlot(0, item)) {
-                Player::GetInstance()->WriteInventorySlot(1, item);
-                Player::GetInstance()->WriteInventoryLock(1, 0);
+                int numOfEmptySlots;
+                int* slots = Player::GetInstance()->GetAvaibleSlots(numOfEmptySlots);
+                if(numOfEmptySlots > 0) {
+                    Player::GetInstance()->WriteInventorySlot(slots[0], item);
+                    Player::GetInstance()->WriteInventoryLock(slots[0], 0);
+                    OSD::Notify(Format("Duplicated Item: 0x%04X into slot: %i", static_cast<u32>(0x22e2) + item & 0xFFFF, slots[0]));
+                }  else {
+                    OSD::Notify(Color::Red << "Found no empty slots to duplicate item into");
+                }
             }
 
+        } else if(!entry->Hotkeys[0].IsDown()) {
+            active = false;
         }
     }
 

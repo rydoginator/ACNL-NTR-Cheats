@@ -278,7 +278,7 @@ namespace CTRPluginFramework
                 }));
             *inv += EntryWithHotkey(new MenuEntry("Text to Item", Text2Item, "Press the hotkeys to bring up the keyboard to enter the item ID."),
                 {Hotkey(Key::X | Key::DPadRight, "Open the keyboard") });
-            *inv += EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into slot 2."),
+            *inv += EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into the first available slot."),
                 {Hotkey(Key::R, "Duplicate items") }),
             *inv += new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown.");
             *inv += new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box.");
