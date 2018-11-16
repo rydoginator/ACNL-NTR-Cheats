@@ -19,7 +19,7 @@ namespace CTRPluginFramework
             options.push_back(new QuickMenuEntry(Utils::Format("%d PM", i), (ArgMethod)SetTimeTo, (void *)i));
 
         QuickMenu::GetInstance() += new QuickMenuSubMenu("Set Time to...", options);
-    }   
+    }
 
     void    InitQuickMenu(void)
     {
@@ -30,11 +30,11 @@ namespace CTRPluginFramework
         quickMenu += new QuickMenuEntry("Duplicate All Items", DuplicationAll);
         quickMenu += new QuickMenuEntry("Clear Inventory", ClearInv);
 
-        
+
         TimeMenu();
         AppearanceModifierMenu();
 
-        quickMenu += new QuickMenuSubMenu("Teleport to...", 
+        quickMenu += new QuickMenuSubMenu("Teleport to...",
         {
             new QuickMenuEntry("Player 1", (ArgMethod)TeleportTo, (void *)0),
             new QuickMenuEntry("Player 2", (ArgMethod)TeleportTo, (void *)1),
@@ -51,9 +51,11 @@ namespace CTRPluginFramework
     void    CloseOthersPluginsThreads(u32 address);
     void    PlayerUpdateCallback(void)
     {
-        static bool     isPatched = false;
-
         Player::GetInstance()->Update();
+
+        // Code below is not needed as NTR is not supported anymore
+        /*
+        static bool     isPatched = false;
 
         if (isPatched || !System::IsLoaderNTR())
             return;
@@ -65,5 +67,6 @@ namespace CTRPluginFramework
 
         CloseOthersPluginsThreads(address); ///< address == 0x07000000
         isPatched = true;
+        */
     }
 }

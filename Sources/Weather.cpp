@@ -10,7 +10,7 @@ namespace CTRPluginFramework
         static bool btn = false;
         static bool active = false;
         static const StringVector Weathers = {"Clear", "Cloudy", "Dark Sky", "Light Rain", "Heavy Rain w/ T&L", "Light Snow", "Heavy Snow w/ Fog", "Invalid"};
-        static const Color colours[] = {Color::Red, Color::Orange, Color::Yellow, Color::Green, Color::Blue, Color(75, 0, 130), Color(238, 130, 238), Color::Blank};
+        static const Color colours[] = {Color::Red, Color::Orange, Color::Yellow, Color::Green, Color::Blue, Color(75, 0, 130), Color(238, 130, 238), Color::White};
 
         static u32 offset = Game::Weather;
 

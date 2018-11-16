@@ -1,6 +1,8 @@
 #ifndef CTRPLUGINFRAMEWORK_SYSTEM_SYSTEM_HPP
 #define CTRPLUGINFRAMEWORK_SYSTEM_SYSTEM_HPP
 
+#include "types.h"
+
 namespace CTRPluginFramework
 {
     enum class LanguageId
@@ -50,13 +52,6 @@ namespace CTRPluginFramework
          * \return If the cfw is Luma3DS or not
          */
         static bool         CfwIsLuma3DS(u8 major = 0, u8 minor = 0, u8 revision = 0);
-
-        /**
-         * \brief Check if the plugin was loaded with NTR or another loader
-         * \return True if the loader is NTR
-         */
-        static bool         IsLoaderNTR(void);
-
 
         /**
          * \brief A callback that will be called in std::abort if set

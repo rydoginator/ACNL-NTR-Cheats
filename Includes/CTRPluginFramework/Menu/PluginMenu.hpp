@@ -3,6 +3,7 @@
 
 #include "CTRPluginFramework/Menu/MenuEntry.hpp"
 #include "CTRPluginFramework/Menu/MenuFolder.hpp"
+#include "CTRPluginFramework/System/Time.hpp"
 
 #include <string>
 #include <vector>
@@ -14,6 +15,7 @@ namespace CTRPluginFramework
     class PluginMenu
     {
         using CallbackPointer = void (*)(void);
+        using FrameCallback = void (*)(Time);
         using DecipherPointer = void(*)(std::string &, void *);
     public:
 
@@ -126,16 +128,32 @@ namespace CTRPluginFramework
         void         SynchronizeWithFrame(const bool useSync);
 
         /**
-         * \brief If a callback is set, the callback will be called
+         * \brief If a callback is set, the callback will be called - Must be set before calling Run
          * when the menu is opened for the first time
          */
         CallbackPointer     OnFirstOpening;
 
         /**
-         * \brief If a callback is set, the callback will be called
+         * \brief If a callback is set, the callback will be called  - Must be set before calling Run
          * when the menu is opened. Ideal to put the code that refresh the UI. ;)
          */
         CallbackPointer     OnOpening;
+
+        /**
+         * \brief The callback set will be called at each frame rendered while the menu is open
+         * Ideal to put some UI effect
+         * The function will receive the Time elapsed since last frame
+         * Must be set before calling Run
+         */
+        FrameCallback       OnNewFrame;
+
+
+        /**
+         * \brief Returns the reference of the PluginMenu title string
+         * \return the reference of the PluginMenu title string
+         */
+        std::string &       Title();
+
 
     private:
         std::unique_ptr<PluginMenuImpl> _menu;

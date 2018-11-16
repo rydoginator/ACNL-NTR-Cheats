@@ -38,7 +38,7 @@ namespace CTRPluginFramework
          * \param background The color of the background
          * \return posY + 10 (line feed)
          */
-        u32     Draw(const std::string &str, u32 posX, u32 posY, const Color &foreground = Color::Blank, const Color &background = Color::Black) const;
+        u32     Draw(const std::string &str, u32 posX, u32 posY, const Color &foreground = Color::White, const Color &background = Color::Black) const;
 
         /**
          * \brief Draw a string using system font (support utf8 strings with special chars & unicode)
@@ -48,7 +48,7 @@ namespace CTRPluginFramework
          * \param foreground The color of the characters
          * \return posY + 16 (line feed)
          */
-        u32     DrawSysfont(const std::string &str, u32 posX, u32 posY, const Color &foreground = Color::Blank) const;
+        u32     DrawSysfont(const std::string &str, u32 posX, u32 posY, const Color &foreground = Color::White) const;
 
         /**
          * \brief Draw a rectangle
@@ -95,7 +95,7 @@ namespace CTRPluginFramework
          * \param background The color of the background (Default: black)
          * \return 0 if success, -1 if the notification couldn't be added
          */
-        static int      Notify(std::string str, Color foreground = Color(255, 255, 255), Color background = Color());
+        static int      Notify(const std::string &str, const Color &foreground = Color::White, const Color &background = Color::Black);
 
         /**
          * \brief Add a callback to the OSD system which will be called at each game's frame
@@ -108,6 +108,14 @@ namespace CTRPluginFramework
          * \param cb The callback to remove
          */
         static void     Stop(OSDCallback cb);
+
+        /**
+         * \brief Returns the width in pixels of the specified string
+         * \param sysfont Which font will be used to compute the width
+         * \param text
+         * \return The width in pixels
+         */
+        static float    GetTextWidth(bool sysfont, const std::string& text);
 
         /* Those are to be used only when the process is paused */
         static const Screen&    GetTopScreen(void);

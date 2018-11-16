@@ -12,6 +12,7 @@ namespace CTRPluginFramework
 #define SEPARATOR_TYPE
     enum class Separator
     {
+        None,
         Filled,
         Stippled
     };
@@ -82,23 +83,21 @@ namespace CTRPluginFramework
 
         /**
         * \brief Check if this entry is visible in the menu
-        * \param true if the entry is visible, false if the entry is hidden
+        * \return true if the entry is visible, false if the entry is hidden
         */
         bool    IsVisible(void) const;
 
         /**
         * \brief Set if this entry must display a separator on top of the entry
-        * \param useSeparator pass true if the separator must be displayed, false otherwise
         * \param type Type of separator to display
         */
-        void    UseTopSeparator(bool useSeparator, Separator type = Separator::Filled) const;
+        void    UseTopSeparator(Separator type = Separator::Filled) const;
 
         /**
         * \brief Set if this entry must display a separator at the bottom of the entry
-        * \param useSeparator pass true if the separator must be displayed, false otherwise
         * \param type Type of separator to display
         */
-        void    UseBottomSeparator(bool useSeparator, Separator type = Separator::Filled) const;
+        void    UseBottomSeparator(Separator type = Separator::Filled) const;
 
         /**
          * \brief Set if the entry can be selected in the menu or not.\n

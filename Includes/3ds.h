@@ -7,6 +7,8 @@ extern "C" {
 
 #include "types.h"
 
+#include "ctrulib/allocator/newlibHeap.h"
+#include "ctrulib/services/ac.h"
 #include "ctrulib/services/am.h"
 #include "ctrulib/services/apt.h"
 #include "ctrulib/services/cfgu.h"
@@ -14,12 +16,13 @@ extern "C" {
 #include "ctrulib/services/gspgpu.h"
 #include "ctrulib/services/hid.h"
 #include "ctrulib/services/irrst.h"
+#include "ctrulib/services/ptmsysm.h"
 #include "ctrulib/services/sslc.h"
 #include "ctrulib/services/httpc.h"
-#include "ctrulib/services/ptmsysm.h"
+
 #include "ctrulib/services/soc.h"
-#include "ctrulib/soc/socket.h"
 #include "ctrulib/soc/soc_common.h"
+#include "ctrulib/soc/socket.h"
 
 #include "ctrulib/util/utf.h"
 
@@ -31,9 +34,10 @@ extern "C" {
 #include "ctrulib/result.h"
 #include "ctrulib/srv.h"
 #include "ctrulib/svc.h"
+#include "csvc.h"
 #include "ctrulib/synchronization.h"
 #include "ctrulib/thread.h"
-    
+
 #ifdef __cplusplus
 }
 #endif

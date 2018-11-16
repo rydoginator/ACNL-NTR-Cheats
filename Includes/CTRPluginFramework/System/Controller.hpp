@@ -5,18 +5,18 @@
 
 namespace CTRPluginFramework
 {
-    enum Key 
+    enum Key
     {
-        A           = 1,       
-        B           = 1 << 1, 
-        Select      = 1 << 2, 
-        Start       = 1 << 3, 
+        A           = 1,
+        B           = 1 << 1,
+        Select      = 1 << 2,
+        Start       = 1 << 3,
         DPadRight   = 1 << 4,
         DPadLeft    = 1 << 5,
         DPadUp      = 1 << 6,
         DPadDown    = 1 << 7,
-        R           = 1 << 8, 
-        L           = 1 << 9,  
+        R           = 1 << 8,
+        L           = 1 << 9,
         X           = 1 << 10,
         Y           = 1 << 11,
         ZL          = 1 << 14,               ///< The ZL button (New 3DS only)
@@ -43,6 +43,8 @@ namespace CTRPluginFramework
 
         // Return all the keys currently down
         static u32      GetKeysDown(void);
+        // Return all the keys which were released
+        static u32      GetKeysReleased(void);
         // Return if the key is still being pressed
         static bool     IsKeyDown(Key key);
         // Return if the key just got pressed
@@ -61,7 +63,7 @@ namespace CTRPluginFramework
 
         static void     InjectTouch(u16 posX, u16 posY);
         static void     InjectKey(u32 key);
-    private:    
+    private:
         static u32      _keysDown;
         static u32      _keysHeld;
         static u32      _keysReleased;

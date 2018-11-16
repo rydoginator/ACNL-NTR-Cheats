@@ -158,7 +158,7 @@ namespace CTRPluginFramework
 
             for (; start < end; ++start, posY += 10)
             {
-                screen.Draw(entries[start], posX, posY, start == menu._selector ? Color::DeepSkyBlue : Color::Blank);
+                screen.Draw(entries[start], posX, posY, start == menu._selector ? Color::DeepSkyBlue : Color::White);
             }
         }
 

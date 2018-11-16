@@ -18,8 +18,8 @@ namespace CTRPluginFramework
             InputWasCleared
         };
 
-        EventType   type;       ///< Type of the event
-        u32         codepoint;  ///< The codepoint of the character that thrown the event
+        EventType   type{};       ///< Type of the event
+        u32         codepoint{0};  ///< The codepoint of the character that thrown the event
     };
 
     class KeyboardImpl;
@@ -81,7 +81,7 @@ namespace CTRPluginFramework
          * \brief Define a callback that will be called when the user change the input \n
          * Note that if a CompareCallback is set, CompareCallback is called before OnInputChange \n
          * See OnInputChangeCallback's description for more infos
-         * \param callback 
+         * \param callback
          */
         void    OnInputChange(OnInputChangeCallback callback) const;
 
@@ -240,8 +240,8 @@ namespace CTRPluginFramework
         * \brief Get a reference to the top screen's message string
         * \return A reference to the top screen's message string
         */
-        std::string     &GetMessage(void) const;        
-        
+        std::string     &GetMessage(void) const;
+
         /**
          * \brief This property define if the top screen must be displayed or not \n
          * Note that when disabled, errors messages can't be displayed

@@ -11,10 +11,17 @@ namespace CTRPluginFramework
 #define SEPARATOR_TYPE
     enum class Separator
     {
+        None,
         Filled,
         Stippled
     };
 #endif
+
+    enum class ActionType
+    {
+        Opening,
+        Closing
+    };
 
     class MenuFolderImpl;
     class MenuFolder
@@ -51,23 +58,21 @@ namespace CTRPluginFramework
 
         /**
          * \brief Set if this entry must display a separator on top of the entry
-         * \param useSeparator pass true if the separator must be displayed, false otherwise
          * \param type Type of separator to display
          */
-        void    UseTopSeparator(bool useSeparator, Separator type = Separator::Filled) const;
+        void    UseTopSeparator(Separator type = Separator::Filled) const;
 
         /**
         * \brief Set if this entry must display a separator at the bottom of the entry
-        * \param useSeparator pass true if the separator must be displayed, false otherwise
         * \param type Type of separator to display
         */
-        void    UseBottomSeparator(bool useSeparator, Separator type = Separator::Filled) const;
+        void    UseBottomSeparator(Separator type = Separator::Filled) const;
 
         /**
          * \brief Append a MenuEntry object to this folder
          * \param item The entry to append
          */
-        void    Append(MenuEntry *item) const;  
+        void    Append(MenuEntry *item) const;
 
         /**
          * \brief Append a MenuFolder object to this folder
@@ -147,17 +152,16 @@ namespace CTRPluginFramework
         MenuFolder    *operator -= (const MenuFolder *folder);
 
         /**
-        * \brief Callback type, receive the object that called the callback
-        * must returns true or false:
-        *  true: if the folder can be opened
-        *  false: if the folder mus close
+        * \brief Callback type, receive the object that called the callback \n
+        * along with the action which triggered the callback
+        * \return Whether the folder can be opened (on ActionType::Opening only, ignored for ActionType::Closing)
         */
-        using MenuFolder_OnOpeningFunc = bool(*)(MenuFolder &);
+        using MenuFolder_OnActionFunc = bool(*)(MenuFolder &, ActionType);
 
         /**
-         * \brief This callback is called when the folder will be opened
+         * \brief This callback is called when the folder is about to be opened or closed
          */
-        MenuFolder_OnOpeningFunc    OnOpening;
+        MenuFolder_OnActionFunc    OnAction;
 
     private:
         friend class PluginMenu;

@@ -50,10 +50,11 @@ namespace CTRPluginFramework
         //InstallAPTHook();
         settings.ThreadPriority = 0x39;
         settings.AllowActionReplay = false;
-        if (System::IsLoaderNTR())
-            settings.HeapSize = 0x150000;
+
+        //if (System::IsLoaderNTR())
+        //    settings.HeapSize = 0x150000;
     }
-        
+
     extern Region               g_region;
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
@@ -81,7 +82,7 @@ namespace CTRPluginFramework
         switch (tid)
         {
             case 0x0004000000086300:
-                if (ver != 6192) 
+                if (ver != 6192)
                     goto unsupported;
                 g_region = USA;
                 break;
@@ -150,7 +151,7 @@ namespace CTRPluginFramework
 
         return (entry);
     }
-    
+
     void    InitQuickMenu(void);
     int     main(void)
     {
@@ -369,7 +370,7 @@ namespace CTRPluginFramework
             new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"),
             new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."),
             new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."),
-            EntryWithHotkey(new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, StorageEverywhereSettings, "Press the hotkeys and open the keyboard, emoticons, mailbox or force a bottom screen change to access the window of your choice" ), 
+            EntryWithHotkey(new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, StorageEverywhereSettings, "Press the hotkeys and open the keyboard, emoticons, mailbox or force a bottom screen change to access the window of your choice" ),
             {
                 Hotkey(Key::L, "Access drawers"), Hotkey(Key::R, "Access secret storage"), Hotkey(Key::L | Key::R, "Access catalog"), Hotkey(Key::Y, "Custom (use keyboard in cheat menu)")
             }),
@@ -397,19 +398,19 @@ namespace CTRPluginFramework
                 {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Weather Modifier", WeatherMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
                 {
-                Hotkey(Key::Y | Key::DPadLeft, "Change Button Activator"), 
+                Hotkey(Key::Y | Key::DPadLeft, "Change Button Activator"),
                 Hotkey(Key::Y | Key::DPadUp, "Change Increment Hotkey"),
                 Hotkey(Key::Y | Key::DPadDown, "Change Decrement Hotkey")
                 }),
             EntryWithHotkey(new MenuEntry("Confetti Mod", ConfettiMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
                 {
-                Hotkey(Key::L | Key::DPadLeft, "Change Button Activator"), 
+                Hotkey(Key::L | Key::DPadLeft, "Change Button Activator"),
                 Hotkey(Key::L | Key::DPadUp, "Change Increment Hotkey"),
                 Hotkey(Key::L | Key::DPadDown, "Change Decrement Hotkey")
                 }),
             EntryWithHotkey(new MenuEntry("Cherry Blossom Mod", CherryBlossomMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
                 {
-                Hotkey(Key::R | Key::DPadLeft, "Change Button Activator"), 
+                Hotkey(Key::R | Key::DPadLeft, "Change Button Activator"),
                 Hotkey(Key::R | Key::DPadUp, "Change Increment Hotkey"),
                 Hotkey(Key::R | Key::DPadDown, "Change Decrement Hotkey")
                 })
@@ -426,7 +427,7 @@ namespace CTRPluginFramework
             if (g_homeBtnWasPressed)
             {
                 g_homeBtnWasPressed = 0;
-                OSD::Notify("Due to memory issues, the Home Menu button is disabled", Color::Red, Color::Blank);
+                OSD::Notify("Due to memory issues, the Home Menu button is disabled", Color::Red, Color::White);
             }
         };
         menu += PlayerUpdateCallback;

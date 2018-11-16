@@ -5,9 +5,10 @@ $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>dev
 endif
 
 TOPDIR ?= $(CURDIR)
-include $(TOPDIR)/3ds_rules
+include $(DEVKITARM)/3ds_rules
 
 TARGET		:= 	$(notdir $(CURDIR))
+PLGINFO 	:= 	acnlPluginInfo.plgInfo
 BUILD		:= 	Build
 INCLUDES	:= 	Includes
 LIBDIRS		:= 	$(TOPDIR)
@@ -80,13 +81,13 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ... 
-	@rm -fr $(BUILD) $(OUTPUT).plg $(OUTPUT).elf
+	@rm -fr $(BUILD) $(OUTPUT).3gx $(OUTPUT).elf
 
 re: clean all
 
 send:
 	@echo "Sending plugin over FTP"
-	@$(TOPDIR)/sendfile.py $(TARGET).plg $(FTP_PATH) "$(FTP_HOST)$(IP)" $(FTP_PORT)
+	@$(TOPDIR)/sendfile.py $(TARGET).3gx $(FTP_PATH) "$(FTP_HOST)$(IP)" $(FTP_PORT)
 #---------------------------------------------------------------------------------
 
 else
@@ -96,8 +97,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-$(OUTPUT).plg : $(OUTPUT).elf
-$(OUTPUT).elf : $(OFILES)
+$(OUTPUT).3gx : $(OFILES)
 
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data
@@ -106,6 +106,13 @@ $(OUTPUT).elf : $(OFILES)
 #---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@$(bin2o)
+
+#---------------------------------------------------------------------------------
+%.3gx: %.elf
+	@echo creating $(notdir $@)
+	@$(OBJCOPY) -O binary $(OUTPUT).elf $(TOPDIR)/objdump -S
+	@3gxtool.exe -s $(TOPDIR)/objdump $(TOPDIR)/$(PLGINFO) $@
+	@- rm $(TOPDIR)/objdump
 
 -include $(DEPENDS)
 

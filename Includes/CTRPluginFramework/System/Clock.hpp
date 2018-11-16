@@ -9,6 +9,7 @@ namespace CTRPluginFramework
     {
     public:
         Clock(void);
+        Clock(Time time);
 
         Time    GetElapsedTime(void) const;
         bool    HasTimePassed(Time time) const;

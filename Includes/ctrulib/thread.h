@@ -10,6 +10,18 @@ extern "C" {
 #include "result.h"
 #include "synchronization.h"
 #include "svc.h"
+#include "errf.h"
+#include <sys/reent.h>
+
+/// Makes the exception handler reuse the stack of the faulting thread as-is
+#define RUN_HANDLER_ON_FAULTING_STACK   ((void*)1)
+
+/// Makes the exception handler push the exception data on its stack
+#define WRITE_DATA_TO_HANDLER_STACK     NULL
+
+/// Makes the exception handler push the exception data on the stack of the faulting thread
+#define WRITE_DATA_TO_FAULTING_STACK    ((ERRF_ExceptionData*)1)
+
 
 typedef struct
 {
@@ -20,10 +32,15 @@ typedef struct
     bool detached, finished;
     struct _reent reent;
     void* stacktop;
+    u32   renderCtx[2];
 }   Thread_tag;
 
 /// libctru thread handle type
 typedef Thread_tag* Thread;
+
+/// Exception handler type, necessarily an ARM function that does not return.
+typedef void (*ExceptionHandler)(ERRF_ExceptionInfo* excep, CpuRegisters* regs);
+
 
 /**
  * @brief Creates a new libctru thread.
@@ -49,7 +66,7 @@ typedef Thread_tag* Thread;
  * @note Default exit code of a thread is 0.
  * @warning @ref svcExitThread should never be called from the thread, use @ref threadExit instead.
  */
-Thread threadCreate(ThreadFunc entrypoint, void *stack_top, size_t stack_size, int prio, int affinity, bool detached);
+Thread threadCreate(ThreadFunc entrypoint, void *arg, void *stack, size_t stack_size, int prio, int affinity);
 
 /**
  * @brief Retrieves the OS thread handle of a libctru thread.
@@ -89,6 +106,30 @@ Thread threadGetCurrent(void);
  * @param rc Exit code
  */
 void threadExit(int rc) __attribute__((noreturn));
+
+/**
+ * @brief Sets the exception handler for the current thread. Called from the main thread, this sets the default handler.
+ * @param handler The exception handler, necessarily an ARM function that does not return
+ * @param stack_top A pointer to the top of the stack that will be used by the handler. See also @ref RUN_HANDLER_ON_FAULTING_STACK
+ * @param exception_data A pointer to the buffer that will contain the exception data.
+                         See also @ref WRITE_DATA_TO_HANDLER_STACK and @ref WRITE_DATA_TO_FAULTING_STACK
+ *
+ * To have CPU exceptions reported through this mechanism, it is normally necessary that UNITINFO is set to a non-zero value when Kernel11 starts,
+ * and this mechanism is also controlled by @ref svcKernelSetState type 6, see 3dbrew.
+ *
+ * VFP exceptions are always reported this way even if the process is being debugged using the debug SVCs.
+ *
+ * The current thread need not be a libctru thread.
+ */
+static inline void threadOnException(ExceptionHandler handler, void* stack_top, ERRF_ExceptionData* exception_data)
+{
+	u8* tls = (u8*)getThreadLocalStorage();
+
+	*(u32*)(tls + 0x40) = (u32)handler;
+	*(u32*)(tls + 0x44) = (u32)stack_top;
+	*(u32*)(tls + 0x48) = (u32)exception_data;
+}
+
 #ifdef __cplusplus
 }
 #endif

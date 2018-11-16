@@ -2,6 +2,8 @@
 #define CTRPLUGINFRAMEWORK_FILE_HPP
 
 #include "types.h"
+#include "CTRPluginFramework/System/Mutex.hpp"
+
 #include <string>
 #include <vector>
 
@@ -44,7 +46,7 @@ namespace CTRPluginFramework
         /**
          * \brief Create a file
          * \param path The path of the file to create
-         * \return 
+         * \return
          * Either a value in \ref OPResult or an error code from FS service
          */
         static int  Create(const std::string &path);
@@ -70,7 +72,7 @@ namespace CTRPluginFramework
         /**
          * \brief Determines whether the specified file exists
          * \param path The file to check
-         * \return 
+         * \return
          * 0: File doesn't exists \n
          * 1: File exists \n
          * Either a value in \ref OPResult or an error code from FS service
@@ -86,7 +88,7 @@ namespace CTRPluginFramework
          * Either a value in \ref OPResult or an error code from FS service
          */
         static int  Open(File &output, const std::string &path, int mode = READ | WRITE | SYNC);
-        
+
         /**
          * \brief Close the file
          * \return
@@ -150,11 +152,13 @@ namespace CTRPluginFramework
 
         /**
          * \brief Get the size of the file
-         * \return 
+         * \return
          * File size if >= 0 \n
          * Either a value in \ref OPResult or an error code from FS service otherwise
          */
         u64     GetSize(void) const;
+
+        void    SetPriority(u32 priority);
 
         /**
          * \brief Write the content of the memory to the file
@@ -197,7 +201,7 @@ namespace CTRPluginFramework
          * \return An std::string with the extension part of the file
          */
         std::string     GetExtension(void) const;
-        
+
         File(void);
         File(const std::string &path, u32 mode = READ | WRITE | SYNC);
         ~File() { Close(); }
@@ -208,6 +212,7 @@ namespace CTRPluginFramework
         mutable u64             _offset;
         mutable int             _mode;
         mutable bool            _isOpen;
+        mutable Mutex           _mutex;
     };
 }
 

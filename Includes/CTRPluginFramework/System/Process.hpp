@@ -74,8 +74,9 @@ namespace CTRPluginFramework
 
         /**
          * \brief Resume the process
-         * \param frames if a number is specified the process will play x frames
+         * \param frames If a number is specified the process will play x frames
          * before being paused again
+         * Please be aware that giving a frame count will not release the process
          */
         static void     Play(const u32 frames = 0);
 

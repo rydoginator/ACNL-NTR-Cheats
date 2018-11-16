@@ -7,15 +7,26 @@
 
 namespace CTRPluginFramework
 {
+    struct PluginHeader
+    {
+        u32             magic;
+        u32             version;
+        u32             heapVA;
+        u32             heapSize;
+        u32             pluginSize;
+        const char*     pluginPathPA;
+        u32             isDefaultPlugin;
+        u32             reserved[25];
+        u32             config[32];
+    };
+
     struct FwkSettings
     {
         // Plugin init options
         u32     ThreadPriority; ///< Pri ority for the main thread of the plugin must be within 0x3E - 0x18 | Default: 0x30
-        u32     HeapSize;       ///< Size to be allocated for the heap | Default: 0x100000 with NTR, 0x200000 using Luma's plugin loader
-        bool    EcoMemoryMode;  ///< Enable EcoMemoryMode: backgrounds won't be loaded and the heap usage will be lowered. Search won't work if loaded with NTR
         bool    AllowActionReplay; ///< Enable the Action Replay's handler, if this is set to off, even if the menu allows to create codes, they won't be executed
         bool    AllowSearchEngine; ///< If false then the search engine won't be available | Default: true
-        Time    WaitTimeToBoot; ///< Time to wait for the plugin to really starts (from when the game will starts) | Default: 5 seconds
+        Time    WaitTimeToBoot; ///< Time to wait for the plugin to starts (from when the game will starts) | Default: 5 seconds
 
         // UI colors
         Color   MainTextColor;  ///< The color of all texts within the plugin | Default: Blank
@@ -59,6 +70,7 @@ namespace CTRPluginFramework
          * \return The instance of FwkSettings
          */
         static FwkSettings& Get(void);
+        static PluginHeader *Header;
 
         /**
          * \brief Reset all colors to their default values

@@ -6,6 +6,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+#include <types.h>
+#include <ctrulib/svc.h>
 #include <sys/lock.h>
 
 /// A light lock.
@@ -16,7 +18,7 @@ typedef _LOCK_RECURSIVE_T RecursiveLock;
 
 /// A light event.
 typedef struct
-{
+{   
 	s32 state;      ///< State of the event: -2=cleared sticky, -1=cleared oneshot, 0=signaled oneshot, 1=signaled sticky
 	LightLock lock; ///< Lock used for sticky timer operation
 } LightEvent;
@@ -86,6 +88,8 @@ void LightLock_Init(LightLock* lock);
  * @param lock Pointer to the lock.
  */
 void LightLock_Lock(LightLock* lock);
+
+bool LightLock_IsLocked(LightLock *lock);
 
 /**
  * @brief Attempts to lock a light lock.

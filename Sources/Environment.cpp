@@ -53,7 +53,7 @@ namespace CTRPluginFramework
             {
                 findReplacer.AddPair(search, replace);
                 findReplacer();
-                OSD::Notify(Format("0x%04X replaced with 0x%04X", search, replace));   
+                OSD::Notify(Format("0x%04X replaced with 0x%04X", search, replace));
             }
         }
     }
@@ -68,7 +68,7 @@ namespace CTRPluginFramework
         for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
             Process::Write32(offset, 0xFFFFFFFF);
 
-        OSD::Notify(Color::Green << "Grass Filled!" << Color::Blank << "(reload the area)");
+        OSD::Notify(Color::Green << "Grass Filled!" << Color::White << "(reload the area)");
     }
 
     void    DestroyGrass(MenuEntry *entry)
@@ -81,7 +81,7 @@ namespace CTRPluginFramework
         for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
             Process::Write32(offset, 0x00000000);
 
-        OSD::Notify(Color::Green << "Grass Removed!" << Color::Blank << "(reload the area)");
+        OSD::Notify(Color::Green << "Grass Removed!" << Color::White << "(reload the area)");
     }
 
     void    WaterAllFlowers(MenuEntry *entry)
@@ -89,7 +89,7 @@ namespace CTRPluginFramework
         if (entry == nullptr)
             goto water;
         //since hotkeys aren't available when the arg is nullptr, check if the arg is nullptr first
-        if (entry->Hotkeys[0].IsDown()) 
+        if (entry->Hotkeys[0].IsDown())
             goto water;
         return;
 
@@ -117,7 +117,7 @@ namespace CTRPluginFramework
                 WRITEU32(address, item);
             }
         }
-        OSD::Notify(Color::Green << "Flowers Watered!" << Color::Blank << "(reload the area)");
+        OSD::Notify(Color::Green << "Flowers Watered!" << Color::White << "(reload the area)");
     }
 
     void    WorldEdit(MenuEntry *entry)
@@ -134,7 +134,7 @@ namespace CTRPluginFramework
             else
                 valid = false; // if the user aborts, you don't want to be writing abritary values
         }
-        
+
         if (entry->Hotkeys[1].IsDown()) //Store item below feet
         {
             u32  *address = Game::GetItem(); //get the address of where your character is standing

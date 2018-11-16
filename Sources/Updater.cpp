@@ -19,10 +19,10 @@ namespace CTRPluginFramework
         int     revision = 0;
         int     beta_ver = 0;
         char    *next = NULL;
-        
+
         if (releaseName && *releaseName == 'v')
             releaseName++;
-    
+
         major = strtol(releaseName, &next, 10); //Get major version
         #if DEBUG
         MessageBox(Format("Major: %d, Result: %d", major, major >= MAJOR_VERSION))();
@@ -32,7 +32,7 @@ namespace CTRPluginFramework
             next++;
         else
             return major > MAJOR_VERSION;
-    
+
         minor = strtol(next, &next, 10); //Get minor version
         #if DEBUG
         MessageBox(Format("Minor: %d, Result %d", minor, minor >= MINOR_VERSION))();
@@ -50,10 +50,10 @@ namespace CTRPluginFramework
             #endif
             return major >= MAJOR_VERSION && minor >= MINOR_VERSION && beta_ver > BETA_VERSION;
         }
-            
+
         else //If there's no revision ver & beta ver
             return major >= MAJOR_VERSION && minor > MINOR_VERSION;
-    
+
         revision = strtol(next,  &next, 10); //Get revision version
         #if DEBUG
         MessageBox(Format("Revision: %d, Result %d", revision, revision >= REVISION_VERSION))();
@@ -63,12 +63,12 @@ namespace CTRPluginFramework
 
         else
             return major >= MAJOR_VERSION && minor >= MINOR_VERSION && revision > REVISION_VERSION;
-        
+
         beta_ver = strtol(next, NULL, 10); //Get beta version
         #if DEBUG
         MessageBox(Format("Beta 2: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION))();
         #endif
-        return major >= MAJOR_VERSION && minor >= MINOR_VERSION 
+        return major >= MAJOR_VERSION && minor >= MINOR_VERSION
                 && revision >= REVISION_VERSION && beta_ver > BETA_VERSION;
     }
 
@@ -114,7 +114,7 @@ namespace CTRPluginFramework
                         MessageBox(Format("URL returned status: %" PRId32 " ", responseCode))();
                     #endif
                         httpcCloseContext(&context);
-                        return false;       
+                        return false;
                     }
 
                     resolved = true;
@@ -151,7 +151,7 @@ namespace CTRPluginFramework
                     return false;
                 }
             }
-    
+
             u32 left = size;
             while (left > 0)
             {
@@ -181,13 +181,13 @@ namespace CTRPluginFramework
 
                     ret = true;
                 }
-    
+
                 else
                 {
                     #if DEBUG
                         MessageBox(Format("Download Failed!\nLeft to download: %d", left))();
                     #endif
-    
+
                     ret = false;
                     break;
                 }
@@ -246,7 +246,8 @@ namespace CTRPluginFramework
                 return false;
             }
 
-            if (System::IsLoaderNTR()) {
+            // TODO: fix compatibility with new format
+            /*if (System::IsLoaderNTR()) {
                 File::Remove("ACNL-NTR-Cheats.plg");
                 File::Rename("TempFile.bin", "ACNL-NTR-Cheats.plg");
             }
@@ -254,7 +255,7 @@ namespace CTRPluginFramework
             else {
                 File::Remove("plugin.plg");
                 File::Rename("TempFile.bin", "plugin.plg");
-            }
+            } */
 
             return true;
         }
