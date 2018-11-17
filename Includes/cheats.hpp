@@ -11,6 +11,15 @@
 #include "Values.hpp"
 #include "Strings.hpp"
 
+#define MAJOR_VERSION       4
+#define MINOR_VERSION       1
+#define REVISION_VERSION    1
+#define BETA_VERSION        0
+#define STRINGIFY(x)        #x
+#define TOSTRING(x)         STRINGIFY(x)
+#define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " ]"
+//#define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta " TOSTRING(BETA_VERSION) " ]"
+
 #define READU32(x)      *(u32 *)(x)
 #define READU16(x)      *(u16 *)(x)
 #define READU8(x)       *(u8 *)(x)
@@ -36,7 +45,10 @@ enum Region
 {
     USA = 0,
     EUR,
-    JAP
+    JAP,
+    w_USA,
+    w_EUR,
+    w_JAP
 };
 
 enum
@@ -45,34 +57,36 @@ enum
     ISLANDFINDER
 };
 
+union Item
+{
+    u32     raw;
+    struct
+    {
+        u16     ID;
+        u16     Flags;
+    };
+};
+
 namespace CTRPluginFramework
 {
-    void    AppearanceMod(void);
-    void    DuplicationAll(void);
-    void    TeleportKeyboard(void);
-    void    GetSet(int set);
     void    FurnitureKeyboard(void);
-    void    GrassKeyboard(void);
 
     /*
     ** Helpers
     ********************/
-    int     RandomNum(int start, int end);
     u32     DecryptACNLMoney(u64 money);
     u64     EncryptACNLMoney(int dec);
-    bool    Check32Value(u32 address, u32 value);
-    bool    Check16Value(u32 address, u16 value);
-    bool    Check8Value(u32 address, u8 value);
     void    StartMsg(void);
-    u32     GetSize(const std::string &str);
-    u32     RemoveLastChar(std::string &str);
+    u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
+    char    Sstrncpy(char *dest, const char *src, size_t n);
+    bool    launchUpdater(void);
+
 
     // Cheats functions
 
     /*
     ** Garden
     ********************/
-    void    NameChanger_OnInputChange(Keyboard &keyboard, InputChangeEvent &event);
     void    SetNameTo(MenuEntry *entry);
     void    GardenDumper(MenuEntry *entry);
     void    GardenRestore(MenuEntry *entry);
@@ -80,11 +94,12 @@ namespace CTRPluginFramework
     void    PWPUnlock(MenuEntry *entry);
     void    ChangeGrass(MenuEntry *entry);
     void    Permit(MenuEntry *entry);
-    void    BuildingPlacer(MenuEntry *entry);
+    void    BuildingModifier(MenuEntry *entry);
 
     /*
     ** Movement
     ********************/
+    void    SpeedSettings(MenuEntry *entry);
     void    CoordinateModifier(MenuEntry *entry);
     void    TouchCoordinates(MenuEntry *entry);
     void    Teleporter(MenuEntry *entry);
@@ -93,26 +108,40 @@ namespace CTRPluginFramework
     void    SpeedHackEditor(MenuEntry *entry);
     void    MoonJump(MenuEntry *entry);
     void    TeleportTo(int person);
+    void    PWPTeleport(MenuEntry *entry);
 
     /*
     ** Inventory
     ********************/
     void    Text2Item(MenuEntry *entry);
     void    Duplication(MenuEntry *entry);
+    void    DuplicationAll(void);
+    void    ClearInv(void);
     void    ShowBuriedItems(MenuEntry *entry);
     void    PickBuriedItems(MenuEntry *entry);
-    void    SetBells(MenuEntry *entry);  ///< Need fix ?
     void    ExtendedInventoryBox(MenuEntry *entry);
     void    GenerateFossils(MenuEntry *entry);
     void    Encyclopedia(MenuEntry *entry);
     void    Emoticons(MenuEntry *entry);
     void    Songs(MenuEntry *entry);
+    void    FillCatalog(MenuEntry *entry);
+
+    /*
+	** Money Cheats
+	*****************/
+
     void    MaxMoneyBank(MenuEntry *entry);
+    void    InfiniteBank(MenuEntry *entry);
+    void    MaxCoupons(MenuEntry *entry);
     void    InfiniteCoupons(MenuEntry *entry);
+    void    MaxMedals(MenuEntry *entry);
     void    InfiniteMedals(MenuEntry *entry);
-    void    InfiniteWallet(MenuEntry * entry);
+    void    MaxWallet(MenuEntry *entry);
+    void    InfiniteWallet(MenuEntry *entry);
     void    WalletEditorSetter(MenuEntry *entry);
     void    WalletEditor(MenuEntry *entry);
+    void    BankEditorSetter(MenuEntry *entry);
+    void    BankEditor(MenuEntry *entry);
 
 
     /*
@@ -125,6 +154,10 @@ namespace CTRPluginFramework
     void    DestroyGrass(MenuEntry *entry);
     void    FillGrass(MenuEntry *entry);
     void    SearchReplace(MenuEntry *entry);
+    void    FishIdEditorSetter(MenuEntry *entry);
+    void    FishIdEditor(MenuEntry *entry);
+    void    FishCantBeScared(MenuEntry *entry);
+    void    FishAlwaysBiteRightAway(MenuEntry *entry);
 
     /*
     ** Time Travel
@@ -136,6 +169,7 @@ namespace CTRPluginFramework
     void    ResetTime(void);
     void    TimeTravel(MenuEntry *entry);
     void    TimeMachine(MenuEntry *entry);
+    void    TimeTravelSettings(MenuEntry *entry);
     void    SetTimeTo(int hour);
     void    TimePicker(void);
 
@@ -156,34 +190,44 @@ namespace CTRPluginFramework
     void    AnimalChanger(MenuEntry *entry);
     void    ChangeAnimal(const char* name);
     void    StorageEverywhere(MenuEntry *entry);
+    void    StorageEverywhereSettings(MenuEntry *entry);
+    void    Corrupter(MenuEntry *entry);
+    void    CorrupterSettings(MenuEntry *entry);
     void    Faint(MenuEntry *entry);
+    std::vector<u8> FindItemCoordinates(std::vector<u16> & id, bool isFlag);
+    void    UltimateWeedPuller(MenuEntry *entry);
+    void    UnBuryItems(MenuEntry *entry);
+    void    EnableAllTours(MenuEntry *entry);
+    void    AmiiboSpoof(MenuEntry *entry);
+    bool    CheckU8Input(const void *input, std::string &error);
+    void    UseAnyEmote(MenuEntry *entry);
+    void    EditAnyPattern(MenuEntry *entry);
+    void    UnbreakableFlowers(MenuEntry *entry);
+    void    LoadRoomID(u8 roomID);
+    void    RoomPicker(MenuEntry *entry);
+    void    CountrySpoofer(MenuEntry *entry);
+
     
     /*
     ** Appearance
     ********************/
-    void    ChangeGender(void);
-    void    ChangeHair(void);
-    void    ChangeFace(void);
-    void    ChangeHairCol(void);
-    void    ChangeEyeCol(void);
-    void    ChangeTan(void);
-    void    ChangeHat(void);
-    void    ChangeAccessory(void);
-    void    ChangeTop(void);
-    void    ChangePants(void);
-    void    ChangeSocks(void);
-    void    ChangeShoes(void);
-    void    ApparelMod(void);
-    void    AppearanceMod(void);
+    void    AppearanceModifierMenu(void);
 
     /*
     ** Main Street
     ****************/
-    void    FillCatalog(MenuEntry *entry);
-    void    FillMainStreet(MenuEntry *entry);
+    void    MainStreetKeyboard(MenuEntry *entry);
+    int     NooklingStoreSelector(void);
     void    NooklingKeyboard(MenuEntry *entry);
-    void    SetNook(int value);
     void    CatalogToPockets(MenuEntry *entry);
+    void    ShopsAlwaysOpenKeyboard(MenuEntry *entry);
+
+    /*
+    ** Weather
+    ****************/
+    void    WeatherMod(MenuEntry *entry);
+    void    CherryBlossomMod(MenuEntry *entry);
+    void    ConfettiMod(MenuEntry *entry);
 
     /*
     ** Callbacks

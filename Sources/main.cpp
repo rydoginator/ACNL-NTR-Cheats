@@ -1,67 +1,19 @@
 #include "cheats.hpp"
-#include "ctrulib\services\cfgu.h"
-#include "Helpers/Hook.hpp"
+#include "Helpers/QuickMenu.hpp"
+#include "Hook.hpp"
+#include "Helpers/newlibHeap.h"
+#include "3ds.h"
 #include <cstring>
 
+extern "C" vu32* hidSharedMem;
 extern "C" void APT_Hook(void);
 volatile u32    g_homeBtnWasPressed = 0;
 volatile u32    g_aptHookReturnAddress = 0;
 
 namespace CTRPluginFramework
 {
-    // This function is called on the plugin starts, before main
-    void    PatchProcess(void)
-    {
-    }
-    
-    #define MAJOR_VERSION       4
-    #define MINOR_VERSION       0
-    #define REVISION_VERSION    0
-    #define STRINGIFY(x)        #x
-    #define TOSTRING(x)         STRINGIFY(x)
-    #define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta 2" "]"
-    static Hook                 g_aptHook;
-    extern Region               g_region;
-    static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
-    static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
-    static const std::string    gameName = "Animal Crossing New Leaf";
-    static const std::string    developer = "RyDog";
-    static const std::string    credits =
-        "Plugin Version: " STRING_VERSION  "\n"
-        "Creator: " + developer + "\n"
-        "\n"
-        "Special thanks to:\n"
-        "Nanquitas\n"
-        "Slattz\n"
-        "Mega Mew\n"
-        "Scotline\n"
-        "and others :)";
-
-    u8  *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize)
-    {
-        const u8 *patternc = (const u8 *)pattern;
-        u32 table[256];
-
-        //Preprocessing
-        for (u32 i = 0; i < 256; i++)
-            table[i] = patternSize;
-        for (u32 i = 0; i < patternSize - 1; i++)
-            table[patternc[i]] = patternSize - i - 1;
-
-        //Searching
-        u32 j = 0;
-        while (j <= size - patternSize)
-        {
-            u8 c = startPos[j + patternSize - 1];
-            if (patternc[patternSize - 1] == c && memcmp(pattern, startPos + j, patternSize - 1) == 0)
-                return startPos + j;
-            j += table[c];
-        }
-
-        return nullptr;
-    }
-
-    void    InstallAPTHook(void)
+    static Hook     g_aptHook;
+    static void     InstallAPTHook(void)
     {
         static const u8     aptHomeButtonPattern[] =
         {
@@ -89,188 +41,397 @@ namespace CTRPluginFramework
             g_aptHook.Initialize(address, (u32)APT_Hook);
             g_aptHook.Enable();
         }
-        else
-            OSD::Notify("Error: APT Hook couldn't be made !");
     }
-    
-    int     main(void)
+
+    // This function is called on the plugin starts, before main
+    void    PatchProcess(FwkSettings &settings)
     {
         // Install APT Hook to block home button
-        InstallAPTHook();
+        //InstallAPTHook();
+        settings.ThreadPriority = 0x39;
+        settings.AllowActionReplay = false;
 
-        PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
-        PluginMenu  &menu = *m;
+        //if (System::IsLoaderNTR())
+        //    settings.HeapSize = 0x150000;
+    }
+
+    extern Region               g_region;
+    static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
+    static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
+    static const std::string    gameName = "Animal Crossing New Leaf";
+    static const std::string    creator = "RyDog";
+    static const std::string    developer = creator + " & Slattz";
+    static const std::string    credits =
+        "Plugin Version: " STRING_VERSION  "\n"
+        "Creator: " + creator + "\n"
+        "Developer: " + developer + "\n"
+        "\n"
+        "Special thanks to:\n"
+        "Nanquitas\n"
+        "Slattz\n"
+        "WemI0\n"
+        "Scotline\n"
+        "and others :)";
+
+    static bool    CheckRegion(void)
+    {
         u64         tid = Process::GetTitleID();
         u16         ver = Process::GetVersion();
 
         // Get current game's region
-        if (tid == 0x0004000000086300)
+        switch (tid)
         {
-            if (ver != 6192)
-                return (MessageBox(unsupportedVersion)());
-            g_region = USA;
-        }           
-        else if (tid == 0x0004000000086400)
-        {
-            if (ver != 6176)
-                return (MessageBox(unsupportedVersion)());
-            g_region = EUR;
+            case 0x0004000000086300:
+                if (ver != 6192)
+                    goto unsupported;
+                g_region = USA;
+                break;
+            case 0x0004000000086400:
+                if (ver != 6176)
+                    goto unsupported;
+                g_region = EUR;
+                break;
+            case 0x0004000000086200:
+                if (ver != 6272)
+                    goto unsupported;
+                g_region = JAP;
+                break;
+            case 0x0004000000198d00:
+                if (ver != 6160)
+                    goto unsupported;
+                g_region = w_JAP;
+                break;
+            case 0x0004000000198e00:
+                if (ver != 5120)
+                    goto unsupported;
+                g_region = w_USA;
+                break;
+            case 0x0004000000198f00:
+                if (ver != 6160)
+                    goto unsupported;
+                g_region = w_EUR;
+                break;
+            default:
+                (MessageBox(unsupportedGame))();
+                return (true);
         }
-            
-        else if (tid == 0x0004000000086200)
+
+        return (false);
+
+    unsupported:
+        (MessageBox(unsupportedVersion))();
+        return (true);
+    }
+
+    MenuEntry *EntryWithHotkey(MenuEntry *entry, const Hotkey &hotkey)
+    {
+        if (entry != nullptr)
         {
-            if (ver != 6272)
-                return (MessageBox(unsupportedVersion)());
-            g_region = JAP;
-        }           
-        else
-            return (MessageBox(unsupportedGame)());
+            entry->Hotkeys += hotkey;
+            entry->SetArg(new std::string(entry->Name()));
+            entry->Name() += " " + hotkey.ToString();
+            entry->Hotkeys.OnHotkeyChangeCallback([](MenuEntry *entry, int index)
+            {
+                std::string *name = reinterpret_cast<std::string *>(entry->GetArg());
+
+                entry->Name() = *name + " " + entry->Hotkeys[0].ToString();
+            });
+        }
+
+        return (entry);
+    }
+
+    MenuEntry *EntryWithHotkey(MenuEntry *entry, const std::vector<Hotkey> &hotkeys)
+    {
+        if (entry != nullptr)
+        {
+            for (const Hotkey &hotkey : hotkeys)
+                entry->Hotkeys += hotkey;
+        }
+
+        return (entry);
+    }
+
+    void    InitQuickMenu(void);
+    int     main(void)
+    {
+        Process::ProtectRegion((u32)hidSharedMem, MEMPERM_READ | MEMPERM_WRITE);
+        PluginMenu  *m = new PluginMenu(gameName, MAJOR_VERSION, MINOR_VERSION, REVISION_VERSION, credits);
+        PluginMenu  &menu = *m;
+        menu.SynchronizeWithFrame(true);
+        // T&C Message & Save Backup Message
+        menu.OnFirstOpening = StartMsg;
+
+        /*OSD::Run([](const Screen &screen)
+        {
+            if (!screen.IsTop) return false;
+            screen.Draw(Utils::Format("Free: %08X", getMemFree()), 10, 10);
+            return true;
+        });*/
+
+        if (CheckRegion())
+            return (1); ///< Unsupported game/version
 
         // Initialize game's addresses based on region
         Game::Initialize();
+        //Launch Updater
+        httpcInit(0);
+        if(launchUpdater())
+        {
+            httpcExit();
+            ptmSysmInit();
+            MessageBox("The update has been installed.\nYour 3DS will now be restarted.")();
+            PTMSYSM_RebootAsync(0);
+            ptmSysmExit();
+            return 0;
+        }
+        httpcExit();
+
         // Initialize player
         Player::GetInstance();
-        StartMsg(); //T&C Message & Save Backup Message
+        // Change QuickMenu's hotkey
+        QuickMenu::GetInstance().ChangeHotkey(R + X);
+        // Init QuickMenu
+        InitQuickMenu();
 
         /*
         ** Garden
         ********************/
 
-        MenuFolder* folder = new MenuFolder("Save File Codes");
+        menu += new MenuFolder("Save File Codes", std::vector<MenuEntry *>(
+        {
+            new MenuEntry("Set name to...", nullptr, SetNameTo),
+            new MenuEntry("Save Dumper", nullptr, GardenDumper, "Select the keyboard icon to start dumping your save file."),
+            new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"),
+            new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Real Time Building Modifier", nullptr, BuildingModifier, "Press on the keyboard option to bring up the building keyboard."),
+        }));
 
-        folder->Append(new MenuEntry("Set name to...", nullptr, SetNameTo));
-        folder->Append(new MenuEntry("Save Dumper", nullptr, GardenDumper, "Select the keyboard icon to start dumping your save file."));
-        folder->Append(new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"));
-        folder->Append(new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Mega Mew and Scotline"));
-        folder->Append(new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Mega Mew and Scotline"));
-        folder->Append(new MenuEntry("Real Time Building Placer", BuildingPlacer, "Press R + D Pad down to place a building by ID directly where you are standing\nPress R + D pad up to place a building where you are standing."));
-
-        menu.Append(folder);
 
         /*
         ** Movement
         ********************/
 
-        folder = new MenuFolder("Movement Codes");
-
-        folder->Append(new MenuEntry("Coordinates Modifier", CoordinateModifier, "Press \uE000 and D Pad in the direction that you want to move."));
-        folder->Append(new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."));
-        folder->Append(new MenuEntry("Teleport", Teleporter, "Press \uE001 and \uE079 to save your location, \uE001 and \uE07A to teleport back to the location. Use \uE052 or \uE053 to use multiple locations!"));
-        folder->Append(new MenuEntry("Walk Over Things", WalkOverThings, "Press \uE052 and \uE079 to enable walking through stuff, \uE052 and \uE07A to disable walking through stuff."));
-        folder->Append(new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to Mega Mew for this cheat"));
-        folder->Append(new MenuEntry("Moon Jump", MoonJump, "Press \uE052 and \uE079 to go higher and \uE07A to go lower."));
-        
-        menu.Append(folder);
-
-        folder = new MenuFolder("Main Street Codes");
-
-        folder->Append(new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard, "Press the keyboard icon to change which upgrade the Nooklings have"));
-        folder->Append(new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop"));
-        folder->Append(new MenuEntry("Fill out Main Street", FillMainStreet, "Unlocks all the Main Street buildings except Leif + Nooklings"));
-        folder->Append(new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press " FONT_L " and " FONT_A " while in the catalog to send the item directly to your pockets!"));
-        menu.Append(folder);
+        menu += new MenuFolder("Movement Codes", std::vector<MenuEntry *>(
+        {
+            EntryWithHotkey(new MenuEntry("Coordinates Modifier", CoordinateModifier, SpeedSettings, "Press the hotkey to move to the corresponding direction."),
+                { Hotkey(Key::A | Key::DPadUp, "Go up"), Hotkey(Key::A | Key::DPadDown, "Go down"), Hotkey(Key::A | Key::DPadLeft, "Go left") , Hotkey(Key::A | Key::DPadRight, "Go right")}),
+            new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."),
+            EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
+                {Hotkey(Key::B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
+                 Hotkey(Key::L, "Use slot 2"), Hotkey(Key::R, "Use slot 3") }),
+            EntryWithHotkey(new MenuEntry("Walk Over Things", WalkOverThings, "Press the hotkeys to enable/disable collisions."),
+                {Hotkey(Key::L | Key::DPadUp, "Toggle Collisions")}),
+            new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to WemI0 for this cheat"),
+            EntryWithHotkey(new MenuEntry("Moon Jump", MoonJump, SpeedSettings, "Press the hotkeys to move your character up/down.\nThis cheat also has a side effect of disabling gravity and causing various glitches."),
+                {Hotkey(Key::L | Key::DPadUp, "Move up"), Hotkey(Key::L | Key::DPadDown, "Move down")}),
+            new MenuEntry("Teleport to PWP...", nullptr, PWPTeleport, "Press on the keyboard to open up the menu to choose which PWP to teleport to")
+        }));
 
         /*
-        ** Inventory
+        ** Main Street
         ********************/
 
-        folder = new MenuFolder("Inventory");
-
-        folder->Append(new MenuEntry("Text to Item", Text2Item, "Press " FONT_X " and " FONT_DR " to open the keyboard to enter in the ID you want to recieve."));
-        folder->Append(new MenuEntry("Duplicate", Duplication, "Press " FONT_R " to duplicate the item that is slot 01 to slot 02."));
-        folder->Append(new MenuEntry("Show names of buried items", ShowBuriedItems, "This allows you to view what is buried underground in the little thought bubble above your head\nWarning: this is a heavy cheat, so it might cause slowdown."));
-        folder->Append(new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown."));
-        folder->Append(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nHold Start 1 second to choose which one to open."));
-        folder->Append(new MenuEntry("Fossil Inspector", GenerateFossils, "Press " FONT_X " and " FONT_A " to process all fossils\nas if you talked to Blathers"));
-        folder->Append(new MenuEntry("Max Bank", MaxMoneyBank));
-        folder->Append(new MenuEntry("Infinite Wallet", InfiniteWallet));
-        folder->Append(new MenuEntry("Infinite/Max Coupons", InfiniteCoupons));
-        folder->Append(new MenuEntry("Infinite/Max Island Medals", InfiniteMedals));
-        folder->Append(new MenuEntry("Wallet editor (0)", WalletEditor, WalletEditorSetter, "Touch the keyboard icon on the bottom screen to change the desired value"));
-        folder->Append(new MenuEntry("Bank editor...", nullptr, SetBells, "Press the keyboard icon on the bottom screen to enter in the desired amount of bells to your bank.")); //todo: add entry name changer and value checker
-
-        menu.Append(folder);
-
-        /*
-        ** Environment
-        ********************/
-
-        folder = new MenuFolder("Enviroment");
-
-        /* Subfolder of Enviroment
-        ** These codes only execute when R+A is pressed, so I only want 1 enabled. 
-        ** I use the radio group parameter to prevent multiple from being enabled.
-        *****************************************************************************/
-        MenuFolder  *ra = new MenuFolder("R + A Codes");
-
-        ra->Append(new MenuEntry(1, "Remove All Items", RemoveAllItems, "Press " FONT_R " and " FONT_A " to execute... Beware as there is no going back if you save."));
-        ra->Append(new MenuEntry(1, "Remove All Weeds", RemoveAllWeeds, "Press " FONT_R " and " FONT_A " to execute."));
-        ra->Append(new MenuEntry(1, "Water All Flowers", WaterAllFlowers, "Press " FONT_R " and " FONT_A "to execute."));
-        ra->Append(new MenuEntry(1, "Fill Grass", FillGrass, "Press " FONT_R " and " FONT_A " to fill your town with grass.\nPlease note that bald spots will respawn on the next day."));
-        ra->Append(new MenuEntry(1, "Destroy Grass", DestroyGrass, "Press " FONT_R " and " FONT_A " to destroy all the grass in your town to make a desert wasteland."));
-        
-        folder->Append(ra);
-        folder->Append(new MenuEntry("Real Time World Edit", WorldEdit, "Press " FONT_R " and " FONT_DL " to open the keyboard to store the item. " FONT_R " and " FONT_DU " to store the item that you're standing on. And " FONT_R " + " FONT_DD " to write the item to the place that you're standing on."));
-        folder->Append(new MenuEntry("Search and Replace", nullptr, SearchReplace, "Press the keyboard icon to enter in what you want to search and replace"));
-        menu.Append(folder);
+        menu += new MenuFolder("Shop Codes", std::vector<MenuEntry *>(
+        {
+            new MenuEntry("Nookling Upgrades", nullptr, NooklingKeyboard, "Press the keyboard icon to change which upgrade the Nooklings have."),
+            new MenuEntry("Main Street Shop Unlocker", nullptr, MainStreetKeyboard, "Press the keyboard icon to change what Main Street buildings are unlocked."),
+            new MenuEntry("Shops Always Open", nullptr, ShopsAlwaysOpenKeyboard, "Press the keyboard icon to change which shops are always open."),
+            EntryWithHotkey(new MenuEntry("Catalog to Pockets", CatalogToPockets, "Press the hotkey while in the catalog to send the item directly to your pockets!.\nOriginal cheat by Rydog, adapted by Slattz."),
+                {Hotkey(Key::L, "Change Button Activator")})
+        }));
 
         /*
         ** Time Travel
         ********************/
 
-        folder = new MenuFolder("Time Travel Codes");
+        menu += new MenuFolder("Time Travel Codes", std::vector<MenuEntry *>(
+        {
+            EntryWithHotkey(new MenuEntry("Time Travel", TimeTravel, TimeTravelSettings, "Press the hotkeys to travel through time.\nPress the keyboard icon to change the settings."),
+            {
+                Hotkey(Key::R | Key::DPadLeft, "Freely move time backwards"), Hotkey(Key::R | Key::DPadRight, "Freely move time forwards"),
+                Hotkey(Key::B | Key::DPadLeft, "Rewind time by an hour"), Hotkey(Key::B | Key::DPadRight, "Go forward in time by an hour"),
+                Hotkey(Key::R | Key::DPadUp, "Save current time") , Hotkey(Key::R | Key::DPadDown, "Restore saved time"),
+                Hotkey(Key::B | Key::DPadDown, "Reset ingame time")
+            }),
+            new MenuEntry("Time Machine", nullptr, TimeMachine, "Press on the keyboard icon or enable the cheat to enter the time machine settings!")
+        }));
 
-        folder->Append(new MenuEntry("Time Travel", TimeTravel, "Press either " FONT_R " or " FONT_B " and " FONT_DR " to travel forward or " FONT_DL " to retwind time or " FONT_B " and " FONT_DD " to set ingame time back to your 3DS's clock."));
-        folder->Append(new MenuEntry("Time Machine", TimeMachine, "Press " FONT_Y " and " FONT_DR " to start time traveling."));
-        
-        menu.Append(folder);
+        /*
+        ** Inventory
+        ********************/
 
-        folder = new MenuFolder("Unlock Codes");
+        MenuFolder *inv = new MenuFolder("Inventory");
+        {
+            *inv += new MenuFolder("Money cheats", std::vector<MenuEntry *>(
+                {
+                    new MenuEntry(2, "Max/Infinite Bank", MaxMoneyBank, "Sets your bank to always have 999,999,999 bells."),
+                    new MenuEntry(2, "Bells in Bank Don't Decrease", InfiniteBank, "Withdrawing any amount of bells does nothing.\nI wish my real bank did this..."),
+                    new MenuEntry(3, "Max/Infinite Wallet", MaxWallet, "Sets your bank to always have 99,999 bells."),
+                    new MenuEntry(3, "Bells in Wallet Don't Decrease", InfiniteWallet, "Spending any bells doesn't decrease your wallet.\nGo on a shopping spree!"),
+                    new MenuEntry(4, "Coupons Don't Decrease", InfiniteCoupons),
+                    new MenuEntry(4, "Infinite/Max Coupons", MaxCoupons),
+                    new MenuEntry(5, "Medals Don't Decrease", InfiniteMedals),
+                    new MenuEntry(5, "Infinite/Max Island Medals", MaxMedals),
+                    new MenuEntry("Wallet editor (0)", WalletEditor, WalletEditorSetter, "Touch the keyboard icon on the bottom screen to change the desired value"),
+                    new MenuEntry("Bank editor (0)", BankEditor, BankEditorSetter, "Touch the keyboard icon on the bottom screen to enter the desired amount of bells in your bank.")
+                }));
+            *inv += EntryWithHotkey(new MenuEntry("Text to Item", Text2Item, "Press the hotkeys to bring up the keyboard to enter the item ID."),
+                {Hotkey(Key::X | Key::DPadRight, "Open the keyboard") });
+            *inv += EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into the first available slot."),
+                {Hotkey(Key::R, "Duplicate items") }),
+            *inv += new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown.");
+            *inv += new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box.");
+            *inv += EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
+                {Hotkey(Key::X | Key::A, "Inspect fossils") });
+        }
 
-        folder->Append(new MenuEntry("100% Mayor permit", Permit, "Special thanks to Slattz"));
-        folder->Append(new MenuEntry("Unlock all PWPs", PWPUnlock, "Special thanks to Mega Mew and Scotline"));
-        folder->Append(new MenuEntry("Fill out encyclopedia", Encyclopedia, "Special thanks to Mega Mew and Scotline"));
-        folder->Append(new MenuEntry("Fill out emoticons", Emoticons, "Special thanks to Mega Mew and Scotline"));
-        folder->Append(new MenuEntry("Fill out K.K. Songs", Songs, "Special thanks to Mega Mew and Scotline"));
+        menu += inv;
 
-        menu.Append(folder);
+
+        /*
+        ** Environment
+        ********************/
+
+        MenuFolder *folder = new MenuFolder("Enviroment");
+        {
+            /* Subfolder of Enviroment
+            ** These codes only execute when R+A is pressed, so I only want 1 enabled.
+            ** I use the radio group parameter to prevent multiple from being enabled.
+            *****************************************************************************/
+            *folder += new MenuFolder("R + A Codes", std::vector<MenuEntry *>(
+            {
+                EntryWithHotkey(new MenuEntry(1, "Remove All Items", RemoveAllItems, "Press the hotkeys to execute... Beware as there is no going back if you save."),
+                    { Hotkey(Key::R | Key::A, "Remove all items")}),
+                EntryWithHotkey(new MenuEntry(1, "Remove All Weeds", RemoveAllWeeds, "Press the hotkeys to clear all weeds"),
+                    { Hotkey(Key::R | Key::A, "Remove all weeds") }),
+                EntryWithHotkey(new MenuEntry(1, "Water All Flowers", WaterAllFlowers, "Press the hotkeys to water all flowers"),
+                    { Hotkey(Key::R | Key::A, "Water all flowers") }),
+                EntryWithHotkey(new MenuEntry(1, "Fill Grass", FillGrass, "Press the hotkeys to fill your town with grass.\nPlease note that bald spots will respawn on the next day."),
+                    { Hotkey(Key::R | Key::A, "Restore all grass") }),
+                EntryWithHotkey(new MenuEntry(1, "Destroy Grass", DestroyGrass, "Press the hotkeys to destroy all the grass in your town to make a desert wasteland."),
+                    {Hotkey(Key::R | Key::A, "Remove all grass")}),
+            }));
+			/* Subfolder of Enviroment
+			** These codes control the fish functions
+			*****************************************************************************/
+            *folder += new MenuFolder("Fish Codes", std::vector<MenuEntry *>(
+                {
+                    new MenuEntry("Fish Cant Be Scared", FishCantBeScared, "Prevents fish from scaring when the player is running. Special thanks to Natfoth"),
+                    new MenuEntry("Fish Bite Right Away", FishAlwaysBiteRightAway, "The fish will bite on the first bite every time. Special thanks to Natfoth"),
+                    new MenuEntry("Fish Id Editor", FishIdEditor, FishIdEditorSetter, "Sets the Id of the fish that spawn. Fish will still only spawn in their correct areas. Only works for newly spawned fish. Special thanks to Natfoth"),
+                }));
+            *folder += EntryWithHotkey(new MenuEntry("Real Time World Edit", WorldEdit, "Press the corresponding hotkeys to use the cheat,"),
+            { Hotkey(Key::R | Key::DPadLeft, "Open the keyboard"), Hotkey(Key::R | Key::DPadUp, "Store the item that you're standing on"),
+                Hotkey(Key::R | Key::DPadDown, "Write the item to where your player is standing")}),
+            *folder += new MenuEntry("Search and Replace", nullptr, SearchReplace, "Press the keyboard icon to enter in what you want to search and replace"),
+            *folder += EntryWithHotkey(new MenuEntry("Flowers Are Unbreakable", UnbreakableFlowers, "Press the hotkey to enable/disable."),
+                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")});
+        }
+        menu += folder;
+
+        /*
+        ** Unlock
+        ********************/
+
+        menu += new MenuFolder("Unlock Codes", std::vector<MenuEntry *>(
+        {
+            new MenuEntry("100% Mayor Permit", Permit, "Special thanks to Slattz"),
+            new MenuEntry("Unlock All PWPs", PWPUnlock, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop.\nSpecial thanks to Slattz and WemI0")
+        }));
 
         /*
         ** Misc.
         ********************/
 
-        folder = new MenuFolder("Misc.");
-
-        folder->Append(new MenuEntry("Ghost Mode", GhostMode, "Press Y + D pad up to enable, Y + D pad down to disable"));
-        folder->Append(new MenuEntry("Camera Mod", CameraMod, "R + Circle pad = rotation \n\n R + A stop player from moving or Y lock camera, X unlock camera(needed) \n\n B + D pad move camera, L / R up and down"));
-        folder->Append(new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"));
-        folder->Append(new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Wii8461 for this cheat"));
-        folder->Append(new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and Mega Mew for this cheat"));
-        folder->Append(new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"));
-        folder->Append(new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."));
-        folder->Append(new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."));
-        folder->Append(new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, "Press L or R to access your storage, and press L+R to access the catalog while switching emoticon tabs\nSpecial thanks Mega Mew and Scotline for this cheat :)"));
-        folder->Append(new MenuEntry("Faint", Faint, "Press R + A to make your character pass out like he got bit by a scorpion!\nCredits to Hikaru"));
-        
-        menu.Append(folder);
+        menu += new MenuFolder("Misc.", std::vector<MenuEntry *>(
+        {
+            EntryWithHotkey(new MenuEntry("Ghost Mode", GhostMode, "Press the hotkeys to make your character invisible/visible."),
+                {
+                    Hotkey(Key::Y | Key::DPadUp, "Toggle Invisibility")
+                }),
+            EntryWithHotkey(new MenuEntry("Camera Mod", CameraMod, "Press the hotkeys to move the camera around."),
+                {
+                    Hotkey(Key::R, "Rotate the camera (With Circle Pad)"), Hotkey(Key::R | Key::Y, "Detach the camera"), Hotkey(Key::R | Key::X, "Reattach the camera"), Hotkey(Key::R | Key::A, "Enable/Disable camera following behind player"),
+                    Hotkey(Key::B | Key::DPadUp, "Pan the camera north"), Hotkey(Key::B | Key::DPadRight, "Pan the camera east"), Hotkey(Key::B | Key::DPadDown, "Pan the camera south"), Hotkey(Key::B | Key::DPadLeft, "Pan the camera west"),
+                    Hotkey(Key::B | Key::L, "Pan the camera downwards"), Hotkey(Key::B | Key::R, "Pan the camera upwards")
+                }),
+            EntryWithHotkey(new MenuEntry("Country Spoofer", CountrySpoofer, "Spoofs your country, allowing you to go to another country's island.\nOriginal cheat by Levi & Nanquitas, adapted by Slattz."),
+                {Hotkey(Key::B | Key::L, "Change Button Activator")}),
+            //new MenuEntry("Room Teleporter", nullptr, RoomPicker, "Teleports your character to any room that you wannt.\nCredits to Levi for the cheat!"),
+            new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"),
+            new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Levi for this cheat"),
+            new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and WemI0 for this cheat"),
+            new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"),
+            new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."),
+            new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."),
+            EntryWithHotkey(new MenuEntry("Access Catalog & Storage Anywhere", StorageEverywhere, StorageEverywhereSettings, "Press the hotkeys and open the keyboard, emoticons, mailbox or force a bottom screen change to access the window of your choice" ),
+            {
+                Hotkey(Key::L, "Access drawers"), Hotkey(Key::R, "Access secret storage"), Hotkey(Key::L | Key::R, "Access catalog"), Hotkey(Key::Y, "Custom (use keyboard in cheat menu)")
+            }),
+            EntryWithHotkey(new MenuEntry("Faint", Faint, "Press the hotkeys to make your character pass out like they got bit by a scorpion!\nCredits to Kageshi"),
+            {
+                Hotkey(Key::R | Key::A, "Make your character faint")
+            }),
+            EntryWithHotkey(new MenuEntry("Ultimate Weed Pulling Hack", UltimateWeedPuller, "Press the hotkeys to start automatically plucking weeds in your town! \nPress the Hotkeys again to disable."),
+            {
+                Hotkey(Key::R, "Start/Stop plucking weeds")
+            }),
+            EntryWithHotkey(new MenuEntry("Ultimate Unburying Hack", UnBuryItems, "Press R to start unburying various buried items around your town!\nR again to disable."),
+            {
+                Hotkey(Key::R, "Start/Stop Unburying items")
+            }),
+            new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
+            new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to Levi!"),
+            EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")\nCredits to Slattz and Scotline for the cheat."),
+            {
+                Hotkey(Key::R, "Open Villager Categories List")
+            }),
+            EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code.\nOriginal cheat by 0ICED0, adapted by Slattz."),
+                {Hotkey(Key::R | Key::B, "Change Button Activator")}),
+            EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable.\nCredits to Slattz for the cheat"),
+                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
+            EntryWithHotkey(new MenuEntry("Weather Modifier", WeatherMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+                {
+                Hotkey(Key::Y | Key::DPadLeft, "Change Button Activator"),
+                Hotkey(Key::Y | Key::DPadUp, "Change Increment Hotkey"),
+                Hotkey(Key::Y | Key::DPadDown, "Change Decrement Hotkey")
+                }),
+            EntryWithHotkey(new MenuEntry("Confetti Mod", ConfettiMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+                {
+                Hotkey(Key::L | Key::DPadLeft, "Change Button Activator"),
+                Hotkey(Key::L | Key::DPadUp, "Change Increment Hotkey"),
+                Hotkey(Key::L | Key::DPadDown, "Change Decrement Hotkey")
+                }),
+            EntryWithHotkey(new MenuEntry("Cherry Blossom Mod", CherryBlossomMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+                {
+                Hotkey(Key::R | Key::DPadLeft, "Change Button Activator"),
+                Hotkey(Key::R | Key::DPadUp, "Change Increment Hotkey"),
+                Hotkey(Key::R | Key::DPadDown, "Change Decrement Hotkey")
+                })
+        }));
 
         /*
         ** Callbacks
         ********************/
 
-        // Add Text2Cheat to plugin's main loop
-        menu.Callback([]
+        menu += []
         {
             Sleep(Milliseconds(1));
+            QuickMenu::GetInstance()();
             if (g_homeBtnWasPressed)
             {
                 g_homeBtnWasPressed = 0;
-                OSD::Notify("The homebutton is disabled because of memory issue", Color::Red, Color::Blank);
+                OSD::Notify("Due to memory issues, the Home Menu button is disabled", Color::Red, Color::White);
             }
-        });
-        menu.Callback(CheatsKeyboard);
-        menu.Callback(PlayerUpdateCallback);
-        menu.Callback(MiniGame);
+        };
+        menu += PlayerUpdateCallback;
+        menu += MiniGame;
 
         // Launch menu and mainloop
         menu.Run();

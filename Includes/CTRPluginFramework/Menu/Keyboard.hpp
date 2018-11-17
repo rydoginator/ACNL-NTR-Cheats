@@ -14,11 +14,12 @@ namespace CTRPluginFramework
         enum EventType
         {
             CharacterAdded,
-            CharacterRemoved
+            CharacterRemoved,
+            InputWasCleared
         };
 
-        EventType   type;       ///< Type of the event
-        u32         codepoint;  ///< The codepoint of the character that thrown the event
+        EventType   type{};       ///< Type of the event
+        u32         codepoint{0};  ///< The codepoint of the character that thrown the event
     };
 
     class KeyboardImpl;
@@ -44,7 +45,9 @@ namespace CTRPluginFramework
          * \brief Keyboard constructor
          * \param text  The message to display on the top screen if displayed
          */
-        Keyboard(std::string text = "");
+        Keyboard(const std::string &text = "");
+        Keyboard(const std::string &text, const std::vector<std::string> &options);
+        Keyboard(const std::vector<std::string> &options);
         ~Keyboard(void);
 
         /**
@@ -61,6 +64,12 @@ namespace CTRPluginFramework
         void    IsHexadecimal(bool isHex);
 
         /**
+         * \brief Define a maximum input length for qwerty keyboard
+         * \param maxValue The maximum count of characters that the user can type
+         */
+        void    SetMaxLength(u32 maxValue) const;
+
+        /**
          * \brief Define a callback to check the input \n
          * The callback is called each time the input is changed \n
          * See CompareCallback's description for more infos
@@ -72,7 +81,7 @@ namespace CTRPluginFramework
          * \brief Define a callback that will be called when the user change the input \n
          * Note that if a CompareCallback is set, CompareCallback is called before OnInputChange \n
          * See OnInputChangeCallback's description for more infos
-         * \param callback 
+         * \param callback
          */
         void    OnInputChange(OnInputChangeCallback callback) const;
 
@@ -231,8 +240,8 @@ namespace CTRPluginFramework
         * \brief Get a reference to the top screen's message string
         * \return A reference to the top screen's message string
         */
-        std::string     &GetMessage(void) const;        
-        
+        std::string     &GetMessage(void) const;
+
         /**
          * \brief This property define if the top screen must be displayed or not \n
          * Note that when disabled, errors messages can't be displayed

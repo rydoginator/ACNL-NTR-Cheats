@@ -2,6 +2,7 @@
 #include "RAddress.hpp"
 #include "Offsets.hpp"
 #include "ctrulib/util/utf.h"
+#include <cstring>
 
 namespace   CTRPluginFramework
 {
@@ -12,13 +13,13 @@ namespace   CTRPluginFramework
     Player::Player(void)
     {
         // Set pointers
-        _coordinateIndex = reinterpret_cast<u8 *>(AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE)());
-        _coordinatePointerBase = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)();
-        _thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR)());
-        _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER)();
+        _coordinateIndex = reinterpret_cast<u8 *>(AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE, USA_WA_COORDINATES_BYTE, EUR_WA_COORDINATES_BYTE, JAP_WA_COORDINATES_BYTE)());
+        _coordinatePointerBase = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER, USA_WA_CAMSTOP_POINTER, EUR_WA_CAMSTOP_POINTER, JAP_WA_CAMSTOP_POINTER)();
+        _thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR, USA_WA_THOUGHT_ADDR, EUR_WA_THOUGHT_ADDR, JAP_WA_THOUGHT_ADDR)());
+        _playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER, USA_WA_PLAYER_POINTER, EUR_WA_PLAYER_POINTER, JAP_WA_PLAYER_POINTER)();
 
         // Read _offset
-        Update();
+        Update(); ///< This will block the plugin until the user loaded his savegame
 
         if (_instance != nullptr)
             delete _instance;
@@ -44,7 +45,11 @@ namespace   CTRPluginFramework
     // Update Player's infos
     void    Player::Update(void)
     {
-        Process::Read32(_playerPointer, _offset);
+        u32 value;
+
+        // Don't exit this function until the offset is somewhat valid
+        while (!Process::Read32(_playerPointer, _offset) || !Process::Read32(_offset, value))
+           Sleep(Milliseconds(1));
 
         //Update coordinates pointer
         u8 index = *_coordinateIndex;
@@ -113,13 +118,18 @@ namespace   CTRPluginFramework
         return (Write32(0x6BD0 + (slot * 4), item));
     }
 
+    bool Player::WriteInventoryLock(int slot, u8 lock) const
+    {
+        return (WriteByte(0x6C10 + slot, lock));
+    }
+
     //Get all the occurances of 0x7FFE inside someone's inventory and return which slots it's in (as an array) and how long the array is
     int     * Player::GetAvaibleSlots(int &length) const
     {
         u32 item[16];
         int slot = 0;
         static int slots[16];
-        for (int i = 0; i < 16; i ++)
+        for (int i = 0; i < 16; i++)
         {
             ReadInventorySlot(i, item[i]);
         }
@@ -235,6 +245,38 @@ namespace   CTRPluginFramework
         coord->z += zDiff;
     }
 
+    void    Player::SetIntCoordinates(int x, int z) const
+    {
+        Coordinates *coord = reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET);
+
+        coord->x = 32.f * x;
+        coord->z = 32.f * z;
+    }
+
+    void    Player::SetFloatCoordinates(float x, float z) const
+    {
+        Coordinates *coord = reinterpret_cast<Coordinates *>(*_coordinatePointer + COORDINATES_OFFSET);
+
+        coord->x = 32.f * x;
+        coord->z = 32.f * z;
+    }
+
+    void    Player::SetRotation(u32 rotation) const
+    {
+        if (!*_coordinatePointer)
+            return;
+        Process::Write32(*_coordinatePointer + 0x2C, rotation);
+    }
+
+    u32    Player::GetRotation(void) const
+    {
+        if (!*_coordinatePointer)
+            return -1;
+        u32 rotation;
+        Process::Read32(*_coordinatePointer + 0x2C, rotation);
+        return (rotation);
+    }
+
     /*
      * Thought
      */
@@ -265,7 +307,7 @@ namespace   CTRPluginFramework
      */
 
     #define NAME_OFFSET 0x55A8
-    #define NAME_MAX 0x14
+    #define NAME_MAX    12 ///< 6 Characters
 
     std::string     Player::GetName(void) const
     {
@@ -273,53 +315,51 @@ namespace   CTRPluginFramework
 
         // Convert game's name to utf8
         utf16_to_utf8(buf, reinterpret_cast<u16 *>(_offset + NAME_OFFSET), NAME_MAX);
-
         return (std::string(reinterpret_cast<char *>(buf)));
     }
 
-    std::vector<std::string>     Player::GetPatternNames(void) const
+    StringVector    Player::GetPatternNames(void) const
     {
-        std::vector<std::string> names;
-
-        u8      buf[NAME_MAX + 1] = { 0 };
+        StringVector    names;
+        u8              buf[NAME_MAX + 1] = { 0 };
 
         for (int i = 0; i < 10; i++)
         {
+            memset(buf, 0, NAME_MAX);
             utf16_to_utf8(buf, reinterpret_cast<u16 *>(_offset + 0x58 + (0x870 * i)), NAME_MAX);
+
             names.push_back(std::string(reinterpret_cast<char *>(buf)));
         }
-        return names;
+        return (names);
     }
 
     void    Player::SetName(std::string& name) const
     {
-        u16           buf[NAME_MAX + 1] = { 0 };
-        std::vector<int> matchIndex;
+        u16                 buf[NAME_MAX + 1] = { 0 };
+        std::vector<int>    matchIndex;
 
         // If name is empty, abort
         if (name.empty())
             return;
-        std::string originalName = GetName();
-        std::vector<std::string> names = GetPatternNames();
+
+        std::string     originalName = GetName();
+        StringVector    names = GetPatternNames();
+
         for (int i = 0; i < 10; i++)
         {
             if (names[i].compare(originalName) == 0)
-            {
                 matchIndex.push_back(i);
-            }
         }
+
         // Convert utf8 to utf16
         int res = utf8_to_utf16(buf, reinterpret_cast<const u8 *>(name.c_str()), NAME_MAX);
-
-
-        for (int i : matchIndex)
-        {
-            Process::CopyMemory(reinterpret_cast<void *>(_offset + 0x58 + (0x870 * matchIndex[i])), buf, NAME_MAX);
-        }
 
         // If conversion failed, abort
         if (res == -1)
             return;
+
+        for (int i : matchIndex)
+            Process::CopyMemory(reinterpret_cast<void *>(_offset + 0x58 + 0x870 * i), buf, NAME_MAX);
 
         // Copy name to game
         Process::CopyMemory(reinterpret_cast<void *>(_offset + NAME_OFFSET), buf, NAME_MAX);

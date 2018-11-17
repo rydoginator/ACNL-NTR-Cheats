@@ -1,11 +1,12 @@
 #include "cheats.hpp"
 #include "FindReplacer.hpp"
+#include "Helpers/MenuEntryHelpers.hpp"
 
 namespace CTRPluginFramework
 {
     void    RemoveAllItems(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(R + A))
+        if (entry->Hotkeys[0].IsDown())
         {
             u32     *item = Game::TownItem;
 
@@ -13,6 +14,7 @@ namespace CTRPluginFramework
             {
                 *item++ =  0x00007FFE;
             }
+            OSD::Notify(Color::Green << "Removed All Items!");
         }
     }
 
@@ -20,9 +22,13 @@ namespace CTRPluginFramework
     {
         static u16 weeds[] = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CB, 0x00CC, 0x00CD, 0x00F8 };
 
-        if (!Controller::IsKeysDown(R + A) && entry != nullptr)
-            return;
+        if (entry == nullptr)
+            goto weed;
+        if (entry->Hotkeys[0].IsDown())
+            goto weed;
+        return;
 
+        weed:
         FindReplacer<u16>  findReplacer(reinterpret_cast<u32>(Game::TownItem), 0x5000);
 
         for (int i = 0; i < 7; i++)
@@ -31,6 +37,7 @@ namespace CTRPluginFramework
         }
 
         findReplacer();
+        OSD::Notify(Color::Green << "Removed All Weeds!");
     }
 
     void    SearchReplace(MenuEntry *entry)
@@ -46,6 +53,7 @@ namespace CTRPluginFramework
             {
                 findReplacer.AddPair(search, replace);
                 findReplacer();
+                OSD::Notify(Format("0x%04X replaced with 0x%04X", search, replace));
             }
         }
     }
@@ -59,6 +67,8 @@ namespace CTRPluginFramework
 
         for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
             Process::Write32(offset, 0xFFFFFFFF);
+
+        OSD::Notify(Color::Green << "Grass Filled!" << Color::White << "(reload the area)");
     }
 
     void    DestroyGrass(MenuEntry *entry)
@@ -70,18 +80,26 @@ namespace CTRPluginFramework
 
         for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
             Process::Write32(offset, 0x00000000);
+
+        OSD::Notify(Color::Green << "Grass Removed!" << Color::White << "(reload the area)");
     }
 
     void    WaterAllFlowers(MenuEntry *entry)
     {
-        if (!Controller::IsKeysDown(R + A) && entry != nullptr)
-            return;
+        if (entry == nullptr)
+            goto water;
+        //since hotkeys aren't available when the arg is nullptr, check if the arg is nullptr first
+        if (entry->Hotkeys[0].IsDown())
+            goto water;
+        return;
+
+        water:
 
         u32     address = reinterpret_cast<u32>(Game::TownItem);
         u32     end = address + RANGE_TOWN_ITEMS;
         u32     item;
 
-        // Parse all items in Town
+            // Parse all items in Town
         for (; address < end; address += ITEM_BYTES)
         {
             item = READU16(address);
@@ -99,58 +117,148 @@ namespace CTRPluginFramework
                 WRITEU32(address, item);
             }
         }
+        OSD::Notify(Color::Green << "Flowers Watered!" << Color::White << "(reload the area)");
     }
 
-    void     WorldEdit(MenuEntry *entry)
+    void    WorldEdit(MenuEntry *entry)
     {
-        static u32  itemID;
-        static int  valid = -1;
-        char buffer[0x100];       
+        static u32 itemID;
+        static bool valid = false; //boolean to declare whether you're using a valid value or not
 
-        // Enter the item to place
-        if (Controller::IsKeyPressed(R))
-        {
-            u32 *i = Game::GetItem();
-            itemID = *i;
-            //sprintf(buffer, "Offset: %08X \nValue: %08X", Game::GetItem(), itemID);
-            OSD::Notify(buffer);
-        }
-        if (Controller::IsKeysDown(R + DPadLeft))
+        if (entry->Hotkeys[0].IsDown()) //Open keyboard
         {
             Keyboard    keyboard("What item would you like to use?");
-
-            u32     output;
-            int     result = keyboard.Open(output);
-
-            // if result == -1, output is undefined so do nothing
-            if (result != -1)
-            {
-                itemID = output;
-                valid = 0;
-            }
+            u32 item;
+            if (keyboard.Open(itemID) != -1) //return if the user aborts (if != -1)
+                valid = true;
             else
-                valid = -1;
+                valid = false; // if the user aborts, you don't want to be writing abritary values
         }
 
-        // Write the saved item where you're standing on
-        if (Controller::IsKeysDown(R + DPadDown))
+        if (entry->Hotkeys[1].IsDown()) //Store item below feet
         {
-            u32  *pointer = Game::GetItem();
-
-            if (valid == 0 && pointer != nullptr)
-                *pointer = itemID;
+            u32  *address = Game::GetItem(); //get the address of where your character is standing
+            itemID = *address; //get the value of address
+            valid = true;
         }
 
-        // Save the item you're standing on
-        if (Controller::IsKeysDown(R + DPadUp))
+        if (entry->Hotkeys[2].IsDown()) //Write item
         {
-            u32 *i = Game::GetItem();
-
-            if (i != nullptr)
+            u32  *address = Game::GetItem(); //get the address of where your character is standing
+            if (valid && address != nullptr)
             {
-                itemID = *i;
-                valid = 0;
-            }                
+                *address = itemID;
+                OSD::Notify(Format("0x%04X set on ground", itemID));
+            }
         }
     }
+
+    static bool FishIdRefresh = false;
+    void    FishIdEditorSetter(MenuEntry *entry)
+    {
+        u32         *value = GetArg<u32>(entry);
+        Keyboard    keyboard("Fish Id Editor\n\nEnter the desired fish to find. New spawned fish only.");
+
+        keyboard.IsHexadecimal(true);
+        keyboard.SetCompareCallback([](const void *in, std::string &error)
+        {
+            u32 input = *static_cast<const u32 *>(in);
+
+            if (input >= 0x22E2 && input <= 0x232C) {
+                FishIdRefresh = true;
+                return (true);
+            }
+
+            error = "The value must be between 0x22E2 - 0x232C";
+            return (false);
+        });
+        if (keyboard.Open(*value) != -1)
+        {
+            std::string &name = entry->Name();
+            int pos = name.find("(");
+
+            if (pos != std::string::npos)
+            {
+                name.erase(pos);
+                name += Utils::Format("(%d)", *value);
+            }
+        }
+    }
+
+	void    FishIdEditor(MenuEntry *entry)
+	{
+        static bool active = false;
+        u32     offset = Game::FishSetId;
+        u32     original = 0xE1A0A000;
+        u32     patch = 0xE3A0A000;
+
+        if ((entry->WasJustActivated() && !active) || FishIdRefresh)
+        {
+            u32 fishId = *GetArg<u32>(entry);
+            if (fishId < 0x22E2) {
+                fishId = 0x22E2; // Failsafe as to not break the fish functions
+            }
+            else if (fishId > 0x232C) {
+                fishId = 0x232C; // Failsafe as to not break the fish functions
+            }
+
+
+            patch += fishId - 0x22E2 + 1; //We can just add our value straight to the patch bytes as long as its <= 75. We need to subtract the min from it to get the index instead
+            Process::Patch(offset, patch);
+            OSD::Notify(Format("All Fish Set To: 0x%04X", fishId & 0xFFFF));
+
+
+            active = true;
+            FishIdRefresh = false;
+        }
+        else if (!entry->IsActivated() && active)
+        {
+            Process::Patch(offset, original);
+            OSD::Notify("Fish Restored To Normal Id's: " << Color::Red << "Disabled!");
+            active = false;
+        }
+	}
+
+	void    FishCantBeScared(MenuEntry *entry)
+	{
+		static bool active = false;
+		u32     offset = Game::FishCantScare;
+		u32     original = 0xE3500000;
+		u32     patch = 0xE3500001;
+
+		if (entry->WasJustActivated() && !active)
+		{
+			Process::Patch(offset, patch);
+			OSD::Notify("Fish Cannot be scared: " << Color::Green << "Enabled!");
+			active = true;
+		}
+		else if (!entry->IsActivated() && active)
+		{
+			Process::Patch(offset, original);
+			OSD::Notify("Fish Cannot be scared: " << Color::Red << "Disabled!");
+			active = false;
+		}
+
+	}
+
+	void    FishAlwaysBiteRightAway(MenuEntry *entry)
+	{
+		static bool active = false;
+		u32     offset = Game::FishBiteRightAway;
+		u32     original = 0xE0800100;
+		u32     patch = 0xE3A0005A;
+
+		if (entry->WasJustActivated() && !active)
+		{
+			Process::Patch(offset, patch);
+			OSD::Notify("Fish Bite Right Away: " << Color::Green << "Enabled!");
+			active = true;
+		}
+		else if (!entry->IsActivated() && active)
+		{
+			Process::Patch(offset, original);
+			OSD::Notify("Fish Bite Right Away: " << Color::Red << "Disabled!");
+			active = false;
+		}
+	}
 }

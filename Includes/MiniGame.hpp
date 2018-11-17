@@ -45,7 +45,7 @@ namespace CTRPluginFramework
 
     private:
 #if DEBUG_MINIGAME
-        static bool             _OSDAlreadyCreated;
+        static bool             _OSDAlreadyAdded;
 #endif
         static KorokMiniGame    *_instance;
 

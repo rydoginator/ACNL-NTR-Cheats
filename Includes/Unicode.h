@@ -16,7 +16,7 @@
 #define FONT_DR     "\uE07C" // System Font D-Pad Right button
 #define FONT_DUD    "\uE07D" // System Font D-Pad Up and Down button
 #define FONT_DLR    "\uE07E" // System Font D-Pad Left and Right button
-#define FONT_CP     "\uE049" // System Font Circle Pad button
+#define FONT_CP     "\uE077" // System Font Circle Pad button
 #define FONT_T      "\uE058" // System Font Touch button
 
 #endif

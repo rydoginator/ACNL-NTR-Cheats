@@ -1,4 +1,5 @@
 #include "cheats.hpp"
+#include "Helpers.hpp"
 
 namespace CTRPluginFramework
 {
@@ -14,6 +15,18 @@ namespace CTRPluginFramework
     {
         SUB64(Game::TimeSave, time);
         SUB64(Game::TimeReal, time);         
+    }
+
+    u64     GetTime(void)
+    {
+        u64 time = *Game::TimeSave;
+        return (time);
+    }
+
+    void    SetTime(u64 time)
+    {
+        *Game::TimeSave = time;
+        *Game::TimeReal = time;
     }
 
     void    AddTime(u8 hour, u8 minute)
@@ -37,28 +50,58 @@ namespace CTRPluginFramework
 
     void    TimeTravel(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(R + DPadRight))
+        float       *speed = GetArg<float>(entry, 1.0f);
+        static Clock time;
+        static bool hourbtn = false;
+
+        Time delta = time.Restart(); //calculate lag input
+
+        
+        u64 value = HOUR * delta.AsSeconds() * *speed;
+        static u64 savedTime = 0;
+
+        if (entry->Hotkeys[1].IsDown()) //Freely move time forwards
+            AddTime(value);
+        if (entry->Hotkeys[0].IsDown()) //Freely move time backwards
+            RewindTime(value);
+        if (entry->Hotkeys[4].IsDown()) //Save current time
+            savedTime = GetTime();
+        if (entry->Hotkeys[5].IsDown()) //Restore saved time
         {
-            AddTime(0x9EF21AA);
+            if (savedTime != 0)
+            {
+                SetTime(savedTime);
+            }
         }
-        if (Controller::IsKeysDown(R + DPadLeft))
+
+        if (entry->Hotkeys[2].IsDown() && !hourbtn) //Rewind time by an hour
         {
-            RewindTime(0x9EF21AA);
-        }
-        if (!Controller::IsKeyDown(Key::B))
-            return;
-        if (Controller::IsKeyPressed(Key::DPadRight))
-        {
-            AddTime(HOUR);
-        }
-        if (Controller::IsKeyPressed(Key::DPadLeft))
-        {
+            hourbtn = true;
             RewindTime(HOUR);
         }
-        if (Controller::IsKeyPressed(Key::DPadDown))
+
+        else if (entry->Hotkeys[3].IsDown() && !hourbtn) //Go forward in time by an hour
+        {
+            hourbtn = true;
+            AddTime(HOUR);
+        }
+
+        else if (!entry->Hotkeys[2].IsDown() && !entry->Hotkeys[3].IsDown()) {
+            hourbtn = false;
+        }
+
+        if (entry->Hotkeys[6].IsDown()) //Reset ingame time
         {
             ResetTime();
         }
+    }
+
+    void    TimeTravelSettings(MenuEntry *entry)
+    {
+        float       *speed = GetArg<float>(entry);
+
+        Keyboard keyboard("How fast would you like time travel to be?");
+        keyboard.Open(*speed);
     }
 
     bool    CheckMinuteInput(const void *input, std::string &error)
@@ -125,95 +168,91 @@ namespace CTRPluginFramework
     {
         static u8 minutes, hours, days, months, years;
         u64 time;
-        static bool direction = false;
+        static bool forward = false;
 
-        if (Controller::IsKeysDown(Y + DPadRight))
         {
+            Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
+            std::vector<std::string> list =
             {
-                Keyboard  keyboard("Would you like to travel\nbackwards or forwards?");
-                std::vector<std::string> list =
-                {
-                    "Forwards",
-                    "Backwards"
-                };
-                keyboard.Populate(list);
+                "Forwards",
+                "Backwards"
+            };
+            keyboard.Populate(list);
 
-                int  userChoice = keyboard.Open();
+            int  userChoice = keyboard.Open();
 
-                if (userChoice == 0)
-                {
-                    direction = true;
-                }
-                else if (userChoice == -1)
-                {
-                    direction = false;
-                }
-                else
-                {
-                    return;
-                }
-            }
+            if (userChoice == 0)
             {
-                Keyboard keyboard("How many minutes?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckMinuteInput);
+                forward = true;
+            }
 
-                if (keyboard.Open(minutes) == -1)
-                {
-                    return;
-                }
-            }
+            else if (userChoice == 1)
             {
-                Keyboard keyboard("How many hours?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckHourInput);
+                forward = false;
+            }
+            
+            else return; //If user backs out
+        }
+        {
+            Keyboard keyboard("How many minutes?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckMinuteInput);
 
-                if (keyboard.Open(hours) == -1)
-                {
-                    return;
-                }
-            }
+            if (keyboard.Open(minutes) == -1)
             {
-                Keyboard keyboard("How many days?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckDayInput);
+                return;
+            }
+        }
+        {
+            Keyboard keyboard("How many hours?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckHourInput);
 
-                if (keyboard.Open(days) == -1)
-                {
-                    return;
-                }
-            }
+            if (keyboard.Open(hours) == -1)
             {
-                Keyboard keyboard("How many months?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckDayInput);
+                return;
+            }
+        }
+        {
+            Keyboard keyboard("How many days?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckDayInput);
 
-                if (keyboard.Open(months) == -1)
-                {
-                    return;
-                }
-            }
+            if (keyboard.Open(days) == -1)
             {
-                Keyboard keyboard("How many years?");
-                keyboard.IsHexadecimal(false);
-                keyboard.SetCompareCallback(CheckYearInput);
+                return;
+            }
+        }
+        {
+            Keyboard keyboard("How many months?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckDayInput);
 
-                if (keyboard.Open(hours) == -1)
-                {
-                    return;
-                }
-            }
-            time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
-            if (direction == true)
+            if (keyboard.Open(months) == -1)
             {
-                AddTime(time);
-                OSD::Notify("Welcome to the future, time traveler.");
+                return;
             }
-            else
+        }
+        {
+            Keyboard keyboard("How many years?");
+            keyboard.IsHexadecimal(false);
+            keyboard.SetCompareCallback(CheckYearInput);
+
+            if (keyboard.Open(hours) == -1)
             {
-                RewindTime(time);
-                OSD::Notify("Welcome to the past, time traveler.");
+                return;
             }
+        }
+        time = (minutes * 60000000000) + (hours * 60 * 60000000000) + (days * 24 * 60 * 60000000000) + (months * 30 * 24 * 60 * 60000000000) + (years * 365 * 24 * 60 * 60000000000); //convert everything to nanoseconds
+        if (forward == true)
+        {
+            AddTime(time);
+            OSD::Notify("Welcome to the future, time traveler.");
+        }
+        else
+        {
+            RewindTime(time);
+            OSD::Notify("Welcome to the past, time traveler.");
         }
     }
 

@@ -18,10 +18,10 @@ namespace CTRPluginFramework
         template <typename U>
         explicit Rect(const Rect<U>& rect);
 
-        bool Contains(T x, T y);
-        bool Contains(const Vector<T>& point);
-        bool Intersects(const Rect<T>& rect);
-        bool Intersects(const Rect<T>& rect, Rect<T>& intersect);
+        bool Contains(T x, T y) const;
+        bool Contains(const Vector<T>& point) const;
+        bool Intersects(const Rect<T>& rect) const;
+        bool Intersects(const Rect<T>& rect, Rect<T>& intersect) const;
 
         Vector<T> leftTop;
         Vector<T> size;
@@ -74,7 +74,7 @@ namespace CTRPluginFramework
     }
 
     template <typename T>
-    bool Rect<T>::Contains(T x, T y)
+    bool Rect<T>::Contains(T x, T y) const
     {
         T minX = std::min(leftTop.x, leftTop.x + size.x);
         T maxX = std::max(leftTop.x, leftTop.x + size.x);
@@ -86,20 +86,20 @@ namespace CTRPluginFramework
     }
 
     template <typename T>
-    bool Rect<T>::Contains(const Vector<T>& point)
+    bool Rect<T>::Contains(const Vector<T>& point) const
     {
         return (Contains(point.x, point.y));
     }
 
     template <typename T>
-    bool Rect<T>::Intersects(const Rect<T>& rect)
+    bool Rect<T>::Intersects(const Rect<T>& rect) const
     {
         Rect<T> intersect;
         return (Intersects(rect, intersect));
     }
 
     template <typename T>
-    bool Rect<T>::Intersects(const Rect<T> &rect, Rect<T> &intersect)
+    bool Rect<T>::Intersects(const Rect<T> &rect, Rect<T> &intersect) const
     {
         T thisMinX = std::min(leftTop.x, leftTop.x + size.x);
         T thisMaxX = std::max(leftTop.x, leftTop.x + size.x);

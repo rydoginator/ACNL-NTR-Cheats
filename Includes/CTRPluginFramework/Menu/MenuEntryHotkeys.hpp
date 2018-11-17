@@ -48,6 +48,12 @@ namespace CTRPluginFramework
         void    AskForKeys(void);
 
         /**
+         * \brief Get the keys value of this Hotkey
+         * \return the keys value
+         */
+        u32     GetKeys(void);
+
+        /**
          * \brief Stringify the Hotkey
          * \param withName if the name of the Hotkey must be in the result
          * \return return a string of this Hotkey\n

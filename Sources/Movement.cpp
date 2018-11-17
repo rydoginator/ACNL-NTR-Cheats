@@ -1,26 +1,34 @@
 #include "cheats.hpp"
 #include "CTRPluginFramework/System/Rect.hpp"
 #include "Helpers/MenuEntryHelpers.hpp"
+#include "Helpers/QuickMenu.hpp"
 
 namespace CTRPluginFramework
 {
+
+    void    SpeedSettings(MenuEntry *entry)
+    {
+        float *speed = GetArg<float>(entry);
+        Keyboard keyboard("Which speed would you like to use?");
+        keyboard.Open(*speed);
+    }
+
     void    CoordinateModifier(MenuEntry *entry)
     {
         static Clock time;
-
+        float speed = *GetArg<float>(entry, 1.f);
         Time delta = time.Restart();
 
         float value = 400.0f * delta.AsSeconds();
-        float NegValue = -400.0f * delta.AsSeconds();
 
-        if (Controller::IsKeysDown(A + DPadDown))
-            Player::GetInstance()->AddToCoordinates(0.f, 0.f, value);
-        if (Controller::IsKeysDown(A + DPadUp))
-            Player::GetInstance()->AddToCoordinates(0.f, 0.f, NegValue);
-        if (Controller::IsKeysDown(A + DPadLeft))
-            Player::GetInstance()->AddToCoordinates(NegValue, 0.f, 0.f);
-        if (Controller::IsKeysDown(A + DPadRight))
-            Player::GetInstance()->AddToCoordinates(value, 0.f, 0.f);
+        if (entry->Hotkeys[0].IsDown()) // Up
+            Player::GetInstance()->AddToCoordinates(0.f, 0.f, 0 - value * speed);
+        if (entry->Hotkeys[1].IsDown()) // Down
+            Player::GetInstance()->AddToCoordinates(0.f, 0.f, value * speed);
+        if (entry->Hotkeys[2].IsDown()) // Left
+            Player::GetInstance()->AddToCoordinates(0 - value * speed, 0.f, 0.f);
+        if (entry->Hotkeys[3].IsDown()) // Right
+            Player::GetInstance()->AddToCoordinates(value * speed, 0.f, 0.f);
     }
 
     void    TouchCoordinates(MenuEntry *entry)
@@ -57,35 +65,55 @@ namespace CTRPluginFramework
         }
     }
 
+    static  Coordinates     g_savedPos[3] = { 0 };
     void    Teleporter(MenuEntry *entry)
     {
-        static Coordinates  savedPos[3] = { 0 };
+        auto   savePosition = [](void *slot) { g_savedPos[(u32)slot] = Player::GetInstance()->GetCoordinates(); };
+        auto   loadPosition = [](void *slot) { Player::GetInstance()->SetCoordinates(g_savedPos[(u32)slot]); };
+
+        static QuickMenuSubMenu *teleporterSubMenu = new QuickMenuSubMenu("Teleporter",
+        {
+            new QuickMenuEntry("Save position #1", savePosition, (void *)0),
+            new QuickMenuEntry("Load position #1", loadPosition, (void *)0),
+            new QuickMenuEntry("Save position #2", savePosition, (void *)1),
+            new QuickMenuEntry("Load position #2", loadPosition, (void *)1),
+            new QuickMenuEntry("Save position #3", savePosition, (void *)2),
+            new QuickMenuEntry("Load position #3", loadPosition, (void *)2),
+        });
+
+        // If entry was just activated, add the Teleporter submenu to the QuickMenu
+        if (entry->WasJustActivated())
+            QuickMenu::GetInstance() += teleporterSubMenu;
+
+        // But if we disabled the entry, then remove the Teleporter submenu from QuickMenu
+        if (!entry->IsActivated())
+        {
+            QuickMenu::GetInstance() -= teleporterSubMenu;
+            return;
+        }
 
         int           slot = 0;
 
-        if (Controller::IsKeysDown(L))
+        if (entry->Hotkeys[2].IsDown())
             slot = 2;
-        else if (Controller::IsKeysDown(R))
+        else if (entry->Hotkeys[3].IsDown())
             slot = 1;
 
-        if (Controller::IsKeysDown(B + DPadUp))
-        {
-            savedPos[slot] = Player::GetInstance()->GetCoordinates();
-        }
-        else if (Controller::IsKeysDown(B + DPadDown))
-        {
-            Player::GetInstance()->SetCoordinates(savedPos[slot]);
-        }
+        if (entry->Hotkeys[0].IsDown())
+            g_savedPos[slot] = Player::GetInstance()->GetCoordinates();
+        else if (entry->Hotkeys[1].IsDown())
+            Player::GetInstance()->SetCoordinates(g_savedPos[slot]);
     }
 
     void    TeleportTo(int person)
     {
-        u32     coordinatePointer = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)();
+        u32     coordinatePointer = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER, USA_WA_CAMSTOP_POINTER, EUR_WA_CAMSTOP_POINTER, JAP_WA_CAMSTOP_POINTER)();
+        u32     coordinatebyte = AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE, USA_WA_COORDINATES_BYTE, EUR_WA_COORDINATES_BYTE, JAP_WA_COORDINATES_BYTE)();
         u8      coordinateIndex;
         u32     pointers[4];
         float   x, y, z;
 
-        Process::Read8(AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE)(), coordinateIndex);
+        Process::Read8(coordinatebyte, coordinateIndex);
         for (int i = 0; i < 4; i++)
         {
             Process::Read32(coordinatePointer + i *4, pointers[i]);
@@ -108,32 +136,83 @@ namespace CTRPluginFramework
 
     }
 
+    void    PWPTeleport(MenuEntry *entry)
+    {
+        std::vector<u8> buildings;
+        std::vector<u8> x;
+        std::vector<u8> y;
+        u32 offset = Game::Building;
+        Keyboard keyboard("Which building would you like to teleport to?");
+        StringVector entryNames;
+
+        for (int i = 0; i < 20; i++)
+        {
+            if (*(u8 *)(offset) != 0xFC)
+            {
+  
+                buildings.push_back(READU8(offset));
+                x.push_back(READU8(offset + 2));
+                y.push_back(READU8(offset + 3));
+            }
+            offset += 4;
+        }
+        for (int i = 0; i < buildings.size(); ++i)
+        {
+            for (const Building& building : buildingIDS)
+            {
+                if (building.id != buildings[i])
+                    continue;
+
+                entryNames.push_back(building.Name);
+                break;
+            }
+        }
+        keyboard.Populate(entryNames);
+        int index = keyboard.Open();
+
+        Player::GetInstance()->SetIntCoordinates(x[index], y[index] + 3);
+    }
+
     void    WalkOverThings(MenuEntry *entry)
     {
+        static bool btn = false;
+        static bool active = false;
         u32     offsets[] = { 0x6503FC, 0x650414, 0x650578, 0x6505F0, 0x6506A4, 0x6506BC, 0x6506C0, 0x6506ec };
         u32     original[] = { 0x0A000094, 0x0A000052, 0x0A000001, 0xDA000014, 0xED841A05, 0xED840A07, 0x0A000026, 0x0A000065 };
         u32     patch[] = { 0xEA000094, 0xEA000052, 0xEA000001, 0xEA000014, 0xE1A00000, 0xE1A00000, 0xEA000026, 0xEA000065 };
         
-        if (Controller::IsKeysDown(L + DPadUp))
+        if (entry->Hotkeys[0].IsDown() && !btn)
         {
-            for (int i = 0; i < 8; i++)
+            if (!active)
             {
-                Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&patch[i], 4);
+                for (int i = 0; i < 8; i++)
+                {
+                    Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&patch[i], 4);
+                }
+                OSD::Notify("Walk Over Things: " << Color::Green << "Enabled!");
+                active = true;
+                btn = true;
+            }
+
+            else if (active)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&original[i], 4);
+                }
+                OSD::Notify("Walk Over Things: " << Color::Red << "Disabled!");
+                active = false;
+                btn = true;
             }
         }
 
-        if (Controller::IsKeysDown(L + DPadDown))
-        {
-            for (int i = 0; i < 8; i++)
-            {
-                Process::Patch(offsets[i] + (u32)Game::CodeDifference, (u8 *)&original[i], 4);
-            }
-        }
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
     }
 
     void    SpeedHack(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(B))
+        if (Controller::IsKeyDown(B) || Controller::IsKeyDown(L) || Controller::IsKeyDown(R))
         {
             float       velocity;
             float       speed = *GetArg<float>(entry, 5.238f);
@@ -143,8 +222,8 @@ namespace CTRPluginFramework
 
             if (velocity >= speed)
                 Process::WriteFloat(Game::Velocity, speed);
-            else if (velocity > 0)
-                Process::WriteFloat(Game::Velocity, velocity + 0.1f);
+            else if (velocity > 0.0f)
+                Process::WriteFloat(Game::Velocity, velocity + 0.5f);
         }
     }
 
@@ -171,14 +250,21 @@ namespace CTRPluginFramework
 
     void    MoonJump(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(L + DPadUp))
+        static Clock time;
+
+        Time delta = time.Restart();
+
+        float value = 200.0f * delta.AsSeconds();
+        float speed = *GetArg<float>(entry, 1.f);
+
+        if (entry->Hotkeys[0].IsDown())
         {
                 Process::Write16(Game::Gravity, 0xFFFF);
-                Player::GetInstance()->AddToCoordinates(0.f, 0.05f, 0.f);
+                Player::GetInstance()->AddToCoordinates(0.f, value * speed, 0.f);
         }
-        if (Controller::IsKeysDown(L + DPadDown))
+        if (entry->Hotkeys[1].IsDown())
         {
-            Player::GetInstance()->AddToCoordinates(0.f, -0.05f, 0.f);
+            Player::GetInstance()->AddToCoordinates(0.f, 0 - value * speed, 0.f);
         }
     }
 }

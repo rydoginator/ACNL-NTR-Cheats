@@ -3,50 +3,95 @@
 
 namespace CTRPluginFramework
 {
-    bool    CheckItemInput(const void *input, std::string &error)
-    {
-        // Cast the input into the appropriate type (must match the type provided to Open)
-        u32 in = *static_cast<const u32 *>(input);
-
-        // Check the value
-        if ((in << 8) < 0x10000)
-        {
-            error = "The value must be greater than 1000";
-            // Return that the value isn't valid
-            return (false);
-        }
-
-        // The value is valid
-        return (true);
-    }
-
     void    Text2Item(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(X + DPadRight))
+        if (entry->Hotkeys[0].IsDown())
         {
-            u32 output;
+            Item item = { 0 };
+
             // New keyboard, hint being:
             Keyboard keyboard("What item would you like ?");
 
             // Add the function to check the input entered by the user
-            keyboard.SetCompareCallback(CheckItemInput);
+            keyboard.SetCompareCallback([](const void *input, std::string &error)
+            {
+                // Cast the input into the appropriate type (must match the type provided to Open)
+                Item in = *static_cast<const Item *>(input);
+                u32 chk;
+                chk = in.ID - 0x2000;
+
+                // Check the value
+                if (chk >= 0x6000)
+                {
+                    error = "Invalid Item ID: Cannot be use with Text2Item!";
+                    // Return that the value isn't valid
+                    return (false);
+                }
+
+                // The value is valid
+                return (true);
+            });
 
             // If the function return -1, then the user canceled the keyboard, so do nothing 
-            if (keyboard.Open(output) != -1)
+            if (keyboard.Open(item.raw) != -1)
             {
-                Player::GetInstance()->WriteInventorySlot(0, output);
+                Player::GetInstance()->WriteInventorySlot(0, item.raw);
             }
         }
     }
 
     void    Duplication(MenuEntry   *entry)
     {
-        if (Controller::IsKeyDown(R))
+        static bool active = false;
+        if (entry->Hotkeys[0].IsDown() && !active)
         {
+            active = true; //We only need to try 1 attempt per hotkey press
             u32 item;
 
-            if (Player::GetInstance()->ReadInventorySlot(0, item))
-                Player::GetInstance()->WriteInventorySlot(1, item);
+            if (Player::GetInstance()->ReadInventorySlot(0, item)) {
+                int numOfEmptySlots;
+                int* slots = Player::GetInstance()->GetAvaibleSlots(numOfEmptySlots);
+                if(numOfEmptySlots > 0) {
+                    Player::GetInstance()->WriteInventorySlot(slots[0], item);
+                    Player::GetInstance()->WriteInventoryLock(slots[0], 0);
+                    OSD::Notify(Format("Duplicated Item: 0x%04X into slot: %i", static_cast<u32>(0x22e2) + item & 0xFFFF, slots[0]));
+                }  else {
+                    OSD::Notify(Color::Red << "Found no empty slots to duplicate item into");
+                }
+            }
+
+        } else if(!entry->Hotkeys[0].IsDown()) {
+            active = false;
+        }
+    }
+
+    void    DuplicationAll(void)
+    {
+        u32     *address = reinterpret_cast<u32 *>(Player::GetInstance()->GetInventoryAddress());
+        u32     firstItem = *address;
+
+        // If slot0 is empty, exit
+        if (firstItem == 0x00007FFE)
+            return;
+
+        ++address;
+
+        for (int i = 0; i < 15; i++, ++address)
+        {
+            // If current slot is empty
+            if (*address == 0x00007FFE) {
+                *address = firstItem;
+                Player::GetInstance()->WriteInventoryLock(i + (i == 15 ? 0 : 1), 0);
+            }
+        }
+    }
+
+    void    ClearInv(void)
+    {
+        for (int i = 0; i < 16; i++) 
+        {
+            Player::GetInstance()->WriteInventorySlot(i, 0x7FFE);
+            Player::GetInstance()->WriteInventoryLock(i, 0);
         }
     }
 
@@ -79,57 +124,50 @@ namespace CTRPluginFramework
         }
     }
 
-
-    void    SetBells(MenuEntry *entry)
-    {
-        u64 money;
-        u32 output;
-
-        Keyboard keyboard("Bank editor\nHow much money would you like?");
-
-        keyboard.IsHexadecimal(false);
-
-        // If the function return -1, then the user canceled the keyboard, so do nothing 
-        if (keyboard.Open(output) != -1)
-        {
-            money = EncryptACNLMoney(output);
-
-            Player::GetInstance()->Write64(0x6b8c, money);
-        }
-    }
-
     void    Encyclopedia(MenuEntry *entry)
     {
-        static u32 offset = Player::GetInstance()->GetOffset();
-        static  u8 buffer[] = { 0xFF, 0xFF, 0x47, 0xFF, 0xFF, 0xFF, 0x7F, 0x97, 0xE3, 0x38, 0x81, 0xA3, 0x01, 0x00, 0x00, 0x00, 0x00, 0xE6, 0x7F, 0xEF, 0x7F, 0xF2, 0xFF, 0xFF, 0xDA, 0xCF, 0xCF, 0x15, 0xC7, 0x3E, 0x6B, 0xB6, 0x6B, 0x6F, 0xFC, 0xFF, 0x9F, 0xFB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xD3, 0xF6, 0x42, 0x63, 0x73, 0xAB, 0xD5, 0x06, 0xCC, 0xFC, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x02, 0xFE, 0xFF, 0xFF, 0x17, 0xEF, 0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xD0, 0x9A, 0x9C, 0x93, 0xF6, 0x73, 0x00, 0x00, 0x00, 0xD2};
+        u32 offset = Player::GetInstance()->GetOffset();
+        static u8 buffer[] = { 0xcc,0xfc,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xff,0xd0,0x9a};
+        
         if (offset != 0)
         {
-            Process::CopyMemory(reinterpret_cast<void *>(offset + 0x6c20), buffer, 0x70);
+            Process::CopyMemory(reinterpret_cast<void *>(offset + 0x6c70), buffer, sizeof(buffer));
+            OSD::Notify("Encyclopedia Filled!", Color::Green, Color::Black);
             entry->Disable();
         }
     }
 
     void    Emoticons(MenuEntry *entry)
     {
-        static u32 offset = Player::GetInstance()->GetOffset();
-        static u8 buffer[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x20, 0x21, 0x24, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2E, 0x00, 0x00, 0x00, 0xD2};
+        u32 offset = Player::GetInstance()->GetOffset();
+        static u8 buffer[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x20, 0x21, 0x24, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2E
+        };
         if (offset != 0)
         {
-            Process::CopyMemory(reinterpret_cast<void *>(offset + 0x89d0), buffer, 0x20);
+            Process::CopyMemory(reinterpret_cast<void *>(offset + 0x89d0), buffer, sizeof(buffer));
+            OSD::Notify("Emoticons Filled!", Color::Green, Color::Black);
             entry->Disable();
         }
     }
 
     void    Songs(MenuEntry *entry)
     {
-        static bool execution = false; //we want to add a check to see if it's executing so that we can disable the cheat once its done to prevent slow down
         for (int i = 0; i < 3; i++)
         {
-            if (Player::GetInstance()->Write32(0x8F9C + (i * 4), 0xFFFFFFFF));
-                execution = true;
+            if (Player::GetInstance()->Write32(0x8F9C + (i * 4), 0xFFFFFFFF))
+            {
+                OSD::Notify("Song List Filled!", Color::Green, Color::Black);
+                entry->Disable(); /// We disable the cheat once the cheat sucessfully writes to the player just in case they enable on title screen
+            }
         }
-        if (execution)
-            entry->Disable(); //we only want to disable the cheat once the cheat sucessfully writes to the player just in case they enable on title screen
+    }
+
+    void    FillCatalog(MenuEntry *entry)
+    {
+        u32     address = Player::GetInstance()->GetOffset() + 0x6C90;
+
+        std::memset((void *)address, 0xFF, 106 * 4);
+        entry->Disable();
     }
 
     void    HaveMaxBells(MenuEntry *entry)
@@ -143,35 +181,61 @@ namespace CTRPluginFramework
     // 0 - 3: current opened box
     // 4 - end: box item's
     #define BOX_SIZE 64
+    #define FILE_SIZE 4 + BOX_SIZE * 10
 
     struct InventoryBox
     {
+        InventoryBox()
+        {
+            currentBox = 0;
+            lastBox = 0;
+
+            // If file don't exist, create it and init it
+            if (!File::Exists("InventoryBoxs.bin"))
+            {
+                // Open with create flag
+                if (File::Open(file, "InventoryBoxs.bin", File::RWC | File::SYNC) == 0)
+                {
+                    u8  buffer[FILE_SIZE] = { 0 };
+                    // Fill the size with 0 bytes
+                    file.Write(buffer, FILE_SIZE);
+                }
+            }
+            // Else open it and get current box's index
+            else
+            {
+                if (File::Open(file, "InventoryBoxs.bin") == 0)
+                {
+                    u32  index = 0;
+
+                    file.Read(&index, 4);
+                    currentBox = index;
+                }
+            }
+        }
+        ~InventoryBox()
+        {
+            file.Flush();
+        }
         int     currentBox;
         int     lastBox;
         File    file;
     };
 
-    void    OpenBox(MenuEntry *entry, int id)
+    static  InventoryBox        g_inventoryBox;
+    static  QuickMenuSubMenu    *g_inventorySubMenu = nullptr;
+
+    void    OpenBox(void *arg)
     {
-        InventoryBox    *box = static_cast<InventoryBox *>(entry->GetArg());
-        File            &file = box->file;
-
-        // If file is not open, something's wrong
-        if (!file.IsOpen())
-        {
-            OSD::Notify("An error occured !", Color::Red);
-            OSD::Notify("Try to re-enable the cheat.");
-            entry->Disable();
-            return;
-        }
-
+        File    &file = g_inventoryBox.file;
+        int     id = (int)arg - 1;
         u32     inventory = Player::GetInstance()->GetInventoryAddress();
         char    buffer[0x100] = {0};
 
         // Save current box
         {
             // Go to current box's offset in file
-            file.Seek(4 + (box->currentBox * BOX_SIZE), File::SET);
+            file.Seek(4 + (g_inventoryBox.currentBox * BOX_SIZE), File::SET);
 
             // Now save current items
             file.Write(reinterpret_cast<void *>(inventory), BOX_SIZE);
@@ -179,149 +243,79 @@ namespace CTRPluginFramework
 
         // Open new box
         {
+            // If id == 0, load last box
+            if (id == -1)
+                id = g_inventoryBox.lastBox;
             // Go to wanted box's offset in file
             file.Seek(4 + (id * BOX_SIZE), File::SET);
 
             // Read items from file and write them in ram
-
             file.Read(buffer, BOX_SIZE);
             Process::CopyMemory(reinterpret_cast<void *>(inventory), buffer, BOX_SIZE);
         }
 
         // Update lastBox
-        box->lastBox = box->currentBox;
+        g_inventoryBox.lastBox = g_inventoryBox.currentBox;
 
         // Update current box
-        box->currentBox = id;
+        g_inventoryBox.currentBox = id;
         file.Seek(0, File::SET);
         file.Write(static_cast<void *>(&id), 4);
 
+        // Update Last entry in QuickMenu
+        g_inventorySubMenu->items[0]->name = Utils::Format("Last: %d", id + 1);
+
         // A little notification is always nice :)
-        sprintf(buffer, "Opened box %d", id + 1);
-        OSD::Notify(buffer, Color::LimeGreen);
+        OSD::Notify(Utils::Format("Opened box: %d", id + 1), Color::LimeGreen);
     }
 
     void    ExtendedInventoryBox(MenuEntry *entry)
     {
-        // If entry is disabled, properly release InventoryBox
+        // If entry is disabled
         if (!entry->IsActivated())
         {
-            InventoryBox    *box = static_cast<InventoryBox *>(entry->GetArg());
-
-            if (box != nullptr)
-            {
-                box->file.Close();
-                delete box;
-                entry->SetArg(nullptr);
-            }
+            g_inventoryBox.file.Close();
+            // Remove Inventory Box from QuickMenu
+            QuickMenu::GetInstance() -= g_inventorySubMenu;
             return;
         }
 
-        // If just enabled the entry, create InventoryBox and open the file
+        // If just enabled the entry
         if (entry->WasJustActivated())
         {
-            InventoryBox    *box = new InventoryBox;
-
-            box->currentBox = 0;
-            box->lastBox = 0;
-            entry->SetArg(box);
-
-            // If file don't exist, create it and init it
-            if (!File::Exists("InventoryBoxs.bin"))
+            g_inventoryBox.file.Close();
+            g_inventoryBox = InventoryBox();
+            // Check that InventoryBox is correctly initialized
+            if (!g_inventoryBox.file.IsOpen())
             {
-                File    &file = box->file;
-
-                // Open with create flag
-                int flags = File::READ | File::WRITE | File::CREATE | File::SYNC;
-                if (File::Open(file, "InventoryBoxs.bin", flags) == 0)
-                {
-                    int size = 4 + (BOX_SIZE * 10);
-                    u8  buffer[4 + (BOX_SIZE * 10)] = { 0 };
-
-                    file.Write(buffer, size);
-                }
-                else
-                {
-                    OSD::Notify("InventoryBox: An error occurred.", Color::Red);
-                    entry->Disable();
-                    return;
-                }
+                OSD::Notify("Inventory Box: An error occurred", Color::Red);
+                entry->Disable();
+                return;
             }
-            // Else open it and get current box's index
-            else
+
+            // Create the submenu if it's not done yet
+            if (g_inventorySubMenu == nullptr)
             {
-                File    &file = box->file;
-
-                if (File::Open(file, "InventoryBoxs.bin") == 0)
-                {
-                    u32  index = 0;
-
-                    file.Read(&index, 4);
-                    box->currentBox = index;
-                }
-                else
-                {
-                    OSD::Notify("InventoryBox: An error occurred.", Color::Red);
-                    entry->Disable();
-                    return;
-                }
+                g_inventorySubMenu = new QuickMenuSubMenu("Inventory Box");
+                (*g_inventorySubMenu) += new QuickMenuEntry("Last: 1", OpenBox, (void *)0);
+                for (int i = 1; i < 11; i++)
+                    (*g_inventorySubMenu) += new QuickMenuEntry(Utils::Format("Box %d", i), OpenBox, (void *)i);
             }
+
+            // Add Inventory Box in QuickMenu
+            QuickMenu::GetInstance() += g_inventorySubMenu;
         }
-
-        static HoldKey  start(Key::Start, Seconds(1.f));
-
-        if (!start())
-            return;
-
-        using StringVector = std::vector<std::string>;
-
-        char            buffer[0x100] = { 0 };
-        InventoryBox    *box = static_cast<InventoryBox *>(entry->GetArg());
-        StringVector    boxList;
-        std::string     keyboardHint = "Inventory Box\n\nWhich box do you want to open ?\n";
-
-        sprintf(buffer, "Currently opened: [Box %d]", box->currentBox + 1);
-        keyboardHint += buffer;
-
-        Keyboard        keyboard(keyboardHint);
-        
-        // Init my list
-        sprintf(buffer, "Last: %d", box->lastBox + 1);
-        boxList.push_back(buffer);
-        
-        for (int i = 1; i < 11; i++)
-        {
-            sprintf(buffer, "Box %d", i);
-            boxList.push_back(buffer);
-        }
-
-        // Init my keyboard with my list
-        keyboard.Populate(boxList);
-
-        // Show keyboard and get the box id
-
-        int  id = keyboard.Open();
-
-        // User did B, abort
-        if (id == -1)
-            return;
-
-        // If user decided to open the last opened box
-        if (id == 0)
-            OpenBox(entry, box->lastBox);
-        else
-            OpenBox(entry, id - 1);
     }
 
     void    GenerateFossils(MenuEntry *entry)
     {
         int length;
-        if (Controller::IsKeysDown(X + A))
+        if (entry->Hotkeys[0].IsDown())
         {
             int *slots = Player::GetInstance()->FindItems(length, 0x202A);
             for (int i = 0; i < length; i++)
             {
-                u16 fossil = rand() % 66; //generate a new fossil for each iteration
+                u16 fossil = Utils::Random(0, 66); ///< Generate a new fossil for each iteration
                 Player::GetInstance()->WriteInventorySlot(slots[i], 0x3130 + fossil);
             }
         }
@@ -329,22 +323,86 @@ namespace CTRPluginFramework
 
     void    MaxMoneyBank(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x6B6C, EncryptACNLMoney(999999999));
+        static u64 seed = 0;
+        if (seed == 0)
+            seed = EncryptACNLMoney(999999999);
+        Player::GetInstance()->Write64(0x6B8C, seed);
+    }
+
+    void    InfiniteBank(MenuEntry *entry)
+    {
+        u64 seed;
+        static u32 money = 0;
+        Player::GetInstance()->Read64(0x6B8C, seed);
+        if (entry->WasJustActivated())
+            money = DecryptACNLMoney(seed);
+        if (DecryptACNLMoney(seed) > money)
+            money = DecryptACNLMoney(seed);      // store new value if you increase your bells
+        else if (DecryptACNLMoney(seed) < money) // if you lose some money then write the stored value back
+            Player::GetInstance()->Write64(0x6B8C, EncryptACNLMoney(money));
+    }
+
+    void    MaxCoupons(MenuEntry *entry)
+    {
+        static u64 seed = 0;
+        if (seed == 0)
+            seed = EncryptACNLMoney(999999999);
+        Player::GetInstance()->Write64(0x8D1C, EncryptACNLMoney(9999));
     }
 
     void    InfiniteCoupons(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x8D1C, EncryptACNLMoney(9999));
+        u64 seed;
+        static u32 coupons = 0;
+        Player::GetInstance()->Read64(0x8D1C, seed);
+        if (entry->WasJustActivated())
+            coupons = DecryptACNLMoney(seed);
+        if (DecryptACNLMoney(seed) > coupons)
+            coupons = DecryptACNLMoney(seed);
+        else if (DecryptACNLMoney(seed) < coupons)
+            Player::GetInstance()->Write64(0x8D1C, EncryptACNLMoney(coupons));
+    }
+
+    void    MaxMedals(MenuEntry *entry)
+    {
+        static u64 seed = 0;
+        if (seed == 0)
+            seed = EncryptACNLMoney(9999);
+        Player::GetInstance()->Write64(0x6b9c, seed);
     }
 
     void    InfiniteMedals(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x6B7C, EncryptACNLMoney(9999));
+        u64 seed;
+        static u32 medals = 0;
+        Player::GetInstance()->Read64(0x6b9c, seed);
+        if (entry->WasJustActivated())
+            medals = DecryptACNLMoney(seed);
+        if (DecryptACNLMoney(seed) > medals)
+            medals = DecryptACNLMoney(seed);
+        else if (DecryptACNLMoney(seed) < medals)
+            Player::GetInstance()->Write64(0x6b9c, EncryptACNLMoney(medals));
     }
 
-    void    InfiniteWallet(MenuEntry * entry)
+    void    MaxWallet(MenuEntry *entry)
     {
-        Player::GetInstance()->Write64(0x6F08, EncryptACNLMoney(99999));
+        static u64 seed = 0;
+        if (seed == 0)
+            seed = EncryptACNLMoney(99999);
+        Player::GetInstance()->Write64(0x6F08, seed);
+    }
+
+    void    InfiniteWallet(MenuEntry *entry)
+    {
+        u64 seed;
+        static u32 money = 0;
+        Player::GetInstance()->Read64(0x6F08, seed);
+        if (entry->WasJustActivated())
+            money = DecryptACNLMoney(seed);
+        if (DecryptACNLMoney(seed) > money)
+            money = DecryptACNLMoney(seed);
+        else if (DecryptACNLMoney(seed) < money)
+            Player::GetInstance()->Write64(0x6F08, EncryptACNLMoney(money));
     }
 
     void    WalletEditorSetter(MenuEntry *entry)
@@ -357,7 +415,7 @@ namespace CTRPluginFramework
         {
             u32 input = *static_cast<const u32 *>(in);
 
-            if (input <= 99999) return (true);
+            if (input >= 0 && input <= 99999) return (true);
 
             error = "The value must be between 0 - 99999";
             return (false);
@@ -371,7 +429,7 @@ namespace CTRPluginFramework
             if (pos != std::string::npos)
             {
                 name.erase(pos);
-                name += Format("(%d)", *value);
+                name += Utils::Format("(%d)", *value);
             }
         }
     }
@@ -388,4 +446,43 @@ namespace CTRPluginFramework
         entry->Disable();
     }
 
+    void    BankEditorSetter(MenuEntry *entry)
+    {
+        u32         *value = GetArg<u32>(entry);
+        Keyboard    keyboard("Bank Editor\n\nEnter the desired amount of bells");
+
+        keyboard.IsHexadecimal(false);
+        keyboard.SetCompareCallback([](const void *in, std::string &error)
+        {
+            u32 input = *static_cast<const u32 *>(in);
+
+            if (input >= 0 && input <= 999999999) return (true);
+
+            error = "The value must be between 0 - 999999999";
+            return (false);
+        });
+        if (keyboard.Open(*value) != -1)
+        {
+            std::string &name = entry->Name();
+            int pos = name.find("(");
+
+            if (pos != std::string::npos)
+            {
+                name.erase(pos);
+                name += Utils::Format("(%d)", *value);
+            }
+        }
+    }
+
+    void    BankEditor(MenuEntry *entry)
+    {
+        if (entry->IsActivated())
+        {
+            u64 money = EncryptACNLMoney(*GetArg<u32>(entry));
+
+            Player::GetInstance()->Write64(0x6B8C, money);
+        }
+
+        entry->Disable();
+    }
 }

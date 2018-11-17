@@ -13,9 +13,9 @@ PHDRS
 SECTIONS
 {
 	/* =========== CODE section =========== */
-	. = 0x00100000;
+	. = 0x07000100;
 	__start__ = . ;
-	.text ALIGN(0x4) :
+	.text ALIGN(4) :
 	{
 		/* .init */		
 		bootloader.o (.text*)
@@ -48,7 +48,7 @@ SECTIONS
 		*(.gnu.linkonce.r*)	
 		SORT(CONSTRUCTORS)
 		. = ALIGN(4);
-	}
+	} : rodata
 
 	.ARM.extab : { *(.ARM.extab* .gnu.linkonce.armextab.*) } : rodata
 	__exidx_start = .;

@@ -1,11 +1,24 @@
 #ifndef VALUES_HPP
 #define VALUES_HPP
 
-/*
-33078930
-*/
+#include "types.h"
 
+struct IDs
+{
+    u8              id;
+    const char *    Name;
+};
 
+struct Building
+{
+    u8 id;
+    const char *Name;
+    bool IsEvent;
+};
+
+extern const Building buildingIDS[178];
+extern const IDs    rooms[95];
+extern const IDs    regions[15];
 
 /*
 ** Values

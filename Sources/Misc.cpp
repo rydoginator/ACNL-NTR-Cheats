@@ -1,5 +1,11 @@
 #include "cheats.hpp"
 #include "Helpers.hpp"
+#include "3ds.h"
+
+extern "C" void LoadBottomUI(void);
+
+u32     g_bottomUI = 0;
+u32     g_bottomReturn;
 
 namespace CTRPluginFramework
 {
@@ -7,10 +13,10 @@ namespace CTRPluginFramework
     struct NPC
     {
         const char *File;
-        std::string Name;
+        const char *Name;
     };
 
-    const std::vector<NPC> villagers =
+    const NPC villagers[] =
     {
         { "alp.bcres", "Cyrus" },
         { "alw.bcres", "Reese" },
@@ -79,138 +85,170 @@ namespace CTRPluginFramework
 
     void    GhostMode(MenuEntry *entry)
     {
+        static bool btn = false;
+        static bool active = false;
         u32   patch = 0xE38110FF;
         u32   original = 0xE3811004;
 
-        if (Controller::IsKeysDown(Y + DPadUp))
+        if (entry->Hotkeys[0].IsDown() && !btn)
         {
-            Process::Patch(Game::Visibility, (u8 *)&patch, 4);
+            if (!active)
+            {
+                Process::Patch(Game::Visibility, (u8 *)&patch, 4);
+                OSD::Notify("Ghost Mode: " << Color::Green << "Enabled!");
+                active = true;
+                btn = true; 
+            }
+
+            else if (active)
+            {
+                Process::Patch(Game::Visibility, (u8 *)&original, 4);
+                OSD::Notify("Ghost Mode: " << Color::Red << "Disabled!");
+                active = false;
+                btn = true;   
+            }
         }
-        if (Controller::IsKeysDown(Y + DPadDown))
-        {
-            Process::Patch(Game::Visibility, (u8 *)&original, 4);
-        }
+
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
     }
 
     void    FastGameSpeed(MenuEntry *entry)
     {
+        static const u32    patch = 0xE3E004FF;
+        static const u32    original = 0xE59400A0;
         static u32 offset = reinterpret_cast<u32>(Game::GameSpeed);
-        Process::Write32(offset, 0x00FFFFFF);
+        if (entry->WasJustActivated())
+            Process::Patch(offset, patch);
+        else if (!entry->IsActivated())
+            Process::Patch(offset, original);
     }
+
 
     void    CameraMod(MenuEntry *entry)
     {
-        // Pointers & addresses
-        static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR)();
-        static u32  * const cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER)());
-        static u32  * const cameraStop = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER)());
-        static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR)());
-        
-        // Variables
+        //pointers & addresses
+        static const u32    cameraAsm = AutoRegion(USA_CAMERA_ASM_ADDR, EUR_CAMERA_ASM_ADDR, JAP_CAMERA_ASM_ADDR, USA_WA_CAMERA_ASM_ADDR, EUR_WA_CAMERA_ASM_ADDR, JAP_WA_CAMERA_ASM_ADDR)();
+        static const u32    rotationAsm = AutoRegion(USA_CAMERA_ROT_ASM, EUR_CAMERA_ROT_ASM, JAP_CAMERA_ROT_ASM, USA_WA_CAMERA_ROT_ASM, EUR_WA_CAMERA_ROT_ASM, JAP_WA_CAMERA_ROT_ASM)();
+        static u32  * cameraPointer = reinterpret_cast<u32 * const>(AutoRegion(USA_CAMERA_POINTER, EUR_CAMERA_POINTER, JAP_CAMERA_POINTER, USA_WA_CAMERA_POINTER, EUR_WA_CAMERA_POINTER, JAP_WA_CAMERA_POINTER)());
+        static Coordinates * const cameraCoordinates = reinterpret_cast<Coordinates * const>(AutoRegion(USA_CAMERA_X_ADDR, EUR_CAMERA_X_ADDR, JAP_CAMERA_X_ADDR, USA_WA_CAMERA_X_ADDR, EUR_WA_CAMERA_X_ADDR, JAP_WA_CAMERA_X_ADDR)());
+
+        //variables
         static const u32    patch = 0xEA000020;
+        static const u32    nop = 0xE1A00000;
+        static const u32    originalRotation = 0xE18020B4;
         static const u32    original = 0x2A000020;
-
-        static Coordinates  coord; ///< Saved player's coordinates
-        static u32          storage;
         static bool         isPatched = false;
-        
+        static bool         rotationPatch = false;
+        static bool         followRotation = false;
 
+        static Clock time;
+        Time delta = time.Restart();
 
-        // Unpatch when B is released
-        if (isPatched && Controller::IsKeyReleased(B))
-        {
-            Process::Patch(cameraAsm, (u8 *)&original, 4);
-            isPatched = false;
-        }
+        float speed = 400.0f * delta.AsSeconds();
+        u16 difference = 0x1000 * delta.AsSeconds();
 
         if (*cameraPointer)
         {
-            // Fetch player's coordinates
-            if (!Controller::IsKeyDown(CPad))
-                coord = Player::GetInstance()->GetCoordinates();
-
-            // Restore player's coordinates
-            if (Controller::IsKeysDown(R + CPadDown))
-                Player::GetInstance()->SetCoordinates(coord);
-
-            // Move camera
-            if (Controller::IsKeysDown(R + CPadDown))
-                ADD16((*cameraPointer + 0x12C), 0x2);
-
-            if (Controller::IsKeysDown(R + CPadUp))
-                SUB16((*cameraPointer + 0x12C), 0x2);
-
-            if (Controller::IsKeysDown(R + CPadRight))
-                ADD16((*cameraPointer + 0x12E), 0x2);
-
-            if (Controller::IsKeysDown(R + CPadLeft))
-                SUB16((*cameraPointer + 0x12E), 0x2);
-
-            // Fetch camera stop value
-            if (Controller::IsKeysDown(R + X))
+            //check if you're outside
+            if (*Game::Location == -1)
             {
-                if (*cameraStop != 0)
+                if (*Game::Room == 1)
                 {
-                    storage = *cameraStop;
-                    *cameraStop = 0;
+                    Process::Patch(rotationAsm, (u8 *)&originalRotation, 4);
+                    Process::Patch(rotationAsm + 0xC, (u8 *)&originalRotation, 4);
+                }
+                else
+                {
+                    Process::Patch(rotationAsm, (u8 *)&nop, 4);
+                    Process::Patch(rotationAsm + 0xC, (u8 *)&nop, 4);
                 }
             }
-
-            // Restore camera stop value
-            if (Controller::IsKeysDown(R + Y))
+            else
             {
-                if (storage != 0)
-                    *cameraStop = storage;
+                Process::Patch(rotationAsm, (u8 *)&originalRotation, 4);
+                Process::Patch(rotationAsm + 0xC, (u8 *)&originalRotation, 4);
             }
-        }
+            if (followRotation)
+            {
+                u32 rotation = Player::GetInstance()->GetRotation();
+                Process::Write16(*cameraPointer + 0x12E, (rotation >> 16) ^ 0x8000); //get the opposite of the rotation value in order to face opposite of player
+            }
+            if (entry->Hotkeys[0].IsDown())
+            {
+                if (Controller::IsKeyDown(Key::CPadUp))
+                    ADD16((*cameraPointer + 0x12C), difference);
+                if (Controller::IsKeyDown(Key::CPadDown))
+                    SUB16((*cameraPointer + 0x12C), difference);
+                if (Controller::IsKeyDown(Key::CPadLeft))
+                    ADD16((*cameraPointer + 0x12E), difference);
+                if (Controller::IsKeyDown(Key::CPadRight))
+                    SUB16((*cameraPointer + 0x12E), difference);
+            }
+            if (entry->Hotkeys[1].IsDown()) // Stop camera from moving
+                goto patch;
+            if (entry->Hotkeys[2].IsDown()) // Make camera move again
+                goto unpatch;
+            if (entry->Hotkeys[3].IsDown())
+            {
+                if (!followRotation)
+                    followRotation = true;
+                else
+                    followRotation = false;
+                while (entry->Hotkeys[3].IsDown())
+                    Controller::Update();
+            }
 
-        // Next codes require B to be pressed, exit if not
-        if (!Controller::IsKeyDown(B))
+            if (entry->Hotkeys[4].IsDown())
+            {
+                cameraCoordinates->z -= speed;
+                goto patch;
+            }
+
+            if (entry->Hotkeys[5].IsDown())
+            {
+                cameraCoordinates->x += speed;
+                goto patch;
+            }
+
+            if (entry->Hotkeys[6].IsDown())
+            {
+                cameraCoordinates->z += speed;
+                goto patch;
+            }
+
+            if (entry->Hotkeys[7].IsDown())
+            {
+                cameraCoordinates->x -= speed;
+                goto patch;
+            }
+
+            if (entry->Hotkeys[8].IsDown())
+            {
+                cameraCoordinates->y -= speed;
+                goto patch;
+            }
+
+            if (entry->Hotkeys[9].IsDown())
+            {
+                cameraCoordinates->y += speed;
+                goto patch;
+            }
             return;
-
-        if (Controller::IsKeysDown(B + DPadLeft))
-        {
-            cameraCoordinates->x -= 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + DPadRight))
-        {
-            cameraCoordinates->x += 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + DPadDown))
-        {
-            cameraCoordinates->z += 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + DPadUp))
-        {
-            cameraCoordinates->z -= 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + R))
-        {
-            cameraCoordinates->y += 0.1f;
-            goto patch;
-        }
-
-        if (Controller::IsKeysDown(B + L))
-        {
-            cameraCoordinates->y -= 0.1f;
-            goto patch;
-        }
-
-        return;
-    patch:
-        if (!isPatched)
-        {
-            // Change the asm instruction to b, allows overwriting camera coordinates
-            Process::Patch(cameraAsm, (u8 *)&patch, 4);
-            isPatched = true;
+        patch:
+            if (!isPatched)
+            {
+                // Change the asm instruction to b, allows overwriting camera coordinates
+                Process::Patch(cameraAsm, (u8 *)&patch, 4);
+                isPatched = true;
+            }
+            return;
+        unpatch:
+            if (isPatched)
+            {
+                Process::Patch(cameraAsm, (u8 *)&original, 4);
+                isPatched = false;
+            }
         }
     }
 
@@ -371,21 +409,476 @@ namespace CTRPluginFramework
 
     void    StorageEverywhere(MenuEntry *entry)
     {
-        if (Controller::IsKeyDown(L))
+        static Hook hook;
+        static Clock clock;
+        u32 addr = AutoRegion(USA_BOTTOM_ASM -4, EUR_BOTTOM_ASM -4, JAP_BOTTOM_ASM -4, USA_WA_BOTTOM_ASM - 4, EUR_WA_BOTTOM_ASM - 4, JAP_WA_BOTTOM_ASM - 4)();
+        
+        if (entry->Hotkeys[0].IsDown())
             *Game::BottomScreen = 0x3D;
-        if (Controller::IsKeysDown(R))
+
+        if (entry->Hotkeys[1].IsDown())
             *Game::BottomScreen = 0x89;
-        if (Controller::IsKeysDown(L + R))
+
+        if (entry->Hotkeys[2].IsDown())
             *Game::BottomScreen = 0x7C;
+
+        if (entry->Hotkeys[3].IsDown())
+        {
+            g_bottomUI = *GetArg<u8>(entry, 0);
+            g_bottomReturn = addr + 8;
+            hook.Initialize(addr, (u32)LoadBottomUI);
+            clock.Restart();
+            hook.Enable();
+        }
+        if (hook.flags.isEnabled && clock.HasTimePassed(Seconds(1.f)))
+        {
+            hook.Disable();
+            clock.Restart();
+        }
+
+    }
+
+
+    void    StorageEverywhereSettings(MenuEntry *entry)
+    {
+        u8 *arg = GetArg<u8>(entry);
+        u8 id;
+        Keyboard keyboard("Which ID would you like?");
+        keyboard.IsHexadecimal(true);
+        if (keyboard.Open(id) != -1)
+            *arg = id;
     }
 
     void    Faint(MenuEntry *entry)
     {
-        if (Controller::IsKeysDown(R + A))
+        if (entry->Hotkeys[0].IsDown())
         {
             if (*Game::Location == -1)
                 *Game::Consciousness = 0x0100;
         }
             
+    }
+
+    void    Corrupter(MenuEntry *entry)
+    {
+        u32 address = 0x30000000;
+        float value;
+        int     *corruption = GetArg<int>(entry);
+
+        while (Process::ReadFloat(address, value))
+        {
+            switch (*corruption)
+            {
+                case 0:
+                    if (value == 1.0f)
+                    {
+                        int rng = Utils::Random(0, 10);
+                        if (rng == 5)
+                        {
+                            rng = Utils::Random(1, 2);
+                            if (rng = 1)
+                                Process::WriteFloat(address, value + 0.1f);
+                            else
+                                Process::WriteFloat(address, value - 0.1f);
+                        }
+                    }
+                    break;
+                case 1:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(0, 10);
+                        if (rng == 5)
+                        {
+                            rng = Utils::Random(1, 2);
+                            if (rng = 1)
+                                Process::WriteFloat(address, value + 0.1f);
+                            else
+                                Process::WriteFloat(address, value - 0.1f);
+                        }
+                    }
+                    break;
+                case 2:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(0, 10);
+                        if (rng != 5)
+                        {
+                            rng = Utils::Random(1, 2);
+                            if (rng = 1)
+                                Process::WriteFloat(address, value + 0.1f);
+                            else
+                                Process::WriteFloat(address, value - 0.1f);
+                        }
+                    }
+                    break;
+                case 3:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(1, 2);
+                        if (rng = 1)
+                            Process::WriteFloat(address, value + 0.1f);
+                        else
+                            Process::WriteFloat(address, value - 0.1f);
+                    }
+                    break;
+
+                case 4:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(0, 20);
+                        Process::WriteFloat(address, 0.1f * rng);
+                    }
+                    break;
+                default:
+                    if (value >= 1.0f && value < 2.0f)
+                    {
+                        int rng = Utils::Random(0, 20);
+                        Process::WriteFloat(address, 0.1f * rng);
+                    }
+                    break;
+            }
+            address += 4;
+        }
+    }
+
+    void    CorrupterSettings(MenuEntry *entry)
+    {
+        int     *corruption = GetArg<int>(entry);
+
+        Keyboard keyboard("Corruption Editor\nWhat level of corruption would you like?");
+        static std::vector<std::string> list =
+        {
+            "0 - Minimal",
+            "1 - Low",
+            "2 - Medium",
+            "3 - High",
+            "4 - Extreme !Dangerous!",
+        };
+        keyboard.Populate(list);
+        keyboard.CanAbort(false);
+
+        *corruption = keyboard.Open();
+
+    }
+
+    std::vector<u8> FindItemCoordinates(std::vector<u16> & id, bool isFlag) //isFlag is used to check the flag of items ex: buried items
+    {
+        int size = id.size();
+        u32 offset = reinterpret_cast<u32>(Game::TownItem);
+        static u32 counter = 0;
+        if (isFlag)
+            offset += 2;
+        
+        while (counter < 0x5000) //loop through town data
+        {
+            for (int i = 0; i < size; i++)
+            {
+                if (*(u16 *)(offset + counter) == id[i]) //check if the offset has a weed
+                {
+                    u8 acre;
+                    std::vector <u8> coordinates = { 0, 0 };
+                    acre = counter / 0x400; //each acre contains 0x100 bytes of data
+#ifdef DEBUG
+                    OSD::Notify(Utils::Format("acre id: %i", acre));
+#endif
+                    coordinates[0] = acre % 5; //get the remmainder of the row to find x
+                    coordinates[1] = acre / 5; //5 acres per row
+#ifdef DEBUG
+                    OSD::Notify(Utils::Format("acre coords: (%i,%i)", coordinates[0], coordinates[1]));
+#endif
+                    /*
+                    * We now know which acre we're in, so we multiply 16 to x and y to get to (0,0) of the acre
+                    */
+                    coordinates[0] = (coordinates[0] + 1) * 16;
+                    coordinates[1] = (coordinates[1] + 1) * 16;
+#ifdef DEBUG
+                    OSD::Notify(Utils::Format("coords: (%i,%i)", coordinates[0], coordinates[1]));
+#endif
+                    int tmp = counter - (acre * 0x400);
+                    coordinates[0] += (tmp / 4) % 16;
+                    coordinates[1] += tmp / 0x40;
+                    
+
+                    return (coordinates);
+                }
+
+            }
+            counter += 4;
+        }
+        counter = 0;
+        std::vector<u8>noItems = { 0, 0 }; //return 0, 0 if no items are found, which is out of bounds
+        return(noItems);
+    }
+
+    void    UltimateWeedPuller(MenuEntry *entry)
+    {
+        static bool execution = false;
+        std::vector <u16> weeds = { 0x007C, 0x007D, 0x007E, 0x007F, 0x00CC, 0x00F8 };
+        std::vector<u8> coordinates = { 0, 0 };
+
+        if (entry->Hotkeys[0].IsDown())
+        {
+            if (execution)
+                execution = false;
+            else
+                execution = true;
+            while (entry->Hotkeys[0].IsDown())
+                Controller::Update();
+        }
+        if (execution)
+        {
+            coordinates = FindItemCoordinates(weeds, false);
+#ifdef DEBUG
+            OSD::Notify(Utils::Format("coords: (%i,%i)", coordinates[0], coordinates[1]));
+#endif
+            if (coordinates[0] + coordinates[1] == 0)
+            {
+                execution == false;
+                return;
+            }
+            Sleep(Seconds(1));
+            Player::GetInstance()->SetFloatCoordinates(coordinates[0] + 0.1f, coordinates[1] + 0.1f);
+            Player::GetInstance()->SetRotation(0xEB00000);
+            Controller::InjectKey(Key::Y);
+        }
+    }
+
+    void    UnBuryItems(MenuEntry *entry)
+    {
+        std::vector<u8> coordiantes = { 0, 0 };
+        static bool execution = false;
+
+        if (entry->Hotkeys[0].IsDown())
+        {
+            if (execution)
+                execution = false;
+            else
+                execution = true;
+            while (entry->Hotkeys[0].IsDown())
+                Controller::Update();
+        }
+        if (execution)
+        {
+            std::vector<u16> buriedFlag = { 0x8000 };
+            coordiantes = FindItemCoordinates(buriedFlag, true);
+            if (coordiantes[0] + coordiantes[1] == 0)
+            {
+                execution = false;
+                return;
+            }
+            u16 heldItem;
+            if (Player::GetInstance()->Read16(0x26, heldItem) && heldItem < 0x3357 || heldItem > 0x335C) //check if the player doesn't have a shovel
+            {
+                MessageBox(Color::Yellow << "Info", "Please equip a shovel and press the hotkey again.")();
+                execution = false;
+                return;
+            }
+            if (*Game::MapBool == 0)
+                return;
+            Player::GetInstance()->SetFloatCoordinates(coordiantes[0] + 0.5f, coordiantes[1] - 0.01f);
+            Player::GetInstance()->SetRotation(0);
+
+            Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
+            Controller::InjectKey(Key::A);
+        }
+    }
+
+
+    void    EnableAllTours(MenuEntry *entry) //Thanks to Wii8461!
+    {
+        if (*Game::Tours != 0 && *Game::Room == 0x67) //Make sure in Island Shack
+        {
+            for(int i = 0; i < 64; i++)
+                Process::Write8(*Game::Tours + 10 + i, 1); //Mark every tours as enabled
+
+            OSD::Notify("Every Tour is now Choosable!", Color::Green, Color::Black);
+        }
+        entry->Disable();
+    }
+
+    bool    CheckU8Input(const void *input, std::string &error)
+    {
+        int  in = *static_cast<const int *>(input);
+        if (in > 0xFF)
+        {
+            error = "Input cannot be over 0xFF";
+            return (false);
+        }
+
+        return (true);
+    }
+
+    void UseAnyEmote(MenuEntry *entry)
+    {
+        static u32 offset = Game::EmoteASM;
+        static u8 EmoteID;
+        u32 patch = 0;
+
+        if (entry->Hotkeys[0].IsDown())
+        {
+            Keyboard keyboard("Input a Emote ID. 0xFF restores game's original functionality.");
+            keyboard.IsHexadecimal(true);
+            keyboard.SetCompareCallback(CheckU8Input);
+
+            if (keyboard.Open(EmoteID) == -1)
+                return;
+
+            if (EmoteID == 0xFF)
+            {
+                patch = 0xE7D00001;
+                OSD::Notify("Restored Game's Original Functionality.");
+
+            }
+
+            else
+            {
+                patch = 0xE3A00000 | EmoteID;
+                OSD::Notify(Format("Wrote ID: %X", EmoteID));
+            }
+
+            Process::Patch(offset, (u8 *)&patch, 4);
+        }
+    }
+
+    void EditAnyPattern(MenuEntry *entry)
+    {
+        static u32 offset = Game::PatternEdit;
+        static bool btn = false;
+        static bool active = false;
+        
+        if (entry->Hotkeys[0].IsDown() && !btn)
+        {
+            if (!active)
+            {
+                Process::Write32(offset, 0xE3A00001);
+                OSD::Notify("Edit Every Pattern: " << Color::Green << "Enabled!");
+                active = true;
+                btn = true;
+            }
+
+            else if (active)
+            {
+                Process::Write32(offset, 0xE3A00000);
+                OSD::Notify("Edit Every Pattern: " << Color::Red << "Disabled!");
+                active = false;
+                btn = true;
+            }
+        }
+
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
+    }
+
+    void UnbreakableFlowers(MenuEntry *entry)
+    {
+        static u32 offset = Game::NoBreakFlowers;
+        static u32 original = reinterpret_cast<u32 >(AutoRegion(0xEBF5935C, 0xEBF5976C, 0xEBF5990F, 0xEBF59616, 0xEBF5976C, 0xEBF5990F)());
+        static bool btn = false;
+        static bool active = false;
+        
+        if (entry->Hotkeys[0].IsDown() && !btn)
+        {
+            if (!active) //Turn On
+            {
+                Process::Write32(offset, 0xE3A0001D);
+                OSD::Notify("Flowers Are Unbreakable: " << Color::Green << "Enabled!");
+                active = true;
+                btn = true;
+            }
+
+            else if (active) //Turn Off
+            {
+                Process::Write32(offset, original);
+                OSD::Notify("Flowers Are Unbreakable: " << Color::Red << "Disabled!");
+                active = false;
+                btn = true;
+            }
+        }
+
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
+    }
+
+    /* Broken & experimental, needs proper region porting and checks */
+
+    void LoadRoomID(u8 roomID)
+    {
+        u32 offset = reinterpret_cast<u32>(Game::Room);
+        /*
+        Process::Write8(0x9513D3, 0x01);
+        Process::Write16(0x9513D4, 0x0001);
+        Process::Write8(0x958343, roomID);
+        Process::Write16(0xAC298C, 0x0001);
+        */
+        Process::Write8(offset+0x1F0E, 0x01);
+        Process::Write16(offset+0x1F0F, 0x0001);
+        Process::Write8(offset+0x8E7E, roomID);
+        Process::Write16(offset+0x1734C7, 0x0001);
+    }
+
+    void RoomPicker(MenuEntry *entry)
+    {
+        if (*Game::Room == 0x60) return;
+
+        StringVector options;
+        for (const IDs &option : rooms)
+            options.push_back(option.Name);
+        Keyboard _keyboard("Which room would you like to load?");
+        _keyboard.Populate(options);
+        int index = _keyboard.Open();
+        if (index == -1)
+            return;
+
+        u8 roomID = rooms[index].id;
+        LoadRoomID(roomID);
+    }
+
+    void CountrySpoofer(MenuEntry *entry)
+    {
+        static u32 offset = Game::CountryASM;
+        static u8 RegionID;
+        u32 patch = 0;
+        StringVector options;
+        static bool btn = false;
+
+        if (entry->Hotkeys[0].IsDown() && !btn)
+        {
+            btn = true;
+            if (*Game::Room != 0) //make sure in town to limit any potential issues
+            {
+                OSD::Notify("This code can only be used in the Town!");
+            }
+
+            else
+            {
+                for (const IDs &option : regions)
+                    options.push_back(option.Name);
+
+                Keyboard keyboard("Select a Country to Spoof.");
+                keyboard.Populate(options);
+                int index = keyboard.Open();
+                if (index == -1)
+                    return;
+
+                RegionID = regions[index].id;
+
+                if (RegionID == 0xFF)
+                {
+                    OSD::Notify("Restored To Your Own Country.");
+                    patch = 0xE1A00C20;
+                }
+
+                else
+                {
+                    patch = 0xE3A00000 | RegionID;
+                    OSD::Notify(Format("Set Country to: %s!", regions[index].Name));
+                }
+
+                Process::Patch(offset, (u8 *)&patch, 4);
+            }
+        }
+
+        else if (!entry->Hotkeys[0].IsDown())
+            btn = false;
     }
 }

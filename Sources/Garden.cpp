@@ -1,225 +1,344 @@
 #include "cheats.hpp"
+#include "CTRPluginFramework/Utils/Utils.hpp"
+
+extern "C" void FixSaveFurn(void);
+u32 g_FixSaveFurnAddr = 0;
+
+static const char RTBP_ErrorMSG[] = "RTBP just tried to place/remove Building 0x%02X, which is invalid.\nPlease report this to the developers, along with:\n1)The building you selected on the list\n2)The building amount (Amount is: %d).";
+static const char RTBP_EventMSG[] = "Only two event pwps can be placed at one time (to avoid issues with the game).\nPlease remove one of the existing event buildings to place a new one.";
+static const char RTBP_0PWPMSG[] = "No buildings of this type can be found!";
+static const char RTBP_0NUMMSG[] = "You have 0 buildings, how the hell are you removing one???";
 
 namespace CTRPluginFramework
 {
-
-    void    NameChanger_OnInputChange(Keyboard &keyboard, InputChangeEvent &event)
-    {
-        std::string &input = keyboard.GetInput();
-
-        if (event.type == InputChangeEvent::CharacterAdded
-            && GetSize(input) >= 9)
-        {
-            RemoveLastChar(input);
-        }
-    }
-
     void    SetNameTo(MenuEntry *entry)
     {
-        Keyboard keyboard("Name Changer\n\nEnter the name you'd like to have:");
-
+        Keyboard        keyboard("Name Changer\n\nEnter the name you'd like to have:");
         std::string     input;
 
-        keyboard.OnInputChange(NameChanger_OnInputChange);
+        keyboard.OnInputChange([](Keyboard &keyboard, InputChangeEvent &event)
+        {
+            std::string &input = keyboard.GetInput();
+
+            if (event.type == InputChangeEvent::CharacterAdded && Utils::GetSize(input) >= 6)
+                Utils::RemoveLastChar(input);
+        });
         if (keyboard.Open(input) != -1)
         {
-            // Ask for a second line name
-            MessageBox msgBox("Do you want your name to\nappear below the bubble?", DialogType::DialogYesNo);
-
-            if (msgBox())
-            {
-                std::string secondLine = "\n";
-
-                secondLine += input;
-                input = secondLine;
-            }
+            // Ask for a second line name if the name is smaller than 6 characters
+            if (Utils::GetSize(input) < 6 
+                && (MessageBox("Do you want your name to\nappear below the bubble ?", DialogType::DialogYesNo))())
+                input.insert(0, 1, '\n');
 
             Player::GetInstance()->SetName(input);
         }
     }
 
-
-    void    BuildingPlacer(MenuEntry *entry)
+    void    BuildingModifier(MenuEntry *entry)
     {
-        u32     offset = 0;
-        u8      input;
+        if (*Game::Room != 0) {
+            MessageBox("RTBP Error!", "You need to be in the Town for this to work.")();
+            return;
+        }
 
-        if (Controller::IsKeysDown(R + DPadDown))
+        u32 off_building = Game::Building;
+        u32 counter = 0;
+        u32 maxcounter = 0;
+        
+        Keyboard keyboard("Building placer\nChoose an option.");
+        StringVector options = { "Place a Building", "Remove a Building", "Move a Building" };
+        keyboard.Populate(options);
+        int userChoice = keyboard.Open();
+
+        options.clear(); //clear options in order to store the building ids in it.
+
+        if (userChoice == -1)
+            return;
+
+        /* Place Bulding */
+        else if (userChoice == 0) //Place
         {
-            Keyboard keyboard("What building would you like to place?");
+            for (const Building &pwp : buildingIDS)
+                options.push_back(pwp.Name);
             
-            //Exit if the user cancel the keyboard
-            if (keyboard.Open(input) == -1)
-                return;
-            
-            u8      x = static_cast<u8>(Game::WorldPos->x);
-            u8      y = static_cast<u8>(Game::MainStreetPos->y);
-            u32     slots = reinterpret_cast<u32>(Game::BuildingSlots); //address of byte that represents how many buildings are taken up
-            u32     building = reinterpret_cast<u32>(Game::Building);
+            Keyboard _keyboard("Which building would you like to place?");
+            _keyboard.Populate(options);
+            int index = _keyboard.Open();
 
-            while (READU8(building + offset) != 0xFC && offset < 0xE5)
+            if (index == -1)
+                return;
+
+            u8 id = buildingIDS[index].id;
+
+            if ((id >= 0x12 && id <= 0x4B) || id > 0xFC) //Invalid Buildings
             {
-                offset += 0x4;
+                MessageBox("Building Placer Error!", Format(RTBP_ErrorMSG, id, counter))();
+                return;
             }
-            if (offset >= 0xE5)
-            {
-                OSD::Notify("All building slots are filled!");
+
+            else if (buildingIDS[index].IsEvent) {
+                if (*(Game::BuildingSlots+1) == 2) {
+                    Sleep(Seconds(1));
+                    MessageBox("Building Placer Error!", RTBP_EventMSG)();
+                    return;
+                }
+
+                counter = 56; //Event PWP are last two slots
+                maxcounter = 58;
             }
+
+            else {
+                counter = 0;
+                maxcounter = 56;
+            }
+
+            while (*(u8 *)(off_building + (counter * 4)) != 0xFC && counter < maxcounter) {
+                counter++;
+            }
+
+            if (counter == maxcounter)
+                OSD::Notify("Every Building Slot Is Filled!");
+
             else
             {
-                WRITEU8(building + offset, input);
-                WRITEU8(building + offset + 0x2, x);
-                WRITEU8(building + offset + 0x3, y);
-                ADD8(slots, 1);
+                Process::Write8(off_building + (counter * 4), id);
+                Process::Write8(off_building + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
+                Process::Write8(off_building + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
+                OSD::Notify(Format("\"%s\" Placed!", buildingIDS[index].Name));
+                OSD::Notify("Reload the area to see effects.");
+                if (buildingIDS[index].IsEvent)
+                    ADD8((Game::BuildingSlots+1), 1); //Increment Event Building Amount
+
+                else
+                    ADD8(Game::BuildingSlots, 1); ////Increment Normal Building Amount
+            }
+            return;
+
+        }
+
+        /* Remove Bulding */
+        else if (userChoice == 1) //Remove
+        {
+            std::vector<u8> buildings;
+            std::vector<u8> x, y;
+            std::vector<bool> IsEvent;
+            int start = 0, end = 0;
+            StringVector pwptype = {"Normal PWPs", "Event PWPs"};
+
+            Keyboard _keyboard("Which building type would you like to remove?");
+            _keyboard.Populate(pwptype);
+            int pwptypechoice = _keyboard.Open();
+
+            if (pwptypechoice == -1) //abort
+                return;
+
+            else if (pwptypechoice == 0) {
+                start = 0;
+                end = 56;
+            }
+
+            else if (pwptypechoice == 1) {
+                start = 56;
+                end = 58;
+            }
+
+            for (int i = start; i < end; i++)
+            {
+                if (READU8(off_building + (i * 4)) != 0xFC) //check if a building is not empty
+                {
+                    buildings.push_back(READU8(off_building + (i * 4)));
+                    x.push_back(READU8(off_building + (i * 4) + 2));
+                    y.push_back(READU8(off_building + (i * 4) + 3));
+                }
+            }
+
+            if (buildings.size() == 0) { //Possible case due to event pwps not always there
+                MessageBox("Building Remover Error!", RTBP_0PWPMSG)();
+                return;
+            }
+            
+            for (int i = 0; i < buildings.size(); i++)
+            {
+                for (const Building& building : buildingIDS)
+                {
+                    if (building.id != buildings[i])
+                        continue;
+
+                    options.push_back(building.Name);
+                    IsEvent.push_back(building.IsEvent);
+                    break;
+                }
+            }
+
+            Keyboard __keyboard("Which building would you like to remove?");
+            __keyboard.Populate(options);
+            int index = __keyboard.Open();
+
+            if (index != -1) //user didn't abort
+            {
+                u8 id = buildings[index];
+                while (*(u8 *)(off_building + (start*4) + (counter * 4)) != id && counter < buildings.size() && counter+start < end)
+                    counter++;
+                Process::Write8(off_building + (start*4) + (counter * 4), 0xFC);
+                Process::Write8(off_building + (start*4) + (counter * 4) + 2, 0);
+                Process::Write8(off_building + (start*4) + (counter * 4) + 3, 0);
+                OSD::Notify("Building Removed!");
+                OSD::Notify("Reload the area to see effects.");
+                if (IsEvent[index] && *(Game::BuildingSlots+1) > 0)
+                    SUB8((Game::BuildingSlots+1), 1); //Decrement Event Building Amount
+
+                else if (*Game::BuildingSlots > 0)
+                    SUB8(Game::BuildingSlots, 1); //Decrement Normal Building Amount
+
+                else MessageBox("Building Remover Error!", RTBP_0NUMMSG)();
             }
         }
 
-        if (Controller::IsKeysDown(R + DPadUp))
+        /* Move Bulding */
+        else if (userChoice == 2) //Move
         {
-            Keyboard keyboard("What building would you like to remove?");
+            std::vector<u8> buildings;
+            std::vector<u8> x, y;
+            std::vector<bool> IsEvent;
+            int start = 0, end = 0;
+            StringVector pwptype = {"Normal PWPs", "Event PWPs"};
 
-            // Exit if the user cancel the keyboard
-            if (keyboard.Open(input) == -1)
+            Keyboard _keyboard("Which building type would you like to remove?");
+            _keyboard.Populate(pwptype);
+            int pwptypechoice = _keyboard.Open();
+
+            if (pwptypechoice == -1) //abort
                 return;
 
-            u32  building = reinterpret_cast<u32>(Game::Building);
-            u32      slots = reinterpret_cast<u32>(Game::BuildingSlots);
+            else if (pwptypechoice == 0) {
+                start = 0;
+                end = 56;
+            }
 
-            while (READU8(building + offset) != input && offset < 0xE5)
-            {
-                offset += 0x4;
+            else if (pwptypechoice == 1) {
+                start = 56;
+                end = 58;
             }
-            if (offset == 0xE5)
+
+            for (int i = start; i < end; i++)
             {
-                OSD::Notify("Could not find your building");
+                if (READU8(off_building + (i * 4)) != 0xFC) //check if a building is not empty
+                {
+                    buildings.push_back(READU8(off_building + (i * 4)));
+                    x.push_back(READU8(off_building + (i * 4) + 2));
+                    y.push_back(READU8(off_building + (i * 4) + 3));
+                }
             }
-            else
+
+            if (buildings.size() == 0) { //Possible case due to event pwps not always there
+                MessageBox("Building Remover Error!", RTBP_0PWPMSG)();
+                return;
+            }
+            
+            for (int i = 0; i < buildings.size(); i++)
             {
-                WRITEU8(building + offset, 0xFC);
-                WRITEU8(building + offset + 0x2, 0x00);
-                WRITEU8(building + offset + 0x3, 0x00);
-                SUB8(slots, 1);
+                for (const Building& building : buildingIDS)
+                {
+                    if (building.id != buildings[i])
+                        continue;
+
+                    options.push_back(building.Name);
+                    IsEvent.push_back(building.IsEvent);
+                    break;
+                }
             }
+
+            Keyboard __keyboard("Which building would you like to remove?");
+            __keyboard.Populate(options);
+            int index = __keyboard.Open();
+
+            if (index != -1) //user didn't abort
+            {
+                u8 id = buildings[index];
+                while (*(u8 *)(off_building + (start*4) + (counter * 4)) != id && counter < buildings.size() && counter+start < end)
+                    counter++;
+
+                Process::Write8(off_building + (start*4) + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
+                Process::Write8(off_building + (start*4) + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
+                OSD::Notify("Building Moved to Current Position!");
+                OSD::Notify("Reload the area to see effects.");
+            }
+
         }
     }
 
     void    GardenDumper(MenuEntry *entry)
     {
+        File            file;
+        Directory       dir("dumps", true);
         Keyboard        keyboard("GardenRam Dumper\n\nName the dump you'd like to create.");
         std::string     input;
-        File            file;
-        Directory       dir;
 
         if (keyboard.Open(input) != -1)
         {
             // Add extension to the name if user didn't
-            if (input.find(".bin") == std::string::npos)
-                input += ".bin";
+            if (input.find(".dat") == std::string::npos)
+                input += ".dat";
 
-            // Open dumps folder, create it if it doesn't exist
-            if (Directory::Open(dir, "dumps", true) == 0)
+            // Let's create and open the file
+            if (dir.OpenFile(file, input, File::RWC) == 0)
             {
-                // Folder successfully opened
-
-                // Let's create and open the file
-                if (dir.OpenFile(file, input, true) == 0)
-                {
-                    // Successfully opened the file 
-
-                    // Dump to the file
-                    if (file.Dump(Game::Garden, 0x89A80) == 0)
-                    {
-                        // Success
-
-                        std::string     path;
-                        std::string     message;
-
-                        // Assemble full path
-                        path = dir.GetPath();
-                        path += input;
-
-                        // Assemble message for MessageBox
-                        message = "File dumped to:\n";
-                        message += path;
-
-                        // Create MessageBox and open it
-                        (MessageBox(message))();
-                    }
-                    else
-                    {
-                        //  Failed
-                        MessageBox("Error\nDump failed.")();
-                    }
-                }
-            }
-            else
-            {
-                // Failed to open the folder, notify the user
-                MessageBox("Error\nCouldn't open dumps folder.")();
+                // Dump to the file
+                if (file.Dump(Game::Garden, 0x89B00) == 0) // Success
+                    (MessageBox("File dumped to:\n" + file.GetFullName()))();
+                else // Failed
+                    MessageBox("Error\nDump failed.")();
             }
 
-            // Close file and directory
+            file.Flush();
             file.Close();
-            dir.Close();
         }
     }
 
     void    GardenRestore(MenuEntry *entry)
     {
         File            file;
-        Directory       dir;
-        std::vector<std::string> list;
+        Directory       dir("dumps");
+        StringVector    list;
 
-        if (Directory::Open(dir, "dumps", true) == 0)
+        if (dir.ListFiles(list, ".dat") == Directory::OPResult::NOT_OPEN)
         {
-            dir.ListFiles(list, ".bin");
+            MessageBox("Error\nCouldn't open dumps folder.")();
+            return;
+        }
 
-            if (!list.empty())
+        if (list.empty())
+        {
+            MessageBox("Error\nCouldn't find any dumps!")();
+            return;
+        }
+
+        Keyboard    keyboard("Select which dump to restore.", list);
+        int         userChoice = keyboard.Open();
+
+        if (userChoice != -1)
+        {
+            if (dir.OpenFile(file, list[userChoice], File::RWC) == 0)
             {
-                Keyboard keyboard("Select which dump to restore.");
-
-                keyboard.Populate(list);
-
-                int userChoice = keyboard.Open();
-
-                if (userChoice != -1)
-                {
-                    if (dir.OpenFile(file, list[userChoice], false) == 0)
-                    {
-                        if (file.Inject(Game::Garden, 0x89A80) == 0)
-                        {
-                            MessageBox("Successfully restored your\nsave!")();
-                        }
-                        else
-                        {
-                            MessageBox("Error\nError injecting dump!")();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox("Error\nCouldn't open the dump!")();
-                    }
+                if (file.Inject(Game::Garden, 0x89A80) == 0) {
+                    MessageBox("Successfully restored your save !")();
+                    g_FixSaveFurnAddr = Game::Internal_FurnFix;
+                    u32 orig[1] = {0};
+                    Process::Patch(g_FixSaveFurnAddr+0x41C, 0xE1A00000, orig); //Must be patched, otherwise game crashes
+                    FixSaveFurn(); //Calls func to call Game's internal function to fix furniture
+                    Process::Patch(g_FixSaveFurnAddr+0x41C, orig[0]); //Unpatch so game doesn't have a potential fit when it calls the func itself
                 }
+                else
+                    MessageBox("Error\nError injecting dump!")();
             }
             else
-            {
-                MessageBox("Error\nCouldn't find any dumps!")();
-            }
+                MessageBox("Error\nCouldn't open the dump!")();
         }
-        else
-        {
-            // Failed to open the folder, notify the user
-            MessageBox("Error\nCouldn't open dumps folder.")();
-        }
-        file.Close();
-        dir.Close();
     }
 
     void    ChangeNativeFruit(MenuEntry *entry)
     {
-        static u32 offset = reinterpret_cast<u32> (Game::TownFruit);
-        Keyboard keyboard("What fruit would you like?");
-        std::vector<std::string> list = 
+        static const StringVector list =
         {
             "Apples",
             "Oranges",
@@ -235,53 +354,50 @@ namespace CTRPluginFramework
             "Bananas"
         };
 
-        keyboard.Populate(list);
-
-        u8 userChoice = keyboard.Open();
+        Keyboard    keyboard("What fruit would you like ?", list);
+        int         userChoice = keyboard.Open();
 
         if (userChoice != -1)
-            Process::Write8(offset, userChoice + 1);
+            Process::Write8(Game::TownFruit, userChoice + 1);
     }
 
     void    PWPUnlock(MenuEntry *entry)
     {
-        static u32 offset = reinterpret_cast<u32> (Game::PWP);
         for (int i = 0; i < 3; i++)
         {
-            Process::Write32(offset + (i * 4), 0xFFFFFFFF);
-        } 
+            Process::Write32(Game::PWP + (i * 4), 0xFFFFFFFF);
+        }
+        OSD::Notify("All PWPs Unlocked!", Color::Green, Color::Black);
+        entry->Disable();
     }
 
     void    Permit(MenuEntry *entry)
     {
-        static u32 offset = reinterpret_cast<u32> (Game::Permit);
-        Process::Write32(offset, 0xD7DFC900);
+        Process::Write32(Game::Permit, 0xD7DFC900);
+        OSD::Notify("Permit now 100%!", Color::Green, Color::Black);
+        entry->Disable();
     }
 
     void    MaxTreeSize(MenuEntry *entry)
     {
-        static u32 offset = reinterpret_cast<u32> (Game::TownTree);
-        Process::Write8(offset, 0x7);
-        Process::Write32(offset + 0x1632A, 0x10000000);
-        Process::Write16(offset + 0x163B8, 0x686);
+        Process::Write8(Game::TownTree, 0x7);
+        Process::Write32(Game::TownTree + 0x1632A, 0x10000000);
+        Process::Write16(Game::TownTree + 0x163B8, 0x686);
     }
 
     void    ChangeGrass(MenuEntry *entry)
     {
-        static u32 offset = reinterpret_cast<u32> (Game::TownGrass);
-        Keyboard keyboard("What grass type would you like?");
-        std::vector<std::string> list = 
+        static const StringVector list =
         {
             "Triangle",
             "Circle",
             "Square"
         };
 
-        keyboard.Populate(list);
-
-        u8 userChoice = keyboard.Open();
+        Keyboard    keyboard("What grass type would you like ?", list);
+        int         userChoice = keyboard.Open();
 
         if (userChoice != -1)
-            Process::Write8(offset, userChoice);
+            Process::Write8(Game::TownGrass, userChoice);
     }
 }

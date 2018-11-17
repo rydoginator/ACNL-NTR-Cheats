@@ -168,6 +168,12 @@ static inline FINF_s* fontGetInfo(void)
 	return &g_sharedFont->finf;
 }
 
+static inline CFNT_s *fontGetFont(void)
+{
+	extern CFNT_s* g_sharedFont;
+	return (g_sharedFont);
+}
+
 /// Retrieves the texture sheet information of the shared system font.
 static inline TGLP_s* fontGetGlyphInfo(void)
 {

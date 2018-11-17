@@ -3,8 +3,10 @@
 
 #include "CTRPluginFramework/Menu/MenuEntry.hpp"
 #include "CTRPluginFramework/Menu/MenuFolder.hpp"
+#include "CTRPluginFramework/System/Time.hpp"
 
 #include <string>
+#include <vector>
 #include <memory>
 
 namespace CTRPluginFramework
@@ -13,6 +15,7 @@ namespace CTRPluginFramework
     class PluginMenu
     {
         using CallbackPointer = void (*)(void);
+        using FrameCallback = void (*)(Time);
         using DecipherPointer = void(*)(std::string &, void *);
     public:
 
@@ -58,6 +61,11 @@ namespace CTRPluginFramework
         ******************************/
         void    Append(MenuFolder *item) const;
 
+        void    operator += (const MenuEntry *entry) const;
+        void    operator += (const MenuFolder *folder) const;
+        void    operator += (CallbackPointer callback) const;
+        void    operator -= (CallbackPointer callback) const;
+
         /*
         ** Add a callback to the menu
         ** A callback is a function which is always executed in the menu's main loop
@@ -72,22 +80,16 @@ namespace CTRPluginFramework
         int     Run(void) const;
 
         /**
-         * \brief Enable / Disable the Search button in the main menu
-         * \param isEnabled If the button must be enabled or not
+         * \brief Get all entries present at the root of the menu
+         * \return A std::vector with pointers to all MenuEntry objects
          */
-        void    SetSearchButtonState(bool isEnabled) const;
+        std::vector<MenuEntry *>    GetEntryList(void) const;
 
         /**
-         * \brief Enable / Disable the ActionReplay button in the main menu
-         * \param isEnabled If the button must be enabled or not
+         * \brief Get all folders present at the root of the menu
+         * \return A std::vector with pointers to all MenuFolder objects
          */
-        void    SetActionReplayButtonState(bool isEnabled) const;
-
-        /**
-         * \brief Enable / Disable the FreeCheats in Tools
-         * \param isEnabled If FreeCheats must be enabled or not
-         */
-        void    SetFreeCheatsState(bool isEnabled) const;
+        std::vector<MenuFolder *>   GetFolderList(void) const;
 
         /**
         * \brief Enable / Disable the HexEditor in Tools
@@ -119,7 +121,39 @@ namespace CTRPluginFramework
          */
         static PluginMenu   *GetRunningInstance(void);
 
-        
+        /**
+         * \brief If set to true, the plugin's loop will only be executed 1 per top screen's frame
+         * \param useSync Wheter to wait for the top screen's frame or not
+         */
+        void         SynchronizeWithFrame(const bool useSync);
+
+        /**
+         * \brief If a callback is set, the callback will be called - Must be set before calling Run
+         * when the menu is opened for the first time
+         */
+        CallbackPointer     OnFirstOpening;
+
+        /**
+         * \brief If a callback is set, the callback will be called  - Must be set before calling Run
+         * when the menu is opened. Ideal to put the code that refresh the UI. ;)
+         */
+        CallbackPointer     OnOpening;
+
+        /**
+         * \brief The callback set will be called at each frame rendered while the menu is open
+         * Ideal to put some UI effect
+         * The function will receive the Time elapsed since last frame
+         * Must be set before calling Run
+         */
+        FrameCallback       OnNewFrame;
+
+
+        /**
+         * \brief Returns the reference of the PluginMenu title string
+         * \return the reference of the PluginMenu title string
+         */
+        std::string &       Title();
+
 
     private:
         std::unique_ptr<PluginMenuImpl> _menu;

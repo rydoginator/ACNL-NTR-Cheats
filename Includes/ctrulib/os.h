@@ -122,6 +122,12 @@ static inline s64 osGetMemRegionFree(MemRegion region)
 }
 
 /**
+* @brief Gets the current time.
+* @return The number of milliseconds since 1st Jan 1970 00:00.
+*/
+u64 osGetTime1970(void);
+
+/**
  * @brief Gets the current time.
  * @return The number of milliseconds since 1st Jan 1900 00:00.
  */

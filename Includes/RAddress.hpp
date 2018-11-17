@@ -11,7 +11,7 @@ namespace CTRPluginFramework
     public:
 
         // Constructor
-        RAddress(T usa, T eur, T jap);
+        RAddress(T usa, T eur, T jap, T w_usa, T w_eur, T w_jap);
         ~RAddress(){}
 
         // Return the value according to the current region
@@ -21,6 +21,9 @@ namespace CTRPluginFramework
         const T Usa;
         const T Eur;
         const T Jap;
+        const T w_Usa;
+        const T w_Eur;
+        const T w_Jap;
     };
 
     using AutoRegion = RAddress<u32>;
