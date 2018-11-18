@@ -57,7 +57,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Includes\3ds.h" />
+    <ClInclude Include="Includes\AmiiboSpoof.hpp" />
     <ClInclude Include="Includes\cheats.hpp" />
+    <ClInclude Include="Includes\csvc.h" />
     <ClInclude Include="Includes\CTRPluginFramework.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Graphics.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Graphics\Color.hpp" />
@@ -74,21 +76,28 @@
     <ClInclude Include="Includes\CTRPluginFramework\System\Controller.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Directory.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\File.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\FwkSettings.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Hook.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Lock.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Mutex.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Process.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Rect.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Sleep.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\System.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\System\Task.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Time.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Touch.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\System\Vector.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Utils.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Utils\LineReader.hpp" />
+    <ClInclude Include="Includes\CTRPluginFramework\Utils\LineWriter.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Utils\StringExtensions.hpp" />
     <ClInclude Include="Includes\CTRPluginFramework\Utils\Utils.hpp" />
     <ClInclude Include="Includes\ctrulib\allocator\linear.h" />
     <ClInclude Include="Includes\ctrulib\allocator\mappable.h" />
     <ClInclude Include="Includes\ctrulib\allocator\vram.h" />
     <ClInclude Include="Includes\ctrulib\env.h" />
+    <ClInclude Include="Includes\ctrulib\errf.h" />
     <ClInclude Include="Includes\ctrulib\font.h" />
     <ClInclude Include="Includes\ctrulib\gfx.h" />
     <ClInclude Include="Includes\ctrulib\gpu\enums.h" />
@@ -102,12 +111,20 @@
     <ClInclude Include="Includes\ctrulib\os.h" />
     <ClInclude Include="Includes\ctrulib\result.h" />
     <ClInclude Include="Includes\ctrulib\sdmc.h" />
+    <ClInclude Include="Includes\ctrulib\services\ac.h" />
+    <ClInclude Include="Includes\ctrulib\services\am.h" />
     <ClInclude Include="Includes\ctrulib\services\apt.h" />
     <ClInclude Include="Includes\ctrulib\services\cfgu.h" />
     <ClInclude Include="Includes\ctrulib\services\fs.h" />
     <ClInclude Include="Includes\ctrulib\services\gspgpu.h" />
     <ClInclude Include="Includes\ctrulib\services\hid.h" />
+    <ClInclude Include="Includes\ctrulib\services\httpc.h" />
     <ClInclude Include="Includes\ctrulib\services\irrst.h" />
+    <ClInclude Include="Includes\ctrulib\services\ptmsysm.h" />
+    <ClInclude Include="Includes\ctrulib\services\soc.h" />
+    <ClInclude Include="Includes\ctrulib\services\sslc.h" />
+    <ClInclude Include="Includes\ctrulib\soc\socket.h" />
+    <ClInclude Include="Includes\ctrulib\soc\soc_common.h" />
     <ClInclude Include="Includes\ctrulib\srv.h" />
     <ClInclude Include="Includes\ctrulib\svc.h" />
     <ClInclude Include="Includes\ctrulib\synchronization.h" />
@@ -122,6 +139,7 @@
     <ClInclude Include="Includes\Helpers\MenuEntryHelpers.hpp" />
     <ClInclude Include="Includes\Helpers\QuickMenu.hpp" />
     <ClInclude Include="Includes\HoldKey.hpp" />
+    <ClInclude Include="Includes\Hook.hpp" />
     <ClInclude Include="Includes\MiniGame.hpp" />
     <ClInclude Include="Includes\Offsets.hpp" />
     <ClInclude Include="Includes\Player.hpp" />
@@ -140,6 +158,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="Sources\AmiiboSpoof.cpp" />
+    <ClCompile Include="Sources\ctrulib\httpc.c" />
+    <ClCompile Include="Sources\ctrulib\ptmsysm.c" />
+    <ClCompile Include="Sources\ctrulib\sslc.c" />
+    <ClCompile Include="Sources\Helpers\OSDMenu.cpp" />
     <ClCompile Include="Sources\OnlyPlg.cpp" />
     <ClCompile Include="Sources\AppearanceMod.cpp" />
     <ClCompile Include="Sources\callback.cpp" />
@@ -169,6 +192,9 @@
     <ClCompile Include="Sources\RAddress.cpp" />
     <ClCompile Include="Sources\TermsAndConditions.cpp" />
     <ClCompile Include="Sources\TimeTravel.cpp" />
+    <ClCompile Include="Sources\Updater.cpp" />
+    <ClCompile Include="Sources\Values.cpp" />
+    <ClCompile Include="Sources\Weather.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

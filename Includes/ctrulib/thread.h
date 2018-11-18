@@ -66,8 +66,7 @@ typedef void (*ExceptionHandler)(ERRF_ExceptionInfo* excep, CpuRegisters* regs);
  * @note Default exit code of a thread is 0.
  * @warning @ref svcExitThread should never be called from the thread, use @ref threadExit instead.
  */
-Thread threadCreate(ThreadFunc entrypoint, void *arg, void *stack, size_t stack_size, int prio, int affinity);
-
+Thread threadCreate(ThreadFunc entrypoint, void* arg, size_t stack_size, int prio, int affinity, bool detached);
 /**
  * @brief Retrieves the OS thread handle of a libctru thread.
  * @param thread libctru thread handle
@@ -94,6 +93,12 @@ void threadFree(Thread thread);
  * @param timeout_ns Timeout in nanoseconds. Pass U64_MAX if a timeout isn't desired
  */
 Result threadJoin(Thread thread, u64 timeout_ns);
+
+    /**
+ *  @brief Changes a thread's status from attached to detached.
+ *  @param thread libctru thread handle
+ */
+void threadDetach(Thread thread);
 
 /**
  * @brief Retrieves the libctru thread handle of the current thread.
