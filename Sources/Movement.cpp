@@ -107,19 +107,19 @@ namespace CTRPluginFramework
 
     void    TeleportTo(int person)
     {
-        u32     coordinatePointer = AutoRegion(USA_CAMSTOP_POINTER, EUR_CAMSTOP_POINTER, JAP_CAMSTOP_POINTER, USA_WA_CAMSTOP_POINTER, EUR_WA_CAMSTOP_POINTER, JAP_WA_CAMSTOP_POINTER)();
-        u32     coordinatebyte = AutoRegion(USA_COORDINATES_BYTE, EUR_COORDINATES_BYTE, JAP_COORDINATES_BYTE, USA_WA_COORDINATES_BYTE, EUR_WA_COORDINATES_BYTE, JAP_WA_COORDINATES_BYTE)();
-        u8      coordinateIndex;
+        u32     PlayerInfoPtr = AutoRegion(USA_PLAYERINFO_POINTER, EUR_PLAYERINFO_POINTER, JAP_PLAYERINFO_POINTER, USA_WA_PLAYERINFO_POINTER, EUR_WA_PLAYERINFO_POINTER, JAP_WA_PLAYERINFO_POINTER)();
+        u32     off_PlayerSlot = AutoRegion(USA_PLAYER_SLOT, EUR_PLAYER_SLOT, JAP_PLAYER_SLOT, USA_WA_PLAYER_SLOT, EUR_WA_PLAYER_SLOT, JAP_WA_PLAYER_SLOT)();
+        u8      currentSlot;
         u32     pointers[4];
         float   x, y, z;
 
-        Process::Read8(coordinatebyte, coordinateIndex);
+        Process::Read8(off_PlayerSlot, currentSlot);
         for (int i = 0; i < 4; i++)
         {
-            Process::Read32(coordinatePointer + i *4, pointers[i]);
+            Process::Read32(PlayerInfoPtr + i*4, pointers[i]);
         }
 
-        if ((u8)coordinateIndex == 0 || person >= (u8)coordinateIndex)
+        if ((u8)currentSlot == 0 || person >= (u8)currentSlot)
         {
             Process::ReadFloat(pointers[person + 1] + 0x14, x);
             Process::ReadFloat(pointers[person + 1] + 0x18, y);
