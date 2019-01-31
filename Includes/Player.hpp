@@ -80,15 +80,15 @@ namespace CTRPluginFramework
     private:
         Player(void);
 
-        u32             _offset;
+        u32             m_offset;
 
-        u32             _coordinatePointerBase;
-        u32             *_coordinatePointer;
-        u8              *_coordinateIndex;
-        u16             *_thought;
+        u32             m_PlayerInfoBase;
+        u32*            m_PlayerInfoPtr;
+        u8*             m_currentSlot;
+        u16*            m_thought;
 
-        static Player   *_instance;
-        static u32      _playerPointer;
+        static Player*  m_instance;
+        static u32      m_playerPointer;
     };
 }
 
