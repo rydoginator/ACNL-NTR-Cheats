@@ -71,6 +71,7 @@ namespace CTRPluginFramework
         FishCantScare = reinterpret_cast<u32>(AutoRegion(USA_FISH_CANT_BE_SCARED, EUR_FISH_CANT_BE_SCARED, JAP_FISH_CANT_BE_SCARED, USA_WA_FISH_CANT_BE_SCARED, EUR_FISH_CANT_BE_SCARED, JAP_FISH_CANT_BE_SCARED)());
         FishBiteRightAway = reinterpret_cast<u32>(AutoRegion(USA_FISH_BITE_RIGHT_AWAY, EUR_FISH_BITE_RIGHT_AWAY, JAP_FISH_BITE_RIGHT_AWAY, USA_WA_FISH_BITE_RIGHT_AWAY, EUR_FISH_BITE_RIGHT_AWAY, JAP_FISH_BITE_RIGHT_AWAY)());
         FishSetId = reinterpret_cast<u32>(AutoRegion(USA_FISH_SET_FISH_ID, EUR_FISH_SET_FISH_ID, JAP_FISH_SET_FISH_ID, USA_WA_FISH_SET_FISH_ID, EUR_FISH_SET_FISH_ID, JAP_FISH_SET_FISH_ID)());
+        GameMode = reinterpret_cast<u32 *>(AutoRegion(USA_GAMEMODE_PTR, EUR_GAMEMODE_PTR, JAP_GAMEMODE_PTR, USA_WA_GAMEMODE_PTR, EUR_WA_GAMEMODE_PTR, JAP_WA_GAMEMODE_PTR)());
     }
 
     u32     Game::GetWorldOffset(void)
@@ -126,6 +127,13 @@ namespace CTRPluginFramework
         else return (nullptr);
 
         return (reinterpret_cast<u32 *>(items + GetWorldOffset()));
+    }
+
+    u8     Game::GetMode(void)
+    {
+        u8 mode = 0;
+        Process::Read8(*GameMode + 0x1329D, mode);
+        return mode;
     }
 
     u32         Game::Building = 0;
@@ -190,4 +198,5 @@ namespace CTRPluginFramework
     u32         Game::AlwaysOpen_Katrina = 0;
     u32         Game::AlwaysOpen_Redd = 0;
     u32         Game::Internal_FurnFix = 0;
+    u32         *Game::GameMode = nullptr;
 }

@@ -24,6 +24,10 @@ namespace CTRPluginFramework
         // nullptr is returned is Room is unknown
         static u32      *GetItem(void);
 
+        // Return Game's current Mode 
+        // ret: 3=Dream Town, 2=Online Island, 1=Online, 0=Offline
+        static u8       GetMode(void);
+
         // Properties
 
         static u32      Building;   ///<
@@ -88,6 +92,7 @@ namespace CTRPluginFramework
         static u32      AlwaysOpen_Katrina; ///<ASM offset for Always Open - Katrina
         static u32      AlwaysOpen_Redd; ///<ASM offset for Always Open - Redd
         static u32      Internal_FurnFix; ///<ASM offset for Save Restore Furniture Fix; Used as the function
+        static u32      *GameMode;        ///<Pointer for getting current game mode (Offline, Online, Club T, Dream)
     };
 }
 

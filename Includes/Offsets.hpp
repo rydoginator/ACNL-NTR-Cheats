@@ -443,4 +443,11 @@
 #define     JAP_FISH_SET_FISH_ID                0x2544E8 //Same as WA
 #define     USA_WA_FISH_SET_FISH_ID             0x254010
 
+#define     USA_GAMEMODE_PTR                    0x954648
+#define     EUR_GAMEMODE_PTR                    0x953644
+#define     JAP_GAMEMODE_PTR                    0x94D644
+#define     USA_WA_GAMEMODE_PTR                 0x95362C
+#define     EUR_WA_GAMEMODE_PTR                 0x953644
+#define     JAP_WA_GAMEMODE_PTR                 0x94C644
+
 #endif
