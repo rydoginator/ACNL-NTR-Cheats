@@ -114,12 +114,12 @@
 #define     USA_NOOKLING1_PRICE_ADDR            0x330B9278
 #define     USA_NOOKLING2_PRICE_ADDR            0x330BBA98
 */
-#define     USA_ROOM_ID_ADDR                    0x94F4C5
-#define     EUR_ROOM_ID_ADDR                    0x94E4C5
-#define     JAP_ROOM_ID_ADDR                    0x9484C5
-#define     USA_WA_ROOM_ID_ADDR                 0x94E4B5
-#define     EUR_WA_ROOM_ID_ADDR                 0x94E4C5
-#define     JAP_WA_ROOM_ID_ADDR                 0x9474C5
+#define     USA_ROOM_ID_ADDR                    0x958342
+#define     EUR_ROOM_ID_ADDR                    0x95733A
+#define     JAP_ROOM_ID_ADDR                    0x95133A
+#define     USA_WA_ROOM_ID_ADDR                 0x957322
+#define     EUR_WA_ROOM_ID_ADDR                 0x95733A
+#define     JAP_WA_ROOM_ID_ADDR                 0x95033A
 
 #define     USA_NPC_ADDR                        0x204ACE
 #define     EUR_NPC_ADDR                        0x204AEE
