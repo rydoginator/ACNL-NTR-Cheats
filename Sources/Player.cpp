@@ -42,6 +42,12 @@ namespace   CTRPluginFramework
         return (m_offset);
     }
 
+    // Return current player's info offset
+    u32     Player::GetInfoOffset(void) const
+    {
+        return (*m_PlayerInfoPtr);
+    }
+
     // Update Player's infos
     void    Player::Update(void)
     {
@@ -53,7 +59,8 @@ namespace   CTRPluginFramework
 
         //Update coordinates pointer
         u8 index = *m_currentSlot;
-        m_PlayerInfoPtr = (u32 *)(m_PlayerInfoBase + index * 4);
+        m_PlayerInfoPtr = (u32 *)(m_PlayerInfoBase + (index*4));
+        Process::Read8(*m_PlayerInfoPtr + 0x1A9, m_AnimationID);
     }
 
     /*
@@ -169,6 +176,22 @@ namespace   CTRPluginFramework
     u32     Player::GetInventoryAddress(void) const
     {
         return (m_offset + 0x6BD0);
+    }
+
+    u8     Player::GetAnimationID(void) const
+    {
+        return m_AnimationID;
+    }
+
+    void     Player::SetAnimationID(u8 ID) const
+    {
+        if (*m_PlayerInfoPtr && ID <= 0xEA)
+            Process::Write8(*m_PlayerInfoPtr + 0x1A9, ID);
+    }
+
+    void     Player::SetIdleAnimation(void) const
+    {
+        SetAnimationID(6);
     }
 
     /*

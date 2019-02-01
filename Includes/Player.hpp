@@ -24,6 +24,9 @@ namespace CTRPluginFramework
         // Return current player's offset
         u32     GetOffset(void) const;
 
+        // Return current player's info offset
+        u32     GetInfoOffset(void) const;
+
         // Update current offset & ID
         void    Update(void);
 
@@ -46,6 +49,11 @@ namespace CTRPluginFramework
         int     * FindItems(int &length, u32 search) const;
         int     * GetAvaibleSlots(int &length) const;
         u32     GetInventoryAddress(void) const;
+
+        //Animation
+        u8      GetAnimationID(void) const;
+        void    SetAnimationID(u8 ID) const;
+        void    SetIdleAnimation(void) const;
 
 
         // Coordinates
@@ -86,6 +94,7 @@ namespace CTRPluginFramework
         u32*            m_PlayerInfoPtr;
         u8*             m_currentSlot;
         u16*            m_thought;
+        u8              m_AnimationID;
 
         static Player*  m_instance;
         static u32      m_playerPointer;
