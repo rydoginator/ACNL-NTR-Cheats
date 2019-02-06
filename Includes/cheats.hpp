@@ -203,7 +203,6 @@ namespace CTRPluginFramework
     void    UseAnyEmote(MenuEntry *entry);
     void    EditAnyPattern(MenuEntry *entry);
     void    UnbreakableFlowers(MenuEntry *entry);
-    void    LoadRoomID(u8 roomID);
     void    RoomPicker(MenuEntry *entry);
     void    CountrySpoofer(MenuEntry *entry);
 

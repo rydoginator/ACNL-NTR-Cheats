@@ -363,7 +363,7 @@ namespace CTRPluginFramework
                 }),
             EntryWithHotkey(new MenuEntry("Country Spoofer", CountrySpoofer, "Spoofs your country, allowing you to go to another country's island.\nOriginal cheat by Levi & Nanquitas, adapted by Slattz."),
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
-            //new MenuEntry("Room Teleporter", nullptr, RoomPicker, "Teleports your character to any room that you wannt.\nCredits to Levi for the cheat!"),
+            new MenuEntry("Room Teleporter", nullptr, RoomPicker, "Teleports your character to any room that you wannt.\nCredits to Levi for this entire cheat!"),
             new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"),
             new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Levi for this cheat"),
             new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and WemI0 for this cheat"),
