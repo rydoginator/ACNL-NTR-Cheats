@@ -20,6 +20,7 @@ IP 			:=  5
 FTP_HOST 	:=	192.168.1.
 FTP_PORT	:=	"5000"
 FTP_PATH	:=	"plugin/0004000000086400/"
+DEBUG_MODE 	= 0
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -30,12 +31,21 @@ CFLAGS		:=	-g -O2 -mword-relocations \
 				-fomit-frame-pointer -ffunction-sections -fno-strict-aliasing \
 				$(ARCH)
 
-CFLAGS		+=	$(INCLUDE) -DARM11 -D_3DS 
+CFLAGS		+=	$(INCLUDE) -DARM11 -D_3DS
+
+ifeq ($(DEBUG_MODE), 1)
+	CFLAGS += -DDEBUG
+endif
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 
 ASFLAGS		:=	-g $(ARCH)
-LDFLAGS		:= -T $(TOPDIR)/3gx.ld $(ARCH) -O2 -Wl,-Map,$(notdir $*.map),--gc-sections 
+LDFLAGS		:= -T $(TOPDIR)/3gx.ld $(ARCH) -O2 -Wl,-Map,$(notdir $*.map),--gc-sections
+3GXFLAGS 	:= -s
+
+ifeq ($(DEBUG_MODE), 0)
+	3GXFLAGS += -d
+endif
 
 LIBS		:= -lCTRPluginFramework
 
@@ -68,7 +78,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L $(dir)/lib)
 
-.PHONY: $(BUILD) clean all
+.PHONY: $(BUILD) clean all debug
 
 
 #---------------------------------------------------------------------------------
@@ -89,7 +99,9 @@ send:
 	@echo "Sending plugin over FTP"
 	@$(TOPDIR)/sendfile.py $(TARGET).3gx $(FTP_PATH) "$(FTP_HOST)$(IP)" $(FTP_PORT)
 #---------------------------------------------------------------------------------
-
+debug:
+	make DEBUG_MODE=1
+#---------------------------------------------------------------------------------
 else
 
 DEPENDS	:=	$(OFILES:.o=.d)
@@ -111,7 +123,7 @@ $(OUTPUT).elf : $(OFILES)
 #---------------------------------------------------------------------------------
 %.3gx: %.elf
 	@echo creating $(notdir $@)
-	@3gxtool.exe -s $< $(TOPDIR)/$(PLGINFO) $@ # add -d to strip debug symbols from 3gx
+	@3gxtool.exe $(3GXFLAGS) $< $(TOPDIR)/$(PLGINFO) $@
 
 -include $(DEPENDS)
 
