@@ -36,8 +36,9 @@ namespace CTRPluginFramework
                 address |= 1 << 25;
                 address |= 1 << 24;
 
+                // Deprecated, 3gx can't be along ntr
                 // Even if we exit the plugin, prevents other plugins to work
-                CloseOthersPluginsThreads(address); ///< address == 0x07000000
+                //CloseOthersPluginsThreads(address); ///< address == 0x07000000
                 abort();
             }
         }

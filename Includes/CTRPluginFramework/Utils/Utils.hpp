@@ -11,6 +11,13 @@
 
 namespace CTRPluginFramework
 {
+    enum class HexEditorView
+    {
+        Byte = 0,
+        Integer = 1,
+        Disassembler = 2
+    };
+
     class Color;
     class Utils
     {
@@ -19,7 +26,7 @@ namespace CTRPluginFramework
         /**
          * \brief Get a string formatted with format specifier from printf
          * \param fmt String to be formatted
-         * \param ... Addtionnal arguments
+         * \param ... Additional arguments
          * \return The formatted std::string
          */
         static std::string  Format(const char *fmt, ...);
@@ -49,7 +56,7 @@ namespace CTRPluginFramework
 
         /**
          * \brief Get a random number
-         * \param min Minimu value for the random number
+         * \param min Minimum value for the random number
          * \param max Maximum value for the random number
          * \return A random number between min & max
          */
@@ -77,6 +84,14 @@ namespace CTRPluginFramework
          * \return -1 if the user aborted the operation, 0 on success
          */
         static int          DirectoryPicker(std::string &out);
+
+        /**
+         * \brief Open the HexEditor menu at a specified address within the specified view
+         * \param address The address to jump to in the HexEditor
+         * \param view The type of view (can be changed when open)
+         * \return The address where the cursor was when the HexEditor is closed
+         */
+        static u32          OpenInHexEditor(u32 address, HexEditorView view = HexEditorView::Byte);
 
         /**
          * \brief Remove the last char of an utf8 string (max size 0x100)

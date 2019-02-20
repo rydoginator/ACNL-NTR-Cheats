@@ -59,6 +59,8 @@ namespace CTRPluginFramework
          * \return The total size of the .text section
          */
         static u32      GetTextSize(void);
+        static u32      GetRoDataSize(void);
+        static u32      GetRwDataSize(void);
 
         /**
          * \brief Check if the process is currently paused by the framework\n

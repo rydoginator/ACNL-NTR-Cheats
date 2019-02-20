@@ -13,12 +13,14 @@ PHDRS
 SECTIONS
 {
 	/* =========== CODE section =========== */
-	. = 0x07000100;
-	__start__ = . ;
+
+	PROVIDE(__start__ = 0x07000100);
+	. = __start__;
+
 	.text ALIGN(4) :
 	{
 		/* .init */		
-		bootloader.o (.text*)
+		KEEP( *(.crt0) )
 		KEEP( *(.init) )
 		. = ALIGN(4);
 
@@ -123,35 +125,27 @@ SECTIONS
 		KEEP (*(SORT(.dtors.*)))	
 		KEEP (*(.dtors))
 	} : data
-
-	.rel.plt ALIGN(4):
-	{
-		*(.__rel_dyn_start)
-		*(.rel*)
-		*(.rel.*)
-		*(.rel.dyn)
-		*(.__rel_dyn_end)
-	} : data
-
 	
-	.bss ALIGN(4):
-	{	*(.__bss_start)
+	__bss_start__ = .;
+	.bss ALIGN(4) :
+	{
 		*(.dynbss)
 		*(.bss)
 		*(.bss.*)
 		*(.gnu.linkonce.b*)
 		*(COMMON)
 		. = ALIGN(4);
-		*(.__bss_end)
+
 		/* Reserve space for the TLS segment of the main thread */
 		__tls_start = .;
 		. += + SIZEOF(.tdata) + SIZEOF(.tbss);
 		__tls_end = .;
 	} : data
-
+	__bss_end__ = .;
+	
 	__end__ = ABSOLUTE(.) ;
 
-		/* ==================
+	/* ==================
 	   ==== Metadata ====
 	   ================== */
 

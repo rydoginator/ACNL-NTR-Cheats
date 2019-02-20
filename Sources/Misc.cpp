@@ -97,7 +97,7 @@ namespace CTRPluginFramework
                 Process::Patch(Game::Visibility, (u8 *)&patch, 4);
                 OSD::Notify("Ghost Mode: " << Color::Green << "Enabled!");
                 active = true;
-                btn = true; 
+                btn = true;
             }
 
             else if (active)
@@ -105,7 +105,7 @@ namespace CTRPluginFramework
                 Process::Patch(Game::Visibility, (u8 *)&original, 4);
                 OSD::Notify("Ghost Mode: " << Color::Red << "Disabled!");
                 active = false;
-                btn = true;   
+                btn = true;
             }
         }
 
@@ -346,7 +346,7 @@ namespace CTRPluginFramework
             return (79);
 
         return (986); //userChoice == 20
-    }   
+    }
 
 
     void ChangeAnimal(const char* name)
@@ -412,7 +412,7 @@ namespace CTRPluginFramework
         static Hook hook;
         static Clock clock;
         u32 addr = AutoRegion(USA_BOTTOM_ASM -4, EUR_BOTTOM_ASM -4, JAP_BOTTOM_ASM -4, USA_WA_BOTTOM_ASM - 4, EUR_WA_BOTTOM_ASM - 4, JAP_WA_BOTTOM_ASM - 4)();
-        
+
         if (entry->Hotkeys[0].IsDown())
             *Game::BottomScreen = 0x3D;
 
@@ -430,7 +430,7 @@ namespace CTRPluginFramework
             clock.Restart();
             hook.Enable();
         }
-        if (hook.flags.isEnabled && clock.HasTimePassed(Seconds(1.f)))
+        if (hook.IsEnabled() && clock.HasTimePassed(Seconds(1.f)))
         {
             hook.Disable();
             clock.Restart();
@@ -456,7 +456,7 @@ namespace CTRPluginFramework
             if (*Game::Location == -1)
                 *Game::Consciousness = 0x0100;
         }
-            
+
     }
 
     void    Corrupter(MenuEntry *entry)
@@ -568,7 +568,7 @@ namespace CTRPluginFramework
         static u32 counter = 0;
         if (isFlag)
             offset += 2;
-        
+
         while (counter < 0x5000) //loop through town data
         {
             for (int i = 0; i < size; i++)
@@ -597,7 +597,7 @@ namespace CTRPluginFramework
                     int tmp = counter - (acre * 0x400);
                     coordinates[0] += (tmp / 4) % 16;
                     coordinates[1] += tmp / 0x40;
-                    
+
 
                     return (coordinates);
                 }
@@ -745,7 +745,7 @@ namespace CTRPluginFramework
         static u32 offset = Game::PatternEdit;
         static bool btn = false;
         static bool active = false;
-        
+
         if (entry->Hotkeys[0].IsDown() && !btn)
         {
             if (!active)
@@ -775,7 +775,7 @@ namespace CTRPluginFramework
         static u32 original = reinterpret_cast<u32 >(AutoRegion(0xEBF5935C, 0xEBF5976C, 0xEBF5990F, 0xEBF59616, 0xEBF5976C, 0xEBF5990F)());
         static bool btn = false;
         static bool active = false;
-        
+
         if (entry->Hotkeys[0].IsDown() && !btn)
         {
             if (!active) //Turn On

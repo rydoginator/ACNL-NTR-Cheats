@@ -25,7 +25,7 @@ namespace CTRPluginFramework
         Color(u8 red, u8 green, u8 blue, u8 alpha = 255);
 
         u32     ToU32(void) const;
-        Color   &Fade(double fading);
+        Color   &Fade(float fading);
         Color   Blend(const Color &color, BlendMode mode) const;
 
         bool    operator == (const Color &right) const;

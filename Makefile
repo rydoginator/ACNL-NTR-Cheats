@@ -24,7 +24,7 @@ FTP_PATH	:=	"plugin/0004000000086400/"
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH		:=	-march=armv6k -mlittle-endian -mtune=mpcore -mfloat-abi=hard 
+ARCH		:=	-march=armv6k -mlittle-endian -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS		:=	-g -O2 -mword-relocations \
 				-fomit-frame-pointer -ffunction-sections -fno-strict-aliasing \
@@ -35,7 +35,7 @@ CFLAGS		+=	$(INCLUDE) -DARM11 -D_3DS
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 
 ASFLAGS		:=	-g $(ARCH)
-LDFLAGS		:= -pie -T $(TOPDIR)/3ds.ld $(ARCH) -O2 -Wl,-Map,$(notdir $*.map),--gc-sections 
+LDFLAGS		:= -T $(TOPDIR)/3gx.ld $(ARCH) -O2 -Wl,-Map,$(notdir $*.map),--gc-sections 
 
 LIBS		:= -lCTRPluginFramework
 
@@ -111,9 +111,7 @@ $(OUTPUT).elf : $(OFILES)
 #---------------------------------------------------------------------------------
 %.3gx: %.elf
 	@echo creating $(notdir $@)
-	@$(OBJCOPY) -O binary $(OUTPUT).elf $(TOPDIR)/objdump -S
-	@3gxtool.exe -s $(TOPDIR)/objdump $(TOPDIR)/$(PLGINFO) $@
-	@- rm $(TOPDIR)/objdump
+	@3gxtool.exe -s $< $(TOPDIR)/$(PLGINFO) $@ # add -d to strip debug symbols from 3gx
 
 -include $(DEPENDS)
 
