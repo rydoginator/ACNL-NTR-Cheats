@@ -6,53 +6,14 @@
 #include <cstring>
 
 extern "C" vu32* hidSharedMem;
-extern "C" void APT_Hook(void);
-volatile u32    g_homeBtnWasPressed = 0;
-volatile u32    g_aptHookReturnAddress = 0;
 
 namespace CTRPluginFramework
 {
-    static Hook     g_aptHook;
-    static void     InstallAPTHook(void)
-    {
-        static const u8     aptHomeButtonPattern[] =
-        {
-            0x00, 0xF0, 0x20, 0xE3, // NOP
-            0xA1, 0x1A, 0x00, 0xEB, // BL   #0x6A8C
-            0x00, 0x00, 0x50, 0xE3, // CMP  R0, #0
-            0x00, 0xF0, 0x20, 0xE3, // NOP
-            0x03, 0x00, 0x00, 0x1A, // BNE  #0x14
-            0x00, 0x00, 0xDD, 0xE5, // LDRB R0, [SP]
-            0x01, 0x00, 0x50, 0xE3, // CMP  R0, #1
-            0x02, 0x00, 0xA0, 0x13, // MOVNE R0, #2
-            0x9E, 0x1A, 0x00, 0xEB, // BL   #0x6A80
-            0x04, 0x10, 0x94, 0xE5, // LDR  R1, [R4, #4]
-            0x00, 0x00, 0x51, 0xE3, // CMP  R1, #0
-            0x03, 0x00, 0x00, 0x0A  // BEQ  #0x14
-        };
-
-        u8 *targetAddr = memsearch((u8 *)0x00100000, aptHomeButtonPattern, Process::GetTextSize(), sizeof(aptHomeButtonPattern));
-
-        if (targetAddr)
-        {
-            u32 address = (u32)targetAddr + 4;
-
-            g_aptHookReturnAddress = address + 0x170;
-            g_aptHook.Initialize(address, (u32)APT_Hook);
-            g_aptHook.Enable();
-        }
-    }
-
     // This function is called on the plugin starts, before main
     void    PatchProcess(FwkSettings &settings)
     {
-        // Install APT Hook to block home button
-        //InstallAPTHook();
         settings.ThreadPriority = 0x39;
         settings.AllowActionReplay = false;
-
-        //if (System::IsLoaderNTR())
-        //    settings.HeapSize = 0x150000;
     }
 
     extern Region               g_region;
@@ -424,11 +385,6 @@ namespace CTRPluginFramework
         {
             Sleep(Milliseconds(1));
             QuickMenu::GetInstance()();
-            if (g_homeBtnWasPressed)
-            {
-                g_homeBtnWasPressed = 0;
-                OSD::Notify("Due to memory issues, the Home Menu button is disabled", Color::Red, Color::White);
-            }
         };
         menu += PlayerUpdateCallback;
         menu += MiniGame;

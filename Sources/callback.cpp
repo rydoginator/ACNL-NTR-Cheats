@@ -48,25 +48,8 @@ namespace CTRPluginFramework
         });
     }
 
-    void    CloseOthersPluginsThreads(u32 address);
     void    PlayerUpdateCallback(void)
     {
         Player::GetInstance()->Update();
-
-        // Code below is not needed as NTR is not supported anymore
-        /*
-        static bool     isPatched = false;
-
-        if (isPatched || !System::IsLoaderNTR())
-            return;
-
-        u32     address = 1 << 26; ///< This is just to make the re less obvious
-        address |= 1 << 25;
-        address |= 1 << 24;
-
-
-        CloseOthersPluginsThreads(address); ///< address == 0x07000000
-        isPatched = true;
-        */
     }
 }

@@ -11,7 +11,6 @@ namespace CTRPluginFramework
         SKIP_SAVE = 2
     };
 
-    void    CloseOthersPluginsThreads(u32 address);
     void    StartMsg(void) //Startup message for plugin
     {
         u32     flags = 0;
@@ -25,20 +24,12 @@ namespace CTRPluginFramework
 
             if ((MessageBox(TC, DialogType::DialogYesNo))()) //If Yes is picked in T&C MessageBox
             {
-                Sleep(Seconds(1.5f)); //Let the first MessageBox disappear to avoid a glitchy screen
+                Sleep(Seconds(2.f)); //Let the first MessageBox disappear to avoid a glitchy screen
                 flags |= SKIP_TC;
             }
             else
             {
                 MessageBox("You must accept the Terms & Conditions to use this plugin.")();
-
-                u32     address = 1 << 26; ///< This is just to make the re less obvious
-                address |= 1 << 25;
-                address |= 1 << 24;
-
-                // Deprecated, 3gx can't be along ntr
-                // Even if we exit the plugin, prevents other plugins to work
-                //CloseOthersPluginsThreads(address); ///< address == 0x07000000
                 abort();
             }
         }
