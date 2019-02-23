@@ -35,7 +35,7 @@ namespace CTRPluginFramework
 
         if (!(flags & SKIP_SAVE))
         {
-            static const std::string bkupmsg = "As 4.0+ is a rewrite of this plugin, some save breaking bugs may have been\nintroduced along the way.\n\nWould you like to backup your save file?";
+            static const std::string bkupmsg = "This plugin contains cheats that may break your save.\nWhile this is very unlikely to occur, it is still important to make a save backup.\n\nWould you like to backup your save file?";
             static const std::string bkupmsgskip = "Would you like to skip the Save Backup\nmessage in the future?";
 
             if ((MessageBox(bkupmsg, DialogType::DialogYesNo)).SetClear(ClearScreen::Both)())
