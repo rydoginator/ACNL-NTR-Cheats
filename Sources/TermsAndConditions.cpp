@@ -22,14 +22,13 @@ namespace CTRPluginFramework
         {
             static const std::string TC = "Terms & Conditions:\nThis software is provided free of charge.\nIf you have paid for this plugin,\nimmediately ask for a refund.\nThis software is provided 'as-is', without any express or implied warranty.\nIn no event will the authors be held\nliable for any damages arising from the\nuse of this software.\n\nDo you accept the Terms & Conditions?";
 
-            if ((MessageBox(TC, DialogType::DialogYesNo))()) //If Yes is picked in T&C MessageBox
+            if ((MessageBox(TC, DialogType::DialogYesNo)).SetClear(ClearScreen::Both)()) //If Yes is picked in T&C MessageBox
             {
-                Sleep(Seconds(2.f)); //Let the first MessageBox disappear to avoid a glitchy screen
                 flags |= SKIP_TC;
             }
             else
             {
-                MessageBox("You must accept the Terms & Conditions to use this plugin.")();
+                MessageBox("You must accept the Terms & Conditions to use this plugin.").SetClear(ClearScreen::Both)();
                 abort();
             }
         }
@@ -39,7 +38,7 @@ namespace CTRPluginFramework
             static const std::string bkupmsg = "As 4.0+ is a rewrite of this plugin, some save breaking bugs may have been\nintroduced along the way.\n\nWould you like to backup your save file?";
             static const std::string bkupmsgskip = "Would you like to skip the Save Backup\nmessage in the future?";
 
-            if ((MessageBox(bkupmsg, DialogType::DialogYesNo))())
+            if ((MessageBox(bkupmsg, DialogType::DialogYesNo)).SetClear(ClearScreen::Both)())
             {
                 std::string filename = "garden_plus";
                 File    file;
@@ -62,10 +61,10 @@ namespace CTRPluginFramework
                         u32 res = file.Dump(Game::Garden, 0x89B00);
 
                         if (res != 0)
-                            MessageBox(Utils::Format("Backup Save failed!\nError Code: %08X", res))();
+                            MessageBox(Utils::Format("Backup Save failed!\nError Code: %08X", res)).SetClear(ClearScreen::Both)();
                     }
                     else
-                        MessageBox("Error: Couldn't create the backup!")();
+                        MessageBox("Error: Couldn't create the backup!").SetClear(ClearScreen::Both)();
                 }
                 else
                     MessageBox("Save backup somehow already exists!")();
@@ -73,9 +72,7 @@ namespace CTRPluginFramework
                 file.Close();
             }
 
-            Sleep(Seconds(1.5f)); //Let the first MessageBox disappear to avoid a glitchy screen
-
-            if ((MessageBox(bkupmsgskip, DialogType::DialogYesNo))())
+            if ((MessageBox(bkupmsgskip, DialogType::DialogYesNo)).SetClear(ClearScreen::Both)())
                 flags |= SKIP_SAVE;
         }
         file.Rewind();
