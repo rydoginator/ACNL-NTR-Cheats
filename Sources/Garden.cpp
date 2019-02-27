@@ -36,21 +36,21 @@ namespace CTRPluginFramework
 
     void    BuildingModifier(MenuEntry *entry)
     {
-        if (*Game::Room != 0) {
-            MessageBox("RTBP Error!", "You need to be in the Town for this to work.")();
-            return;
-        }
-
+        static const StringVector pwptype = {"Normal PWPs", "Event PWPs"};
+        static const StringVector MainOptions = { "Place a Building", "Remove a Building", "Move a Building" };
+        StringVector options;
         u32 off_building = Game::Building;
         u32 counter = 0;
         u32 maxcounter = 0;
-        
-        Keyboard keyboard("Building placer\nChoose an option.");
-        StringVector options = { "Place a Building", "Remove a Building", "Move a Building" };
-        keyboard.Populate(options);
-        int userChoice = keyboard.Open();
 
-        options.clear(); //clear options in order to store the building ids in it.
+        if (*Game::Room != 0) {
+            MessageBox("RTBM Error!", "You need to be in the Town for this to work.")();
+            return;
+        }
+        
+        Keyboard keyboard("Building Modifier:\n\nChoose an option.");
+        keyboard.Populate(MainOptions);
+        int userChoice = keyboard.Open();
 
         if (userChoice == -1)
             return;
@@ -60,26 +60,25 @@ namespace CTRPluginFramework
         {
             for (const Building &pwp : buildingIDS)
                 options.push_back(pwp.Name);
-            
-            Keyboard _keyboard("Which building would you like to place?");
-            _keyboard.Populate(options);
-            int index = _keyboard.Open();
+
+            keyboard.GetMessage() = "Building Placer:\n\nWhich building would you like to place?";
+            keyboard.Populate(options);
+            int index = keyboard.Open();
 
             if (index == -1)
                 return;
 
-            u8 id = buildingIDS[index].id;
+            Building CurPWP = buildingIDS[index];
 
-            if ((id >= 0x12 && id <= 0x4B) || id > 0xFC) //Invalid Buildings
+            if ((CurPWP.id >= 0x12 && CurPWP.id <= 0x4B) || CurPWP.id > 0xFC) //Invalid Buildings
             {
-                MessageBox("Building Placer Error!", Format(RTBP_ErrorMSG, id, counter))();
+                MessageBox("Building Placer: Error!", Format(RTBP_ErrorMSG, CurPWP.id, counter))();
                 return;
             }
 
-            else if (buildingIDS[index].IsEvent) {
+            else if (CurPWP.IsEvent) { //Event Building
                 if (*(Game::BuildingSlots+1) == 2) {
-                    Sleep(Seconds(1));
-                    MessageBox("Building Placer Error!", RTBP_EventMSG)();
+                    MessageBox("Building Placer: Error!", RTBP_EventMSG)();
                     return;
                 }
 
@@ -87,73 +86,69 @@ namespace CTRPluginFramework
                 maxcounter = 58;
             }
 
-            else {
+            else { //Not Event Building
                 counter = 0;
                 maxcounter = 56;
             }
 
-            while (*(u8 *)(off_building + (counter * 4)) != 0xFC && counter < maxcounter) {
+            //Increment counter until we find a empty slot
+            while (READU8(off_building + (counter * 4)) != 0xFC && counter < maxcounter) {
                 counter++;
             }
 
             if (counter == maxcounter)
-                OSD::Notify("Every Building Slot Is Filled!");
+                OSD::Notify(Color::Red << "Every Building Slot Is Filled!");
 
             else
             {
-                Process::Write8(off_building + (counter * 4), id);
+                Process::Write8(off_building + (counter * 4), CurPWP.id);
                 Process::Write8(off_building + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
                 Process::Write8(off_building + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
-                OSD::Notify(Format("\"%s\" Placed!", buildingIDS[index].Name));
-                OSD::Notify("Reload the area to see effects.");
-                if (buildingIDS[index].IsEvent)
+                OSD::Notify(Format("\"%s\" (0x%02X) Placed!", CurPWP.Name, CurPWP.id));
+                OSD::Notify(Color::Green << "Reload the area to see effects.");
+                if (CurPWP.IsEvent)
                     ADD8((Game::BuildingSlots+1), 1); //Increment Event Building Amount
 
                 else
                     ADD8(Game::BuildingSlots, 1); ////Increment Normal Building Amount
             }
             return;
-
         }
 
-        /* Remove Bulding */
+        /* Remove Building */
         else if (userChoice == 1) //Remove
         {
             std::vector<u8> buildings;
-            std::vector<u8> x, y;
             std::vector<bool> IsEvent;
             int start = 0, end = 0;
-            StringVector pwptype = {"Normal PWPs", "Event PWPs"};
 
-            Keyboard _keyboard("Which building type would you like to remove?");
-            _keyboard.Populate(pwptype);
-            int pwptypechoice = _keyboard.Open();
+            keyboard.GetMessage() = "Building Remover:\n\nWhich building type would you like to remove?";
+            keyboard.Populate(pwptype);
+            int pwptypechoice = keyboard.Open();
 
-            if (pwptypechoice == -1) //abort
-                return;
-
-            else if (pwptypechoice == 0) {
+            if (pwptypechoice == 0) { //Normal PWPs
                 start = 0;
                 end = 56;
             }
 
-            else if (pwptypechoice == 1) {
+            else if (pwptypechoice == 1) { //Event PWPs
                 start = 56;
                 end = 58;
             }
 
+            else return; //Keyboard abort or some weird error
+
             for (int i = start; i < end; i++)
             {
-                if (READU8(off_building + (i * 4)) != 0xFC) //check if a building is not empty
-                {
-                    buildings.push_back(READU8(off_building + (i * 4)));
-                    x.push_back(READU8(off_building + (i * 4) + 2));
-                    y.push_back(READU8(off_building + (i * 4) + 3));
+                u8 BuildingID = 0xFC; //Set default to empty
+                Process::Read8(off_building + (i*4), BuildingID);
+                if (BuildingID != 0xFC) { //check if a building is not empty
+                    buildings.push_back(BuildingID);
                 }
             }
 
             if (buildings.size() == 0) { //Possible case due to event pwps not always there
-                MessageBox("Building Remover Error!", RTBP_0PWPMSG)();
+                MessageBox("Building Remover: Error!", RTBP_0PWPMSG)();
                 return;
             }
             
@@ -170,42 +165,45 @@ namespace CTRPluginFramework
                 }
             }
 
-            Keyboard __keyboard("Which building would you like to remove?");
-            __keyboard.Populate(options);
-            int index = __keyboard.Open();
+            keyboard.GetMessage() = "Building Remover:\n\nWhich building would you like to remove?";
+            keyboard.Populate(options);
+            int index = keyboard.Open();
 
-            if (index != -1) //user didn't abort
+            if (index > -1) //user didn't abort
             {
                 u8 id = buildings[index];
-                while (*(u8 *)(off_building + (start*4) + (counter * 4)) != id && counter < buildings.size() && counter+start < end)
+                const char* name = options[index].c_str();
+
+                while ((READU8(off_building + (start*4) + (counter*4)) != id) && counter < buildings.size() && counter+start < end)
                     counter++;
+
                 Process::Write8(off_building + (start*4) + (counter * 4), 0xFC);
                 Process::Write8(off_building + (start*4) + (counter * 4) + 2, 0);
                 Process::Write8(off_building + (start*4) + (counter * 4) + 3, 0);
-                OSD::Notify("Building Removed!");
-                OSD::Notify("Reload the area to see effects.");
+
+                OSD::Notify(Format("\"%s\" (0x%02X) Removed!", name, id));
+                OSD::Notify(Color::Green << "Reload the area to see effects.");
+
                 if (IsEvent[index] && *(Game::BuildingSlots+1) > 0)
-                    SUB8((Game::BuildingSlots+1), 1); //Decrement Event Building Amount
+                    Process::Write8(reinterpret_cast<u32>(Game::BuildingSlots + 1), buildings.size()-1); //Decrement Event Building Amount
 
                 else if (*Game::BuildingSlots > 0)
-                    SUB8(Game::BuildingSlots, 1); //Decrement Normal Building Amount
+                    Process::Write8(reinterpret_cast<u32>(Game::BuildingSlots), buildings.size()-1); //Decrement Event Building Amount
 
-                else MessageBox("Building Remover Error!", RTBP_0NUMMSG)();
+                else MessageBox("Building Remover: Error!", RTBP_0NUMMSG)();
             }
+            return;
         }
 
         /* Move Bulding */
         else if (userChoice == 2) //Move
         {
             std::vector<u8> buildings;
-            std::vector<u8> x, y;
-            std::vector<bool> IsEvent;
             int start = 0, end = 0;
-            StringVector pwptype = {"Normal PWPs", "Event PWPs"};
 
-            Keyboard _keyboard("Which building type would you like to remove?");
-            _keyboard.Populate(pwptype);
-            int pwptypechoice = _keyboard.Open();
+            keyboard.GetMessage() = "Building Mover:\n\nWhich building type would you like to move?";
+            keyboard.Populate(pwptype);
+            int pwptypechoice = keyboard.Open();
 
             if (pwptypechoice == -1) //abort
                 return;
@@ -222,16 +220,15 @@ namespace CTRPluginFramework
 
             for (int i = start; i < end; i++)
             {
-                if (READU8(off_building + (i * 4)) != 0xFC) //check if a building is not empty
-                {
-                    buildings.push_back(READU8(off_building + (i * 4)));
-                    x.push_back(READU8(off_building + (i * 4) + 2));
-                    y.push_back(READU8(off_building + (i * 4) + 3));
+                u8 BuildingID = 0xFC; //Set default to empty
+                Process::Read8(off_building + (i*4), BuildingID);
+                if (BuildingID != 0xFC) { //check if a building is not empty
+                    buildings.push_back(BuildingID);
                 }
             }
 
             if (buildings.size() == 0) { //Possible case due to event pwps not always there
-                MessageBox("Building Remover Error!", RTBP_0PWPMSG)();
+                MessageBox("Building Mover: Error!", RTBP_0PWPMSG)();
                 return;
             }
             
@@ -243,27 +240,29 @@ namespace CTRPluginFramework
                         continue;
 
                     options.push_back(building.Name);
-                    IsEvent.push_back(building.IsEvent);
                     break;
                 }
             }
 
-            Keyboard __keyboard("Which building would you like to remove?");
-            __keyboard.Populate(options);
-            int index = __keyboard.Open();
+            keyboard.GetMessage() = "Building Mover:\n\nWhich building would you like to move?";
+            keyboard.Populate(options);
+            int index = keyboard.Open();
 
-            if (index != -1) //user didn't abort
+            if (index > -1) //user didn't abort
             {
                 u8 id = buildings[index];
+                const char* name = options[index].c_str();
+
                 while (*(u8 *)(off_building + (start*4) + (counter * 4)) != id && counter < buildings.size() && counter+start < end)
                     counter++;
 
                 Process::Write8(off_building + (start*4) + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
                 Process::Write8(off_building + (start*4) + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
-                OSD::Notify("Building Moved to Current Position!");
-                OSD::Notify("Reload the area to see effects.");
-            }
 
+                OSD::Notify(Format("\"%s\" (0x%02X) Moved to Current Position!", name, id));
+                OSD::Notify(Color::Green << "Reload the area to see effects.");
+            }
+            return;
         }
     }
 
