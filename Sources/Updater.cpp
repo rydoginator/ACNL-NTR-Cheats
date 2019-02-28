@@ -1,16 +1,17 @@
 #include "CTRPluginFramework.hpp"
+#include "plgldr.h"
 #include <algorithm>
 #include <inttypes.h>
 #include "cheats.hpp"
 #include "3ds.h"
 
-//#define DEBUG 1
+#define PLG_URL "https://raw.githubusercontent.com/Slattz/ACNL-Multi-Cheat/master/ACNL-Multi-Cheat.3gx"
+#define PLG_VER_URL "https://raw.githubusercontent.com/Slattz/ACNL-Multi-Cheat/master/latest.txt"
 
 namespace CTRPluginFramework
 {
-    static char     *newVerString = nullptr;
-    static char     *newChangelog = nullptr;
-    static char     *urlDownload = nullptr;
+    static char *newVerString = nullptr;
+    static const char *newChangelog = "Changelog:\nThe changelog cannot be viewed from the plugin.\nVisit < https://bit.ly/ACNL_3GX >\nto see the changelog on Github.";
 
     bool    CheckVersion(const char *releaseName)
     {
@@ -75,10 +76,9 @@ namespace CTRPluginFramework
     bool http_download(const char *src, u8 **output, u32 *outSize)
     {
         Result res = 0;
-        bool fallback = false;
         httpcContext context;
         u32 responseCode = 0;
-        u32 size=0;
+        u32 downloadSize = 0;
         u32 bytesRead;
         u8 *buffer;
         char url[1024] = {0};
@@ -125,14 +125,16 @@ namespace CTRPluginFramework
             #endif
         }
 
-        if (R_SUCCEEDED(res = httpcGetDownloadSizeState(&context, NULL, &size)))
+        if (R_SUCCEEDED(res = httpcGetDownloadSizeState(&context, NULL, &downloadSize)))
         {
-            buffer = static_cast<u8*>(calloc(1, size));
+            bool fallback = false;
+            
+            buffer = static_cast<u8*>(calloc(1, downloadSize));
             if (buffer == NULL || output == NULL || outSize == NULL)
             {
                 if (buffer!=NULL) free(buffer);
 
-                buffer = static_cast<u8*>(calloc(1, 0x1000)); //fallback
+                buffer = static_cast<u8*>(calloc(1, 0x10000)); //fallback
                 if (buffer == NULL)
                     return false;
 
@@ -142,7 +144,7 @@ namespace CTRPluginFramework
             File   tempfile;
             if (fallback)
             {
-                File::Open(tempfile, "TempFile.bin", File::RWC);
+                File::Open(tempfile, "TempFile.bin", File::RWC|File::TRUNCATE);
                 if (!tempfile.IsOpen())
                 {
                     #if DEBUG
@@ -152,14 +154,14 @@ namespace CTRPluginFramework
                 }
             }
 
-            u32 left = size;
+            u32 left = downloadSize;
             while (left > 0)
             {
                 bytesRead = 0;
                 if (fallback)
-                    res = httpcDownloadData(&context, (u8 *)buffer, 0x1000, &bytesRead);
+                    res = httpcDownloadData(&context, (u8 *)buffer, 0x10000, &bytesRead);
                 else
-                    res = httpcDownloadData(&context, (u8 *)buffer, size, &bytesRead);
+                    res = httpcDownloadData(&context, (u8 *)buffer, downloadSize, &bytesRead);
 
                 if (res == (s32)HTTPC_RESULTCODE_DOWNLOADPENDING || res == 0)
                 {
@@ -176,9 +178,8 @@ namespace CTRPluginFramework
                     else if (left == 0 && !fallback)
                     {
                         *output = buffer;
-                        *outSize = size;
+                        *outSize = downloadSize;
                     }
-
                     ret = true;
                 }
 
@@ -206,39 +207,29 @@ namespace CTRPluginFramework
     {
         char            *latest = NULL;
         u32             size = 0;
-        Result          res;
-        bool            updateavailable = false;
 
-
-        if (http_download("https://raw.githubusercontent.com/rydoginator/ACNL-NTR-Cheats/master/latest.txt", (u8 **)&latest, &size)) //BootNTR Test
+        if (http_download(PLG_VER_URL, (u8 **)&latest, &size))
         {
-                Sstrncpy(newVerString, latest, size);
-                if (CheckVersion(newVerString))
-                    updateavailable = true;
+            Sstrncpy(newVerString, latest, size);
+            if (CheckVersion(newVerString))
+                return true; //if update
 
-                else return false; //if no update
-
-
-                Sstrncpy(urlDownload, "https://raw.githubusercontent.com/rydoginator/ACNL-NTR-Cheats/master/ACNL-NTR-Cheats.plg", 200);
-                Sstrncpy(newChangelog, "The changelog cannot be viewed from the plugin.\nVisit < http://bit.ly/ACPLG-Change >\nto see the changelog on Github.", 200);
-
-                return updateavailable;
+            else return false; //if no update
         }
 
-        return updateavailable;
+        return false;
     }
 
     bool installUpdate(void)
     {
-        File   file;
-
-        if (http_download(urlDownload, NULL, NULL))
+        //Having NULL for output and outSize args makes function fallback to creating TempFile.bin
+        if (http_download(PLG_URL, NULL, NULL))
         {
             #if DEBUG
                 MessageBox("Update Downloaded!")();
             #endif
 
-            if (!File::Exists("TempFile.bin"))
+            if (!File::Exists("TempFile.bin")) //has to have been made as fallback method used
             {
                 #if DEBUG
                 MessageBox("The downloaded update does not exist on file!")();
@@ -246,16 +237,12 @@ namespace CTRPluginFramework
                 return false;
             }
 
-            // TODO: fix compatibility with new format
-            /*if (System::IsLoaderNTR()) {
-                File::Remove("ACNL-NTR-Cheats.plg");
-                File::Rename("TempFile.bin", "ACNL-NTR-Cheats.plg");
-            }
+            char path[255] = {0};
+            if (R_FAILED(PLGLDR__GetPluginPath(path)))
+                return false;
 
-            else {
-                File::Remove("plugin.plg");
-                File::Rename("TempFile.bin", "plugin.plg");
-            } */
+            File::Remove(path);
+            File::Rename("TempFile.bin", path);
 
             return true;
         }
@@ -270,8 +257,6 @@ namespace CTRPluginFramework
     bool launchUpdater(void)
     {
         bool ret = false;
-        urlDownload = new char[1024];
-        newChangelog = new char[2048];
         newVerString = new char[50];
         static const std::string ProceedUpdate = "Would you like to proceed with installing the update?";
 
@@ -281,21 +266,16 @@ namespace CTRPluginFramework
                 MessageBox("Check Update: True!")();
             #endif
 
-            MessageBox(Format("New Version: %s", newVerString), Format("Changelog:\n%s", newChangelog))();
+            MessageBox(Format("New Version: %s", newVerString), newChangelog).SetClear(ClearScreen::Both)();
 
-            if (MessageBox(ProceedUpdate, DialogType::DialogYesNo)())
+            if (MessageBox(ProceedUpdate, DialogType::DialogYesNo).SetClear(ClearScreen::Both)())
                 ret = installUpdate();
         }
 
-        else
-        {
-            #if DEBUG
-                MessageBox("Check Update: False!")();
-            #endif
-        }
+        #if DEBUG
+        else MessageBox("Check Update: False!")();
+        #endif
 
-        delete[] urlDownload;
-        delete[] newChangelog;
         delete[] newVerString;
         #if DEBUG
             MessageBox(Format("launchUpdater Ret: %d", ret))();

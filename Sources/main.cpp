@@ -383,7 +383,6 @@ namespace CTRPluginFramework
 
         menu += []
         {
-            Sleep(Milliseconds(1));
             QuickMenu::GetInstance()();
         };
         menu += PlayerUpdateCallback;
