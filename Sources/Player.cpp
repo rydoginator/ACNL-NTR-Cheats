@@ -330,7 +330,7 @@ namespace   CTRPluginFramework
      */
 
     #define NAME_OFFSET 0x55A8
-    #define NAME_MAX    12 ///< 6 Characters
+    #define NAME_MAX    16 ///< 8 Characters
 
     std::string     Player::GetName(void) const
     {

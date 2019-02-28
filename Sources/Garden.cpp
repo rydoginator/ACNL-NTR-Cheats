@@ -11,24 +11,19 @@ static const char RTBP_0NUMMSG[] = "You have 0 buildings, how the hell are you r
 
 namespace CTRPluginFramework
 {
-    void    SetNameTo(MenuEntry *entry)
+    void    ChangePlayerName(MenuEntry *entry)
     {
-        Keyboard        keyboard("Name Changer\n\nEnter the name you'd like to have:");
+        Keyboard        keyboard("Player Name Changer:\n\nEnter the name you'd like to have:");
         std::string     input;
 
-        keyboard.OnInputChange([](Keyboard &keyboard, InputChangeEvent &event)
-        {
-            std::string &input = keyboard.GetInput();
-
-            if (event.type == InputChangeEvent::CharacterAdded && Utils::GetSize(input) >= 6)
-                Utils::RemoveLastChar(input);
-        });
+        keyboard.SetMaxLength(8);
         if (keyboard.Open(input) != -1)
         {
             // Ask for a second line name if the name is smaller than 6 characters
-            if (Utils::GetSize(input) < 6 
-                && (MessageBox("Do you want your name to\nappear below the bubble ?", DialogType::DialogYesNo))())
-                input.insert(0, 1, '\n');
+            if (Utils::GetSize(input) < 8) {
+                if (MessageBox("Player Name Changer:\n\nDo you want your name to\nappear under the bubble?", DialogType::DialogYesNo)())
+                    input.insert(0, 1, '\n');
+            }
 
             Player::GetInstance()->SetName(input);
         }

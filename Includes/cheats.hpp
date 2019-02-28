@@ -87,7 +87,7 @@ namespace CTRPluginFramework
     /*
     ** Garden
     ********************/
-    void    SetNameTo(MenuEntry *entry);
+    void    ChangePlayerName(MenuEntry *entry);
     void    GardenDumper(MenuEntry *entry);
     void    GardenRestore(MenuEntry *entry);
     void    ChangeNativeFruit(MenuEntry *entry);
