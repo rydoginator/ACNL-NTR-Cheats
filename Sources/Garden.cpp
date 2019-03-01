@@ -107,7 +107,7 @@ namespace CTRPluginFramework
 
             if ((CurPWP.id >= 0x12 && CurPWP.id <= 0x4B) || CurPWP.id > 0xFC) //Invalid Buildings
             {
-                MessageBox("Building Placer: Error!", Format(RTBP_ErrorMSG, CurPWP.id, counter))();
+                MessageBox("Building Placer: Error!", Utils::Format(RTBP_ErrorMSG, CurPWP.id, counter))();
                 return;
             }
 
@@ -139,7 +139,7 @@ namespace CTRPluginFramework
                 Process::Write8(off_building + (counter * 4), CurPWP.id);
                 Process::Write8(off_building + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
                 Process::Write8(off_building + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
-                OSD::Notify(Format("\"%s\" (0x%02X) Placed!", CurPWP.Name, CurPWP.id));
+                OSD::Notify(Utils::Format("\"%s\" (0x%02X) Placed!", CurPWP.Name, CurPWP.id));
                 OSD::Notify(Color::Green << "Reload the area to see effects.");
                 if (CurPWP.IsEvent)
                     ADD8((Game::BuildingSlots+1), 1); //Increment Event Building Amount
@@ -216,7 +216,7 @@ namespace CTRPluginFramework
                 Process::Write8(off_building + (start*4) + (counter * 4) + 2, 0);
                 Process::Write8(off_building + (start*4) + (counter * 4) + 3, 0);
 
-                OSD::Notify(Format("\"%s\" (0x%02X) Removed!", name, id));
+                OSD::Notify(Utils::Format("\"%s\" (0x%02X) Removed!", name, id));
                 OSD::Notify(Color::Green << "Reload the area to see effects.");
 
                 if (IsEvent[index] && *(Game::BuildingSlots+1) > 0)
@@ -294,7 +294,7 @@ namespace CTRPluginFramework
                 Process::Write8(off_building + (start*4) + (counter * 4) + 2, static_cast<u8>(Game::WorldPos->x));
                 Process::Write8(off_building + (start*4) + (counter * 4) + 3, static_cast<u8>(Game::WorldPos->y));
 
-                OSD::Notify(Format("\"%s\" (0x%02X) Moved to Current Position!", name, id));
+                OSD::Notify(Utils::Format("\"%s\" (0x%02X) Moved to Current Position!", name, id));
                 OSD::Notify(Color::Green << "Reload the area to see effects.");
             }
             return;

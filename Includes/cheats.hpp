@@ -9,7 +9,7 @@
 #include "RAddress.hpp"
 #include "Unicode.h"
 #include "Values.hpp"
-#include "Strings.hpp"
+#include "Helpers/Strings.hpp"
 
 #define MAJOR_VERSION       4
 #define MINOR_VERSION       1

@@ -110,7 +110,7 @@ namespace CTRPluginFramework
                 Process::Read32(Game::CatalogItem, item);
                 if (item != 0) { // Value is 0 before cursor is on an item
                 Player::GetInstance()->WriteInventorySlot(slots[0], item);
-                OSD::Notify(Format("Recieved Item 0x%04X", item&0xFFFF));
+                OSD::Notify(Utils::Format("Recieved Item 0x%04X", item&0xFFFF));
                 }
             }
         }

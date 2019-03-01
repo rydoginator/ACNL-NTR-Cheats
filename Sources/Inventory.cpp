@@ -54,7 +54,7 @@ namespace CTRPluginFramework
                 if(numOfEmptySlots > 0) {
                     Player::GetInstance()->WriteInventorySlot(slots[0], item);
                     Player::GetInstance()->WriteInventoryLock(slots[0], 0);
-                    OSD::Notify(Format("Duplicated Item: 0x%04X into slot: %i", static_cast<u32>(0x22e2) + item & 0xFFFF, slots[0]));
+                    OSD::Notify(Utils::Format("Duplicated Item: 0x%04X into slot: %i", static_cast<u32>(0x22e2) + item & 0xFFFF, slots[0]));
                 }  else {
                     OSD::Notify(Color::Red << "Found no empty slots to duplicate item into");
                 }

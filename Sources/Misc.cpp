@@ -733,7 +733,7 @@ namespace CTRPluginFramework
             else
             {
                 patch = 0xE3A00000 | EmoteID;
-                OSD::Notify(Format("Wrote ID: %X", EmoteID));
+                OSD::Notify(Utils::Format("Wrote ID: %X", EmoteID));
             }
 
             Process::Patch(offset, (u8 *)&patch, 4);
@@ -891,7 +891,7 @@ namespace CTRPluginFramework
                 else
                 {
                     patch = 0xE3A00000 | RegionID;
-                    OSD::Notify(Format("Set Country to: %s!", regions[index].Name));
+                    OSD::Notify(Utils::Format("Set Country to: %s!", regions[index].Name));
                 }
 
                 Process::Patch(offset, (u8 *)&patch, 4);

@@ -52,16 +52,4 @@ namespace CTRPluginFramework
         sprintf(buffer, "%016llX", (u64)x);
         return (std::string(buffer));
     }
-
-    std::string     Format(const char *fmt, ...)
-    {
-        char        buffer[0x100] = { 0 };
-        va_list     argList;
-
-        va_start(argList, fmt);
-        vsnprintf(buffer, sizeof(buffer), fmt, argList);
-        va_end(argList);
-
-        return (std::string(buffer));
-    }
 }

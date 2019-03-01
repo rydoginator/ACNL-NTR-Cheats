@@ -95,7 +95,7 @@ namespace CTRPluginFramework
                 Process::Patch(offset + 0x60, 0xE3A01001);
                 Process::Patch(offset + 0x68, 0x93A00000 | (amount & 0xFF));
                 OSD::Notify("Cherry Blossoms: " << Color::Green << "Enabled!");
-                OSD::Notify(Format("Cherry Blossoms Mod: Current amount is %d!", amount));
+                OSD::Notify(Utils::Format("Cherry Blossoms Mod: Current amount is %d!", amount));
                 active = true;
                 btn = true;
             }
@@ -120,7 +120,7 @@ namespace CTRPluginFramework
         {
             Oldamount = amount;
             Process::Patch(offset + 0x68, 0x93A00000 | (amount & 0xFF));
-            OSD::Notify(Format("Cherry Blossoms Mod: Set amount to %d!", amount));
+            OSD::Notify(Utils::Format("Cherry Blossoms Mod: Set amount to %d!", amount));
         }
     }
 
@@ -155,7 +155,7 @@ namespace CTRPluginFramework
                 Process::Patch(offset, 0xE3A00001);
                 Process::Patch(offset + 0x30, 0xE3A00000 | (amount & 0xFF));
                 OSD::Notify("Confetti: " << Color::Green << "Enabled!");
-                OSD::Notify(Format("Confetti Mod: Current amount is %d!", amount));
+                OSD::Notify(Utils::Format("Confetti Mod: Current amount is %d!", amount));
                 active = true;
                 btn = true;
             }
@@ -177,7 +177,7 @@ namespace CTRPluginFramework
         {
             Oldamount = amount;
             Process::Patch(offset + 0x30, 0xE3A00000 | (amount & 0xFF));
-            OSD::Notify(Format("Confetti Mod: Set amount to %d!", amount));
+            OSD::Notify(Utils::Format("Confetti Mod: Set amount to %d!", amount));
         }
     }
 }

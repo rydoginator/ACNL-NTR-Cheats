@@ -1,5 +1,5 @@
 #include "MiniGame.hpp"
-#include "Strings.hpp"
+#include "Helpers/Strings.hpp"
 #include "CTRPluginFramework/Graphics/OSD.hpp"
 #include "CTRPluginFramework/Menu/MessageBox.hpp"
 #include "CTRPluginFramework/Utils/Utils.hpp"
@@ -92,13 +92,13 @@ namespace CTRPluginFramework
                     if (!osd && !korok.isFound)
                     {
                         osd = true;
-                        g_DebugLine = Format("Player[%d, %d] Korok[%d, %d] Touch[%d, %d]", position->x, position->y, korok.posX, korok.posY, touchPos.x, touchPos.y);
+                        g_DebugLine = Utils::Format("Player[%d, %d] Korok[%d, %d] Touch[%d, %d]", position->x, position->y, korok.posX, korok.posY, touchPos.x, touchPos.y);
                     }
 #endif
                     if (korok.CheckPosition(position))
                     {
                         LeftToFound--;
-                        MessageBox(Format("Yahaha! You found me!\nThere are %d korok seed(s) left!", LeftToFound))();
+                        MessageBox(Utils::Format("Yahaha! You found me!\nThere are %d korok seed(s) left!", LeftToFound))();
                     }
                 }
             }
@@ -131,7 +131,7 @@ namespace CTRPluginFramework
             {
                 static const char *warning = "A game is already running.\nKorok(s) left: %d\n\nDo you want to exit the game ?";
 
-                if ((MessageBox(Format(warning, game->LeftToFound), DialogType::DialogYesNo))())
+                if ((MessageBox(Utils::Format(warning, game->LeftToFound), DialogType::DialogYesNo))())
                 {
                     // User want to exit
                     delete game;

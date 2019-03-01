@@ -26,7 +26,7 @@ namespace CTRPluginFramework
 
         major = strtol(releaseName, &next, 10); //Get major version
         #if DEBUG
-        MessageBox(Format("Major: %d, Result: %d", major, major >= MAJOR_VERSION))();
+        MessageBox(Utils::Format("Major: %d, Result: %d", major, major >= MAJOR_VERSION))();
         #endif
 
         if (next && *next == '.') //If minor version
@@ -36,7 +36,7 @@ namespace CTRPluginFramework
 
         minor = strtol(next, &next, 10); //Get minor version
         #if DEBUG
-        MessageBox(Format("Minor: %d, Result %d", minor, minor >= MINOR_VERSION))();
+        MessageBox(Utils::Format("Minor: %d, Result %d", minor, minor >= MINOR_VERSION))();
         #endif
 
         if (next && *next == '.') //If revision version
@@ -47,7 +47,7 @@ namespace CTRPluginFramework
             next++;
             beta_ver = strtol(next, NULL, 10); //Get beta version
             #if DEBUG
-            MessageBox(Format("Beta 1: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION))();
+            MessageBox(Utils::Format("Beta 1: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION))();
             #endif
             return major >= MAJOR_VERSION && minor >= MINOR_VERSION && beta_ver > BETA_VERSION;
         }
@@ -57,7 +57,7 @@ namespace CTRPluginFramework
 
         revision = strtol(next,  &next, 10); //Get revision version
         #if DEBUG
-        MessageBox(Format("Revision: %d, Result %d", revision, revision >= REVISION_VERSION))();
+        MessageBox(Utils::Format("Revision: %d, Result %d", revision, revision >= REVISION_VERSION))();
         #endif
         if (next && *next == 'B') //If there's a beta ver after revision ver
             next++;
@@ -67,7 +67,7 @@ namespace CTRPluginFramework
 
         beta_ver = strtol(next, NULL, 10); //Get beta version
         #if DEBUG
-        MessageBox(Format("Beta 2: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION))();
+        MessageBox(Utils::Format("Beta 2: %d, Result %d", beta_ver, beta_ver >= BETA_VERSION))();
         #endif
         return major >= MAJOR_VERSION && minor >= MINOR_VERSION
                 && revision >= REVISION_VERSION && beta_ver > BETA_VERSION;
@@ -111,7 +111,7 @@ namespace CTRPluginFramework
                     if (responseCode != 200)
                     {
                     #if DEBUG
-                        MessageBox(Format("URL returned status: %" PRId32 " ", responseCode))();
+                        MessageBox(Utils::Format("URL returned status: %" PRId32 " ", responseCode))();
                     #endif
                         httpcCloseContext(&context);
                         return false;
@@ -186,7 +186,7 @@ namespace CTRPluginFramework
                 else
                 {
                     #if DEBUG
-                        MessageBox(Format("Download Failed!\nLeft to download: %d", left))();
+                        MessageBox(Utils::Format("Download Failed!\nLeft to download: %d", left))();
                     #endif
 
                     ret = false;
@@ -266,7 +266,7 @@ namespace CTRPluginFramework
                 MessageBox("Check Update: True!")();
             #endif
 
-            MessageBox(Format("New Version: %s", newVerString), newChangelog).SetClear(ClearScreen::Both)();
+            MessageBox(Utils::Format("New Version: %s", newVerString), newChangelog).SetClear(ClearScreen::Both)();
 
             if (MessageBox(ProceedUpdate, DialogType::DialogYesNo).SetClear(ClearScreen::Both)())
                 ret = installUpdate();
@@ -278,7 +278,7 @@ namespace CTRPluginFramework
 
         delete[] newVerString;
         #if DEBUG
-            MessageBox(Format("launchUpdater Ret: %d", ret))();
+            MessageBox(Utils::Format("launchUpdater Ret: %d", ret))();
         #endif
         return ret;
     }

@@ -53,7 +53,7 @@ namespace CTRPluginFramework
             {
                 findReplacer.AddPair(search, replace);
                 findReplacer();
-                OSD::Notify(Format("0x%04X replaced with 0x%04X", search, replace));
+                OSD::Notify(Utils::Format("0x%04X replaced with 0x%04X", search, replace));
             }
         }
     }
@@ -148,7 +148,7 @@ namespace CTRPluginFramework
             if (valid && address != nullptr)
             {
                 *address = itemID;
-                OSD::Notify(Format("0x%04X set on ground", itemID));
+                OSD::Notify(Utils::Format("0x%04X set on ground", itemID));
             }
         }
     }
@@ -205,7 +205,7 @@ namespace CTRPluginFramework
 
             patch += fishId - 0x22E2 + 1; //We can just add our value straight to the patch bytes as long as its <= 75. We need to subtract the min from it to get the index instead
             Process::Patch(offset, patch);
-            OSD::Notify(Format("All Fish Set To: 0x%04X", fishId & 0xFFFF));
+            OSD::Notify(Utils::Format("All Fish Set To: 0x%04X", fishId & 0xFFFF));
 
 
             active = true;
