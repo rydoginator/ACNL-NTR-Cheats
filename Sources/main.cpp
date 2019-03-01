@@ -162,6 +162,7 @@ namespace CTRPluginFramework
         menu += new MenuFolder("Save File Codes", std::vector<MenuEntry *>(
         {
             new MenuEntry("Change Player Name", nullptr, ChangePlayerName),
+            new MenuEntry("Change Town Name", nullptr, ChangeTownName),
             new MenuEntry("Save Dumper", nullptr, GardenDumper, "Select the keyboard icon to start dumping your save file."),
             new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"),
             new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to WemI0 and Scotline"),

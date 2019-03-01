@@ -1,5 +1,6 @@
 #include "cheats.hpp"
 #include "CTRPluginFramework/Utils/Utils.hpp"
+#include "ctrulib/util/utf.h"
 
 extern "C" void FixSaveFurn(void);
 u32 g_FixSaveFurnAddr = 0;
@@ -19,13 +20,52 @@ namespace CTRPluginFramework
         keyboard.SetMaxLength(8);
         if (keyboard.Open(input) != -1)
         {
-            // Ask for a second line name if the name is smaller than 6 characters
+            // Ask for a second line name if the name is smaller than 8 characters
             if (Utils::GetSize(input) < 8) {
-                if (MessageBox("Player Name Changer:\n\nDo you want your name to\nappear under the bubble?", DialogType::DialogYesNo)())
+                if (MessageBox("Player Name Changer:\n\nDo you want your name to\nappear on the next line?", DialogType::DialogYesNo)())
                     input.insert(0, 1, '\n');
             }
 
             Player::GetInstance()->SetName(input);
+        }
+    }
+
+    #define TOWN_NAME_OFFSET 0x0621BA
+    #define TOWN_NAME_MAX    8
+
+    void    ChangeTownName(MenuEntry *entry)
+    {
+        u16 newname[TOWN_NAME_MAX + 1] = {0};
+        u16 oldname[TOWN_NAME_MAX + 1] = {0};
+
+        Keyboard        keyboard("Town Name Changer:\n\nEnter the name you'd like to have:");
+        std::string     input;
+
+        keyboard.SetMaxLength(8);
+        if (keyboard.Open(input) != -1)
+        {
+            // Ask for a second line name if the name is smaller than 8 characters
+            if (Utils::GetSize(input) < 8) {
+                if (MessageBox("Town Name Changer:\n\nDo you want the town name to\nappear on the next line?", DialogType::DialogYesNo)())
+                    input.insert(0, 1, '\n');
+            }
+
+            Process::CopyMemory(oldname, reinterpret_cast<void *>(Game::Garden+TOWN_NAME_OFFSET), TOWN_NAME_MAX*2); //*2 as u16 characters
+
+            // Convert utf8 to utf16
+            if (R_FAILED(utf8_to_utf16(newname, reinterpret_cast<const u8 *>(input.data()), TOWN_NAME_MAX)))
+                return;
+
+            u32 offset = Game::Garden; //Offset where Save starts in ram
+            u32 size = 0x89B00; //Save Size
+            const std::vector<u16> vec(std::begin(oldname), std::end(oldname));
+            
+            while (offset != 0) {
+                offset = Utils::Search<u16>(offset, size, vec);
+                if (offset == 0) return;
+                size = 0x89B00 - (offset-Game::Garden); //reduce size each time
+                Process::CopyMemory(reinterpret_cast<void *>(offset), newname, TOWN_NAME_MAX*2); //*2 as u16 characters
+            }
         }
     }
 
