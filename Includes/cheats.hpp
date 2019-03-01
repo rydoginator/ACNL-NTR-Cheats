@@ -110,6 +110,7 @@ namespace CTRPluginFramework
     void    MoonJump(MenuEntry *entry);
     void    TeleportTo(int person);
     void    PWPTeleport(MenuEntry *entry);
+    void    RoomPicker(MenuEntry *entry);
 
     /*
     ** Inventory
@@ -204,7 +205,6 @@ namespace CTRPluginFramework
     void    UseAnyEmote(MenuEntry *entry);
     void    EditAnyPattern(MenuEntry *entry);
     void    UnbreakableFlowers(MenuEntry *entry);
-    void    RoomPicker(MenuEntry *entry);
     void    CountrySpoofer(MenuEntry *entry);
 
     

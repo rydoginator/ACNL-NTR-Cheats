@@ -193,7 +193,7 @@ const Building buildingIDS[178] =
 	{ 0x55, "Zen Train Station", false}
 };
 
-const IDs rooms[95] =
+const IDs rooms[92] =
 {
     { 0x00, "Town" },
     { 0x01, "Main Street" },
@@ -253,8 +253,8 @@ const IDs rooms[95] =
     { 0x3E, "GracieGracie (T&T Emporium - Floor 2)" },
     { 0x3F, "Able Sisters - Mable & Sable (Clothing)" },
     { 0x40, "Able Sisters - Labelle (Accessories)" },
-    { 0x41, "Nook's Homes (House Exteriors)" },
-    { 0x42, "Kick's (Shoe Shop)" },
+    { 0x41, "Nook's Homes" },
+    { 0x42, "Kick's Shoe Shop" },
     { 0x43, "Gardening Store (Initial)" },
     { 0x44, "Gardening Store (Joint w/ TIY)" },
     { 0x45, "Club LOL" },
@@ -281,15 +281,12 @@ const IDs rooms[95] =
     { 0x5A, "Post Office" },
     { 0x5B, "Dream Suite" },
     { 0x5C, "Photo Booth" },
-    { 0x63, "Isabelle Spotlight/ Load Town Area" },
     { 0x67, "Island Shack" },
     { 0x68, "Island" },
     { 0x9F, "Campground - West" },
     { 0xA0, "Campground - East" },
     { 0xA1, "Special Character RV" },
-    { 0xA2, "Villager RV" },
-    { 0xA3, "Move Furniture Like AC:HHD Tutorial (w/ Lottie)" },
-    { 0xA4, "Amiibo Camera" }
+    { 0xA2, "Villager RV" }
 };
 
 const IDs regions[15] =

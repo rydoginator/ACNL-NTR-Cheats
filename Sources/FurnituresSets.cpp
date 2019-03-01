@@ -381,5 +381,7 @@ namespace CTRPluginFramework
 
         if (userChoice != -1)
             GetSet(userChoice);
+
+        OSD::Notify(Utils::Format("Got %s Set!", list[userChoice]));
     }
 }

@@ -799,60 +799,6 @@ namespace CTRPluginFramework
             btn = false;
     }
 
-    void RoomPicker(MenuEntry *entry)
-    {
-        static const u32 offset = AutoRegion(0x9513D3, 0x9503CF, 0x94A3CF, 0x9503C3, 0x9503CF, 0x9493CF)();
-        static const u32 offset2 = AutoRegion(0xAC298C, 0xAC198C, 0xABB98C, 0xAC198C, 0xAC198C, 0xABA98C)();
-        static const u32 InfoOffsetCheck = AutoRegion(0x330773BC, TO_EUR(0x330773BC), TO_JAP(0x330773BC), TO_WA_USA(0x330773BC), TO_WA_EUR(0x330773BC), TO_WA_JAP(0x330773BC))();
-        u32 InfoOffset = Player::GetInstance()->GetInfoOffset();
-        u8 AnimID = Player::GetInstance()->GetAnimationID();
-        u8 banner = 0;
-
-        if (InfoOffset != InfoOffsetCheck && InfoOffset != InfoOffsetCheck+0x12C) {
-            OSD::Notify("You currently cannot warp!");
-            return;
-        }
-
-        if (Game::GetMode() == 2) { //If on Club Tortimer
-            OSD::Notify("You cannot warp while at Club Tortimer!");
-            return;
-        }
-
-        //Check if on tour, in HHA, saving, formatting, or loading or prologue
-        if ((*Game::Room >= 0x5F && *Game::Room <= 0x62) || (*Game::Room >= 0x69 && *Game::Room <= 0x9E)) {
-            OSD::Notify("You cannot warp from this area!");
-            return;
-        }
-
-        Process::Read8(offset+0x32E, banner); //check if on-screen banner is present
-        if (banner != 0x28) {
-            OSD::Notify("You cannot warp when a banner is present!");
-            return;
-        }
-
-        if (AnimID == 6 || AnimID == 0xD || AnimID == 0x1F || AnimID == 0x20) //check if idle (also idle when swimming)
-        {
-            StringVector options;
-            for (const IDs &option : rooms)
-                options.push_back(option.Name);
-            Keyboard keyboard("Which room would you like to warp to?");
-            keyboard.Populate(options);
-            int index = keyboard.Open();
-            if (index == -1) return;
-
-            Process::Write8(offset, 0x01);
-            Process::Write16(offset + 1, 0x0001);
-            *Game::Room = rooms[index].id;
-            Process::Write16(offset2, 0x0001);
-            return;
-        }
-
-        else {
-            OSD::Notify("Please be still before trying to warp!");
-            return;
-        }
-    }
-
     void CountrySpoofer(MenuEntry *entry)
     {
         static u32 offset = Game::CountryASM;
