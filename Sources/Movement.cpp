@@ -306,7 +306,7 @@ namespace CTRPluginFramework
                 StringVector options;
                 for (const IDs &option : rooms)
                     options.push_back(option.Name);
-                Keyboard keyboard("Which room would you like to warp to?\n\nNote:\nSome rooms may crash under certain\ncircumstances, which are out of\nour control and due to your save.\nIf your character appears fully black and you can't move, you the faint cheat.");
+                Keyboard keyboard("Which room would you like to warp to?\n\nNote:\nSome rooms may crash under certain\ncircumstances, which are out of\nour control and due to your save.\nIf your character appears fully black and\nyou can't move, use the faint cheat.");
                 keyboard.Populate(options);
                 int index = keyboard.Open();
                 if (index == -1) return;
