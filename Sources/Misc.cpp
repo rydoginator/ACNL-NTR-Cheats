@@ -451,12 +451,18 @@ namespace CTRPluginFramework
 
     void    Faint(MenuEntry *entry)
     {
-        if (entry->Hotkeys[0].IsDown())
+        static bool btn = false;
+        if (entry->Hotkeys[0].IsDown() && !btn)
         {
-            if (*Game::Location == -1)
+            btn = true;
+            if (*Game::Location == -1) {
+                Player::GetInstance()->SetAnimationID(6); //Set to idle anim
                 *Game::Consciousness = 0x0100;
+            }
         }
 
+        if (!entry->Hotkeys[0].IsDown())
+            btn = false;
     }
 
     void    Corrupter(MenuEntry *entry)
