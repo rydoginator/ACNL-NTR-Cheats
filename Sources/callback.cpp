@@ -16,7 +16,7 @@ namespace CTRPluginFramework
 
         options.push_back(new QuickMenuEntry("12 PM", (ArgMethod)SetTimeTo, (void *)12));
         for (int i = 13; i < 24; i++)
-            options.push_back(new QuickMenuEntry(Utils::Format("%d PM", i), (ArgMethod)SetTimeTo, (void *)i));
+            options.push_back(new QuickMenuEntry(Utils::Format("%d PM", i - 12), (ArgMethod)SetTimeTo, (void *)i));
 
         QuickMenu::GetInstance() += new QuickMenuSubMenu("Set Time to...", options);
     }
