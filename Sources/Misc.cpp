@@ -634,17 +634,15 @@ namespace CTRPluginFramework
         if (execution)
         {
             coordinates = FindItemCoordinates(weeds, false);
-#ifdef DEBUG
-            OSD::Notify(Utils::Format("coords: (%i,%i)", coordinates[0], coordinates[1]));
-#endif
             if (coordinates[0] + coordinates[1] == 0)
             {
                 execution == false;
                 return;
             }
-            Sleep(Seconds(1));
+            //Sleep(Seconds(1));
             Player::GetInstance()->SetFloatCoordinates(coordinates[0] + 0.1f, coordinates[1] + 0.1f);
             Player::GetInstance()->SetRotation(0xEB00000);
+			Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
             Controller::InjectKey(Key::Y);
         }
     }
