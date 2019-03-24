@@ -286,6 +286,27 @@ namespace CTRPluginFramework
                     new MenuEntry("Fish Bite Right Away", FishAlwaysBiteRightAway, "The fish will bite on the first bite every time. Special thanks to Natfoth"),
                     new MenuEntry("Fish Id Editor", FishIdEditor, FishIdEditorSetter, "Sets the Id of the fish that spawn. Fish will still only spawn in their correct areas. Only works for newly spawned fish. Special thanks to Natfoth"),
                 }));
+			*folder += new MenuFolder("Weather/Effect Codes", std::vector<MenuEntry *>(
+				{
+					EntryWithHotkey(new MenuEntry("Weather Modifier", WeatherMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+						{
+						Hotkey(Key::Y | Key::DPadLeft, "Change Button Activator"),
+						Hotkey(Key::Y | Key::DPadUp, "Change Increment Hotkey"),
+						Hotkey(Key::Y | Key::DPadDown, "Change Decrement Hotkey")
+						}),
+					EntryWithHotkey(new MenuEntry("Confetti Mod", ConfettiMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+						{
+						Hotkey(Key::L | Key::DPadLeft, "Change Button Activator"),
+						Hotkey(Key::L | Key::DPadUp, "Change Increment Hotkey"),
+						Hotkey(Key::L | Key::DPadDown, "Change Decrement Hotkey")
+						}),
+					EntryWithHotkey(new MenuEntry("Cherry Blossom Mod", CherryBlossomMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
+						{
+						Hotkey(Key::R | Key::DPadLeft, "Change Button Activator"),
+						Hotkey(Key::R | Key::DPadUp, "Change Increment Hotkey"),
+						Hotkey(Key::R | Key::DPadDown, "Change Decrement Hotkey")
+						}),
+				}));
             *folder += EntryWithHotkey(new MenuEntry("Real Time World Edit", WorldEdit, "Press the corresponding hotkeys to use the cheat,"),
             { Hotkey(Key::R | Key::DPadLeft, "Open the keyboard"), Hotkey(Key::R | Key::DPadUp, "Store the item that you're standing on"),
                 Hotkey(Key::R | Key::DPadDown, "Write the item to where your player is standing")}),
@@ -358,25 +379,7 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code.\nOriginal cheat by 0ICED0, adapted by Slattz."),
                 {Hotkey(Key::R | Key::B, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable.\nCredits to Slattz for the cheat"),
-                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
-            EntryWithHotkey(new MenuEntry("Weather Modifier", WeatherMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
-                {
-                Hotkey(Key::Y | Key::DPadLeft, "Change Button Activator"),
-                Hotkey(Key::Y | Key::DPadUp, "Change Increment Hotkey"),
-                Hotkey(Key::Y | Key::DPadDown, "Change Decrement Hotkey")
-                }),
-            EntryWithHotkey(new MenuEntry("Confetti Mod", ConfettiMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
-                {
-                Hotkey(Key::L | Key::DPadLeft, "Change Button Activator"),
-                Hotkey(Key::L | Key::DPadUp, "Change Increment Hotkey"),
-                Hotkey(Key::L | Key::DPadDown, "Change Decrement Hotkey")
-                }),
-            EntryWithHotkey(new MenuEntry("Cherry Blossom Mod", CherryBlossomMod, "Press the hotkey to enable/disable.\nNOTE: Only you will see the changes."),
-                {
-                Hotkey(Key::R | Key::DPadLeft, "Change Button Activator"),
-                Hotkey(Key::R | Key::DPadUp, "Change Increment Hotkey"),
-                Hotkey(Key::R | Key::DPadDown, "Change Decrement Hotkey")
-                })
+                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")})
         }));
 
         /*
