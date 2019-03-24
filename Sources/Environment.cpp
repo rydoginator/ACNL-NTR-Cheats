@@ -153,6 +153,86 @@ namespace CTRPluginFramework
         }
     }
 
+	const std::vector<std::string> Fish =
+	{
+		"bitterling",
+		"pale chub",
+		"crucian carp",
+		"dace",
+		"barbel steed",
+		"carp",
+		"koi",
+		"goldfish",
+		"pop-eyed goldfish",
+		"killifish",
+		"crawfish",
+		"soft-shelled turtle",
+		"tadpole",
+		"frog",
+		"freshwater goby",
+		"loach",
+		"catfish",
+		"eel",
+		"giant snakehead",
+		"bluegill",
+		"yellow perch",
+		"black bass",
+		"pike",
+		"pond smelt",
+		"sweetfish",
+		"cherry salmon",
+		"char",
+		"rainbow trout",
+		"stringfish",
+		"salmon",
+		"king salmon",
+		"mitten crab",
+		"guppy",
+		"nibble fish",
+		"angelfish",
+		"neon tetra",
+		"piranha",
+		"arowana",
+		"dorado",
+		"gar",
+		"arapaima",
+		"saddled bichir",
+		"sea butterfly",
+		"sea horse",
+		"clown fish",
+		"surgeonfish",
+		"butterfly fish",
+		"Napoleonfish",
+		"zebra turkeyfish",
+		"blowfish",
+		"puffer fish",
+		"horse mackerel",
+		"barred knifejaw",
+		"sea bass",
+		"red snapper",
+		"dab",
+		"olive flounder",
+		"squid",
+		"moray eel",
+		"ribbon eel",
+		"football fish",
+		"tuna",
+		"blue marlin",
+		"giant trevally",
+		"ray",
+		"ocean sunfish",
+		"hammerhead shark",
+		"shark",
+		"saw shark",
+		"whale shark",
+		"oarfish",
+		"coelacanth",
+		"empty can",
+		"boot",
+		"old tire",
+		"water egg",
+	};
+
     static bool FishIdRefresh = false;
     void    FishIdEditorSetter(MenuEntry *entry)
     {
@@ -164,12 +244,12 @@ namespace CTRPluginFramework
         {
             u32 input = *static_cast<const u32 *>(in);
 
-            if (input >= 0x22E2 && input <= 0x232C) {
+            if (input >= 0x22E1 && input <= 0x232C) {
                 FishIdRefresh = true;
                 return (true);
             }
 
-            error = "The value must be between 0x22E2 - 0x232C";
+            error = "The value must be between 0x22E1 - 0x232C";
             return (false);
         });
         if (keyboard.Open(*value) != -1)
@@ -180,7 +260,7 @@ namespace CTRPluginFramework
             if (pos != std::string::npos)
             {
                 name.erase(pos);
-                name += Utils::Format("(%d)", *value);
+				name += "(" + Fish[*value - 0x22E1] + ")";
             }
         }
     }
@@ -195,8 +275,8 @@ namespace CTRPluginFramework
         if ((entry->WasJustActivated() && !active) || FishIdRefresh)
         {
             u32 fishId = *GetArg<u32>(entry);
-            if (fishId < 0x22E2) {
-                fishId = 0x22E2; // Failsafe as to not break the fish functions
+            if (fishId < 0x22E1) {
+                fishId = 0x22E1; // Failsafe as to not break the fish functions
             }
             else if (fishId > 0x232C) {
                 fishId = 0x232C; // Failsafe as to not break the fish functions
@@ -205,7 +285,7 @@ namespace CTRPluginFramework
 
             patch += fishId - 0x22E2 + 1; //We can just add our value straight to the patch bytes as long as its <= 75. We need to subtract the min from it to get the index instead
             Process::Patch(offset, patch);
-            OSD::Notify(Utils::Format("All Fish Set To: 0x%04X", fishId & 0xFFFF));
+			OSD::Notify("All fish set to: " + Fish[(fishId & 0xFFFF) - 0x22E1]);
 
 
             active = true;

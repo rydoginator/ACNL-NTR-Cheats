@@ -284,7 +284,7 @@ namespace CTRPluginFramework
                 {
                     new MenuEntry("Fish Cant Be Scared", FishCantBeScared, "Prevents fish from scaring when the player is running. Special thanks to Natfoth"),
                     new MenuEntry("Fish Bite Right Away", FishAlwaysBiteRightAway, "The fish will bite on the first bite every time. Special thanks to Natfoth"),
-                    new MenuEntry("Fish Id Editor", FishIdEditor, FishIdEditorSetter, "Sets the Id of the fish that spawn. Fish will still only spawn in their correct areas. Only works for newly spawned fish. Special thanks to Natfoth"),
+                    new MenuEntry("Fish ID Editor(bitterling)", FishIdEditor, FishIdEditorSetter, "Sets the Id of the fish that spawn. Fish will still only spawn in their correct areas. Only works for newly spawned fish. Special thanks to Natfoth"),
                 }));
 			*folder += new MenuFolder("Weather/Effect Codes", std::vector<MenuEntry *>(
 				{
