@@ -33,36 +33,44 @@ namespace CTRPluginFramework
 
     void    TouchCoordinates(MenuEntry *entry)
     {
-        static UIntRect     mapArea(70, 50, 175, 155);
+		static UIntRect     mapAreaTown(70, 50, 175, 155);
+		static UIntRect		mapAreaMain(15, 40, 315, 200);
+
 
         UIntVector  touchPos = Touch::GetPosition();
         Coordinates position = Player::GetInstance()->GetCoordinates();
+		OSD::Run([](const Screen &screen)
+		{
+			Coordinates position = Player::GetInstance()->GetCoordinates();
+			if (!screen.IsTop)
+				return false;
+			screen.Draw(Utils::Format("X: %f Y: %f", position.x, position.z), 10, 10);
+			return true;
+		});
 
-        if (mapArea.Contains(touchPos))
-        {
-            if (*Game::MapBool == 1)
-            {
-                switch (*Game::Room)
-                { //todo:add more room ids
-                    case 0:
-                        goto MainLand;
-                        break;
-                    case 0x69:
-                        goto MainLand;
-                        break;
-                    default:
-                        break;
-
-                }//todo: find data for island and main street
-                return;
-            MainLand:
-                FloatVector  fPos(touchPos);
-
-                position.x = (fPos.x - 77.f) * 14.94f + 526.f;
-                position.z = (fPos.y - 50.f) * 15.21f + 526.f;
-                Player::GetInstance()->SetCoordinates(position);
-            }
-        }
+		if (*Game::MapBool == 1) // check if the map is visible
+		{
+			u8 roomID = *Game::Room;
+			FloatVector  fPos(touchPos);
+			if (roomID == 0 || roomID == 0x69)
+			{
+				if (mapAreaTown.Contains(touchPos))
+				{
+					position.x = (fPos.x - 77.f) * 14.94f + 526.f;
+					position.z = (fPos.y - 50.f) * 15.21f + 526.f;
+					Player::GetInstance()->SetCoordinates(position);
+				}
+			}
+			else if (roomID == 1)
+			{
+				if (mapAreaMain.Contains(touchPos))
+				{
+					position.x = (fPos.x - 15.f) * 6.5f + 150.f;
+					position.z = (fPos.y - 40.f) * 6.5f - 117.f;
+					Player::GetInstance()->SetCoordinates(position);
+				}
+			}
+		}
     }
 
     static  Coordinates     g_savedPos[3] = { 0 };

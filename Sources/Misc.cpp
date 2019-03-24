@@ -465,87 +465,98 @@ namespace CTRPluginFramework
             btn = false;
     }
 
-    void    Corrupter(MenuEntry *entry)
-    {
-        u32 address = 0x30000000;
-        float value;
-        int     *corruption = GetArg<int>(entry);
+	void    Corrupter(MenuEntry *entry)
+	{
+		u32 address = 0x30000000;
+		float value;
+		int     *corruption = GetArg<int>(entry);
+		static bool execution = true;
+		if (entry->WasJustActivated())
+			execution = true;
+		while (Process::ReadFloat(address, value) && execution)
+		{
+			Controller::Update();
+			if (Controller::IsKeyDown(Key::Select))
+			{
+				execution = false;
+				OSD::Notify("Cheat disabled.\nReenable the cheat for it to work again.");
+				return;
+			}
+			switch (*corruption)
+			{
 
-        while (Process::ReadFloat(address, value))
-        {
-            switch (*corruption)
-            {
-                case 0:
-                    if (value == 1.0f)
-                    {
-                        int rng = Utils::Random(0, 10);
-                        if (rng == 5)
-                        {
-                            rng = Utils::Random(1, 2);
-                            if (rng = 1)
-                                Process::WriteFloat(address, value + 0.1f);
-                            else
-                                Process::WriteFloat(address, value - 0.1f);
-                        }
-                    }
-                    break;
-                case 1:
-                    if (value >= 1.0f && value < 2.0f)
-                    {
-                        int rng = Utils::Random(0, 10);
-                        if (rng == 5)
-                        {
-                            rng = Utils::Random(1, 2);
-                            if (rng = 1)
-                                Process::WriteFloat(address, value + 0.1f);
-                            else
-                                Process::WriteFloat(address, value - 0.1f);
-                        }
-                    }
-                    break;
-                case 2:
-                    if (value >= 1.0f && value < 2.0f)
-                    {
-                        int rng = Utils::Random(0, 10);
-                        if (rng != 5)
-                        {
-                            rng = Utils::Random(1, 2);
-                            if (rng = 1)
-                                Process::WriteFloat(address, value + 0.1f);
-                            else
-                                Process::WriteFloat(address, value - 0.1f);
-                        }
-                    }
-                    break;
-                case 3:
-                    if (value >= 1.0f && value < 2.0f)
-                    {
-                        int rng = Utils::Random(1, 2);
-                        if (rng = 1)
-                            Process::WriteFloat(address, value + 0.1f);
-                        else
-                            Process::WriteFloat(address, value - 0.1f);
-                    }
-                    break;
+				case 0:
+					if (value == 1.0f)
+					{
+						int rng = Utils::Random(0, 10);
+						if (rng == 5)
+						{
+							rng = Utils::Random(1, 2);
+							if (rng = 1)
+								Process::WriteFloat(address, value + 0.1f);
+							else
+								Process::WriteFloat(address, value - 0.1f);
+						}
+					}
+					break;
+				case 1:
+					if (value >= 1.0f && value < 2.0f)
+					{
+						int rng = Utils::Random(0, 10);
+						if (rng == 5)
+						{
+							rng = Utils::Random(1, 2);
+							if (rng = 1)
+								Process::WriteFloat(address, value + 0.1f);
+							else
+								Process::WriteFloat(address, value - 0.1f);
+						}
+					}
+					break;
+				case 2:
+					if (value >= 1.0f && value < 2.0f)
+					{
+						int rng = Utils::Random(0, 10);
+						if (rng != 5)
+						{
+							rng = Utils::Random(1, 2);
+							if (rng = 1)
+								Process::WriteFloat(address, value + 0.1f);
+							else
+								Process::WriteFloat(address, value - 0.1f);
+						}
+					}
+					break;
+				case 3:
+					if (value >= 1.0f && value < 2.0f)
+					{
+						int rng = Utils::Random(1, 2);
+						if (rng = 1)
+							Process::WriteFloat(address, value + 0.1f);
+						else
+							Process::WriteFloat(address, value - 0.1f);
+					}
+					break;
 
-                case 4:
-                    if (value >= 1.0f && value < 2.0f)
-                    {
-                        int rng = Utils::Random(0, 20);
-                        Process::WriteFloat(address, 0.1f * rng);
-                    }
-                    break;
-                default:
-                    if (value >= 1.0f && value < 2.0f)
-                    {
-                        int rng = Utils::Random(0, 20);
-                        Process::WriteFloat(address, 0.1f * rng);
-                    }
-                    break;
-            }
-            address += 4;
-        }
-    }
+				case 4:
+					if (value >= 1.0f && value < 2.0f)
+					{
+						int rng = Utils::Random(0, 20);
+						Process::WriteFloat(address, 0.1f * rng);
+					}
+					break;
+				default:
+					if (value >= 1.0f && value < 2.0f)
+					{
+						int rng = Utils::Random(0, 20);
+						Process::WriteFloat(address, 0.1f * rng);
+					}
+					break;
+			}
+			address += 4;
+		}
+	}
+
 
     void    CorrupterSettings(MenuEntry *entry)
     {
@@ -633,27 +644,32 @@ namespace CTRPluginFramework
         }
         if (execution)
         {
+			u8 animID = Player::GetInstance()->GetAnimationID();
             coordinates = FindItemCoordinates(weeds, false);
             if (coordinates[0] + coordinates[1] == 0)
             {
                 execution == false;
                 return;
             }
-            //Sleep(Seconds(1));
-            Player::GetInstance()->SetFloatCoordinates(coordinates[0] + 0.1f, coordinates[1] + 0.1f);
-            Player::GetInstance()->SetRotation(0xEB00000);
-			Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
+			if (animID == 6 || animID == 0xD)
+			{
+				Player::GetInstance()->SetFloatCoordinates(coordinates[0] + 0.1f, coordinates[1] + 0.1f);
+				Player::GetInstance()->SetRotation(0xEB00000);
+			}
             Controller::InjectKey(Key::Y);
         }
     }
 
     void    UnBuryItems(MenuEntry *entry)
     {
-        std::vector<u8> coordiantes = { 0, 0 };
-        static bool execution = false;
-
+        std::vector<u8> coordinates = { 0, 0 };
+		u8 roomID = *Game::Room;
+		static bool execution = false;
+		static bool filling = false;
         if (entry->Hotkeys[0].IsDown())
         {
+			if (filling)
+				filling = false;
             if (execution)
                 execution = false;
             else
@@ -664,11 +680,15 @@ namespace CTRPluginFramework
         if (execution)
         {
             std::vector<u16> buriedFlag = { 0x8000 };
-            coordiantes = FindItemCoordinates(buriedFlag, true);
-            if (coordiantes[0] + coordiantes[1] == 0)
+			coordinates = FindItemCoordinates(buriedFlag, true);
+
+            if (coordinates[0] + coordinates[1] == 0) // can't find any more buried items
             {
-                execution = false;
-                return;
+				Sleep(Seconds(0.5f)); // sleep for half a second while the player digs up the last hole
+				execution = false;
+				if (MessageBox("Question", "Would you like to fill in all the holes?", DialogType::DialogYesNo)())
+					filling = true;
+				return;
             }
             u16 heldItem;
             if (Player::GetInstance()->Read16(0x26, heldItem) && heldItem < 0x3357 || heldItem > 0x335C) //check if the player doesn't have a shovel
@@ -679,12 +699,49 @@ namespace CTRPluginFramework
             }
             if (*Game::MapBool == 0)
                 return;
-            Player::GetInstance()->SetFloatCoordinates(coordiantes[0] + 0.5f, coordiantes[1] - 0.01f);
-            Player::GetInstance()->SetRotation(0);
-
-            Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
-            Controller::InjectKey(Key::A);
+			if (roomID != 0 && roomID != 0x69)
+			{
+				//OSD::Notify(Utils::Format("%02X", roomID));
+				OSD::Notify("Only works in the main town.");
+				execution = false;
+				return;
+			}
+			u8 animID = Player::GetInstance()->GetAnimationID();
+			if (animID == 6 || animID == 0xD)
+			{
+				Player::GetInstance()->SetFloatCoordinates(coordinates[0] + 0.5f, coordinates[1] - 0.01f);
+				Player::GetInstance()->SetRotation(0);
+			}
+            //Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
+			Controller::InjectKey(Key::A);
         }
+		if (filling)
+		{
+			u8 animID = Player::GetInstance()->GetAnimationID();
+			std::vector<u16> hole = { 0x009E };
+			coordinates = FindItemCoordinates(hole, false);
+			if (coordinates[0] + coordinates[1] == 0) // can't find any more buried items
+			{
+				filling = false;
+				OSD::Notify("Can't find any more holes!");
+				return;
+			}
+			if (*Game::MapBool == 0)
+				return;
+			if (roomID != 0 && roomID != 0x69)
+			{
+				OSD::Notify("Only works in the main town.");
+				filling = false;
+				return;
+			}
+			if (animID == 6 || animID == 0xD)
+			{
+				Player::GetInstance()->SetFloatCoordinates(coordinates[0] + 0.5f, coordinates[1] - 0.25f);
+				Player::GetInstance()->SetRotation(0);
+			}
+			//Sleep(Seconds(0.1f)); //sleep in order to give the game time to update the coordinates
+			Controller::InjectKey(Key::Y);
+		}
     }
 
 
