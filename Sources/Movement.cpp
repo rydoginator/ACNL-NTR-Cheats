@@ -35,7 +35,7 @@ namespace CTRPluginFramework
     {
 		static UIntRect     mapAreaTown(70, 50, 175, 155);
 		static UIntRect		mapAreaMain(15, 40, 315, 200);
-
+		static UIntRect		mapAreaIsland(75, 30, 245, 200);
 
         UIntVector  touchPos = Touch::GetPosition();
         Coordinates position = Player::GetInstance()->GetCoordinates();
@@ -44,7 +44,9 @@ namespace CTRPluginFramework
 			Coordinates position = Player::GetInstance()->GetCoordinates();
 			if (!screen.IsTop)
 				return false;
+			u8 room = *Game::Room;
 			screen.Draw(Utils::Format("X: %f Y: %f", position.x, position.z), 10, 10);
+			screen.Draw(Utils::Format("Room ID: %01X", room), 10, 20);
 			return true;
 		});
 
@@ -52,7 +54,7 @@ namespace CTRPluginFramework
 		{
 			u8 roomID = *Game::Room;
 			FloatVector  fPos(touchPos);
-			if (roomID == 0 || roomID == 0x69)
+			if (roomID == 0 || roomID == 0x69) // if you're on the main map, use this math
 			{
 				if (mapAreaTown.Contains(touchPos))
 				{
@@ -61,12 +63,21 @@ namespace CTRPluginFramework
 					Player::GetInstance()->SetCoordinates(position);
 				}
 			}
-			else if (roomID == 1)
+			else if (roomID == 1) // if on mainstreet
 			{
 				if (mapAreaMain.Contains(touchPos))
 				{
 					position.x = (fPos.x - 15.f) * 6.5f + 150.f;
 					position.z = (fPos.y - 40.f) * 6.5f - 117.f;
+					Player::GetInstance()->SetCoordinates(position);
+				}
+			}
+			else if (roomID == 0x68) // island
+			{
+				if (mapAreaIsland.Contains(touchPos))
+				{
+					position.x = (fPos.x - 75.f) * 10.6f + 192.f;
+					position.z = (fPos.y - 30.f) * 10.6f + 240.f;
 					Player::GetInstance()->SetCoordinates(position);
 				}
 			}
