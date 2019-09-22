@@ -11,7 +11,7 @@ namespace CTRPluginFramework
 		output.clear(); // clear the output
 		StringVector items;
 		char data[0x1001];
-		File file;
+		File file("items.txt");
 		std::string list;
 		Keyboard keyboard;
 		// Clone the input string but with forced lowcase
@@ -23,11 +23,11 @@ namespace CTRPluginFramework
 			u64 size = file.GetSize();
 			if (!file.IsOpen())
 				return -1;
+			OSD::Notify("Reading file!");
 			file.Rewind();
 			list.clear();
 			if (list.capacity() < size)
 				list.reserve(size);
-
 			while (size)
 			{
 				memset(data, 0, 0x1001);
@@ -40,32 +40,25 @@ namespace CTRPluginFramework
 				}
 			}
 			int offset = 0;
-			int breaks = list.find('\n');
+			int breaks = 0;
 			// parse the items.txt into a string vector
-			while (breaks != std::string::npos)
+			if (items.capacity() < size)
+				items.reserve(size);
+			
+			while ((breaks = list.find('\n', offset)) != std::string::npos)
 			{
-				items.push_back(list.substr(offset, breaks));
-				OSD::Notify(list.substr(offset, breaks));
-				offset = breaks;
-				breaks = list.find('\n');
+				items.push_back(list.substr(offset, breaks - offset));
+				offset = breaks + 1;
+				//MessageBox("Added " + list.substr(offset, breaks - offset))();
 			}
 			list.clear();
 			//search for items in the list
 			for (const std::string& item : items)
 			{
-				StringIter      inputIt = lowcaseInput.begin();
-				StringConstIter itemIt = item.begin();
-				while (inputIt != lowcaseInput.end() && itemIt != item.end() && *inputIt == std::tolower(*itemIt))
-				{
-					++inputIt;
-					++itemIt;
-				}
-
-				// If we're at the end of input then it matches the item's name
-				if (inputIt == lowcaseInput.end())
+				if (item.find(input) != std::string::npos)
 					output.push_back(item);
 			}
-			return (output.size());			
+			return (output.size());
 		}
 		else
 		{
@@ -108,7 +101,7 @@ namespace CTRPluginFramework
 		// If we have only one matches, complete the input
 		if (count == 1)
 		{
-			input = matches[0];
+			input = matches[0].substr(0,4);
 			return;
 		}
 		// If we have more than 1, but less or equal than 10 matches, ask the user to choose which one
@@ -121,8 +114,7 @@ namespace CTRPluginFramework
 			listKeyboard.Populate(matches);
 
 			// User can't abort with B
-			//listKeyboard.CanAbort(false);
-
+			listKeyboard.CanAbort(false);
 			// Nothing to display on the top screen
 			listKeyboard.DisplayTopScreen = false;
 
@@ -130,7 +122,7 @@ namespace CTRPluginFramework
 			int choice = listKeyboard.Open();
 
 			// Complete the input
-			input = matches[choice];
+			input = matches[choice].substr(0,4); // get the item ID of the choice 
 			return;
 		}
 		// We have too much results, the user must keep typing letters
@@ -146,7 +138,7 @@ namespace CTRPluginFramework
 			id.raw = 0xFFFF;
 		else
 		{
-			const char* cstr = item.substr(0,3).c_str();
+			const char* cstr = item.c_str();
 			id.raw = std::strtoul(cstr, 0, 16);
 		}
 		return id;
