@@ -23,7 +23,6 @@ namespace CTRPluginFramework
 			u64 size = file.GetSize();
 			if (!file.IsOpen())
 				return -1;
-			OSD::Notify("Reading file!");
 			file.Rewind();
 			list.clear();
 			if (list.capacity() < size)
@@ -49,7 +48,6 @@ namespace CTRPluginFramework
 			{
 				items.push_back(list.substr(offset, breaks - offset));
 				offset = breaks + 1;
-				//MessageBox("Added " + list.substr(offset, breaks - offset))();
 			}
 			list.clear();
 			//search for items in the list
