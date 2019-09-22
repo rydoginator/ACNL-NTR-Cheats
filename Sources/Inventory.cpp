@@ -3,6 +3,154 @@
 
 namespace CTRPluginFramework
 {
+	using StringIter = std::string::iterator;
+	using StringConstIter = std::string::const_iterator;
+
+	int		GetMatches(StringVector& output, std::string& input)
+	{
+		output.clear(); // clear the output
+		StringVector items;
+		char data[0x1001];
+		File file;
+		std::string list;
+		Keyboard keyboard;
+		// Clone the input string but with forced lowcase
+		std::string     lowcaseInput(input);
+		for (char& c : lowcaseInput)
+			c = std::tolower(c);
+		if (file.Exists("items.txt"))
+		{
+			u64 size = file.GetSize();
+			if (!file.IsOpen())
+				return -1;
+			file.Rewind();
+			list.clear();
+			if (list.capacity() < size)
+				list.reserve(size);
+
+			while (size)
+			{
+				memset(data, 0, 0x1001);
+				s64 sizeToRead = size > 0x1000 ? 0x1000 : size;
+
+				if (file.Read(data, sizeToRead) == File::OPResult::SUCCESS)
+				{
+					list += data;
+					size -= sizeToRead;
+				}
+			}
+			int offset = 0;
+			int breaks = list.find('\n');
+			// parse the items.txt into a string vector
+			while (breaks != std::string::npos)
+			{
+				items.push_back(list.substr(offset, breaks));
+				OSD::Notify(list.substr(offset, breaks));
+				offset = breaks;
+				breaks = list.find('\n');
+			}
+			list.clear();
+			//search for items in the list
+			for (const std::string& item : items)
+			{
+				StringIter      inputIt = lowcaseInput.begin();
+				StringConstIter itemIt = item.begin();
+				while (inputIt != lowcaseInput.end() && itemIt != item.end() && *inputIt == std::tolower(*itemIt))
+				{
+					++inputIt;
+					++itemIt;
+				}
+
+				// If we're at the end of input then it matches the item's name
+				if (inputIt == lowcaseInput.end())
+					output.push_back(item);
+			}
+			return (output.size());			
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	void InputChange(Keyboard& keyboard, InputChangeEvent& event)
+	{
+		std::string& input = keyboard.GetInput();
+
+		// If the user removed a letter do nothing
+		if (event.type == InputChangeEvent::CharacterRemoved)
+		{
+			// Set an error, to avoid that the user can return an incomplete name
+			keyboard.SetError("Type a letter to search for a item.");
+			return;
+		}
+		// If input's length is less than 3, ask for more letters
+		if (input.size() < 3)
+		{
+			keyboard.SetError("Not enough letters to do the search.\nKeep typing.");
+			return;
+		}
+
+		// Else do the search
+		StringVector    matches;
+
+
+		// Search for matches
+		int count = GetMatches(matches, input);
+
+		// If we don't have any matches, tell the user
+		if (!count)
+		{
+			keyboard.SetError("Nothing matches your input.\nTry something else.");
+			return;
+		}
+
+		// If we have only one matches, complete the input
+		if (count == 1)
+		{
+			input = matches[0];
+			return;
+		}
+		// If we have more than 1, but less or equal than 10 matches, ask the user to choose which one
+		if (count <= 10)
+		{
+			// Our new keyboard
+			Keyboard    listKeyboard;
+
+			// Populate the keyboard with the matches
+			listKeyboard.Populate(matches);
+
+			// User can't abort with B
+			//listKeyboard.CanAbort(false);
+
+			// Nothing to display on the top screen
+			listKeyboard.DisplayTopScreen = false;
+
+			// Display the keyboard and get user choice
+			int choice = listKeyboard.Open();
+
+			// Complete the input
+			input = matches[choice];
+			return;
+		}
+		// We have too much results, the user must keep typing letters
+		keyboard.SetError("Too many results: " + std::to_string(count) + "\nType more letters to narrow the results.");
+	}
+	/*
+	Converts the substring 0-3 to a writable item id
+	*/
+	Item		GetItemFromString(std::string item)
+	{
+		Item id;
+		if (item.empty())
+			id.raw = 0xFFFF;
+		else
+		{
+			const char* cstr = item.substr(0,3).c_str();
+			id.raw = std::strtoul(cstr, 0, 16);
+		}
+		return id;
+	}
     void    Text2Item(MenuEntry *entry)
     {
         if (entry->Hotkeys[0].IsDown())
@@ -10,7 +158,7 @@ namespace CTRPluginFramework
             Item item = { 0 };
 
             // New keyboard, hint being:
-            Keyboard keyboard("What item would you like ?");
+            Keyboard keyboard("What item would you like?");
 
             // Add the function to check the input entered by the user
             keyboard.SetCompareCallback([](const void *input, std::string &error)
@@ -31,13 +179,32 @@ namespace CTRPluginFramework
                 // The value is valid
                 return (true);
             });
-
             // If the function return -1, then the user canceled the keyboard, so do nothing 
             if (keyboard.Open(item.raw) != -1)
             {
                 Player::GetInstance()->WriteInventorySlot(0, item.raw);
             }
         }
+		if (entry->Hotkeys[1].IsDown())
+		{
+			std::string input;
+			Keyboard keyboard("Which item would you like?");
+			keyboard.OnInputChange(InputChange);
+			if (keyboard.Open(input) != -1)
+			{
+				Item item = GetItemFromString(input);
+				u32 check = item.ID - 0x2000;
+				if (check >= 0x6000)
+				{
+					MessageBox("Cannot use item ID for Text To Item")();
+				}
+				else
+				{
+					Player::GetInstance()->WriteInventorySlot(0, item.raw);
+				}
+			}
+
+		}
     }
 
     void    Duplication(MenuEntry   *entry)

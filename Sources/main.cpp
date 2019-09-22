@@ -242,7 +242,7 @@ namespace CTRPluginFramework
                     new MenuEntry("Bank editor (0)", BankEditor, BankEditorSetter, "Touch the keyboard icon on the bottom screen to enter the desired amount of bells in your bank.")
                 }));
             *inv += EntryWithHotkey(new MenuEntry("Text to Item", Text2Item, "Press the hotkeys to bring up the keyboard to enter the item ID."),
-                {Hotkey(Key::X | Key::DPadRight, "Open the keyboard") });
+                {Hotkey(Key::X | Key::DPadRight, "Open the keyboard"), Hotkey(Key::X | Key::DPadLeft, "Search for the ID") });
             *inv += EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into the first available slot."),
                 {Hotkey(Key::R, "Duplicate items") }),
             *inv += new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown.");
