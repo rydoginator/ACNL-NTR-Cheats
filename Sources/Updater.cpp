@@ -5,8 +5,8 @@
 #include "cheats.hpp"
 #include "3ds.h"
 
-#define PLG_URL "https://raw.githubusercontent.com/Slattz/ACNL-Multi-Cheat/master/ACNL-Multi-Cheat.3gx"
-#define PLG_VER_URL "https://raw.githubusercontent.com/Slattz/ACNL-Multi-Cheat/master/latest.txt"
+#define PLG_URL "https://raw.githubusercontent.com/rydoginator/ACNL-NTR-Cheats/master/ACNL-NTR-Cheats.3gx"
+#define PLG_VER_URL "https://raw.githubusercontent.com/rydoginator/ACNL-NTR-Cheats/master/latest.txt"
 
 namespace CTRPluginFramework
 {
