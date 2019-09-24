@@ -72,6 +72,11 @@ namespace CTRPluginFramework
                     goto unsupported;
                 g_region = w_EUR;
                 break;
+			case 0x00040000004C5700: //ACWL
+				if (ver != 6144)
+					goto unsupported;
+				g_region = w_EUR;
+				break;
             default:
                 (MessageBox(unsupportedGame))();
                 return (true);
