@@ -93,6 +93,8 @@ namespace CTRPluginFramework
         static u32      AlwaysOpen_Redd; ///<ASM offset for Always Open - Redd
         static u32      Internal_FurnFix; ///<ASM offset for Save Restore Furniture Fix; Used as the function
         static u32      *GameMode;        ///<Pointer for getting current game mode (Offline, Online, Club T, Dream)
+        static u32      InstantText; ///<ASM offset for Always Open - Garden Center
+        static u32      EchoTheMusic; ///<ASM offset for Always Open - Garden Center
     };
 }
 

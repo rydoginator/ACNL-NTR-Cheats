@@ -384,7 +384,10 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Emote ID changer", UseAnyEmote, "Press the hotkey to open a keyboard to patch the game's emotes.\n0xFF restores the game's original code.\nOriginal cheat by 0ICED0, adapted by Slattz."),
                 {Hotkey(Key::R | Key::B, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable.\nCredits to Slattz for the cheat"),
-                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")})
+                {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
+            new MenuEntry("Instant Text", InstantText, "This speeds up text rendering so text appears instantly.\nCredits to Slattz for the cheat"),
+            new MenuEntry("All Music Has Echo", EchoTheMusic, "This gives all music the echo that is only enabled when in a Dream Town.\nCredits to Slattz for the cheat")
+
         }));
 
         /*

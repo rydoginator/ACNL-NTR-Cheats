@@ -450,4 +450,14 @@
 #define     EUR_WA_GAMEMODE_PTR                 0x953644
 #define     JAP_WA_GAMEMODE_PTR                 0x94C644
 
+#define     USA_INSTANTTEXT                     0x5FC6B0
+#define     EUR_INSTANTTEXT                     0x5FB6E8 //Also EUR WA
+#define     JAP_INSTANTTEXT                     0x5FAF68 //Also JPN WA
+#define     USA_WA_INSTANTTEXT                  0x5FBBE0
+
+#define     USA_ECHOTHEMUSIC                    0x1B1270
+#define     EUR_ECHOTHEMUSIC                    0x1B1290 //Also EUR WA
+#define     JAP_ECHOTHEMUSIC                    0x1B11CC //Also JPN WA
+#define     USA_WA_ECHOTHEMUSIC                 0x1B0CB4
+
 #endif

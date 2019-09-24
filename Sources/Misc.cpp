@@ -908,4 +908,28 @@ namespace CTRPluginFramework
         else if (!entry->Hotkeys[0].IsDown())
             btn = false;
     }
+
+    void InstantText(MenuEntry *entry) {
+        static u32 orig = 0; //needed as original value is branch, therefore different per region
+
+        if (entry->WasJustActivated())
+            Process::Patch(Game::InstantText, 0xE3A00001, (orig == 0 ? &orig : nullptr)); //only set orig once
+
+        else if (!entry->IsActivated() && orig != 0)
+            Process::Patch(Game::InstantText, orig);
+    }
+
+    void EchoTheMusic(MenuEntry *entry) { 
+        static constexpr u32 patch[2] = {0xE1A00000, 0xE3A01003};
+        static constexpr u32 original[2] = {0x0A000002, 0xE1A01006};
+
+        if (entry->WasJustActivated()) {
+            Process::Patch(Game::EchoTheMusic, patch[0]);
+            Process::Patch(Game::EchoTheMusic+4, patch[1]);
+        }
+        else if (!entry->IsActivated()) {
+            Process::Patch(Game::EchoTheMusic, original[0]);
+            Process::Patch(Game::EchoTheMusic+4, original[1]);
+        }
+    }
 }

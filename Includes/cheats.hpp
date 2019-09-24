@@ -206,6 +206,8 @@ namespace CTRPluginFramework
     void    EditAnyPattern(MenuEntry *entry);
     void    UnbreakableFlowers(MenuEntry *entry);
     void    CountrySpoofer(MenuEntry *entry);
+    void    InstantText(MenuEntry *entry);
+    void    EchoTheMusic(MenuEntry *entry);
 
     
     /*
