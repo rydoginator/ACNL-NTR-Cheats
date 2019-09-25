@@ -12,7 +12,7 @@ Targets: # Low TitleId of games which are compatibles with this plugin (0 for al
     - 0x00198d00
     - 0x00198e00
     - 0x00198f00
-	- 0x004C5700
+    - 0x004c5700 
 
 Title: Animal Crossing New Leaf - Game Plugin
 
