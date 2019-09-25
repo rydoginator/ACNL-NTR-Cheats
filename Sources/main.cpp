@@ -15,7 +15,11 @@ namespace CTRPluginFramework
         settings.ThreadPriority = 0x39;
         settings.AllowActionReplay = false;
     }
-
+	char* GenerateUUID(char* garbage) // since __attribute(used)__ was causing linker errors, might as well create a garbage function :p
+	{
+		return(garbage);
+	}
+	char* garbage = GenerateUUID("1234567890ABCDEF");
     extern Region               g_region;
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
