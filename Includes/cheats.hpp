@@ -12,13 +12,13 @@
 #include "Helpers/Strings.hpp"
 
 #define MAJOR_VERSION       4
-#define MINOR_VERSION       1
-#define REVISION_VERSION    1
-#define BETA_VERSION        0
+#define MINOR_VERSION       2
+#define REVISION_VERSION    0
+#define BETA_VERSION        1
 #define STRINGIFY(x)        #x
 #define TOSTRING(x)         STRINGIFY(x)
-#define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " ]"
-//#define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta " TOSTRING(BETA_VERSION) " ]"
+//#define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " ]"
+#define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " Beta " TOSTRING(BETA_VERSION) " ]"
 
 #define READU32(x)      *(u32 *)(x)
 #define READU16(x)      *(u16 *)(x)
@@ -40,6 +40,7 @@
 #define SUB8(a, v)      *(u8 *)a -= v
 #define ADDTOFLOAT(a, v)  *((float*)(a)) += (float)v
 #define SUBTOFLOAT(a, v)  *((float*)(a)) -= (float)v
+
 
 enum Region
 {

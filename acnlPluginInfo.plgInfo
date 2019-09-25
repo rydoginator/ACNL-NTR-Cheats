@@ -2,7 +2,7 @@ Author: RyDog && Slattz
 
 Version: # Plugin version
     Major: 4
-    Minor: 0
+    Minor: 2
     Revision: 0
 
 Targets: # Low TitleId of games which are compatibles with this plugin (0 for all)
