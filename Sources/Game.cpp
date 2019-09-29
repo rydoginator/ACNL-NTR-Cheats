@@ -138,6 +138,40 @@ namespace CTRPluginFramework
         return mode;
     }
 
+	int		Game::TeleportRoom(u8 id)
+	{
+		static const u32 offset = AutoRegion(0x9513D3, 0x9503CF, 0x94A3CF, 0x9503C3, 0x9503CF, 0x9493CF)();
+		static const u32 offset2 = AutoRegion(0xAC298C, 0xAC198C, 0xABB98C, 0xAC198C, 0xAC198C, 0xABA98C)();
+		static const u32 InfoOffsetCheck = AutoRegion(0x330773BC, TO_EUR(0x330773BC), TO_JAP(0x330773BC), TO_WA_USA(0x330773BC), TO_WA_EUR(0x330773BC), TO_WA_JAP(0x330773BC))();
+		u32 InfoOffset = Player::GetInstance()->GetInfoOffset();
+		u8 AnimID = Player::GetInstance()->GetAnimationID();
+		u8 banner = 0;
+		if (InfoOffset != InfoOffsetCheck && InfoOffset != InfoOffsetCheck + 0x12C)
+		{
+			return -1;
+		}
+		if (GetMode() == 2) // if on club tortimer
+		{
+			return -2;
+		}
+		if ((*Game::Room >= 0x5F && *Game::Room <= 0x62) || (*Game::Room >= 0x69 && *Game::Room <= 0x9E)) //Check if on tour, in HHA, saving, formatting, or loading or prologue
+		{
+			return -3;
+		}
+		if (AnimID == 6 || AnimID == 0xD || AnimID == 0x1F || AnimID == 0x20) //check if idle (also idle when swimming)
+		{
+			Process::Write8(offset, 0x01);
+			Process::Write16(offset + 1, 0x0001);
+			*(Game::Room + 1) = id; //Set the 'next' id and not actual ID, hence the +1
+			Process::Write16(offset2, 0x0001);
+			return 1;
+		}
+		else
+		{
+			return -4;
+		}
+	}
+
     u32         Game::Building = 0;
     u32         *Game::ClubItem = nullptr;
     u32         Game::Garden = 0;

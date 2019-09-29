@@ -23,6 +23,12 @@ namespace CTRPluginFramework
         // Return item's address at current position.
         // nullptr is returned is Room is unknown
         static u32      *GetItem(void);
+		// Return 1 if the player can teleport,
+		// Return other ret codes based on other conditions
+		// ID of the room to teleport to
+		// Coordinates to teleport to if specified, otherwise the overload will be called
+		//static int		TeleportRoom(u8 room, float x, float z);
+		static int		TeleportRoom(u8 room);
 
         // Return Game's current Mode 
         // ret: 3=Dream Town, 2=Online Island, 1=Online, 0=Offline
