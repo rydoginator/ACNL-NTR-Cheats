@@ -39,6 +39,7 @@ namespace CTRPluginFramework
 
         UIntVector  touchPos = Touch::GetPosition();
         Coordinates position = Player::GetInstance()->GetCoordinates();
+		/*
 		OSD::Run([](const Screen &screen)
 		{
 			Coordinates position = Player::GetInstance()->GetCoordinates();
@@ -48,7 +49,7 @@ namespace CTRPluginFramework
 			screen.Draw(Utils::Format("X: %f Y: %f", position.x, position.z), 10, 10);
 			screen.Draw(Utils::Format("Room ID: %01X", room), 10, 20);
 			return true;
-		});
+		});*/
 
 		if (*Game::MapBool == 1) // check if the map is visible
 		{
