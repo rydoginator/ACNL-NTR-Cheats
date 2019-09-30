@@ -112,7 +112,8 @@ namespace CTRPluginFramework
             }
 
             else if (CurPWP.IsEvent) { //Event Building
-                if (*(Game::BuildingSlots+1) == 2) {
+                if (*(Game::BuildingSlots+1) == 2) 
+				{
                     MessageBox("Building Placer: Error!", RTBP_EventMSG)();
                     return;
                 }
@@ -121,13 +122,15 @@ namespace CTRPluginFramework
                 maxcounter = 58;
             }
 
-            else { //Not Event Building
+            else 
+			{ //Not Event Building
                 counter = 0;
                 maxcounter = 56;
             }
 
             //Increment counter until we find a empty slot
-            while (READU8(off_building + (counter * 4)) != 0xFC && counter < maxcounter) {
+            while (READU8(off_building + (counter * 4)) != 0xFC && counter < maxcounter) 
+			{
                 counter++;
             }
 
@@ -143,9 +146,9 @@ namespace CTRPluginFramework
                 OSD::Notify(Color::Green << "Reload the area to see effects.");
                 if (CurPWP.IsEvent)
                     ADD8((Game::BuildingSlots+1), 1); //Increment Event Building Amount
-
                 else
                     ADD8(Game::BuildingSlots, 1); ////Increment Normal Building Amount
+				goto reload;
             }
             return;
         }
@@ -161,28 +164,31 @@ namespace CTRPluginFramework
             keyboard.Populate(pwptype);
             int pwptypechoice = keyboard.Open();
 
-            if (pwptypechoice == 0) { //Normal PWPs
-                start = 0;
-                end = 56;
-            }
-
-            else if (pwptypechoice == 1) { //Event PWPs
+			if (pwptypechoice == 0)
+			{ //Normal PWPs
+				start = 0;
+				end = 56;
+			}
+            else if (pwptypechoice == 1) //Event PWPs
+			{ 
                 start = 56;
                 end = 58;
             }
-
-            else return; //Keyboard abort or some weird error
+            else  //Keyboard abort or some weird error
+				return;
 
             for (int i = start; i < end; i++)
             {
                 u8 BuildingID = 0xFC; //Set default to empty
                 Process::Read8(off_building + (i*4), BuildingID);
-                if (BuildingID != 0xFC) { //check if a building is not empty
+                if (BuildingID != 0xFC) //check if a building is not empty
+				{ 
                     buildings.push_back(BuildingID);
                 }
             }
 
-            if (buildings.size() == 0) { //Possible case due to event pwps not always there
+            if (buildings.size() == 0) //Possible case due to event pwps not always there
+			{ 
                 MessageBox("Building Remover: Error!", RTBP_0PWPMSG)();
                 return;
             }
@@ -211,21 +217,23 @@ namespace CTRPluginFramework
 
                 while ((READU8(off_building + (start*4) + (counter*4)) != id) && counter < buildings.size() && counter+start < end)
                     counter++;
-
                 Process::Write8(off_building + (start*4) + (counter * 4), 0xFC);
                 Process::Write8(off_building + (start*4) + (counter * 4) + 2, 0);
                 Process::Write8(off_building + (start*4) + (counter * 4) + 3, 0);
 
-                OSD::Notify(Utils::Format("\"%s\" (0x%02X) Removed!", name, id));
-                OSD::Notify(Color::Green << "Reload the area to see effects.");
-
                 if (IsEvent[index] && *(Game::BuildingSlots+1) > 0)
                     Process::Write8(reinterpret_cast<u32>(Game::BuildingSlots + 1), buildings.size()-1); //Decrement Event Building Amount
-
                 else if (*Game::BuildingSlots > 0)
                     Process::Write8(reinterpret_cast<u32>(Game::BuildingSlots), buildings.size()-1); //Decrement Event Building Amount
+				else
+				{
+					MessageBox("Building Remover: Error!", RTBP_0NUMMSG)();
+					return;
+				}
+				OSD::Notify(Utils::Format("\"%s\" (0x%02X) Removed!", name, id));
+				OSD::Notify(Color::Green << "Reload the area to see effects.");
+				goto reload;
 
-                else MessageBox("Building Remover: Error!", RTBP_0NUMMSG)();
             }
             return;
         }
@@ -296,9 +304,35 @@ namespace CTRPluginFramework
 
                 OSD::Notify(Utils::Format("\"%s\" (0x%02X) Moved to Current Position!", name, id));
                 OSD::Notify(Color::Green << "Reload the area to see effects.");
+				goto reload;
             }
             return;
         }
+	return;
+	reload:
+		if (MessageBox("Question", "Would you like to reload the area?", DialogType::DialogYesNo)())
+		{
+			Coordinates coord = Player::GetInstance()->GetCoordinates();
+			int result = Game::TeleportRoom(*Game::Room, coord);
+			switch (result)
+			{
+			case -1:
+				OSD::Notify("You currently cannot warp!");
+				break;
+			case -2:
+				OSD::Notify("You cannot warp at club tortimer!");
+				break;
+			case -3:
+				OSD::Notify("You cannot warp from this area!");
+				break;
+			case -4:
+				OSD::Notify("Please stand still while trying to teleport!");
+				break;
+			default:
+				OSD::Notify("Reloading area...");
+				break;
+			}
+		}
     }
 
     void    GardenDumper(MenuEntry *entry)

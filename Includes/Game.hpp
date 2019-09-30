@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include "types.h"
+#include "Player.hpp"
 
 namespace CTRPluginFramework
 {
@@ -27,7 +28,7 @@ namespace CTRPluginFramework
 		// Return other ret codes based on other conditions
 		// ID of the room to teleport to
 		// Coordinates to teleport to if specified, otherwise the overload will be called
-		//static int		TeleportRoom(u8 room, float x, float z);
+		static int		TeleportRoom(u8 room, Coordinates coord);
 		static int		TeleportRoom(u8 room);
 
         // Return Game's current Mode 

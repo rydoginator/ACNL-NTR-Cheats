@@ -686,7 +686,7 @@ namespace CTRPluginFramework
             {
 				Sleep(Seconds(0.5f)); // sleep for half a second while the player digs up the last hole
 				execution = false;
-				if (MessageBox("Question", "Would you like to fill in all the holes?", DialogType::DialogYesNo)())
+				if (MessageBox("Question", "Would you like to fill in all the holes?", DialogType::DialogYesNo)())if (MessageBox("Question", "Would you like to fill in all the holes?", DialogType::DialogYesNo)())
 					filling = true;
 				return;
             }
