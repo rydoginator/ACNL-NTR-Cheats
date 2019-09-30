@@ -34,8 +34,8 @@ namespace CTRPluginFramework
     void    TouchCoordinates(MenuEntry *entry)
     {
 		static UIntRect     mapAreaTown(70, 50, 175, 155);
-		static UIntRect		mapAreaMain(15, 40, 315, 200);
-		static UIntRect		mapAreaIsland(75, 30, 245, 200);
+		static UIntRect		mapAreaMain(15, 40, 285, 140);
+		static UIntRect		mapAreaIsland(70, 30, 170, 170);
 
         UIntVector  touchPos = Touch::GetPosition();
         Coordinates position = Player::GetInstance()->GetCoordinates();
@@ -76,8 +76,8 @@ namespace CTRPluginFramework
 			{
 				if (mapAreaIsland.Contains(touchPos))
 				{
-					position.x = (fPos.x - 75.f) * 10.6f + 192.f;
-					position.z = (fPos.y - 30.f) * 10.6f + 240.f;
+					position.x = (fPos.x - 75.f) * 12.2f;
+					position.z = (fPos.y - 30.f) * 12.2f;
 					Player::GetInstance()->SetCoordinates(position);
 				}
 			}
