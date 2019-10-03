@@ -41,22 +41,8 @@
 //#define     USA_INPUT_TEXT_ADDR                 0x32CB0F60
 //#define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
 //#define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
-#define     USA_BUILDING_ADDR                   0x31F72E08
-//#define     USA_GENDER_ADDR                     0x31f2c5da
-/*
-#define     USA_VISITOR_OUTDOOR_X_ADDR          0x33079190
-#define     USA_VISITOR1_OUTDOOR_X_ADDR         0x3307A2E0
-#define     USA_VISITOR2_OUTDOOR_X_ADDR         0x3307B42C
-#define     USA_VISITOR_OUTDOOR_Z_ADDR          0x33079198
-#define     USA_VISITOR1_OUTDOOR_Z_ADDR         0x3307A2E8
-#define     USA_VISITOR2_OUTDOOR_Z_ADDR         0x3307B434
-#define     USA_VISITOR_INDOOR_X_ADDR           0x330792bc
-#define     USA_VISITOR1_INDOOR_X_ADDR          0x3307A3F4
-#define     USA_VISITOR2_INDOOR_X_ADDR          0x3307B77C
-#define     USA_VISITOR_INDOOR_Z_ADDR           0x330792c4
-#define     USA_VISITOR1_INDOOR_Z_ADDR          0x3307A3FC
-#define     USA_VISITOR2_INDOOR_Z_ADDR          0x3307B784
-*/
+#define     USA_BUILDING_ADDR                   0x4BE88
+
 #define     USA_MINUTES_ADDR                    0x9515BA
 #define     EUR_MINUTES_ADDR                    0x9505B6
 #define     JAP_MINUTES_ADDR                    0x9840FB
@@ -225,7 +211,6 @@
 #define     USA_CLUB_ADDR                       0x301b5aa0
 
 #define     USA_GARDEN                          0x31F26F80
-//#define     USA_NAME_ADDR                       0x31F2C5C8
 
 #define     USA_TOWN_FRUIT                      0x31F891BA
 #define     USA_GRASS_TYPE                      0x31F7A401

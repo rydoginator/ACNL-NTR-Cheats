@@ -80,6 +80,8 @@ namespace CTRPluginFramework
     void    StartMsg(void);
     u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
     char    Sstrncpy(char *dest, const char *src, size_t n);
+	bool	Range(u32 value, u32 low, u32 high);
+	u32		FollowPointer(u32 pointer, ...);
     bool    launchUpdater(void);
 
 
