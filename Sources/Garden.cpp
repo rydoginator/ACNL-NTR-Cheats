@@ -441,8 +441,10 @@ namespace CTRPluginFramework
 
     void    Permit(MenuEntry *entry)
     {
-        Process::Write32(Game::Permit, 0xD7DFC900);
-        OSD::Notify("Permit now 100%!", Color::Green, Color::Black);
+        u8 permitval = 0;
+        Process::Read8(Game::Permit, permitval);
+        Process::Write8(Game::Permit, (permitval&1)|0xC8);
+        OSD::Notify("Development Permit is now 100%!", Color::Green, Color::Black);
         entry->Disable();
     }
 

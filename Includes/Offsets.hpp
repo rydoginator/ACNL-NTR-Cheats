@@ -215,7 +215,7 @@
 #define     USA_TOWN_FRUIT                      0x31F891BA
 #define     USA_GRASS_TYPE                      0x31F7A401
 #define     USA_PWP_ADDRESS                     0x31F772B0
-#define     USA_PERMIT_ADDRESS                  0x31F2C738
+#define     USA_PERMIT_ADDRESS                  0x31F2C73A
 #define     USA_TREE_SIZE                       0x31F72E06
 
 #define     USA_GAME_SPEED                      0x54DDB4
