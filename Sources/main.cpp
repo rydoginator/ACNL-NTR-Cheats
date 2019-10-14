@@ -142,8 +142,6 @@ namespace CTRPluginFramework
         if (CheckRegion())
             return (1); ///< Unsupported game/version
 
-        // Initialize game's addresses based on region
-        Game::Initialize();
         //Launch Updater
         httpcInit(0);
         if(launchUpdater())
@@ -159,6 +157,8 @@ namespace CTRPluginFramework
 
         // Initialize player
         Player::GetInstance();
+		// Initialize game's addresses based on region
+		Game::Initialize();
         // Change QuickMenu's hotkey
         QuickMenu::GetInstance().ChangeHotkey(R + X);
         // Init QuickMenu
@@ -336,7 +336,8 @@ namespace CTRPluginFramework
             new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks to WemI0 and Scotline"),
             new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks to WemI0 and Scotline"),
             new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks to WemI0 and Scotline"),
-            new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop.\nSpecial thanks to Slattz and WemI0")
+            new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop.\nSpecial thanks to Slattz and WemI0"),
+			new MenuEntry("Fill out Museum", nullptr, FillMuseum, "Fill out the Museum.\nSpecial thanks to Poyo")
         }));
 
         /*

@@ -448,6 +448,34 @@ namespace CTRPluginFramework
         entry->Disable();
     }
 
+	void	FillMuseum(MenuEntry* entry)
+	{
+		std::string name;
+		StringVector names;
+		u32 PlayerOffset;
+		u8 cmp;
+
+		Keyboard keyboard("Who is supposed to make the donation?");
+		
+		for (int i = 0; i < 4; i++) {
+			PlayerOffset = 0xA0 + (i * 0xA480);
+			Process::ReadString((Game::Garden + PlayerOffset + 0x55A8), name, 0x10, StringFormat::Utf16);
+			if(!name.empty()) names.push_back(name); //if the read name is not empty, add it to the vector
+			name.clear(); //just to be sure
+		}
+		if (!names.empty()) {
+			keyboard.Populate(names);
+			int player = keyboard.Open();
+			if (player != -1) {
+				for (int j = 0; j < 0x112; j++) {
+					if(Process::Read8((Game::Garden + 0x06b300 + j), cmp) && cmp == 0x00) //check if there is an already existing donation
+						Process::Write8((Game::Garden + 0x06b300 + j), 0x01 * (player + 1));
+				}
+				OSD::Notify("Filled Museum!", Color::Green, Color::Black);
+			}
+		}
+	}
+
     void    MaxTreeSize(MenuEntry *entry)
     {
         Process::Write8(Game::TownTree, 0x7);
