@@ -8,39 +8,9 @@
 #define     TO_WA_JAP(x) (x + 0x13200)
 
 #define     USA_LOCATION_ADDR                   0x33077504
-//#define     USA_INDOOR_POS_X_ADDR             0x330774fc
-//#define     USA_INDOOR_POS_Y_ADDR             0x33077500
-//#define     USA_INDOOR_POS_Z_ADDR             0x33077504
-//#define     USA_OUTDOOR_POS_X_ADDR            0x330773D0
-//#define     USA_OUTDOOR_POS_Y_ADDR            0x330773D4
-//#define     USA_OUTDOOR_POS_Z_ADDR            0x330773D8
-#define     USA_TOWN_ITEMS_ADDR                 0x31F7A458
-#define     USA_ISLAND_ITEMS_ADDR               0x31F96E58
-//#define     USA_PLAYER_ADDR                   0xAAE990 //0xAAD990, 0xAA6990
-//#define     USA_INV_ADDR                      0x31F2DBF0
-#define     USA_VELOCITY_ADDR                   0x330773FC
-#define     USA_GRASS_START_ADDR                0x31F80880
-#define     USA_GRASS_END_ADDR                  0x31F8307F
-#define     USA_NOOK_ADDR                       0x31F891E4
-//#define     USA_LEIF_ADDR                     0x31F8D674
-//#define     USA_TAN_ADDR                      0x31F27028
-//#define     USA_SEED_ADDR                     0x9B5268 //9AD248, 9B4268
-//#define     USA_EDIBLE_ADDR                   0x33077C86
-//#define     USA_ID_ADDR                       0x32CB0F60 
-#define     USA_SAVETIME_ADDR                   0x31F89120
-
-#define     USA_REALTIME_ADDR                   0x95D508 //955500, 95c500
-#define     EUR_REALTIME_ADDR                   0x95c500
-#define     JAP_REALTIME_ADDR                   0x956500
-#define     USA_WA_REALTIME_ADDR                0x95C4E8
-#define     EUR_WA_REALTIME_ADDR                0x95C500
-#define     JAP_WA_REALTIME_ADDR                0x955500
 
 #define     USA_WORLD_X_ADDR                    0x33077838
 #define     USA_WORLD_Y_ADDR                    0x3307783C
-//#define     USA_INPUT_TEXT_ADDR                 0x32CB0F60
-//#define     EUR_INPUT_TEXT_ADDR                 0x32C88BE0
-//#define     JAP_INPUT_TEXT_ADDR                 0x32CD39E0
 #define     USA_BUILDING_ADDR                   0x4BE88
 
 #define     USA_MINUTES_ADDR                    0x9515BA
@@ -66,40 +36,9 @@
 #define     JAP_WA_PLAYER_POINTER               0xAA814C
 
 #define     USA_GRAVITY_OUT_ADDR                0x33077537
-/*
-#define     USA_KEYBOARD_ADDR                   0x32DC4A10
-#define     USA_KEYBOARD_ISLAND_ADDR            0x32DF7D14
-#define     EUR_KEYBOAD_ISLAND_ADDR             0x32DCF994
-#define     USA_INPUT_TEXT_ISLAND_ADDR          0x32CBD508
-#define     USA_ABD_ADDR                        0x32DD1AC8 //this one stays in memory, so it is used to write to the inventory. nvm, it doesn't
-#define     USA_ABD_REAL_ADDR                   0x32DD1EF8 //this one is the real decimal offset,
-#define     USA_ABD_OFFLINE_ADDR                0x32DC5520
-#define     USA_WALKOVER_ADDR                   0x33077533
 
-#define     USA_CONDITIONAL_OUT_ADDR            0x33077524
-#define     USA_CONDITIONAL_IN_ADDR             0x33077650
-#define     USA_COLLISION_OUT_ADDR              0x33077534
-#define     USA_COLLISION_IN_ADDR               0x33077663
-#define     USA_QUICKFIRE_ADDR                  0x33077537
 
-#define     USA_KEYBOARD_POINTER                0x95F110
-#define     USA_BANK_ADDR                       0x31F2DBAC
-#define     USA_ONLINE0_BANK_ADDR               0xAAB09C
-#define     USA_ONLINE1_BANK_ADDR               0xA8C31C
-#define     USA_ONLINE2_BANK_ADDR               0xA9679C
-#define     USA_ONLINE3_BANK_ADDR               0xAA0C1C
-#define     USA_ONLINE4_BANK_ADDR               0xA8C31C
-#define     USA_ONLINE5_BANK_ADDR               0xA9679C
-#define     USA_ONLINE6_BANK_ADDR               0xA9EC1C
 
-#define     USA_MEOW_ADDR                       0x31F2FD3C
-
-#define     USA_WALLET_ADDR                     0x31F2DF28
-
-#define     USA_CONFIRM_BOOL_ADDR               0x32DC6555
-#define     USA_NOOKLING1_PRICE_ADDR            0x330B9278
-#define     USA_NOOKLING2_PRICE_ADDR            0x330BBA98
-*/
 #define     USA_ROOM_ID_ADDR                    0x958342
 #define     EUR_ROOM_ID_ADDR                    0x95733A
 #define     JAP_ROOM_ID_ADDR                    0x95133A
@@ -115,25 +54,11 @@
 #define     JAP_WA_NPC_ADDR                     0x204512
 
 #define     USA_ISABELLE_ADDR                   0x330B667E
-//#define     USA_KAPPN_ADDR                      0x330B77FE
-
-//#define     USA_BADGE_ADDR                      0x31F2C6BC
-//#define     USA_TURNIP_ADDR                     0x31F91D60
 
 #define     USA_MAINSTREET_ITEMS                0x305ACF38
 #define     USA_MAINSTREET_X                    0x33077838
 #define     USA_MAINSTREET_Y                    0x3307783C
-/*
-#define     USA_MEDALS_ADDR                     0x31F2DBC0
-#define     USA_ONLINE0_MEDALS_ADDR             0xAAB0B0
-#define     USA_ONLINE1_MEDALS_ADDR             0xA8C330
-#define     USA_ONLINE2_MEDALS_ADDR             0xA967B0
-#define     USA_ONLINE3_MEDALS_ADDR             0xAA0C30
-#define     USA_ONLINE4_MEDALS_ADDR             0xA8C330
-#define     USA_ONLINE5_MEDALS_ADDR             0xA967B0
-#define     USA_ONLINE6_MEDALS_ADDR             0xA9EC30
-*/
-#define     USA_BUILDING_BYTE                   0x31F72E04
+
 
 #define     USA_CAMERA_ASM_ADDR                 0x764504
 #define     EUR_CAMERA_ASM_ADDR                 0x76350C
@@ -187,11 +112,7 @@
 #define     USA_WA_THOUGHT_ADDR                 0x94ED78
 #define     EUR_WA_THOUGHT_ADDR                 0x94ED88
 #define     JAP_WA_THOUGHT_ADDR                 0x947D88
-/*
-#define     USA_THOUGHT_ASM                     0x2160BC
-#define     EUR_THOUGHT_ASM                     0x2160DC
-#define     JAP_THOUGHT_ASM                     0x215FFC
-*/
+
 #define     USA_BOTTOM_ASM                      0x6D2B50
 #define     EUR_BOTTOM_ASM                      0x6D1B88
 #define     JAP_BOTTOM_ASM                      0x6D1334
@@ -207,16 +128,27 @@
 #define     EUR_WA_CODE_DIFFERENCE             -0xFC8
 #define     JAP_WA_CODE_DIFFERENCE             -0x1508
 
-//#define     USA_THOUGHT_TEXT_ADDR               0x33077D50
 #define     USA_CLUB_ADDR                       0x301b5aa0
+#define     USA_VELOCITY_ADDR                   0x330773FC
 
-#define     USA_GARDEN                          0x31F26F80
+//#define     USA_GARDEN                          0x31F26F80 DEPRECEATED BY GLOBAL POINTER BY WEM0
 
-#define     USA_TOWN_FRUIT                      0x31F891BA
-#define     USA_GRASS_TYPE                      0x31F7A401
-#define     USA_PWP_ADDRESS                     0x31F772B0
-#define     USA_PERMIT_ADDRESS                  0x31F2C73A
-#define     USA_TREE_SIZE                       0x31F72E06
+/*
+All offsets are from the Garden RF pointer
+*/
+#define     GRASS_START_ADDR                0x59900
+#define     GRASS_END_ADDR                  0x5c0ff
+#define     NOOK_ADDR                       0x62264
+#define     TOWN_ITEMS_ADDR                 0x534d8
+#define     ISLAND_ITEMS_ADDR               0x6fed8
+#define     SAVETIME_ADDR                   0x621a0
+#define     BUILDING_BYTE                   0x4be84
+#define     TOWN_FRUIT                      0x6223a
+#define     GRASS_TYPE                      0x53481
+#define     PWP_ADDRESS                     0x50330
+#define     PERMIT_ADDRESS                  0x57ba
+#define     TREE_SIZE                       0x4be86
+
 
 #define     USA_GAME_SPEED                      0x54DDB4
 #define     EUR_GAME_SPEED                      0x54CDFC //Same as WA
