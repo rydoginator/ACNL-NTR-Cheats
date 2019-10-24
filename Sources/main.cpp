@@ -176,6 +176,7 @@ namespace CTRPluginFramework
             new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"),
             new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to WemI0 and Scotline"),
             new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to WemI0 and Scotline"),
+			new MenuEntry("Set Town Ordinances...", nullptr, SetOrdinance, "Allows you to set any Town Ordinance.\n\nonly select either Early Bird or Night Owl, if both are enabled, only the Early Bird Ordinance will take effect."),
             new MenuEntry("Real Time Building Modifier", nullptr, BuildingModifier, "Press on the keyboard option to bring up the building keyboard."),
         }));
 

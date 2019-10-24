@@ -100,6 +100,7 @@ namespace CTRPluginFramework
     void    Permit(MenuEntry *entry);
 	void	FillMuseum(MenuEntry* entry);
     void    BuildingModifier(MenuEntry *entry);
+	void	SetOrdinance(MenuEntry* entry);  //Love Slattz <3
 
     /*
     ** Movement

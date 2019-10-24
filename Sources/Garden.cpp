@@ -498,4 +498,31 @@ namespace CTRPluginFramework
         if (userChoice != -1)
             Process::Write8(Game::TownGrass, userChoice);
     }
+
+	void	SetOrdinance(MenuEntry* entry)  //Love Slattz <3
+	{
+		ordinance:
+		Keyboard OrdinanceKboard("Ordinance Setter\n\nClick on an Ordinance to toggle it.\n\n" << Color::Gray << "(Press \uE001 to exit.)");
+		bool EnabledOrds[4] = { 0,0,0,0 };
+		u8 CurrentOrdinances = 0;
+		StringVector Names = {
+			"Early Bird",
+			"Night Owl",
+			"Bell Boom",
+			"Keep Town Beautiful"
+		};
+
+		Process::Read8(Game::Garden + 0x0621cf, CurrentOrdinances);
+		for (int i = 0; i < 4; i++) {
+			EnabledOrds[i] = (((CurrentOrdinances & 0x1E) >> (i + 1)) & 1) == 1;
+			if (EnabledOrds[i]) Names[i] += Color::DeepSkyBlue << " active";
+		}
+
+		OrdinanceKboard.Populate(Names);
+		int input = OrdinanceKboard.Open();
+		if (input < 0 || input > 3) return;
+
+		Process::Write8(Game::Garden + 0x0621cf, CurrentOrdinances ^ (2 << input));
+		goto ordinance;
+	}
 }
