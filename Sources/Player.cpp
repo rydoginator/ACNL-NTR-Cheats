@@ -17,6 +17,15 @@ namespace   CTRPluginFramework
         m_currentSlot = reinterpret_cast<u8 *>(AutoRegion(USA_PLAYER_SLOT, EUR_PLAYER_SLOT, JAP_PLAYER_SLOT, USA_WA_PLAYER_SLOT, EUR_WA_PLAYER_SLOT, JAP_WA_PLAYER_SLOT)());
         m_PlayerInfoBase = AutoRegion(USA_PLAYERINFO_POINTER, EUR_PLAYERINFO_POINTER, JAP_PLAYERINFO_POINTER, USA_WA_PLAYERINFO_POINTER, EUR_WA_PLAYERINFO_POINTER, JAP_WA_PLAYERINFO_POINTER)();
         m_thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR, USA_WA_THOUGHT_ADDR, EUR_WA_THOUGHT_ADDR, JAP_WA_THOUGHT_ADDR)());
+		//while game didnt init the Player/rfPlayerPTR, redo this.
+		do {
+			m_playerPointer = FollowPointer(0x80ECC80, 0xE44, -1);
+			Sleep(Milliseconds(1));
+		} while (m_playerPointer == -1);
+
+		m_playerPointer += 0x234;
+
+		OSD::Notify(Utils::Format("0x%08X", m_playerPointer));
 
         // Read _offset
         Update(); ///< This will block the plugin until the user loaded his savegame
@@ -52,16 +61,6 @@ namespace   CTRPluginFramework
     void    Player::Update(void)
     {
         u32 value;
-
-		//while game didnt init the Player/rfPlayerPTR, redo this.
-		do {
-			m_playerPointer = FollowPointer(0x80ECC20, 0x670, 0x234, -1);
-			Sleep(Milliseconds(1));
-		} while (m_playerPointer == -1);
-
-#ifdef DEBUG
-		OSD::Notify(Utils::Format("0x%08X", m_playerPointer));
-#endif
 
         // Don't exit this function until the offset is somewhat valid
         while (!Process::Read32(m_playerPointer, m_offset) || !Process::Read32(m_offset, value))
