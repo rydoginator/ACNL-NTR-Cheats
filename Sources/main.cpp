@@ -186,13 +186,10 @@ namespace CTRPluginFramework
             new MenuEntry("Change Town Name", nullptr, ChangeTownName),
             new MenuEntry("Save Dumper", nullptr, GardenDumper, "Select the keyboard icon to start dumping your save file."),
             new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves."),
-			 new MenuEntry("TPC Picture Dumper", nullptr, TPCPicDumper, "Select the keyboard icon to start dumping your TPC picture."),
-			new MenuEntry("TPC Picture Restore", nullptr, TPCPicRestorer, "Select this icon to open file picker to restore from your previously dumped TPC pictures."),
             new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to WemI0 and Scotline"),
             new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to WemI0 and Scotline"),
 			new MenuEntry("Set Town Ordinances...", nullptr, SetOrdinance, "Allows you to set any Town Ordinance.\n\nonly select either Early Bird or Night Owl, if both are enabled, only the Early Bird Ordinance will take effect."),
             new MenuEntry("Real Time Building Modifier", nullptr, BuildingModifier, "Press on the keyboard option to bring up the building keyboard."),
-			new MenuEntry("Real Time Acre Modifier", AcreEditor, "Edit the acres in your town/island." << Color::DimGrey << "q3ko is a bitch."),
         }));
 
 
@@ -253,18 +250,6 @@ namespace CTRPluginFramework
 
         MenuFolder *inv = new MenuFolder("Inventory");
         {
-			*inv += new MenuFolder("Seeding cheats", std::vector<MenuEntry *>(
-				{
-				new MenuEntry("Everything Seeder", Seeder, "Allows to drop any \u0022illegal\u0022 Item."),
-				new MenuEntry("Drop Anywhere", DropAnywhere, "Allows to drop Items anywhere."),
-				new MenuEntry("Dig And Place Anywhere", DigAndPlaceAnywhere, "Allows to drop Items and dig anywhere."),
-				new MenuEntry("Pickup Anything", Pickup, "Allows to pickup any Item."),
-				new MenuEntry("Pickup Speed", PickupSpeed, PickupSpeedEditor, "Change the Pickup Speed."),
-				new MenuEntry("Remover", RemoveEverything, "\u0022Tramples\u0022 everything you walk over"),
-				new MenuEntry("Edit Any Room", EditRoom, "Allows to Edit any Room you are in.")
-				}));
-
-
             *inv += new MenuFolder("Money cheats", std::vector<MenuEntry *>(
                 {
                     new MenuEntry(2, "Max/Infinite Bank", MaxMoneyBank, "Sets your bank to always have 999,999,999 bells."),
@@ -282,7 +267,6 @@ namespace CTRPluginFramework
                 {Hotkey(Key::X | Key::DPadRight, "Open the keyboard"), Hotkey(Key::X | Key::DPadLeft, "Search for the ID") });
             *inv += EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into the first available slot."),
                 {Hotkey(Key::R, "Duplicate items") }),
-			*inv += new MenuEntry("Infinite Item Drop", InfDrop, "This allows you to drop items from your Inventory a infinite amount of times.");
             *inv += new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown.");
             *inv += new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box.");
             *inv += EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
@@ -421,12 +405,6 @@ namespace CTRPluginFramework
                 {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
             new MenuEntry("Instant Text", InstantText, "This speeds up text rendering so text appears instantly.\nCredits to Slattz for the cheat"),
             new MenuEntry("All Music Has Echo", EchoTheMusic, "This gives all music the echo that is only enabled when in a Dream Town.\nCredits to Slattz for the cheat"),
-			EntryWithHotkey(new MenuEntry("Exact Clone Players", ExactClonePlayers, "Use the Hotkeys for this powerful tool :)"),
-			{
-				Hotkey(Key::Y | Key::DPadDown, "Toggle Player Dumping"), Hotkey(Key::Y | Key::DPadRight, "Backup Current Player"), Hotkey(Key::Y | Key::DPadLeft, "Restore Backup Player"),
-				Hotkey(Key::Y | Key::DPadUp, "Restore Player (List)"), Hotkey(Key::Y | Key::L, "Reset Values"), Hotkey(Key::Y | Key::R, "Show Debug Info"),
-				Hotkey(Key::Start | Key::R, "Dump All current Players")
-			})
         }));
 
         /*
