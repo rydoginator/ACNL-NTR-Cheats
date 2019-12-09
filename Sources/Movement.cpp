@@ -197,7 +197,7 @@ namespace CTRPluginFramework
     {
         static bool btn = false;
         static bool active = false;
-        static const u32 offsets[] = { 0x6503FC, 0x6506A4, 0x6506BC, 0x6506C0, 0x6506EC };
+        static const u32 offsets[] = { 0x0, 0x2A8, 0x2C0,  0x2C4, 0x2F0 };
         static const u32 original[] = { 0x0A000094, 0xED841A05, 0xED840A07, 0x0A000026, 0x0A000065 };
         static const u32 patch[] = { 0xEA000094, 0xE1A00000, 0xE1A00000, 0xEA000026, 0xEA000065 };
         
@@ -206,7 +206,7 @@ namespace CTRPluginFramework
             if (!active)
             {
                 for (int i = 0; i < 5; i++) {
-                    Process::Patch(offsets[i] + (u32)Game::CodeDifference, patch[i]);
+                    Process::Patch(Game::WalkOverThingsOffset + offsets[i], patch[i]);
                 }
                 OSD::Notify("Walk Over Things: " << Color::Green << "Enabled!");
                 active = true;
@@ -216,7 +216,7 @@ namespace CTRPluginFramework
             else if (active)
             {
                 for (int i = 0; i < 5; i++) {
-                    Process::Patch(offsets[i] + (u32)Game::CodeDifference, original[i]);
+                    Process::Patch(Game::WalkOverThingsOffset + offsets[i], original[i]);
                 }
                 OSD::Notify("Walk Over Things: " << Color::Red << "Disabled!");
                 active = false;

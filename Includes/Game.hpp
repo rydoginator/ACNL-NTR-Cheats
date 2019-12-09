@@ -50,6 +50,7 @@ namespace CTRPluginFramework
         static u64      *TimeSave;      ///< Address of the save game's time
         static u32      *TownItem;      ///< Address of the first item in town
         static u32      Velocity;       ///< Address of velocity
+		static u32		WalkOverThingsOffset; ///< Address of WalkOverThings
         static u8       *Hour;          ///< Current hour that is read in the ingame clock
         static u8       *Minute;        ///< Current minute that is read in the ingame clock
         static Position *WorldPos;      ///< Position of the player in the world

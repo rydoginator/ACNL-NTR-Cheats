@@ -6,12 +6,14 @@ Version: # Plugin version
     Revision: 0
 
 Targets: # Low TitleId of games which are compatibles with this plugin (0 for all)
+    - 0x00086500
     - 0x00086300
     - 0x00086400
     - 0x00086200
     - 0x00198d00
     - 0x00198e00
     - 0x00198f00
+    - 0x00199000
     - 0x004c5700 
 
 Title: Animal Crossing New Leaf - Game Plugin
