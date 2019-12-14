@@ -34,7 +34,6 @@ namespace CTRPluginFramework
         "Special thanks to:\n"
         "Nanquitas\n"
         "Slattz\n"
-        "WemI0\n"
         "Scotline\n"
         "and others :)";
 
@@ -186,8 +185,8 @@ namespace CTRPluginFramework
             new MenuEntry("Change Town Name", nullptr, ChangeTownName),
             new MenuEntry("Save Dumper", nullptr, GardenDumper, "Select the keyboard icon to start dumping your save file."),
             new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves."),
-            new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to WemI0 and Scotline"),
-            new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to WemI0 and Scotline"),
+            new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Scotline"),
+            new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Scotline"),
 			new MenuEntry("Set Town Ordinances...", nullptr, SetOrdinance, "Allows you to set any Town Ordinance.\n\nonly select either Early Bird or Night Owl, if both are enabled, only the Early Bird Ordinance will take effect."),
             new MenuEntry("Real Time Building Modifier", nullptr, BuildingModifier, "Press on the keyboard option to bring up the building keyboard."),
         }));
@@ -203,7 +202,7 @@ namespace CTRPluginFramework
                 { Hotkey(Key::A | Key::DPadUp, "Go up"), Hotkey(Key::A | Key::DPadDown, "Go down"), Hotkey(Key::A | Key::DPadLeft, "Go left") , Hotkey(Key::A | Key::DPadRight, "Go right")}),
             EntryWithHotkey(new MenuEntry("Walk Over Things", WalkOverThings, "Press the hotkeys to enable/disable collisions."),
                 {Hotkey(Key::L | Key::DPadUp, "Toggle Collisions")}),
-            new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits to WemI0 for this cheat"),
+            new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits for this cheat"),
             EntryWithHotkey(new MenuEntry("Room Teleporter", RoomPicker, "Teleport your player to any room that you want.\nCredits to Levi for this entire cheat!"),
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
@@ -345,11 +344,11 @@ namespace CTRPluginFramework
         menu += new MenuFolder("Unlock Codes", std::vector<MenuEntry *>(
         {
             new MenuEntry("100% Mayor Permit", Permit, "Special thanks to Slattz"),
-            new MenuEntry("Unlock All PWPs", PWPUnlock, "Special thanks to WemI0 and Scotline"),
-            new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks to WemI0 and Scotline"),
-            new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks to WemI0 and Scotline"),
-            new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks to WemI0 and Scotline"),
-            new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop.\nSpecial thanks to Slattz and WemI0"),
+            new MenuEntry("Unlock All PWPs", PWPUnlock, "Special thanks to Scotline"),
+            new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks and Scotline"),
+            new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks and Scotline"),
+            new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks and Scotline"),
+            new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop.\nSpecial thanks to Slattz"),
 			new MenuEntry("Fill out Museum", nullptr, FillMuseum, "Fill out the Museum.\nSpecial thanks to Poyo")
         }));
 
@@ -373,7 +372,7 @@ namespace CTRPluginFramework
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"),
             new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Levi for this cheat"),
-            new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline and WemI0 for this cheat"),
+            new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline for this cheat"),
             new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"),
             new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."),
             new MenuEntry("Special NPC Changer", AnimalChanger, AnimalChangerKeyboard, "This changes all the special NPC's like K.K. to what you choose."),
