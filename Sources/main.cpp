@@ -203,7 +203,7 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Walk Over Things", WalkOverThings, "Press the hotkeys to enable/disable collisions."),
                 {Hotkey(Key::L | Key::DPadUp, "Toggle Collisions")}),
             new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits for this cheat"),
-            EntryWithHotkey(new MenuEntry("Room Teleporter", RoomPicker, "Teleport your player to any room that you want.\nCredits to Levi for this entire cheat!"),
+            EntryWithHotkey(new MenuEntry("Room Teleporter", RoomPicker, "Teleport your player to any room that you want.\nCredits to - for this entire cheat!"),
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
                 {Hotkey(Key::B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
@@ -368,10 +368,10 @@ namespace CTRPluginFramework
                     Hotkey(Key::B | Key::DPadUp, "Pan the camera north"), Hotkey(Key::B | Key::DPadRight, "Pan the camera east"), Hotkey(Key::B | Key::DPadDown, "Pan the camera south"), Hotkey(Key::B | Key::DPadLeft, "Pan the camera west"),
                     Hotkey(Key::B | Key::L, "Pan the camera downwards"), Hotkey(Key::B | Key::R, "Pan the camera upwards")
                 }),
-            EntryWithHotkey(new MenuEntry("Country Spoofer", CountrySpoofer, "Spoofs your country, allowing you to go to another country's island.\nOriginal cheat by Levi & Nanquitas, adapted by Slattz."),
+            EntryWithHotkey(new MenuEntry("Country Spoofer", CountrySpoofer, "Spoofs your country, allowing you to go to another country's island.\nOriginal cheat by - & Nanquitas, adapted by Slattz."),
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"),
-            new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to Levi for this cheat"),
+            new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to - for this cheat"),
             new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline for this cheat"),
             new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"),
             new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."),
@@ -393,7 +393,7 @@ namespace CTRPluginFramework
                 Hotkey(Key::R, "Start/Stop Unburying items")
             }),
             new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
-            new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to Levi!"),
+            new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to -!"),
             EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")\nCredits to Slattz and Scotline for the cheat."),
             {
                 Hotkey(Key::R, "Open Villager Categories List")
