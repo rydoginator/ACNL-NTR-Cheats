@@ -96,6 +96,7 @@ namespace CTRPluginFramework
     void    PWPUnlock(MenuEntry *entry);
     void    ChangeGrass(MenuEntry *entry);
 	void	FillMuseum(MenuEntry* entry);
+	void	SetOrdinance(MenuEntry* entry);
     void    Permit(MenuEntry *entry);
     void    BuildingModifier(MenuEntry *entry);
 

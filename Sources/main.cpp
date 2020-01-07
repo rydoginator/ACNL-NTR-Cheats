@@ -171,6 +171,7 @@ namespace CTRPluginFramework
             new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"),
             new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Scotline"),
             new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Scotline"),
+			new MenuEntry("Change Town Ordinance To...",nullptr, SetOrdinance, "Special thanks to Slattz for this cheat"),
             new MenuEntry("Real Time Building Modifier", nullptr, BuildingModifier, "Press on the keyboard option to bring up the building keyboard."),
         }));
 
