@@ -53,8 +53,11 @@ namespace CTRPluginFramework
             Process::CopyMemory(oldname, reinterpret_cast<void *>(Game::Garden+TOWN_NAME_OFFSET), TOWN_NAME_MAX*2); //*2 as u16 characters
 
             // Convert utf8 to utf16
-            if (R_FAILED(utf8_to_utf16(newname, reinterpret_cast<const u8 *>(input.data()), TOWN_NAME_MAX)))
-                return;
+
+			int res = utf8_to_utf16(newname, reinterpret_cast<const u8*>(input.data()), TOWN_NAME_MAX);
+
+			if (res == -1)
+				return;
 
             u32 offset = Game::Garden; //Offset where Save starts in ram
             u32 size = 0x89B00; //Save Size

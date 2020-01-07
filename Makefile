@@ -20,32 +20,22 @@ IP 			:=  5
 FTP_HOST 	:=	192.168.1.
 FTP_PORT	:=	"5000"
 FTP_PATH	:=	"plugin/0004000000086400/"
-DEBUG_MODE 	= 0
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
-ARCH		:=	-march=armv6k -mlittle-endian -mtune=mpcore -mfloat-abi=hard -mtp=soft
+ARCH		:=	-march=armv6k -mlittle-endian -mtune=mpcore -mfloat-abi=hard 
 
 CFLAGS		:=	-g -O2 -mword-relocations \
 				-fomit-frame-pointer -ffunction-sections -fno-strict-aliasing \
 				$(ARCH)
 
-CFLAGS		+=	$(INCLUDE) -DARM11 -D_3DS
-
-ifeq ($(DEBUG_MODE), 1)
-	CFLAGS += -DDEBUG
-endif
+CFLAGS		+=	$(INCLUDE) -DARM11 -D_3DS 
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 
 ASFLAGS		:=	-g $(ARCH)
-LDFLAGS		:= -T $(TOPDIR)/3gx.ld $(ARCH) -O2 -Wl,-Map,$(notdir $*.map),--gc-sections
-3GXFLAGS 	:= -s
-
-ifeq ($(DEBUG_MODE), 0)
-	3GXFLAGS += -d
-endif
+LDFLAGS		:= -pie -T $(TOPDIR)/3ds.ld $(ARCH) -O2 -Wl,-Map,$(notdir $*.map),--gc-sections 
 
 LIBS		:= -lCTRPluginFramework
 
@@ -78,7 +68,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L $(dir)/lib)
 
-.PHONY: $(BUILD) clean all debug
+.PHONY: $(BUILD) clean all
 
 
 #---------------------------------------------------------------------------------
@@ -99,9 +89,7 @@ send:
 	@echo "Sending plugin over FTP"
 	@$(TOPDIR)/sendfile.py $(TARGET).3gx $(FTP_PATH) "$(FTP_HOST)$(IP)" $(FTP_PORT)
 #---------------------------------------------------------------------------------
-debug:
-	make DEBUG_MODE=1
-#---------------------------------------------------------------------------------
+
 else
 
 DEPENDS	:=	$(OFILES:.o=.d)
@@ -109,8 +97,7 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 # main targets
 #---------------------------------------------------------------------------------
-$(OUTPUT).3gx : $(OUTPUT).elf
-$(OUTPUT).elf : $(OFILES)
+$(OUTPUT).3gx : $(OFILES)
 
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data
@@ -123,7 +110,9 @@ $(OUTPUT).elf : $(OFILES)
 #---------------------------------------------------------------------------------
 %.3gx: %.elf
 	@echo creating $(notdir $@)
-	@3gxtool.exe $(3GXFLAGS) $< $(TOPDIR)/$(PLGINFO) $@
+	@$(OBJCOPY) -O binary $(OUTPUT).elf $(TOPDIR)/objdump -S
+	@3gxtool.exe -s $(TOPDIR)/objdump $(TOPDIR)/$(PLGINFO) $@
+	@- rm $(TOPDIR)/objdump
 
 -include $(DEPENDS)
 

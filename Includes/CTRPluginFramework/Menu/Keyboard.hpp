@@ -251,7 +251,7 @@ namespace CTRPluginFramework
     private:
         std::unique_ptr<KeyboardImpl>   _keyboard;
         bool                            _hexadecimal;
-        mutable bool                    _isPopulated;
+        bool                            _isPopulated;
     };
 }
 
