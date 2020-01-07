@@ -1,7 +1,6 @@
 #include "Player.hpp"
 #include "RAddress.hpp"
 #include "Offsets.hpp"
-#include "cheats.hpp"
 #include "ctrulib/util/utf.h"
 #include <cstring>
 
@@ -15,26 +14,9 @@ namespace   CTRPluginFramework
     {
         // Set pointers
         m_currentSlot = reinterpret_cast<u8 *>(AutoRegion(USA_PLAYER_SLOT, EUR_PLAYER_SLOT, JAP_PLAYER_SLOT, USA_WA_PLAYER_SLOT, EUR_WA_PLAYER_SLOT, JAP_WA_PLAYER_SLOT)());
+        m_PlayerInfoBase = AutoRegion(USA_PLAYERINFO_POINTER, EUR_PLAYERINFO_POINTER, JAP_PLAYERINFO_POINTER, USA_WA_PLAYERINFO_POINTER, EUR_WA_PLAYERINFO_POINTER, JAP_WA_PLAYERINFO_POINTER)();
         m_thought = reinterpret_cast<u16 *>(AutoRegion(USA_THOUGHT_ADDR, EUR_THOUGHT_ADDR, JAP_THOUGHT_ADDR, USA_WA_THOUGHT_ADDR, EUR_WA_THOUGHT_ADDR, JAP_WA_THOUGHT_ADDR)());
-
-				//while game hasn't init'd the Player, repeat this.
-		do {
-			m_playerPointer = FollowPointer(0x80ECC80, 0xE44, -1);
-			m_PlayerInfoBase = FollowPointer(0x11733C, 0xD20, 0xDDC, -1);
-			//m_currentSlot = reinterpret_cast<u8 *>(FollowPointer(0x31940E10, -1));
-			//m_thought = reinterpret_cast<u16 *>(FollowPointer(0x11446C, -1));
-			Sleep(Milliseconds(1));
-		} while (m_playerPointer == -1 || m_PlayerInfoBase == -1);
-
-		m_playerPointer += 0x234;
-		m_PlayerInfoBase += 0x204;
-		//m_currentSlot += 0x3E8;
-		//m_thought += 0x8C0;
-
-		OSD::Notify(Utils::Format("0x%08X", m_playerPointer));
-		OSD::Notify(Utils::Format("0x%08X", m_PlayerInfoBase));
-		//OSD::Notify(Utils::Format("0x%08X", m_currentSlot));
-		//OSD::Notify(Utils::Format("0x%08X", m_thought));
+        m_playerPointer = AutoRegion(USA_PLAYER_POINTER, EUR_PLAYER_POINTER, JAP_PLAYER_POINTER, USA_WA_PLAYER_POINTER, EUR_WA_PLAYER_POINTER, JAP_WA_PLAYER_POINTER)();
 
         // Read _offset
         Update(); ///< This will block the plugin until the user loaded his savegame

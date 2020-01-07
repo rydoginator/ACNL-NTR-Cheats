@@ -15,11 +15,7 @@ namespace CTRPluginFramework
         settings.ThreadPriority = 0x39;
         settings.AllowActionReplay = false;
     }
-	char* GenerateUUID(char* garbage) // since __attribute(used)__ was causing linker errors, might as well create a garbage function :p
-	{
-		return(garbage);
-	}
-	char* garbage = GenerateUUID("1234567890ABCDEF");
+
     extern Region               g_region;
     static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
@@ -60,11 +56,6 @@ namespace CTRPluginFramework
                     goto unsupported;
                 g_region = JAP;
                 break;
-			case 0x0004000000086500:
-				if (ver != 6224)
-					goto unsupported;
-				g_region = KOR;
-				break;
             case 0x0004000000198d00:
                 if (ver != 6160)
                     goto unsupported;
@@ -80,11 +71,6 @@ namespace CTRPluginFramework
                     goto unsupported;
                 g_region = w_EUR;
                 break;
-			case 0x0004000000199000:
-				if (ver != 5120)
-					goto unsupported;
-				g_region = w_KOR;
-				break;
 			case 0x00040000004C5700: //ACWL
 				if (ver != 6144)
 					goto unsupported;
@@ -151,6 +137,8 @@ namespace CTRPluginFramework
         if (CheckRegion())
             return (1); ///< Unsupported game/version
 
+        // Initialize game's addresses based on region
+        Game::Initialize();
         //Launch Updater
         httpcInit(0);
         if(launchUpdater())
@@ -166,10 +154,6 @@ namespace CTRPluginFramework
 
         // Initialize player
         Player::GetInstance();
-		// Sleep so that we can use our Region Free pointers :)
-		Sleep(Seconds(0.5f));
-		// Initialize game's addresses based on version/region
-		Game::Initialize();
         // Change QuickMenu's hotkey
         QuickMenu::GetInstance().ChangeHotkey(R + X);
         // Init QuickMenu
@@ -184,10 +168,9 @@ namespace CTRPluginFramework
             new MenuEntry("Change Player Name", nullptr, ChangePlayerName),
             new MenuEntry("Change Town Name", nullptr, ChangeTownName),
             new MenuEntry("Save Dumper", nullptr, GardenDumper, "Select the keyboard icon to start dumping your save file."),
-            new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves."),
+            new MenuEntry("Save Restore", nullptr, GardenRestore, "Select this icon to open file picker to restore from your previously dumped saves"),
             new MenuEntry("Change Town Fruit to...", nullptr, ChangeNativeFruit, "Special thanks to Scotline"),
             new MenuEntry("Change Town Grass to...", nullptr, ChangeGrass, "Special thanks to Scotline"),
-			new MenuEntry("Set Town Ordinances...", nullptr, SetOrdinance, "Allows you to set any Town Ordinance.\n\nonly select either Early Bird or Night Owl, if both are enabled, only the Early Bird Ordinance will take effect."),
             new MenuEntry("Real Time Building Modifier", nullptr, BuildingModifier, "Press on the keyboard option to bring up the building keyboard."),
         }));
 
@@ -202,8 +185,8 @@ namespace CTRPluginFramework
                 { Hotkey(Key::A | Key::DPadUp, "Go up"), Hotkey(Key::A | Key::DPadDown, "Go down"), Hotkey(Key::A | Key::DPadLeft, "Go left") , Hotkey(Key::A | Key::DPadRight, "Go right")}),
             EntryWithHotkey(new MenuEntry("Walk Over Things", WalkOverThings, "Press the hotkeys to enable/disable collisions."),
                 {Hotkey(Key::L | Key::DPadUp, "Toggle Collisions")}),
-            new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon\nCredits for this cheat"),
-            EntryWithHotkey(new MenuEntry("Room Teleporter", RoomPicker, "Teleport your player to any room that you want.\nCredits to - for this entire cheat!"),
+            new MenuEntry("Speed Hack", SpeedHack, SpeedHackEditor, "Change how fast you want to go with the keyboard icon"),
+            EntryWithHotkey(new MenuEntry("Room Teleporter", RoomPicker, "Teleport your player to any room that you want."),
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
                 {Hotkey(Key::B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
@@ -345,9 +328,9 @@ namespace CTRPluginFramework
         {
             new MenuEntry("100% Mayor Permit", Permit, "Special thanks to Slattz"),
             new MenuEntry("Unlock All PWPs", PWPUnlock, "Special thanks to Scotline"),
-            new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks and Scotline"),
-            new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks and Scotline"),
-            new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks and Scotline"),
+            new MenuEntry("Fill Out Encyclopedia", Encyclopedia, "Special thanks to Scotline"),
+            new MenuEntry("Fill Out Emoticons", Emoticons, "Special thanks to Scotline"),
+            new MenuEntry("Fill Out K.K. Songs", Songs, "Special thanks to Scotline"),
             new MenuEntry("Fill out Catalog", FillCatalog, "Fill out the catalog in Nookling's shop.\nSpecial thanks to Slattz"),
 			new MenuEntry("Fill out Museum", nullptr, FillMuseum, "Fill out the Museum.\nSpecial thanks to Poyo")
         }));
@@ -368,10 +351,10 @@ namespace CTRPluginFramework
                     Hotkey(Key::B | Key::DPadUp, "Pan the camera north"), Hotkey(Key::B | Key::DPadRight, "Pan the camera east"), Hotkey(Key::B | Key::DPadDown, "Pan the camera south"), Hotkey(Key::B | Key::DPadLeft, "Pan the camera west"),
                     Hotkey(Key::B | Key::L, "Pan the camera downwards"), Hotkey(Key::B | Key::R, "Pan the camera upwards")
                 }),
-            EntryWithHotkey(new MenuEntry("Country Spoofer", CountrySpoofer, "Spoofs your country, allowing you to go to another country's island.\nOriginal cheat by - & Nanquitas, adapted by Slattz."),
+            EntryWithHotkey(new MenuEntry("Country Spoofer", CountrySpoofer, "Spoofs your country, allowing you to go to another country's island.\nOriginal cheat by Nanquitas, adapted by Slattz."),
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             new MenuEntry("Custom Symbols Keyboard", CustomKB, "This turns all the symbols in the keyboard into Nintendo symbols.\nExample: \uE00F\uE004\uE000\uE00E\uE00E\uE04B"),
-            new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters.\nSpecial thanks to - for this cheat"),
+            new MenuEntry("Keyboard Extender", KeyboardExtender, "This extends the max characters that you can type into chat to 54 characters."),
             new MenuEntry("Fast Game Speed", FastGameSpeed, "This makes things in the game speed up. This might make your game crash.\nCredits to Scotline for this cheat"),
             new MenuEntry("Item Form Changer", ItemFormChanger, ItemFormEditor, "This changes how your character holds tools"),
             new MenuEntry("Item Effect Changer", ItemEffectChanger, ItemEffectEditor, "This changes how your character uses items."),
@@ -393,7 +376,7 @@ namespace CTRPluginFramework
                 Hotkey(Key::R, "Start/Stop Unburying items")
             }),
             new MenuEntry("Corrupter", Corrupter, CorrupterSettings, "WARNING!\nThis corrupts random values in memory to cause funny side effects.\nUse at own risk!"),
-            new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!\nCredits to -!"),
+            new MenuEntry("Pick Every Tour",  EnableAllTours, "Enabling this cheat lets you pick every tour from the tour list!"),
             EntryWithHotkey(new MenuEntry("Amiibo Spoofer", AmiiboSpoof, "Press hotkey to choose from the list of Villager Categories, (Default: " FONT_R ")\nCredits to Slattz and Scotline for the cheat."),
             {
                 Hotkey(Key::R, "Open Villager Categories List")
@@ -403,7 +386,8 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable.\nCredits to Slattz for the cheat"),
                 {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
             new MenuEntry("Instant Text", InstantText, "This speeds up text rendering so text appears instantly.\nCredits to Slattz for the cheat"),
-            new MenuEntry("All Music Has Echo", EchoTheMusic, "This gives all music the echo that is only enabled when in a Dream Town.\nCredits to Slattz for the cheat"),
+            new MenuEntry("All Music Has Echo", EchoTheMusic, "This gives all music the echo that is only enabled when in a Dream Town.\nCredits to Slattz for the cheat")
+
         }));
 
         /*

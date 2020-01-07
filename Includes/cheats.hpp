@@ -14,7 +14,7 @@
 #define MAJOR_VERSION       4
 #define MINOR_VERSION       2
 #define REVISION_VERSION    0
-#define BETA_VERSION        1
+#define BETA_VERSION        2
 #define STRINGIFY(x)        #x
 #define TOSTRING(x)         STRINGIFY(x)
 //#define STRING_VERSION      "[" TOSTRING(MAJOR_VERSION) "." TOSTRING(MINOR_VERSION) "." TOSTRING(REVISION_VERSION) " ]"
@@ -80,8 +80,6 @@ namespace CTRPluginFramework
     void    StartMsg(void);
     u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
     char    Sstrncpy(char *dest, const char *src, size_t n);
-	bool	Range(u32 value, u32 low, u32 high);
-	u32		FollowPointer(u32 pointer, ...);
     bool    launchUpdater(void);
 
 
@@ -97,10 +95,9 @@ namespace CTRPluginFramework
     void    ChangeNativeFruit(MenuEntry *entry);
     void    PWPUnlock(MenuEntry *entry);
     void    ChangeGrass(MenuEntry *entry);
-    void    Permit(MenuEntry *entry);
 	void	FillMuseum(MenuEntry* entry);
+    void    Permit(MenuEntry *entry);
     void    BuildingModifier(MenuEntry *entry);
-	void	SetOrdinance(MenuEntry* entry);  //Love Slattz <3
 
     /*
     ** Movement

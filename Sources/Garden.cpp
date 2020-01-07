@@ -441,11 +441,12 @@ namespace CTRPluginFramework
 
     void    Permit(MenuEntry *entry)
     {
-        u8 permitval = 0;
-        Process::Read8(Game::Permit, permitval);
-        Process::Write8(Game::Permit, (permitval&1)|0xC8);
-        OSD::Notify("Development Permit is now 100%!", Color::Green, Color::Black);
-        entry->Disable();
+		u8 permitval = 0;
+		Process::Read8(Game::Permit, permitval);
+		Process::Write8(Game::Permit, (permitval & 1) | 0xC8);
+		OSD::Notify("Development Permit is now 100%!", Color::Green, Color::Black);
+		entry->Disable();
+
     }
 
 	void	FillMuseum(MenuEntry* entry)
@@ -456,11 +457,11 @@ namespace CTRPluginFramework
 		u8 cmp;
 
 		Keyboard keyboard("Who is supposed to make the donation?");
-		
+
 		for (int i = 0; i < 4; i++) {
 			PlayerOffset = 0xA0 + (i * 0xA480);
 			Process::ReadString((Game::Garden + PlayerOffset + 0x55A8), name, 0x10, StringFormat::Utf16);
-			if(!name.empty()) names.push_back(name); //if the read name is not empty, add it to the vector
+			if (!name.empty()) names.push_back(name); //if the read name is not empty, add it to the vector
 			name.clear(); //just to be sure
 		}
 		if (!names.empty()) {
@@ -468,13 +469,14 @@ namespace CTRPluginFramework
 			int player = keyboard.Open();
 			if (player != -1) {
 				for (int j = 0; j < 0x112; j++) {
-					if(Process::Read8((Game::Garden + 0x06b300 + j), cmp) && cmp == 0x00) //check if there is an already existing donation
+					if (Process::Read8((Game::Garden + 0x06b300 + j), cmp) && cmp == 0x00) //check if there is an already existing donation
 						Process::Write8((Game::Garden + 0x06b300 + j), 0x01 * (player + 1));
 				}
 				OSD::Notify("Filled Museum!", Color::Green, Color::Black);
 			}
 		}
 	}
+
 
     void    MaxTreeSize(MenuEntry *entry)
     {
@@ -498,31 +500,4 @@ namespace CTRPluginFramework
         if (userChoice != -1)
             Process::Write8(Game::TownGrass, userChoice);
     }
-
-	void	SetOrdinance(MenuEntry* entry)  //Love Slattz <3
-	{
-		ordinance:
-		Keyboard OrdinanceKboard("Ordinance Setter\n\nClick on an Ordinance to toggle it.\n\n" << Color::Gray << "(Press \uE001 to exit.)");
-		bool EnabledOrds[4] = { 0,0,0,0 };
-		u8 CurrentOrdinances = 0;
-		StringVector Names = {
-			"Early Bird",
-			"Night Owl",
-			"Bell Boom",
-			"Keep Town Beautiful"
-		};
-
-		Process::Read8(Game::Garden + 0x0621cf, CurrentOrdinances);
-		for (int i = 0; i < 4; i++) {
-			EnabledOrds[i] = (((CurrentOrdinances & 0x1E) >> (i + 1)) & 1) == 1;
-			if (EnabledOrds[i]) Names[i] += Color::DeepSkyBlue << " active";
-		}
-
-		OrdinanceKboard.Populate(Names);
-		int input = OrdinanceKboard.Open();
-		if (input < 0 || input > 3) return;
-
-		Process::Write8(Game::Garden + 0x0621cf, CurrentOrdinances ^ (2 << input));
-		goto ordinance;
-	}
 }

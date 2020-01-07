@@ -8,11 +8,9 @@ namespace CTRPluginFramework
         USA,
         EUR,
         JAP,
-		KOR,
         w_USA,
         w_EUR,
-        w_JAP,
-		w_KOR,
+        w_JAP
     };
 
     // Global to keep the current region
