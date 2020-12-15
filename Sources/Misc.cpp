@@ -934,4 +934,14 @@ namespace CTRPluginFramework
             Process::Patch(Game::EchoTheMusic+4, original[1]);
         }
     }
+	
+	void T_Pose(MenuEntry *entry) { 
+		u32 tpose = AutoRegion(USA_TPOSE, EUR_TPOSE, JAP_TPOSE, USA_WA_TPOSE, EUR_WA_TPOSE, JAP_WA_TPOSE)();
+		
+		if (entry->WasJustActivated()) 
+			Process::Write32(tpose, 0xE1A00000);
+		
+		else if (!entry->IsActivated()) 
+			Process::Write32(tpose, 0x0A000011);
+	}
 }

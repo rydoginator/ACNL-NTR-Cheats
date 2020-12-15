@@ -232,8 +232,9 @@ namespace CTRPluginFramework
             *inv += EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into the first available slot."),
                 {Hotkey(Key::R, "Duplicate items") }),
             *inv += new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown.");
-            *inv += new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box.");
-            *inv += EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
+            *inv += EntryWithHotkey(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create additional boxes to store your items.\nPress the hotkeys and choose if you want to store a inventory box or load one into your inventory.\nCredits to Lukas"),
+                {Hotkey(Key::L | Key::DPadRight, "Open Keyboard") });
+			*inv += EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
                 {Hotkey(Key::X | Key::A, "Inspect fossils") });
         }
 
@@ -368,7 +369,8 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable.\nCredits to Slattz for the cheat"),
                 {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
             new MenuEntry("Instant Text", InstantText, "This speeds up text rendering so text appears instantly.\nCredits to Slattz for the cheat"),
-            new MenuEntry("All Music Has Echo", EchoTheMusic, "This gives all music the echo that is only enabled when in a Dream Town.\nCredits to Slattz for the cheat")
+            new MenuEntry("All Music Has Echo", EchoTheMusic, "This gives all music the echo that is only enabled when in a Dream Town.\nCredits to Slattz for the cheat"),
+			new MenuEntry("T-Pose", T_Pose, "This disables skeletal animations on villagers and players.\nCredits to Lukas")
 
         }));
 

@@ -353,7 +353,7 @@ namespace CTRPluginFramework
 		std::vector<std::string> files;
 		File *file = new File();
 		
-		if(Controller::IsKeysPressed(Key::R + Key::DPadLeft)) {
+		if(entry->Hotkeys[0].IsPressed()) {
 			Keyboard OP;
 			OP.Populate(invboxvec);
 			index = OP.Open();
@@ -380,16 +380,16 @@ namespace CTRPluginFramework
 					int count;
 					count = folder.ListFiles(files);
 				//If File doesn't exist create the file
-					if(File::Exists("E:/InventoryBoxes/InventoryBox " << std::to_string(count) << ".bin") == 0) 
-						File::Create("E:/InventoryBoxes/InventoryBox " << std::to_string(count) << ".bin");
+					if(File::Exists("E:/InventoryBoxes/InventoryBox" << std::to_string(count) << ".bin") == 0) 
+						File::Create("E:/InventoryBoxes/InventoryBox" << std::to_string(count) << ".bin");
 						
-					File::Open(*file, "E:/InventoryBoxes/InventoryBox " << std::to_string(count) << ".bin", File::Mode::WRITE);
+					File::Open(*file, "E:/InventoryBoxes/InventoryBox" << std::to_string(count) << ".bin", File::Mode::WRITE);
 					file->Flush();
 					for(int i = 0; i < 16; i++) {
 						file->Write(&invbox.at(i), 4);
 					}
 					file->Close();
-					OSD::Notify("Saved as InventoryBox " << std::to_string(count) << ".bin");
+					OSD::Notify("Saved as InventoryBox" << std::to_string(count) << ".bin");
 				} break;
 				
 			//Loads Inventory from box to inv

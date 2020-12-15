@@ -14,7 +14,7 @@
 
 #define MAJOR_VERSION       4
 #define MINOR_VERSION       2
-#define REVISION_VERSION    0
+#define REVISION_VERSION    1
 #define BETA_VERSION        0
 #define STRINGIFY(x)        #x
 #define TOSTRING(x)         STRINGIFY(x)
@@ -213,6 +213,7 @@ namespace CTRPluginFramework
     void    CountrySpoofer(MenuEntry *entry);
     void    InstantText(MenuEntry *entry);
     void    EchoTheMusic(MenuEntry *entry);
+	void 	T_Pose(MenuEntry *entry);
 
     
     /*
