@@ -172,7 +172,7 @@ namespace CTRPluginFramework
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
                 {Hotkey(Key::B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
-                 Hotkey(Key::L, "Use slot 2"), Hotkey(Key::R, "Use slot 3") }),
+                 Hotkey(Key::L, "Use next slot (3 in total)") }),
             new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."),
             EntryWithHotkey(new MenuEntry("Moon Jump", MoonJump, SpeedSettings, "Press the hotkeys to move your character up/down.\nThis cheat also has a side effect of disabling gravity and causing various glitches."),
                 {Hotkey(Key::L | Key::DPadUp, "Move up"), Hotkey(Key::L | Key::DPadDown, "Move down")}),

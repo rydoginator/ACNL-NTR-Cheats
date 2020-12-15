@@ -112,16 +112,21 @@ namespace CTRPluginFramework
             return;
         }
 
-        int           slot = 0;
+        static int	slot = 0;
 
-        if (entry->Hotkeys[2].IsDown())
-            slot = 2;
-        else if (entry->Hotkeys[3].IsDown())
-            slot = 1;
+        if (entry->Hotkeys[2].IsPressed()) {			
+            if(slot == 2)
+				slot = 0;
+			
+			else
+				slot++;
+				
+			OSD::Notify("Selected slot: " << std::to_string(slot + 1));
+		}
 
-        if (entry->Hotkeys[0].IsDown())
+        if (entry->Hotkeys[0].IsPressed())
             g_savedPos[slot] = Player::GetInstance()->GetCoordinates();
-        else if (entry->Hotkeys[1].IsDown())
+        else if (entry->Hotkeys[1].IsPressed())
             Player::GetInstance()->SetCoordinates(g_savedPos[slot]);
     }
 

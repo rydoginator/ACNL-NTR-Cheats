@@ -6,6 +6,13 @@ namespace CTRPluginFramework
 	using StringIter = std::string::iterator;
 	using StringConstIter = std::string::const_iterator;
 
+	std::string Hex16(u16 x) {
+		char buffer[5];
+
+		sprintf(buffer, "%04X", x);
+		return(std::string(buffer));
+	}
+
 	int		GetMatches(StringVector& output, std::string& input)
 	{
 		output.clear(); // clear the output
@@ -211,7 +218,7 @@ namespace CTRPluginFramework
                 if(numOfEmptySlots > 0) {
                     Player::GetInstance()->WriteInventorySlot(slots[0], item);
                     Player::GetInstance()->WriteInventoryLock(slots[0], 0);
-                    OSD::Notify(Utils::Format("Duplicated Item: 0x%04X into slot: %i", static_cast<u32>(0x22e2) + item & 0xFFFF, slots[0]));
+                    OSD::Notify("Duplicated Item: 0x" << Hex16(item) << " into slot: " << std::to_string(slots[0]));
                 }  else {
                     OSD::Notify(Color::Red << "Found no empty slots to duplicate item into");
                 }

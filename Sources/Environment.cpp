@@ -6,7 +6,7 @@ namespace CTRPluginFramework
 {
     void    RemoveAllItems(MenuEntry *entry)
     {
-        if (entry->Hotkeys[0].IsDown())
+        if (entry->Hotkeys[0].IsPressed())
         {
             u32     *item = Game::TownItem;
 
@@ -24,7 +24,7 @@ namespace CTRPluginFramework
 
         if (entry == nullptr)
             goto weed;
-        if (entry->Hotkeys[0].IsDown())
+        if (entry->Hotkeys[0].IsPressed())
             goto weed;
         return;
 
@@ -62,7 +62,7 @@ namespace CTRPluginFramework
     {
         static u32 offset = reinterpret_cast<u32> (Game::Grass);
 
-        if(!Controller::IsKeysDown(R + A) && entry != nullptr)
+        if(!Controller::IsKeysPressed(R + A) && entry != nullptr)
             return;
 
         for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
@@ -75,7 +75,7 @@ namespace CTRPluginFramework
     {
         static u32 offset = reinterpret_cast<u32> (Game::Grass);
 
-        if (!Controller::IsKeysDown(R + A) && entry != nullptr)
+        if (!Controller::IsKeysPressed(R + A) && entry != nullptr)
             return;
 
         for (offset; offset < reinterpret_cast<u32>(Game::GrassEnd); offset += 4)
@@ -89,7 +89,7 @@ namespace CTRPluginFramework
         if (entry == nullptr)
             goto water;
         //since hotkeys aren't available when the arg is nullptr, check if the arg is nullptr first
-        if (entry->Hotkeys[0].IsDown())
+        if (entry->Hotkeys[0].IsPressed())
             goto water;
         return;
 
@@ -125,7 +125,7 @@ namespace CTRPluginFramework
         static u32 itemID;
         static bool valid = false; //boolean to declare whether you're using a valid value or not
 
-        if (entry->Hotkeys[0].IsDown()) //Open keyboard
+        if (entry->Hotkeys[0].IsPressed()) //Open keyboard
         {
             Keyboard    keyboard("What item would you like to use?");
             u32 item;
@@ -135,14 +135,14 @@ namespace CTRPluginFramework
                 valid = false; // if the user aborts, you don't want to be writing abritary values
         }
 
-        if (entry->Hotkeys[1].IsDown()) //Store item below feet
+        if (entry->Hotkeys[1].IsPressed()) //Store item below feet
         {
             u32  *address = Game::GetItem(); //get the address of where your character is standing
             itemID = *address; //get the value of address
             valid = true;
         }
 
-        if (entry->Hotkeys[2].IsDown()) //Write item
+        if (entry->Hotkeys[2].IsPressed()) //Write item
         {
             u32  *address = Game::GetItem(); //get the address of where your character is standing
             if (valid && address != nullptr)
