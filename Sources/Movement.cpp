@@ -124,10 +124,14 @@ namespace CTRPluginFramework
 			OSD::Notify("Selected slot: " << std::to_string(slot + 1));
 		}
 
-        if (entry->Hotkeys[0].IsPressed())
+        if (entry->Hotkeys[0].IsPressed()) {
             g_savedPos[slot] = Player::GetInstance()->GetCoordinates();
-        else if (entry->Hotkeys[1].IsPressed())
+			OSD::Notify("Stored position into slot: " << std::to_string(slot + 1));
+		}
+        else if (entry->Hotkeys[1].IsPressed()) {
             Player::GetInstance()->SetCoordinates(g_savedPos[slot]);
+			OSD::Notify("Set position from slot: " << std::to_string(slot + 1));
+		}
     }
 
     void    TeleportTo(int person)
