@@ -471,8 +471,10 @@ namespace CTRPluginFramework
 		float value;
 		int     *corruption = GetArg<int>(entry);
 		static bool execution = true;
-		if (entry->WasJustActivated())
+		if (entry->WasJustActivated()) {
 			execution = true;
+			Sleep(Seconds(1));
+		}
 		while (Process::ReadFloat(address, value) && execution)
 		{
 			Controller::Update();
