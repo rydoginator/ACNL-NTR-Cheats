@@ -430,7 +430,7 @@ namespace CTRPluginFramework
             clock.Restart();
             hook.Enable();
         }
-        if (hook.flags.isEnabled && clock.HasTimePassed(Seconds(1.f)))
+        if (hook.IsEnabled() && clock.HasTimePassed(Seconds(1.f)))
         {
             hook.Disable();
             clock.Restart();

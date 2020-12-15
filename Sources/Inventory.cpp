@@ -64,12 +64,12 @@ namespace CTRPluginFramework
 		}
 	}
 
-	void InputChange(Keyboard& keyboard, InputChangeEvent& event)
+	void InputChange(Keyboard& keyboard, KeyboardEvent& event)
 	{
 		std::string& input = keyboard.GetInput();
 
 		// If the user removed a letter do nothing
-		if (event.type == InputChangeEvent::CharacterRemoved)
+		if (event.type == KeyboardEvent::CharacterRemoved)
 		{
 			// Set an error, to avoid that the user can return an incomplete name
 			keyboard.SetError("Type a letter to search for a item.");
@@ -179,7 +179,7 @@ namespace CTRPluginFramework
 		{
 			std::string input;
 			Keyboard keyboard("Which item would you like?");
-			keyboard.OnInputChange(InputChange);
+			keyboard.OnKeyboardEvent(InputChange);
 			if (keyboard.Open(input) != -1)
 			{
 				Item item = GetItemFromString(input);

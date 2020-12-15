@@ -1,7 +1,8 @@
 #ifndef CHEATS_H
 #define CHEATS_H
 
-#include "CTRPluginFramework.hpp"
+#include <CTRPluginFramework.hpp>
+#include <3ds.h>
 #include "Game.hpp"
 #include "HoldKey.hpp"
 #include "Player.hpp"
@@ -81,6 +82,7 @@ namespace CTRPluginFramework
     u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
     char    Sstrncpy(char *dest, const char *src, size_t n);
     bool    launchUpdater(void);
+	using 	OnChangeCallback = void(*)(Keyboard &keyboard, KeyboardEvent &event);
 
 
     // Cheats functions

@@ -17,7 +17,6 @@ namespace CTRPluginFramework
     }
 
     extern Region               g_region;
-    static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
     static const std::string    gameName = "Animal Crossing New Leaf";
     static const std::string    creator = "RyDog";
@@ -36,44 +35,29 @@ namespace CTRPluginFramework
     static bool    CheckRegion(void)
     {
         u64         tid = Process::GetTitleID();
-        u16         ver = Process::GetVersion();
 
         // Get current game's region
         switch (tid)
         {
             case 0x0004000000086300:
-                if (ver != 6192)
-                    goto unsupported;
                 g_region = USA;
                 break;
             case 0x0004000000086400:
-                if (ver != 6176)
-                    goto unsupported;
                 g_region = EUR;
                 break;
             case 0x0004000000086200:
-                if (ver != 6272)
-                    goto unsupported;
                 g_region = JAP;
                 break;
             case 0x0004000000198d00:
-                if (ver != 6160)
-                    goto unsupported;
                 g_region = w_JAP;
                 break;
             case 0x0004000000198e00:
-                if (ver != 5120)
-                    goto unsupported;
                 g_region = w_USA;
                 break;
             case 0x0004000000198f00:
-                if (ver != 6160)
-                    goto unsupported;
                 g_region = w_EUR;
                 break;
 			case 0x00040000004C5700: //ACWL
-				if (ver != 6144)
-					goto unsupported;
 				g_region = w_EUR;
 				break;
             default:
@@ -82,10 +66,6 @@ namespace CTRPluginFramework
         }
 
         return (false);
-
-    unsupported:
-        (MessageBox(unsupportedVersion))();
-        return (true);
     }
 
     MenuEntry *EntryWithHotkey(MenuEntry *entry, const Hotkey &hotkey)
@@ -139,6 +119,7 @@ namespace CTRPluginFramework
 
         // Initialize game's addresses based on region
         Game::Initialize();
+		
         //Launch Updater
         httpcInit(0);
         if(launchUpdater())
@@ -399,6 +380,7 @@ namespace CTRPluginFramework
         {
             QuickMenu::GetInstance()();
         };
+		
         menu += PlayerUpdateCallback;
         menu += MiniGame;
 
