@@ -479,7 +479,7 @@ namespace CTRPluginFramework
 			if (Controller::IsKeyDown(Key::Select))
 			{
 				execution = false;
-				OSD::Notify("Cheat disabled.\nReenable the cheat for it to work again.");
+				OSD::Notify("Cheat disabled. Reenable the cheat for it to work again.");
 				return;
 			}
 			switch (*corruption)
