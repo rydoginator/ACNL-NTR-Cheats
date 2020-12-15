@@ -239,19 +239,19 @@ namespace CTRPluginFramework
 
     void    SpeedHack(MenuEntry *entry)
     {
-        if (Controller::IsKeyDown(B) || Controller::IsKeyDown(L) || Controller::IsKeyDown(R))
-        {
-            float       velocity;
-            float       speed = *GetArg<float>(entry, 5.238f);
+		float       velocity;
+		float       speed = *GetArg<float>(entry, 5.238f);
+		
+		if (!Process::ReadFloat(Game::Velocity, velocity)) //#TODO: check if we're on a loading screen or no
+			return;
+		
+		if (Player::GetInstance()->GetAnimationID() != 0xD | velocity > 0.0f) {//If player is not running reset
+			Process::WriteFloat(Game::Velocity, velocity + 0.5f);
+			return;
+		}
 
-            if (!Process::ReadFloat(Game::Velocity, velocity)) //#TODO: check if we're on a loading screen or no
-                return;
-
-            if (velocity >= speed)
-                Process::WriteFloat(Game::Velocity, speed);
-            else if (velocity > 0.0f)
-                Process::WriteFloat(Game::Velocity, velocity + 0.5f);
-        }
+		if (velocity <= speed) 
+			Process::WriteFloat(Game::Velocity, speed);
     }
 
     void    SpeedHackEditor(MenuEntry *entry)
