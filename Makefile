@@ -15,12 +15,7 @@ PLGINFO 	:= 	CTRPluginFramework.plgInfo
 BUILD		:= 	Build
 INCLUDES	:= 	Includes
 SOURCES 	:= 	Sources \
-                Sources/Folders \
-				Sources/Folders/SeedingCodes \
 				Sources/Helpers \
-				Sources/Helpers/Personal \
-				Sources/Helpers/Other \
-				Sources/Plugin
 				
 #---------------------------------------------------------------------------------
 # options for code generation
