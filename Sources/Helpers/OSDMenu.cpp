@@ -1,6 +1,5 @@
 #include "Helpers/OSDMenu.hpp"
 #include "CTRPluginFramework.hpp"
-#include "ctrulib/synchronization.h"
 #include <algorithm>
 
 #define AtomicRead(ptr) __atomic_load_n((u32 *)(ptr), __ATOMIC_SEQ_CST)

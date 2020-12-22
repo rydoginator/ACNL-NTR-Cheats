@@ -17,7 +17,6 @@ namespace CTRPluginFramework
     }
 
     extern Region               g_region;
-    static const std::string    unsupportedVersion = "Your ACNL version isn't\nsupported!\nMake sure you have the\n1.5 update installed!";
     static const std::string    unsupportedGame = "Error\nGame not supported !\nVisit discord for support.";
     static const std::string    gameName = "Animal Crossing New Leaf";
     static const std::string    creator = "RyDog";
@@ -36,44 +35,29 @@ namespace CTRPluginFramework
     static bool    CheckRegion(void)
     {
         u64         tid = Process::GetTitleID();
-        u16         ver = Process::GetVersion();
 
         // Get current game's region
         switch (tid)
         {
             case 0x0004000000086300:
-                if (ver != 6192)
-                    goto unsupported;
                 g_region = USA;
                 break;
             case 0x0004000000086400:
-                if (ver != 6176)
-                    goto unsupported;
                 g_region = EUR;
                 break;
             case 0x0004000000086200:
-                if (ver != 6272)
-                    goto unsupported;
                 g_region = JAP;
                 break;
             case 0x0004000000198d00:
-                if (ver != 6160)
-                    goto unsupported;
                 g_region = w_JAP;
                 break;
             case 0x0004000000198e00:
-                if (ver != 5120)
-                    goto unsupported;
                 g_region = w_USA;
                 break;
             case 0x0004000000198f00:
-                if (ver != 6160)
-                    goto unsupported;
                 g_region = w_EUR;
                 break;
 			case 0x00040000004C5700: //ACWL
-				if (ver != 6144)
-					goto unsupported;
 				g_region = w_EUR;
 				break;
             default:
@@ -82,10 +66,6 @@ namespace CTRPluginFramework
         }
 
         return (false);
-
-    unsupported:
-        (MessageBox(unsupportedVersion))();
-        return (true);
     }
 
     MenuEntry *EntryWithHotkey(MenuEntry *entry, const Hotkey &hotkey)
@@ -139,6 +119,7 @@ namespace CTRPluginFramework
 
         // Initialize game's addresses based on region
         Game::Initialize();
+		
         //Launch Updater
         httpcInit(0);
         if(launchUpdater())
@@ -191,7 +172,7 @@ namespace CTRPluginFramework
                 {Hotkey(Key::B | Key::L, "Change Button Activator")}),
             EntryWithHotkey(new MenuEntry("Teleport", Teleporter, "Press the hotkey to save/restore your location. You can use a slot modifier hotkey together to change the slot that'll be used."),
                 {Hotkey(Key::B | Key::DPadUp, "Save current location"), Hotkey(Key::B | Key::DPadDown, "Restore saved location"),
-                 Hotkey(Key::L, "Use slot 2"), Hotkey(Key::R, "Use slot 3") }),
+                 Hotkey(Key::L, "Use next slot (3 in total)") }),
             new MenuEntry("Touch Coordinates", TouchCoordinates, "Touch the map to teleport your character there."),
             EntryWithHotkey(new MenuEntry("Moon Jump", MoonJump, SpeedSettings, "Press the hotkeys to move your character up/down.\nThis cheat also has a side effect of disabling gravity and causing various glitches."),
                 {Hotkey(Key::L | Key::DPadUp, "Move up"), Hotkey(Key::L | Key::DPadDown, "Move down")}),
@@ -251,8 +232,9 @@ namespace CTRPluginFramework
             *inv += EntryWithHotkey(new MenuEntry("Duplicate", Duplication, "Press the hotkey to duplicate the item that is in slot 1 into the first available slot."),
                 {Hotkey(Key::R, "Duplicate items") }),
             *inv += new MenuEntry("Pick up buried items", PickBuriedItems, "Press " FONT_Y " to pick up any buried items.\nWarning: this is a heavy cheat, so it might cause slowdown.");
-            *inv += new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create 10 additionals boxes to store your items.\nOnce activated, open the quick menu in-game to see the option Inventory Box.");
-            *inv += EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
+            *inv += EntryWithHotkey(new MenuEntry("Inventory box extender", ExtendedInventoryBox, "This allows you to create additional boxes to store your items.\nPress the hotkeys and choose if you want to store a inventory box or load one into your inventory.\nCredits to Lukas"),
+                {Hotkey(Key::L | Key::DPadRight, "Open Keyboard") });
+			*inv += EntryWithHotkey(new MenuEntry("Fossil Inspector", GenerateFossils, "Press the hotkeys to process all fossils\nas if you talked to Blathers."),
                 {Hotkey(Key::X | Key::A, "Inspect fossils") });
         }
 
@@ -387,7 +369,8 @@ namespace CTRPluginFramework
             EntryWithHotkey(new MenuEntry("Edit Every Pattern", EditAnyPattern, "Press the hotkey to enable/disable.\nCredits to Slattz for the cheat"),
                 {Hotkey(Key::R | Key::DPadRight, "Change Button Activator")}),
             new MenuEntry("Instant Text", InstantText, "This speeds up text rendering so text appears instantly.\nCredits to Slattz for the cheat"),
-            new MenuEntry("All Music Has Echo", EchoTheMusic, "This gives all music the echo that is only enabled when in a Dream Town.\nCredits to Slattz for the cheat")
+            new MenuEntry("All Music Has Echo", EchoTheMusic, "This gives all music the echo that is only enabled when in a Dream Town.\nCredits to Slattz for the cheat"),
+			new MenuEntry("T-Pose", T_Pose, "This disables skeletal animations on villagers and players.\nCredits to Lukas")
 
         }));
 
@@ -399,6 +382,7 @@ namespace CTRPluginFramework
         {
             QuickMenu::GetInstance()();
         };
+		
         menu += PlayerUpdateCallback;
         menu += MiniGame;
 

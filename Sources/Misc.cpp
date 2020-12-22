@@ -430,7 +430,7 @@ namespace CTRPluginFramework
             clock.Restart();
             hook.Enable();
         }
-        if (hook.flags.isEnabled && clock.HasTimePassed(Seconds(1.f)))
+        if (hook.IsEnabled() && clock.HasTimePassed(Seconds(1.f)))
         {
             hook.Disable();
             clock.Restart();
@@ -471,15 +471,17 @@ namespace CTRPluginFramework
 		float value;
 		int     *corruption = GetArg<int>(entry);
 		static bool execution = true;
-		if (entry->WasJustActivated())
+		if (entry->WasJustActivated()) {
 			execution = true;
+			Sleep(Seconds(1));
+		}
 		while (Process::ReadFloat(address, value) && execution)
 		{
 			Controller::Update();
 			if (Controller::IsKeyDown(Key::Select))
 			{
 				execution = false;
-				OSD::Notify("Cheat disabled.\nReenable the cheat for it to work again.");
+				OSD::Notify("Cheat disabled. Reenable the cheat for it to work again.");
 				return;
 			}
 			switch (*corruption)
@@ -932,4 +934,14 @@ namespace CTRPluginFramework
             Process::Patch(Game::EchoTheMusic+4, original[1]);
         }
     }
+	
+	void T_Pose(MenuEntry *entry) { 
+		u32 tpose = AutoRegion(USA_TPOSE, EUR_TPOSE, JAP_TPOSE, USA_WA_TPOSE, EUR_WA_TPOSE, JAP_WA_TPOSE)();
+		
+		if (entry->WasJustActivated()) 
+			Process::Write32(tpose, 0xE1A00000);
+		
+		else if (!entry->IsActivated()) 
+			Process::Write32(tpose, 0x0A000011);
+	}
 }

@@ -1,0 +1,23 @@
+Author: Nanquitas
+
+Version: # Plugin version
+    Major: 0
+    Minor: 6
+    Revision: 0
+
+Targets: # Low TitleId of games which are compatibles with this plugin (0 for all)
+
+Title: CTRPF - Blank Template
+
+Summary: A CTRPF Plugin, with a lot of tools
+
+Description: |
+  This plugin gives you access to a set of tools to edit your games
+
+  Features:
+    - Memory searcher
+    - Hex Editor
+    - Code creator
+    - Code import from file
+    - Action Replay engine with extra capabilities
+    - Super fast screenshot engine

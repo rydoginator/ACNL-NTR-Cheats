@@ -1,6 +1,4 @@
 #include "cheats.hpp"
-#include "CTRPluginFramework/Utils/Utils.hpp"
-#include "ctrulib/util/utf.h"
 
 extern "C" void FixSaveFurn(void);
 u32 g_FixSaveFurnAddr = 0;

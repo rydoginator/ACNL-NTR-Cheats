@@ -6,6 +6,13 @@ namespace CTRPluginFramework
 	using StringIter = std::string::iterator;
 	using StringConstIter = std::string::const_iterator;
 
+	std::string Hex16(u16 x) {
+		char buffer[5];
+
+		sprintf(buffer, "%04X", x);
+		return(std::string(buffer));
+	}
+
 	int		GetMatches(StringVector& output, std::string& input)
 	{
 		output.clear(); // clear the output
@@ -64,12 +71,12 @@ namespace CTRPluginFramework
 		}
 	}
 
-	void InputChange(Keyboard& keyboard, InputChangeEvent& event)
+	void InputChange(Keyboard& keyboard, KeyboardEvent& event)
 	{
 		std::string& input = keyboard.GetInput();
 
 		// If the user removed a letter do nothing
-		if (event.type == InputChangeEvent::CharacterRemoved)
+		if (event.type == KeyboardEvent::CharacterRemoved)
 		{
 			// Set an error, to avoid that the user can return an incomplete name
 			keyboard.SetError("Type a letter to search for a item.");
@@ -179,7 +186,7 @@ namespace CTRPluginFramework
 		{
 			std::string input;
 			Keyboard keyboard("Which item would you like?");
-			keyboard.OnInputChange(InputChange);
+			keyboard.OnKeyboardEvent(InputChange);
 			if (keyboard.Open(input) != -1)
 			{
 				Item item = GetItemFromString(input);
@@ -211,7 +218,7 @@ namespace CTRPluginFramework
                 if(numOfEmptySlots > 0) {
                     Player::GetInstance()->WriteInventorySlot(slots[0], item);
                     Player::GetInstance()->WriteInventoryLock(slots[0], 0);
-                    OSD::Notify(Utils::Format("Duplicated Item: 0x%04X into slot: %i", static_cast<u32>(0x22e2) + item & 0xFFFF, slots[0]));
+                    OSD::Notify("Duplicated Item: 0x" << Hex16(item) << " into slot: " << std::to_string(slots[0]));
                 }  else {
                     OSD::Notify(Color::Red << "Found no empty slots to duplicate item into");
                 }
@@ -333,136 +340,88 @@ namespace CTRPluginFramework
         Player::GetInstance()->Write64(0x6F08, money);
     }
 
-    // Inventory has 16 slots
-    // File struct:
-    // 0 - 3: current opened box
-    // 4 - end: box item's
-    #define BOX_SIZE 64
-    #define FILE_SIZE 4 + BOX_SIZE * 10
-
-    struct InventoryBox
-    {
-        InventoryBox()
-        {
-            currentBox = 0;
-            lastBox = 0;
-
-            // If file don't exist, create it and init it
-            if (!File::Exists("InventoryBoxs.bin"))
-            {
-                // Open with create flag
-                if (File::Open(file, "InventoryBoxs.bin", File::RWC | File::SYNC) == 0)
-                {
-                    u8  buffer[FILE_SIZE] = { 0 };
-                    // Fill the size with 0 bytes
-                    file.Write(buffer, FILE_SIZE);
-                }
-            }
-            // Else open it and get current box's index
-            else
-            {
-                if (File::Open(file, "InventoryBoxs.bin") == 0)
-                {
-                    u32  index = 0;
-
-                    file.Read(&index, 4);
-                    currentBox = index;
-                }
-            }
-        }
-        ~InventoryBox()
-        {
-            file.Flush();
-        }
-        int     currentBox;
-        int     lastBox;
-        File    file;
-    };
-
-    static  InventoryBox        g_inventoryBox;
-    static  QuickMenuSubMenu    *g_inventorySubMenu = nullptr;
-
-    void    OpenBox(void *arg)
-    {
-        File    &file = g_inventoryBox.file;
-        int     id = (int)arg - 1;
-        u32     inventory = Player::GetInstance()->GetInventoryAddress();
-        char    buffer[0x100] = {0};
-
-        // Save current box
-        {
-            // Go to current box's offset in file
-            file.Seek(4 + (g_inventoryBox.currentBox * BOX_SIZE), File::SET);
-
-            // Now save current items
-            file.Write(reinterpret_cast<void *>(inventory), BOX_SIZE);
-        }
-
-        // Open new box
-        {
-            // If id == 0, load last box
-            if (id == -1)
-                id = g_inventoryBox.lastBox;
-            // Go to wanted box's offset in file
-            file.Seek(4 + (id * BOX_SIZE), File::SET);
-
-            // Read items from file and write them in ram
-            file.Read(buffer, BOX_SIZE);
-            Process::CopyMemory(reinterpret_cast<void *>(inventory), buffer, BOX_SIZE);
-        }
-
-        // Update lastBox
-        g_inventoryBox.lastBox = g_inventoryBox.currentBox;
-
-        // Update current box
-        g_inventoryBox.currentBox = id;
-        file.Seek(0, File::SET);
-        file.Write(static_cast<void *>(&id), 4);
-
-        // Update Last entry in QuickMenu
-        g_inventorySubMenu->items[0]->name = Utils::Format("Last: %d", id + 1);
-
-        // A little notification is always nice :)
-        OSD::Notify(Utils::Format("Opened box: %d", id + 1), Color::LimeGreen);
-    }
-
-    void    ExtendedInventoryBox(MenuEntry *entry)
-    {
-        // If entry is disabled
-        if (!entry->IsActivated())
-        {
-            g_inventoryBox.file.Close();
-            // Remove Inventory Box from QuickMenu
-            QuickMenu::GetInstance() -= g_inventorySubMenu;
-            return;
-        }
-
-        // If just enabled the entry
-        if (entry->WasJustActivated())
-        {
-            g_inventoryBox.file.Close();
-            g_inventoryBox = InventoryBox();
-            // Check that InventoryBox is correctly initialized
-            if (!g_inventoryBox.file.IsOpen())
-            {
-                OSD::Notify("Inventory Box: An error occurred", Color::Red);
-                entry->Disable();
-                return;
-            }
-
-            // Create the submenu if it's not done yet
-            if (g_inventorySubMenu == nullptr)
-            {
-                g_inventorySubMenu = new QuickMenuSubMenu("Inventory Box");
-                (*g_inventorySubMenu) += new QuickMenuEntry("Last: 1", OpenBox, (void *)0);
-                for (int i = 1; i < 11; i++)
-                    (*g_inventorySubMenu) += new QuickMenuEntry(Utils::Format("Box %d", i), OpenBox, (void *)i);
-            }
-
-            // Add Inventory Box in QuickMenu
-            QuickMenu::GetInstance() += g_inventorySubMenu;
-        }
-    }
+	void ExtendedInventoryBox(MenuEntry *entry) {
+		std::vector<std::string> invboxvec = {
+			"Save Inventory Box",
+			"Load Inventory Box",
+		};
+		
+		std::vector<u32> invbox;
+		int index;
+		u32 Items;
+		Directory folder;
+		std::vector<std::string> files;
+		File *file = new File();
+		
+		if(entry->Hotkeys[0].IsPressed()) {
+			Keyboard OP;
+			OP.Populate(invboxvec);
+			index = OP.Open();
+			Sleep(Milliseconds(100));
+			
+			switch(index) {
+				case -1:
+					return;
+			//Saves Inventory to new box	
+				case 0: {
+				//Copies current inventory to vec
+					for(int i = 0; i < 16; i++) {
+						Player::GetInstance()->ReadInventorySlot(i, Items);
+						invbox.push_back(Items);
+					}
+					
+					if(invbox.empty()) { 
+						OSD::Notify("Inventory Box is empty!"); 
+						return; 
+					}
+				//If Directory doesn't exist create it and open it			
+					Directory::Open(folder, "E:/InventoryBoxes/", Directory::IsExists("E:/InventoryBoxes/") == 0);
+				
+					int count;
+					count = folder.ListFiles(files);
+				//If File doesn't exist create the file
+					if(File::Exists("E:/InventoryBoxes/InventoryBox" << std::to_string(count) << ".bin") == 0) 
+						File::Create("E:/InventoryBoxes/InventoryBox" << std::to_string(count) << ".bin");
+						
+					File::Open(*file, "E:/InventoryBoxes/InventoryBox" << std::to_string(count) << ".bin", File::Mode::WRITE);
+					file->Flush();
+					for(int i = 0; i < 16; i++) {
+						file->Write(&invbox.at(i), 4);
+					}
+					file->Close();
+					OSD::Notify("Saved as InventoryBox" << std::to_string(count) << ".bin");
+				} break;
+				
+			//Loads Inventory from box to inv
+				case 1: {
+					files.clear();
+					invbox.clear();
+				//If Directory doesn't exist create it and open it
+					Directory::Open(folder, "E:/InventoryBoxes/", Directory::IsExists("E:/InventoryBoxes/") == 0);
+				//If there are files in the folder populate them	
+					if(folder.ListFiles(files) > 0) {
+						OP.Populate(files);
+						index = OP.Open();
+						if(index != -1) {
+							File::Open(*file, "E:/InventoryBoxes/" << files.at(index), File::Mode::READ);
+							for(int i = 0; i < 16; i++) {
+								file->Read(&Items, 4);
+								invbox.push_back(Items & 0xFFFFFFFF);
+								Player::GetInstance()->WriteInventorySlot(i, invbox.at(i));
+							}
+					
+							file->Close();
+							OSD::Notify(files.at(index) << " loaded!");
+						}
+					}
+					else 
+						OSD::Notify("No files found.");
+					
+					folder.Close();		
+				} break;
+			}
+		}
+	}
 
     void    GenerateFossils(MenuEntry *entry)
     {

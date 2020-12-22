@@ -1,7 +1,8 @@
 #ifndef CHEATS_H
 #define CHEATS_H
 
-#include "CTRPluginFramework.hpp"
+#include <CTRPluginFramework.hpp>
+#include <3ds.h>
 #include "Game.hpp"
 #include "HoldKey.hpp"
 #include "Player.hpp"
@@ -13,7 +14,7 @@
 
 #define MAJOR_VERSION       4
 #define MINOR_VERSION       2
-#define REVISION_VERSION    0
+#define REVISION_VERSION    1
 #define BETA_VERSION        0
 #define STRINGIFY(x)        #x
 #define TOSTRING(x)         STRINGIFY(x)
@@ -81,6 +82,7 @@ namespace CTRPluginFramework
     u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
     char    Sstrncpy(char *dest, const char *src, size_t n);
     bool    launchUpdater(void);
+	using 	OnChangeCallback = void(*)(Keyboard &keyboard, KeyboardEvent &event);
 
 
     // Cheats functions
@@ -211,6 +213,7 @@ namespace CTRPluginFramework
     void    CountrySpoofer(MenuEntry *entry);
     void    InstantText(MenuEntry *entry);
     void    EchoTheMusic(MenuEntry *entry);
+	void 	T_Pose(MenuEntry *entry);
 
     
     /*

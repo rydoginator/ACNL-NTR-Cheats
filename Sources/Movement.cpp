@@ -112,17 +112,26 @@ namespace CTRPluginFramework
             return;
         }
 
-        int           slot = 0;
+        static int	slot = 0;
 
-        if (entry->Hotkeys[2].IsDown())
-            slot = 2;
-        else if (entry->Hotkeys[3].IsDown())
-            slot = 1;
+        if (entry->Hotkeys[2].IsPressed()) {			
+            if(slot == 2)
+				slot = 0;
+			
+			else
+				slot++;
+				
+			OSD::Notify("Selected slot: " << std::to_string(slot + 1));
+		}
 
-        if (entry->Hotkeys[0].IsDown())
+        if (entry->Hotkeys[0].IsPressed()) {
             g_savedPos[slot] = Player::GetInstance()->GetCoordinates();
-        else if (entry->Hotkeys[1].IsDown())
+			OSD::Notify("Stored position into slot: " << std::to_string(slot + 1));
+		}
+        else if (entry->Hotkeys[1].IsPressed()) {
             Player::GetInstance()->SetCoordinates(g_savedPos[slot]);
+			OSD::Notify("Set position from slot: " << std::to_string(slot + 1));
+		}
     }
 
     void    TeleportTo(int person)
@@ -230,19 +239,19 @@ namespace CTRPluginFramework
 
     void    SpeedHack(MenuEntry *entry)
     {
-        if (Controller::IsKeyDown(B) || Controller::IsKeyDown(L) || Controller::IsKeyDown(R))
-        {
-            float       velocity;
-            float       speed = *GetArg<float>(entry, 5.238f);
+		float       velocity;
+		float       speed = *GetArg<float>(entry, 5.238f);
+		
+		if (!Process::ReadFloat(Game::Velocity, velocity)) //#TODO: check if we're on a loading screen or no
+			return;
+		
+		if (Player::GetInstance()->GetAnimationID() != 0xD | velocity > 0.0f) {//If player is not running reset
+			Process::WriteFloat(Game::Velocity, velocity + 0.5f);
+			return;
+		}
 
-            if (!Process::ReadFloat(Game::Velocity, velocity)) //#TODO: check if we're on a loading screen or no
-                return;
-
-            if (velocity >= speed)
-                Process::WriteFloat(Game::Velocity, speed);
-            else if (velocity > 0.0f)
-                Process::WriteFloat(Game::Velocity, velocity + 0.5f);
-        }
+		if (velocity <= speed) 
+			Process::WriteFloat(Game::Velocity, speed);
     }
 
     void    SpeedHackEditor(MenuEntry *entry)

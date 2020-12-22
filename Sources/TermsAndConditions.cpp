@@ -29,7 +29,7 @@ namespace CTRPluginFramework
             else
             {
                 MessageBox("You must accept the Terms & Conditions to use this plugin.").SetClear(ClearScreen::Both)();
-                abort();
+                Process::ReturnToHomeMenu();
             }
         }
 

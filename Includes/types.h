@@ -3,8 +3,6 @@
  * @brief Various system types.
  */
 #pragma once
-#ifndef TYPES_H
-#define TYPES_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -14,6 +12,8 @@
 	#include <string>
 	#include <vector>
 #endif
+
+#define NORETURN __attribute__((noreturn))
 /// The maximum value of a u64.
 #define U64_MAX	UINT64_MAX
 
@@ -52,6 +52,7 @@ typedef void (*voidfn)(void);
 #ifdef __cplusplus
 	using StringVector = std::vector<std::string>;
 #endif
+
 /// Creates a bitmask from a bit number.
 #define BIT(n) (1U<<(n))
 
@@ -66,25 +67,4 @@ typedef void (*voidfn)(void);
 #else
 /// Flags a function as deprecated.
 #define DEPRECATED
-#endif
-
-/// Structure representing CPU registers
-typedef struct {
-	u32 r[13]; ///< r0-r12.
-	u32 sp;    ///< sp.
-	u32 lr;    ///< lr.
-	u32 pc;    ///< pc. May need to be adjusted.
-	u32 cpsr;  ///< cpsr.
-} CpuRegisters;
-
-/// Structure representing FPU registers
-typedef struct {
-	union{
-		double d[16]; ///< d0-d15.
-		float  f[32]; ///< f0-f31.
-	};
-	u32 fpscr;        ///< fpscr.
-	u32 fpexc;        ///< fpexc.
-} FpuRegisters;
-
 #endif

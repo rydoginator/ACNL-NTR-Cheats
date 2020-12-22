@@ -1,7 +1,6 @@
 #include "Player.hpp"
 #include "RAddress.hpp"
 #include "Offsets.hpp"
-#include "ctrulib/util/utf.h"
 #include <cstring>
 
 namespace   CTRPluginFramework
