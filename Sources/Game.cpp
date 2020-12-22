@@ -39,8 +39,6 @@ namespace CTRPluginFramework
         ItemForm = AutoRegion(USA_ITEM_FORM, TO_EUR(USA_ITEM_FORM), TO_JAP(USA_ITEM_FORM), TO_WA_USA(USA_ITEM_FORM), TO_WA_EUR(USA_ITEM_FORM), TO_WA_JAP(USA_ITEM_FORM))();
         Location = reinterpret_cast<u32 *>(AutoRegion(USA_LOCATION_ADDR, TO_EUR(USA_LOCATION_ADDR), TO_JAP(USA_LOCATION_ADDR), TO_WA_USA(USA_LOCATION_ADDR), TO_WA_EUR(USA_LOCATION_ADDR), TO_WA_JAP(USA_LOCATION_ADDR))());
         Keyboard = AutoRegion(USA_KEYBOARD, EUR_KEYBOARD, JAP_KEYBOARD, USA_WA_KEYBOARD, EUR_WA_KEYBOARD, JAP_WA_KEYBOARD)();
-        WispSpoof = reinterpret_cast<u32>(AutoRegion(USA_AMIIBO_WISP, EUR_AMIIBO_WISP, JAP_AMIIBO_WISP, USA_WA_AMIIBO_WISP, EUR_WA_AMIIBO_WISP, JAP_WA_AMIIBO_WISP)());
-        DIESpoof = reinterpret_cast<u32>(AutoRegion(USA_AMIIBO_DIE, TO_EUR(USA_AMIIBO_DIE), TO_JAP(USA_AMIIBO_DIE), TO_WA_USA(USA_AMIIBO_DIE), TO_WA_EUR(USA_AMIIBO_DIE), TO_WA_JAP(USA_AMIIBO_DIE))());
         StaticNPC = reinterpret_cast<u32 >(AutoRegion(USA_NPC_ADDR, EUR_NPC_ADDR, JAP_NPC_ADDR, USA_WA_NPC_ADDR, EUR_WA_NPC_ADDR, JAP_WA_NPC_ADDR)());
         DynamicNPC = reinterpret_cast<u32 >(AutoRegion(USA_ISABELLE_ADDR, TO_EUR(USA_ISABELLE_ADDR), TO_JAP(USA_ISABELLE_ADDR), TO_WA_USA(USA_ISABELLE_ADDR), TO_WA_EUR(USA_ISABELLE_ADDR), TO_WA_JAP(USA_ISABELLE_ADDR))());
         BottomScreen = reinterpret_cast<u8 *>(AutoRegion(USA_BOTTOM_ADDR, EUR_BOTTOM_ADDR, JAP_BOTTOM_ADDR, USA_WA_BOTTOM_ADDR, EUR_WA_BOTTOM_ADDR, JAP_WA_BOTTOM_ADDR)());
@@ -244,8 +242,6 @@ namespace CTRPluginFramework
     u32         Game::ItemForm = 0;
     u32         *Game::Location = nullptr;
     u32         Game::Keyboard = 0;
-    u32         Game::WispSpoof = 0;
-    u32         Game::DIESpoof = 0;
     u32         Game::StaticNPC = 0;
     u32         Game::DynamicNPC = 0;
     u8          *Game::BottomScreen = nullptr;

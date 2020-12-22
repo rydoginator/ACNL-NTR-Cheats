@@ -205,7 +205,7 @@ namespace CTRPluginFramework
     void    UltimateWeedPuller(MenuEntry *entry);
     void    UnBuryItems(MenuEntry *entry);
     void    EnableAllTours(MenuEntry *entry);
-    void    AmiiboSpoof(MenuEntry *entry);
+    void    AmiiboSpoofer(MenuEntry *entry);
     bool    CheckU8Input(const void *input, std::string &error);
     void    UseAnyEmote(MenuEntry *entry);
     void    EditAnyPattern(MenuEntry *entry);
