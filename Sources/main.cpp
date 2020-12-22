@@ -119,19 +119,6 @@ namespace CTRPluginFramework
 
         // Initialize game's addresses based on region
         Game::Initialize();
-		
-        //Launch Updater
-        httpcInit(0);
-        if(launchUpdater())
-        {
-            httpcExit();
-            ptmSysmInit();
-            MessageBox("The update has been installed.\nYour 3DS will now be restarted.")();
-            PTMSYSM_RebootAsync(0);
-            ptmSysmExit();
-            return 0;
-        }
-        httpcExit();
 
         // Initialize player
         Player::GetInstance();

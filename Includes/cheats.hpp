@@ -13,8 +13,8 @@
 #include "Helpers/Strings.hpp"
 
 #define MAJOR_VERSION       4
-#define MINOR_VERSION       2
-#define REVISION_VERSION    1
+#define MINOR_VERSION       3
+#define REVISION_VERSION    0
 #define BETA_VERSION        0
 #define STRINGIFY(x)        #x
 #define TOSTRING(x)         STRINGIFY(x)
@@ -81,7 +81,6 @@ namespace CTRPluginFramework
     void    StartMsg(void);
     u8      *memsearch(u8 *startPos, const void *pattern, u32 size, u32 patternSize);
     char    Sstrncpy(char *dest, const char *src, size_t n);
-    bool    launchUpdater(void);
 	using 	OnChangeCallback = void(*)(Keyboard &keyboard, KeyboardEvent &event);
 
 
