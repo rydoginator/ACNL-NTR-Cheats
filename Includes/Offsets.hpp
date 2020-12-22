@@ -154,7 +154,7 @@
 #define     JAP_CAMERA_ASM_ADDR                 0x762CA4
 #define     USA_WA_CAMERA_ASM_ADDR              0x7634E8
 #define     EUR_WA_CAMERA_ASM_ADDR              0x7634E4
-#define     JAP_WA_CAMERA_ASM_ADDR              0x762CA4
+#define     JAP_WA_CAMERA_ASM_ADDR              0x762C7C
 
 //Camera Rotation ASM
 #define     USA_CAMERA_ROT_ASM                  0x1A3230
