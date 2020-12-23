@@ -143,7 +143,7 @@ namespace CTRPluginFramework
     bool    CheckMonthInput(const void *input, std::string &error)
     {
         int  in = *static_cast<const int *>(input);
-        if (in >= 24)
+        if (in >= 12)
         {
             error = "Months can't be over 12!";
             return (false);
