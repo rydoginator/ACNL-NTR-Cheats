@@ -123,11 +123,18 @@ namespace CTRPluginFramework {
     void AmiiboSpoofer(MenuEntry *entry) {
         static const u32 offsetPatch = AutoRegion(0x51C104, 0x51B14C, 0x51AA68, 0x51BA58, 0x51B14C, 0x51AA68)();
         static const u32 offsetHook = AutoRegion(0x51BBDC, 0x51AC24, 0x51A540, 0x51B530, 0x51AC24, 0x51A540)();
-        static u32 originalCode = 0;
+        static const u32 offsetPatch_o3ds1 = AutoRegion(0x3DAA7C, 0x3D9AC4, 0x3D975C, 0x3DA48C, 0x3D9AC4, 0x3D975C)();
+        static const u32 offsetPatch_o3ds2 = AutoRegion(0x3DA824, 0x3D986C, 0x3D9504, 0x3DA234, 0x3D986C, 0x3D9504)();
+        static u32 originalCode[3] = {0};
         static Hook nfcHook;
 
 		if (entry->WasJustActivated()) {
 			Process::Patch(offsetPatch, 0xE3A00003, (void*)&originalCode); //Force tell nfc code that there's an amiibo ready (NFC_TagState_InRange)
+
+            if (!System::IsNew3DS()) {
+                Process::Patch(offsetPatch_o3ds1, 0xE3A00002, (void*)&originalCode[1]); //Tells the o3ds the nfc reader is init'd
+                Process::Patch(offsetPatch_o3ds2, 0xE3A00000, (void*)&originalCode[2]); //Forces the game to think nfc sysmodule has started scanning
+            }
 
             nfcHook.Initialize(offsetHook, (u32)AmiiboHook);
             nfcHook.SetFlags(USE_LR_TO_RETURN);
@@ -136,8 +143,11 @@ namespace CTRPluginFramework {
 		}
 		
 		else if (!entry->IsActivated()) {
-            if (originalCode) {
-			    Process::Patch(offsetPatch, originalCode);
+			Process::Patch(offsetPatch, originalCode[0]);
+
+            if (!System::IsNew3DS()) {
+                Process::Patch(offsetPatch_o3ds1, originalCode[1]);
+                Process::Patch(offsetPatch_o3ds2, originalCode[2]);
             }
             nfcHook.Disable();
 		}
