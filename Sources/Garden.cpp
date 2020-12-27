@@ -3,6 +3,7 @@
 extern "C" void FixSaveFurn(void);
 u32 g_FixSaveFurnAddr = 0;
 
+static const char RTBP_AmountMSG[] = "You can't place more buildings of the ID 0x%02X";
 static const char RTBP_ErrorMSG[] = "RTBP just tried to place/remove Building 0x%02X, which is invalid.\nPlease report this to the developers, along with:\n1)The building you selected on the list\n2)The building amount (Amount is: %d).";
 static const char RTBP_EventMSG[] = "Only two event pwps can be placed at one time (to avoid issues with the game).\nPlease remove one of the existing event buildings to place a new one.";
 static const char RTBP_0PWPMSG[] = "No buildings of this type can be found!";
@@ -70,6 +71,27 @@ namespace CTRPluginFramework
         }
     }
 
+//check if certain building was placed too often
+    bool BuildingChecker(u8 buildingID, int maxamount) {		
+        int Bslot = 0;
+        int curramount = 0;
+        while(true) { 			
+            u32 Building = Game::Building + (0x4 * Bslot);
+            if(buildingID == *(u8 *)Building) //If building was found
+                curramount++;
+
+            Bslot++; //goto next slot
+
+    	//finished searching, if max amount wasn't reached return true
+            if(56 < Bslot) 
+                return 1;	
+
+        //If max amount is smaller return false
+            if(curramount >= maxamount) 
+                return 0;	
+        }
+    }
+	
     void    BuildingModifier(MenuEntry *entry)
     {
         static const StringVector pwptype = {"Normal PWPs", "Event PWPs"};
@@ -128,6 +150,14 @@ namespace CTRPluginFramework
                 counter = 0;
                 maxcounter = 56;
             }
+            //Checks if there are too many buildings of specific type	
+            if (CurPWP.id == 0xDC) {
+                if (!BuildingChecker(CurPWP.id, 8)) 
+                {
+                    MessageBox("Building Placer: Error!", Utils::Format(RTBP_AmountMSG, CurPWP.id))();
+                    return;
+                }  
+	    }
 
             //Increment counter until we find a empty slot
             while (READU8(off_building + (counter * 4)) != 0xFC && counter < maxcounter) 
